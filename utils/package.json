@@ -1,0 +1,6 @@
+{
+  "name": "utils",
+  "devDependencies": {
+    "globby": "^9.0.0"
+  }
+}

@@ -34,12 +34,28 @@ export default (api) => {
     const models = [
       ...(globby.sync('**/models/**/*.js', {
         cwd: paths.absSrcPath,
-      }).map(path=>`../../${path}`)),
+      })),
       ...(globby.sync('**/model.js', {
         cwd: paths.absSrcPath,
-      }).map(path=>`../../${path}`)),
+      })),
     ];
-    return models;
+    return models.map(model => `require('../../${model}').default`);
+  }
+
+  function findMenus() {
+    return `require('../../menus.js').default`
+  }
+
+  function getContent(routesContent, models) {
+    return `
+window.g_umi = window.g_umi || {};
+window.g_umi.monorepo = window.g_umi.monorepo || [];
+window.g_umi.monorepo.push({
+  routes: ${routesContent},
+  models: [${models.join(',')}],
+  menus: ${findMenus()}
+});
+      `.trim()
   }
 
   api.onStart(() => {
@@ -49,17 +65,8 @@ export default (api) => {
   api.onGenerateFiles(() => {
     const routes = api.routes[0].routes;
     const routesContent = stripJSONQuotes(routesToJSON(routes));
-    const models = findModels().map(model => {
-      return `require('${model}').default`;
-    });
-    const content = `
-window.g_umi = window.g_umi || {};
-window.g_umi.monorepo = window.g_umi.monorepo || [];
-window.g_umi.monorepo.push({
-  routes: ${routesContent},
-  models: [${models.join(',')}],
-});
-    `.trim();
+    const models = findModels();
+    const content = getContent(routesContent, models);
     api.writeTmpFile('submodule.js', content);
   });
 
@@ -68,10 +75,10 @@ window.g_umi.monorepo.push({
     config.entry(api.pkg.name).add(
       join(api.paths.absTmpDirPath, 'submodule.js'),
     );
-    config.externals({
-      'react': 'window.React',
-      'react-dom': 'window.ReactDOM',
-      'dva': 'window.dva',
-    });
+    // config.externals({
+    //   'react': 'window.React',
+    //   'react-dom': 'window.ReactDOM',
+    //   'dva': 'window.dva',
+    // });
   });
 }

@@ -12,6 +12,11 @@ let routes = [
     "component": require('../../layouts/index.js').default,
     "routes": [
       {
+        "path": "/ex",
+        "exact": true,
+        "component": require('../ex/index.js').default
+      },
+      {
         "path": "/",
         "exact": true,
         "component": require('../index.js').default
@@ -22,12 +27,12 @@ let routes = [
         "component": require('../list/index.js').default
       },
       {
-        "component": () => React.createElement(require('/Users/aisen/workspace/web/plugins/stack/node_modules/umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'src/pages', hasRoutesInConfig: false })
+        "component": () => React.createElement(require('/Users/aisen/workspace/web/micro-frontend/stack/node_modules/umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'src/pages', hasRoutesInConfig: false })
       }
     ]
   },
   {
-    "component": () => React.createElement(require('/Users/aisen/workspace/web/plugins/stack/node_modules/umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'src/pages', hasRoutesInConfig: false })
+    "component": () => React.createElement(require('/Users/aisen/workspace/web/micro-frontend/stack/node_modules/umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'src/pages', hasRoutesInConfig: false })
   }
 ];
 window.g_routes = routes;

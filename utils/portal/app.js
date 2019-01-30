@@ -1,3 +1,7 @@
+const menusModel = {
+  namespace: 'menus',
+  state: [],
+}
 
 export function patchRoutes(routes) {
   (window.g_umi && window.g_umi.monorepo || []).forEach((repo) => {
@@ -8,7 +12,9 @@ export function patchRoutes(routes) {
     (repo.models || []).forEach(model => {
       window.g_app.model(model);
     });
+    menusModel.state.push(repo.menus)
   });
+  window.g_app.model(menusModel)
   window.g_routes = routes;
 }
 

@@ -14,4 +14,4 @@ app.use(createLoading());
   app.use(plugin);
 });
 
-app.model({ namespace: 'model', ...(require('/Users/aisen/workspace/web/plugins/portal/pages/index/model.js').default) });
+

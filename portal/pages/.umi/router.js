@@ -8,21 +8,7 @@ let Router = require('dva/router').routerRedux.ConnectedRouter;
 
 let routes = [
   {
-    "path": "/",
-    "component": require('../../layouts/index.js').default,
-    "routes": [
-      {
-        "path": "/",
-        "exact": true,
-        "component": require('../index/index.js').default
-      },
-      {
-        "component": () => React.createElement(require('/Users/aisen/workspace/web/plugins/portal/node_modules/umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'pages', hasRoutesInConfig: false })
-      }
-    ]
-  },
-  {
-    "component": () => React.createElement(require('/Users/aisen/workspace/web/plugins/portal/node_modules/umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'pages', hasRoutesInConfig: false })
+    "component": () => React.createElement(require('/Users/aisen/workspace/web/micro-frontend/portal/node_modules/umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'pages', hasRoutesInConfig: false })
   }
 ];
 window.g_routes = routes;

@@ -14,4 +14,5 @@ app.use(createLoading());
   app.use(plugin);
 });
 
-app.model({ namespace: 'stack', ...(require('/Users/aisen/workspace/web/plugins/stack/src/models/stack.js').default) });
+app.model({ namespace: 'stack', ...(require('/Users/aisen/workspace/web/micro-frontend/stack/src/models/stack.js').default) });
+app.model({ namespace: 'model', ...(require('/Users/aisen/workspace/web/micro-frontend/stack/src/pages/ex/model.js').default) });

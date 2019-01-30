@@ -12,10 +12,12 @@ export default {
     }],
     ['../utils/portal', {
       scripts: [
-        'http://localhost:3000/stack.js?444',
+        'http://localhost:3000/stack.js',
+        'http://localhost:3001/node.js',
       ],
       stylesheets: [
-        'http://localhost:3000/stack.css?43',
+        'http://localhost:3000/stack.css',
+        'http://localhost:3001/node.css',
       ],
     }],
   ],

@@ -1,14 +1,17 @@
 import { connect } from 'dva';
 import Link from 'umi/link';
+import withRouter from 'umi/withRouter';
 
-export default connect(state => ({
-  menus: state.menus,
+export default withRouter(connect(state => ({
+  menus: Object.values(state.p_menus || {}),
 }))((props) => {
+  console.log(props)
   return (
     <>
       <h1>layouts</h1>
       <ul>
         <li><Link to="/">go to /</Link></li>
+        <li><Link to="/test">go to test</Link></li>
         {props.menus.map(menu => {
           if (!!menu.children) {
             return (
@@ -31,4 +34,4 @@ export default connect(state => ({
       }
     </>
   )
-})
+}))

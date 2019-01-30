@@ -2,11 +2,11 @@ import { join } from 'path';
 
 export default (api, options = {}) => {
   api.chainWebpackConfig(config => {
-    // config.externals({
-    //   'react': 'window.React',
-    //   'react-dom': 'window.ReactDOM',
-    //   'dva': 'window.dva',
-    // });
+    config.externals({
+      'react': 'window.React',
+      'react-dom': 'window.ReactDOM',
+      'dva': 'window.dva',
+    });
   });
 
   api.addHTMLHeadScript(() => {
@@ -14,9 +14,9 @@ export default (api, options = {}) => {
       return { src: `${sub}?t=${new Date().getTime()}` };
     });
     return [
-      // { src: 'https://unpkg.com/react@16.7.0-alpha.2/umd/react.development.js' },
-      // { src: 'https://unpkg.com/react-dom@16.7.0-alpha.2/umd/react-dom.development.js' },
-      // { src: 'https://unpkg.com/dva@2.4.1/dist/dva.min.js' },
+      { src: 'https://unpkg.com/react@16.7.0-alpha.2/umd/react.development.js' },
+      { src: 'https://unpkg.com/react-dom@16.7.0-alpha.2/umd/react-dom.development.js' },
+      { src: 'https://unpkg.com/dva@2.4.1/dist/dva.min.js' },
       ...scripts,
     ];
   });

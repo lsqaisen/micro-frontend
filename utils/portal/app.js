@@ -1,6 +1,6 @@
 const menusModel = {
-  namespace: 'menus',
-  state: [],
+  namespace: 'p_menus',
+  state: {},
 }
 
 export function patchRoutes(routes) {
@@ -12,7 +12,7 @@ export function patchRoutes(routes) {
     (repo.models || []).forEach(model => {
       window.g_app.model(model);
     });
-    menusModel.state.push(repo.menus)
+    menusModel.state[repo.menus.name] = repo.menus.data
   });
   window.g_app.model(menusModel)
   window.g_routes = routes;

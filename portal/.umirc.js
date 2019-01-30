@@ -9,6 +9,9 @@ export default {
           /model/,
         ],
       },
+      dynamicImport: {
+        webpackChunkName: true,
+      },
     }],
     ['../utils/portal', {
       scripts: [

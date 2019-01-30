@@ -1,4 +1,3 @@
-import Link from 'umi/link';
 import { connect } from 'dva';
 import styles from './index.css';
 

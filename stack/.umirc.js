@@ -8,6 +8,9 @@ export default {
           /model/,
         ],
       },
+      dynamicImport: {
+        webpackChunkName: true,
+      },
     }],
     '../utils/plugin',
   ],

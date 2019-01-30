@@ -53,7 +53,7 @@ window.g_umi.monorepo = window.g_umi.monorepo || [];
 window.g_umi.monorepo.push({
   routes: ${routesContent},
   models: [${models.join(',')}],
-  menus: ${findMenus()}
+  menus: {name: '${api.pkg.name}', data: ${findMenus()}}
 });
       `.trim()
   }
@@ -63,6 +63,7 @@ window.g_umi.monorepo.push({
   });
 
   api.onGenerateFiles(() => {
+    console.log(JSON.stringify(api.routes))
     const routes = api.routes[0].routes;
     const routesContent = stripJSONQuotes(routesToJSON(routes));
     const models = findModels();
@@ -72,13 +73,14 @@ window.g_umi.monorepo.push({
 
   api.chainWebpackConfig(config => {
     config.entryPoints.clear();
+    console.log(111, config.entryPoints.parent)
     config.entry(api.pkg.name).add(
       join(api.paths.absTmpDirPath, 'submodule.js'),
     );
-    // config.externals({
-    //   'react': 'window.React',
-    //   'react-dom': 'window.ReactDOM',
-    //   'dva': 'window.dva',
-    // });
+    config.externals({
+      'react': 'window.React',
+      'react-dom': 'window.ReactDOM',
+      'dva': 'window.dva',
+    });
   });
 }

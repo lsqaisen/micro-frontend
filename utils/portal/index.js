@@ -2,6 +2,10 @@ import { join } from 'path';
 
 export default (api, options = {}) => {
   api.chainWebpackConfig(config => {
+    config.output
+      .publicPath(`/lib/portal/`)
+      .chunkFilename(`portal_[name].[hash:8].async.js`)
+      .filename('portal.js');
     config.externals({
       'react': 'window.React',
       'react-dom': 'window.ReactDOM',

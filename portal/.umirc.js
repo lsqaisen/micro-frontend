@@ -10,7 +10,7 @@ export default {
         ],
       },
       dynamicImport: {
-        webpackChunkName: true,
+        webpackChunkName: true
       },
     }],
     ['../utils/portal', {
@@ -24,4 +24,11 @@ export default {
       ],
     }],
   ],
+  "proxy": {
+    "/lib/stack": {
+      "target": "http://localhost:3000",
+      "changeOrigin": true,
+      "pathRewrite": { "^/lib/stack": "" }
+    }
+  },
 }

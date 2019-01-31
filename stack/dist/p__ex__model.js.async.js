@@ -1,1 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([[2],{"3CgE":function(e,a,t){"use strict";Object.defineProperty(a,"__esModule",{value:!0}),a.default=void 0;var n={namespace:"stackex",state:{data:["chencheng","pigcan"],list:[1,2,3,4]}};a.default=n}}]);

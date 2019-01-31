@@ -2,11 +2,12 @@ import assert from 'assert';
 import { join, relative } from 'path';
 import globby from 'globby';
 
-export default (api) => {
+export default (api, options = {}) => {
+  const { dynamicImport = false } = options;
   const { cwd, paths, winPath } = api;
   const isDev = process.env.NODE_ENV === 'development';
 
-  if (isDev) return;
+  // if (isDev) return;
   assert(api.pkg.name, `package.json must contains a name property`);
 
   function routesToJSON(routes) {
@@ -14,7 +15,7 @@ export default (api) => {
       switch (key) {
         case 'component':
           const relPath = winPath(relative(paths.absTmpDirPath, join(cwd, value)))
-          return `require('${relPath}').default`;
+          return dynamicImport ? `dynamic({ loader: () => import('${relPath}')})` : `require('${relPath}').default`;
         case 'path':
           return `/${api.pkg.name}${value}`;
         default:
@@ -48,6 +49,8 @@ export default (api) => {
 
   function getContent(routesContent, models) {
     return `
+import dynamic from 'umi/dynamic';
+
 window.g_umi = window.g_umi || {};
 window.g_umi.monorepo = window.g_umi.monorepo || [];
 window.g_umi.monorepo.push({
@@ -62,8 +65,9 @@ window.g_umi.monorepo.push({
     process.env.HTML = 'none';
   });
 
+  api.addPageWatcher(['./plugin']);
+
   api.onGenerateFiles(() => {
-    console.log(JSON.stringify(api.routes))
     const routes = api.routes[0].routes;
     const routesContent = stripJSONQuotes(routesToJSON(routes));
     const models = findModels();
@@ -73,10 +77,14 @@ window.g_umi.monorepo.push({
 
   api.chainWebpackConfig(config => {
     config.entryPoints.clear();
-    console.log(111, config.entryPoints.parent)
     config.entry(api.pkg.name).add(
       join(api.paths.absTmpDirPath, 'submodule.js'),
     );
+    api.writeTmpFile('submodulee.js', config);
+    config.output
+      .publicPath(`/lib/${api.pkg.name}/`)
+      .chunkFilename(`${api.pkg.name}_[name].[hash:8].async.js`)
+      .filename('[name].js');
     config.externals({
       'react': 'window.React',
       'react-dom': 'window.ReactDOM',

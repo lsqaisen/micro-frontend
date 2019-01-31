@@ -9,9 +9,12 @@ export default {
         ],
       },
       dynamicImport: {
-        webpackChunkName: true,
+        webpackChunkName: true
       },
     }],
-    '../utils/plugin',
+    ['../utils/plugin.js', {
+      dynamicImport: true,
+    }]
   ],
+  hash: true,
 }

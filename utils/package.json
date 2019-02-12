@@ -1,6 +1,7 @@
 {
   "name": "utils",
   "devDependencies": {
-    "globby": "^9.0.0"
+    "globby": "^9.0.0",
+    "webpack": "^4.29.3"
   }
 }

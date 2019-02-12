@@ -19,8 +19,8 @@ export default {
         'http://localhost:3001/node.js',
       ],
       stylesheets: [
-        'http://localhost:3000/stack.css',
-        'http://localhost:3001/node.css',
+        // 'http://localhost:3000/stack.css',
+        // 'http://localhost:3001/node.css',
       ],
     }],
   ],
@@ -29,6 +29,11 @@ export default {
       "target": "http://localhost:3000",
       "changeOrigin": true,
       "pathRewrite": { "^/lib/stack": "" }
+    },
+    "/lib/node": {
+      "target": "http://localhost:3001",
+      "changeOrigin": true,
+      "pathRewrite": { "^/lib/node": "" }
     }
   },
 }

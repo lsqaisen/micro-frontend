@@ -1,9 +1,10 @@
 import assert from 'assert';
 import { join, relative } from 'path';
 import globby from 'globby';
+import webpack from 'webpack';
 
 export default (api, options = {}) => {
-  const { dynamicImport = false } = options;
+  const { dynamicImport = false, publicPath = `/lib/` } = options;
   const { cwd, paths, winPath } = api;
   const isDev = process.env.NODE_ENV === 'development';
 
@@ -15,7 +16,8 @@ export default (api, options = {}) => {
       switch (key) {
         case 'component':
           const relPath = winPath(relative(paths.absTmpDirPath, join(cwd, value)))
-          return dynamicImport ? `dynamic({ loader: () => import('${relPath}')})` : `require('${relPath}').default`;
+          const webpackChunkName = value.split('/').slice(-1)[0] === "index.js" ? value.split('/').slice(-2, -1)[0] : value.split('/').slice(-1)[0]
+          return dynamicImport ? `dynamic({ loader: () => import(/* webpackChunkName: ^${webpackChunkName}^ */'${relPath}')})` : `require('${relPath}').default`;
         case 'path':
           return `/${api.pkg.name}${value}`;
         default:
@@ -76,15 +78,60 @@ window.g_umi.monorepo.push({
   });
 
   api.chainWebpackConfig(config => {
+    // entry
     config.entryPoints.clear();
     config.entry(api.pkg.name).add(
       join(api.paths.absTmpDirPath, 'submodule.js'),
     );
+    // config.optimization
     api.writeTmpFile('submodulee.js', config);
+
+    // output
     config.output
-      .publicPath(`/lib/${api.pkg.name}/`)
-      .chunkFilename(`${api.pkg.name}_[name].[hash:8].async.js`)
-      .filename('[name].js');
+      .publicPath(`${publicPath}${api.pkg.name}/`)
+      .filename(`[name].js`)
+      .chunkFilename(`[name].[hash:8].async.js`);
+    // module
+    config.module
+      .rule('css')
+      .use('css-loader')
+      .loader('css-loader')
+      .options({
+        importLoaders: 1,
+        sourceMap: true,
+        modules: true,
+        localIdentName: `${api.pkg.name}__[local]___[hash:base64:5]`
+      });
+    config.module
+      .rule('less')
+      .use('css-loader')
+      .loader('css-loader')
+      .options({
+        importLoaders: 1,
+        sourceMap: true,
+        modules: true,
+        localIdentName: `${api.pkg.name}__[local]___[hash:base64:5]`
+      });
+    config.module
+      .rule('sass')
+      .use('css-loader')
+      .loader('css-loader')
+      .options({
+        importLoaders: 1,
+        sourceMap: true,
+        modules: true,
+        localIdentName: `${api.pkg.name}__[local]___[hash:base64:5]`
+      });
+    // plugin
+    config
+      .plugin('name-chunks')
+      .use(webpack.NamedChunksPlugin, [(chunk) => {
+        if (chunk.name) {
+          return `${api.pkg.name}_${chunk.name}`;
+        }
+        return `${api.pkg.name}_${chunk.modules.map(m => path.relative(m.context, m.request)).join("_")}`;
+      }]);
+    //externals
     config.externals({
       'react': 'window.React',
       'react-dom': 'window.ReactDOM',

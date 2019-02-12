@@ -1,6 +1,7 @@
-import Link from 'umi/link';
 import { connect } from 'dva';
 import styles from './index.css';
+
+console.log(styles)
 
 export default connect(state => ({
   stack: state.node,

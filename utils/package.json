@@ -3,5 +3,8 @@
   "devDependencies": {
     "globby": "^9.0.0",
     "webpack": "^4.29.3"
+  },
+  "dependencies": {
+    "copy-webpack-plugin": "^4.6.0"
   }
 }

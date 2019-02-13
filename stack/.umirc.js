@@ -12,9 +12,14 @@ export default {
         webpackChunkName: true
       },
     }],
-    ['../utils/plugin.js', {
+    ['../utils/plugins/plugin.js', {
       dynamicImport: true,
       publicPath: '/lib/',
+      externals: {
+        'react': 'window.React',
+        'react-dom': 'window.ReactDOM',
+        'dva': 'window.dva',
+      },
     }]
   ],
   hash: true,

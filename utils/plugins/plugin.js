@@ -4,20 +4,22 @@ import globby from 'globby';
 import webpack from 'webpack';
 
 export default (api, options = {}) => {
-  const { dynamicImport = false, publicPath = `/lib/` } = options;
+  const { dynamicImport = false, publicPath = `/lib/`, externals = {} } = options;
   const { cwd, paths, winPath } = api;
   const isDev = process.env.NODE_ENV === 'development';
+  if (isDev) return;
 
-  // if (isDev) return;
   assert(api.pkg.name, `package.json must contains a name property`);
-
   function routesToJSON(routes) {
     return JSON.stringify(routes, (key, value) => {
       switch (key) {
         case 'component':
-          const relPath = winPath(relative(paths.absTmpDirPath, join(cwd, value)))
-          const webpackChunkName = value.split('/').slice(-1)[0] === "index.js" ? value.split('/').slice(-2, -1)[0] : value.split('/').slice(-1)[0]
-          return dynamicImport ? `dynamic({ loader: () => import(/* webpackChunkName: ^${webpackChunkName}^ */'${relPath}')})` : `require('${relPath}').default`;
+          if (/^\.\/.*/.test(value)) {
+            const relPath = winPath(relative(paths.absTmpDirPath, join(cwd, value)))
+            const webpackChunkName = value.split('/').slice(-1)[0] === "index.js" ? value.split('/').slice(-2, -1)[0] : value.split('/').slice(-1)[0]
+            return dynamicImport ? `dynamic({ loader: () => import(/* webpackChunkName: ^${webpackChunkName}^ */'${relPath}')})` : `require('${relPath}').default`;
+          }
+          return value;
         case 'path':
           return `/${api.pkg.name}${value}`;
         default:
@@ -70,21 +72,22 @@ window.g_umi.monorepo.push({
   api.addPageWatcher(['./plugin']);
 
   api.onGenerateFiles(() => {
-    const routes = api.routes[0].routes;
-    const routesContent = stripJSONQuotes(routesToJSON(routes));
-    const models = findModels();
-    const content = getContent(routesContent, models);
-    api.writeTmpFile('submodule.js', content);
+    const globalLayoutRoutes = api.routes.find(({ component, path }) => component.includes("layouts") && path === "/");
+    let routesContent;
+    if (!!globalLayoutRoutes) {
+      routesContent = stripJSONQuotes(routesToJSON(globalLayoutRoutes.routes))
+    } else {
+      routesContent = stripJSONQuotes(routesToJSON(api.routes))
+    }
+    api.writeTmpFile('mifrontconfig.js', getContent(routesContent, findModels()));
   });
-
   api.chainWebpackConfig(config => {
     // entry
     config.entryPoints.clear();
     config.entry(api.pkg.name).add(
-      join(api.paths.absTmpDirPath, 'submodule.js'),
+      join(api.paths.absTmpDirPath, 'mifrontconfig.js'),
     );
     // config.optimization
-    api.writeTmpFile('submodulee.js', config);
 
     // output
     config.output
@@ -132,10 +135,6 @@ window.g_umi.monorepo.push({
         return `${api.pkg.name}_${chunk.modules.map(m => path.relative(m.context, m.request)).join("_")}`;
       }]);
     //externals
-    config.externals({
-      'react': 'window.React',
-      'react-dom': 'window.ReactDOM',
-      'dva': 'window.dva',
-    });
+    config.externals(externals);
   });
 }

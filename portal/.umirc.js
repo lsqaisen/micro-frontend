@@ -13,9 +13,14 @@ export default {
         webpackChunkName: true
       },
     }],
-    ['../utils/portal', {
+    ['../utils/plugins/portal', {
+      externals: {
+        'react': 'window.React',
+        'react-dom': 'window.ReactDOM',
+        'dva': 'window.dva',
+      },
       scripts: [
-        'http://localhost:3000/stack.js',
+        '/lib/stack/stack.js',
         'http://localhost:3001/node.js',
       ],
       stylesheets: [
@@ -24,7 +29,8 @@ export default {
       ],
     }],
   ],
-  "proxy": {
+  hash: true,
+  proxy: {
     "/lib/stack": {
       "target": "http://localhost:3000",
       "changeOrigin": true,

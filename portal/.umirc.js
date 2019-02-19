@@ -13,7 +13,7 @@ export default {
         webpackChunkName: true
       },
     }],
-    ['../utils/plugins/portal', {
+    ['mife', {
       externals: {
         'react': 'window.React',
         'react-dom': 'window.ReactDOM',

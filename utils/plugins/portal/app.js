@@ -19,6 +19,5 @@ export function patchRoutes(routes) {
 }
 
 export function render(oldRender) {
-  console.log('patch render');
   oldRender();
 }

@@ -1,4 +1,6 @@
+// import '../../mife/bin/index'
 
+// console.log(require('mife'))
 export default {
   plugins: [
     ['umi-plugin-react', {
@@ -12,7 +14,8 @@ export default {
         webpackChunkName: true
       },
     }],
-    ['../utils/plugins/plugin.js', {
+    ['mife', {
+      type: 'plugin',
       dynamicImport: true,
       publicPath: '/lib/',
       externals: {

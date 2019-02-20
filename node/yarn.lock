@@ -7575,12 +7575,13 @@ micromatch@^3.1.10, micromatch@^3.1.4, micromatch@^3.1.8, micromatch@^3.1.9:
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
 
-mife@^0.0.0:
-  version "0.0.0"
-  resolved "https://registry.yarnpkg.com/mife/-/mife-0.0.0.tgz#540828d6db542f214fa2f01d8d39b5c295021133"
-  integrity sha512-vjwSv50JUNIHszaWHirMBhUXlVolXfMHnPRHEbBB0hdN3kI9HlunzeBI4M/ujHPmGZXe0f0FKxxFFDl9xz8I1g==
+mife@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/mife/-/mife-0.0.1.tgz#8a3200905e9360d73a40e98ee26c3c8bb4fb86f0"
+  integrity sha512-SFyunire1yAiwuyY+HeaxHmyMrztMn5gtMQKdFvtWfUmPYXEleGi7YuhbUAxPiJFQtF1UWJ/MsuUjeRaseImVw==
   dependencies:
     copy-webpack-plugin "^4.6.0"
+    scriptjs "^2.5.9"
 
 miller-rabin@^4.0.0:
   version "4.0.1"
@@ -10814,6 +10815,11 @@ scoped-regex@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/scoped-regex/-/scoped-regex-1.0.0.tgz#a346bb1acd4207ae70bd7c0c7ca9e566b6baddb8"
   integrity sha1-o0a7Gs1CB65wvXwMfKnlZra63bg=
+
+scriptjs@^2.5.9:
+  version "2.5.9"
+  resolved "https://registry.yarnpkg.com/scriptjs/-/scriptjs-2.5.9.tgz#343915cd2ec2ed9bfdde2b9875cd28f59394b35f"
+  integrity sha512-qGVDoreyYiP1pkQnbnFAUIS5AjenNwwQBdl7zeos9etl+hYKWahjRTfzAZZYBv5xNHx7vNKCmaLDQZ6Fr2AEXg==
 
 select-hose@^2.0.0:
   version "2.0.0"

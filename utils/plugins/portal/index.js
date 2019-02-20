@@ -28,7 +28,7 @@ export default (api, options = {}) => {
     });
   });
 
-  api.addRuntimePlugin(
-    join(__dirname, 'app.js'),
-  );
+  // api.addRuntimePlugin(
+  //   join(__dirname, 'app.js'),
+  // );
 }

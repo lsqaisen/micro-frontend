@@ -56,12 +56,12 @@ export default (api, options = {}) => {
 import dynamic from 'umi/dynamic';
 
 window.g_umi = window.g_umi || {};
-window.g_umi.monorepo = window.g_umi.monorepo || [];
-window.g_umi.monorepo.push({
+window.g_umi.mife = window.g_umi.mife || {};
+window.g_umi.mife.${api.pkg.name} = {
   routes: ${routesContent},
   models: [${models.join(',')}],
-  menus: {name: '${api.pkg.name}', data: ${findMenus()}}
-});
+  menus: ${findMenus()}
+};
       `.trim()
   }
 

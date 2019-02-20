@@ -14,25 +14,18 @@ export default {
       },
     }],
     ['mife', {
+      type: 'portal',
       externals: {
         'react': 'window.React',
         'react-dom': 'window.ReactDOM',
         'dva': 'window.dva',
       },
-      scripts: [
-        '/lib/stack/stack.js',
-        'http://localhost:3001/node.js',
-      ],
-      stylesheets: [
-        // 'http://localhost:3000/stack.css',
-        // 'http://localhost:3001/node.css',
-      ],
     }],
   ],
   hash: true,
   proxy: {
     "/lib/stack": {
-      "target": "http://localhost:3000",
+      "target": "http://localhost:3002",
       "changeOrigin": true,
       "pathRewrite": { "^/lib/stack": "" }
     },

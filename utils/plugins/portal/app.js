@@ -1,23 +1,24 @@
-const menusModel = {
-  namespace: 'p_menus',
-  state: {},
-}
+// import lodash from 'lodash';
 
-export function patchRoutes(routes) {
-  (window.g_umi && window.g_umi.monorepo || []).forEach((repo) => {
-    repo.routes.forEach(route => {
-      // add routes under first layout
-      routes[0].routes.unshift(route);
-    });
-    (repo.models || []).forEach(model => {
-      window.g_app.model(model);
-    });
-    menusModel.state[repo.menus.name] = repo.menus.data
-  });
-  window.g_app.model(menusModel)
-  window.g_routes = routes;
-}
+// window._oldRouter = [];
+// window.mife_menus = {};
+// let initOldRouter = false;
 
-export function render(oldRender) {
-  oldRender();
-}
+// export function patchRoutes(routes) {
+//   if (!initOldRouter) {
+//     window._oldRouter = lodash.cloneDeep(routes);
+//     initOldRouter = true;
+//   }
+// }
+
+// export function render(oldRender) {
+//   // addModel();
+//   oldRender();
+// }
+
+// // console.log(window.g_plugins.applyForEach)
+// // export function rootContainer(container) {
+// //   const DvaContainer = require('@tmp/DvaContainer').default;
+// //   console.log(container)
+// //   return React.createElement(DvaContainer, null, container);
+// // }

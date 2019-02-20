@@ -13,6 +13,7 @@ export default {
       },
     }],
     ['../utils/plugins/plugin.js', {
+      type: 'plugin',
       dynamicImport: true,
       externals: {
         'react': 'window.React',

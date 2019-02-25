@@ -1,36 +1,44 @@
+import { PureComponent, Component } from 'react';
 import { connect } from 'dva';
 import Link from 'umi/link';
-import router from 'umi/router'
+import router from 'umi/router';
+import { Layout } from 'antd';
 import { sub, unsub } from 'mife/bin/api';
 import withRouter from 'umi/withRouter';
+import Sider from './sider'
+
 
 export default withRouter(connect(state => ({
   menus: Object.values(state.mife_menus || {}),
-}))(class extends React.PureComponent {
+}))(class extends (PureComponent || Component) {
   componentDidMount() {
-    setTimeout(() => {
-      sub(`/lib/node/node.js?${new Date()}`, 'node');
-    }, 3000)
-    setTimeout(() => {
-      sub(`/lib/stack/stack.js?${new Date()}`, 'stack');
-    }, 5000)
-    setTimeout(() => {
-      unsub('node', () => {
-        if (/^\/node/.test(this.props.location.pathname)) {
-          router.push('/')
-        }
-      });
-    }, 6000)
-    setTimeout(() => {
-      sub(`/lib/node/node.js?${new Date()}`, 'node');
-    }, 10000)
+    // setTimeout(() => {
+    //   sub(`/lib/node/node.js?${new Date()}`, 'node');
+    // }, 3000)
+    // setTimeout(() => {
+    //   sub(`/lib/stack/stack.js?${new Date()}`, 'stack');
+    // }, 5000)
+    // setTimeout(() => {
+    //   unsub('node', () => {
+    //     if (/^\/node/.test(this.props.location.pathname)) {
+    //       router.push('/')
+    //     }
+    //   });
+    // }, 6000)
+    // setTimeout(() => {
+    //   sub(`/lib/node/node.js?${new Date()}`, 'node');
+    // }, 10000)
   }
   render() {
     const { props } = this;
     const menus = Object.values(window.mife_menus || {});
     return (
-      <>
-        <h1>layouts</h1>
+      <Layout style={{ width: '100%', height: '100%' }}>
+        <Sider />
+        <Layout.Content >
+          {props.children}
+        </Layout.Content>
+        {/* <h1>layouts</h1>
         <ul>
           <li><Link to="/">go to /</Link></li>
           <li><Link to="/test">go to test</Link></li>
@@ -53,8 +61,8 @@ export default withRouter(connect(state => ({
         </ul>
         {
           props.children
-        }
-      </>
+        } */}
+      </Layout>
     )
   }
 }))

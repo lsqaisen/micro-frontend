@@ -1,17 +1,17 @@
 {
-  "name": "portal",
+  "name": "login",
   "scripts": {
     "start": "umi dev",
     "build": "umi build"
   },
   "devDependencies": {
-    "mife": "^0.0.0",
+    "mife": "^0.0.1",
     "umi": "^2.4.4",
     "umi-plugin-react": "^1.4.2"
   },
   "dependencies": {
+    "rc-animate": "^2.6.0",
     "rc-queue-anim": "^1.6.12",
-    "rc-tween-one": "^2.3.4",
-    "scriptjs": "^2.5.9"
+    "react-lifecycles-compat": "^3.0.4"
   }
 }

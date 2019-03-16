@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "jsx": "react",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "outDir": "dist/cmjs",
+    "rootDir": "./src",
+    "declaration": true,
+    "lib": [
+      "dom",
+      "es6"
+    ]
+  }
+}

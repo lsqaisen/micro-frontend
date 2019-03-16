@@ -1,12 +1,14 @@
 import React, { Component, PureComponent } from 'react'
 import { Layout, Menu, Icon } from 'antd';
+import styles from './sider.less';
+
 const { SubMenu, ItemGroup } = Menu;
 const { Sider } = Layout;
 
 export default class extends (PureComponent || Component) {
   render() {
     return (
-      <Sider width={256}>
+      <Sider width={256} className={styles.sider}>
         <Menu
           mode="inline"
           style={{ height: '100%' }}

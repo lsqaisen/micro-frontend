@@ -4,7 +4,11 @@ export default {
   plugins: [
     ['umi-plugin-react', {
       dva: true,
-      antd: true,
+      antd: {
+        "libraryName": "antd",
+        "libraryDirectory": "es",
+        "style": true // `style: true` 会加载 less 文件
+      },
       routes: {
         exclude: [
           /model/,
@@ -24,6 +28,10 @@ export default {
     }],
   ],
   hash: true,
+  theme: {
+    "@primary-color": "#2E70FB",
+    "@sider-background-color": "#EDF0F5"
+  },
   proxy: {
     "/lib/stack": {
       "target": "http://localhost:3002",
@@ -36,4 +44,7 @@ export default {
       "pathRewrite": { "^/lib/node": "" }
     }
   },
+  chainWebpack(config, { webpack }) {
+    config.resolve.extensions.add(".tsx");
+  }
 }

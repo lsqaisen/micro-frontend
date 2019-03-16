@@ -1,0 +1,22 @@
+{
+	"compilerOptions": {
+		"module": "es6",
+		"target": "es6",
+		"allowSyntheticDefaultImports": true,
+		"baseUrl": "types",
+		"sourceMap": true,
+		"outDir": "ts-build",
+		"jsx": "preserve",
+		"strict": true,
+		"typeRoots": [
+			"types"
+		],
+		"lib": [
+			"es2017",
+			"dom"
+		]
+	},
+	"exclude": [
+		"node_modules"
+	],
+}

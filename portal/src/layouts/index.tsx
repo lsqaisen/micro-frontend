@@ -3,12 +3,12 @@ import { connect } from 'dva';
 import Link from 'umi/link';
 import router from 'umi/router';
 import { Layout } from 'antd';
-import { sub, unsub } from 'mife/bin/api';
+// import { sub, unsub } from 'mife/bin/api';
 import withRouter from 'umi/withRouter';
+import User from './login'
 import Sider from './sider'
 
-
-export default withRouter(connect(state => ({
+export default withRouter(connect((state: any) => ({
   menus: Object.values(state.mife_menus || {}),
 }))(class extends (PureComponent || Component) {
   componentDidMount() {
@@ -32,6 +32,7 @@ export default withRouter(connect(state => ({
   render() {
     const { props } = this;
     const menus = Object.values(window.mife_menus || {});
+    return <User />
     return (
       <Layout style={{ width: '100%', height: '100%' }}>
         <Sider />

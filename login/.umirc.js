@@ -26,14 +26,29 @@ export default {
         'react-dom': 'window.ReactDOM',
         'dva': 'window.dva',
       },
-    }]
+    }],
   ],
+  publicPath: '/mmmm',
   hash: true,
+  copy: [{ from: './src/public/oem', to: './static/oem', toType: 'dir' },],
+  // urlLoaderExcludes: [/\.(png|jpe?g|gif|svg)(\?.*)?$/],
   chainWebpack(config, { webpack }) {
     config.resolve.extensions.add(".tsx");
+    // config.module
+    //   .rule('exclude1')
+    //   .test(/\.(png|jpe?g|gif|svg)(\?.*)?$/)
+    //   .use('url-loader')
+    //   .loader('url-loader')
+    //   .options({
+    //     limit: 1,
+    //     name: 'static/[name].[ext]'
+    //   })
   },
   alias: {
     '@': './src/components/'
+  },
+  define: {
+    "process.env.OEM_NAME": '/kubeup'
   },
   proxy: {
     "/service": {

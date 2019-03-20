@@ -9,6 +9,9 @@
 		"jsx": "preserve",
 		"strict": true,
 		"experimentalDecorators": true,
+		"types": [
+			"node"
+		],
 		"typeRoots": [
 			"types"
 		],

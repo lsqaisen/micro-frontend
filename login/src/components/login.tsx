@@ -24,21 +24,21 @@ export default class extends (PureComponent || Component)<any, any> {
   render() {
     const { status, flipKey } = this.state;
     return (
-      <div className={styles.loginBox}>
-        <QueueAnim
-          style={{ marginTop: '-5%' }}
-          delay={400}
-          duration={1200}
-          type="scale"
-          ease="easeInOutQuart"
-          animConfig={[
-            { opacity: [1, 0], width: ['320px', 0], height: ['320px', 0], borderRadius: ['3px', '100%'] },
-            { opacity: [1, 0], width: ['320px', 0], height: ['320px', 0], borderRadius: ['3px', '100%'] }
-          ]}>
-          {status === 0 && <div className={styles.box} key="a">
-            <FlipCard className={styles.login} flipKey={flipKey}>
-              <FlipCard.Item key="login">
-                {/* <Logo /> */}
+      <div className={styles.loginBox} >
+        <FlipCard className={styles.login} flipKey={flipKey}>
+          <FlipCard.Item key="login">
+            <QueueAnim
+              className={styles.box}
+              delay={400}
+              duration={1200}
+              type="scale"
+              ease="easeInOutQuart"
+              animConfig={[
+                { opacity: [1, 0], width: ['320px', 0], height: ['320px', 0], borderRadius: ['3px', '100%'] },
+                { opacity: [1, 0], width: ['320px', 0], height: ['320px', 0], borderRadius: ['3px', '100%'] }
+              ]}>
+              {status === 0 && <div key="a" onClick={() => this.setState({ flipKey: 'first' })}>
+                <Logo />
                 <LoginForm
                   key="login"
                   domains={[]}
@@ -46,16 +46,16 @@ export default class extends (PureComponent || Component)<any, any> {
                   onSubmit={() => { }}
                   goFirstLogin={() => { }}
                 />
-              </FlipCard.Item>
-              <FlipCard.Item key="first">
-                <Card style={{ width: '100%', height: '100%' }} onClick={() => this.setState({ flipKey: 'login' })}>
-                  xxxx
+              </div>}
+            </QueueAnim>
+          </FlipCard.Item>
+          <FlipCard.Item key="first">
+            <Card style={{ width: '100%', height: '100%' }} onClick={() => this.setState({ flipKey: 'login' })}>
+              xxxx
                 </Card>
-              </FlipCard.Item>
-              <FlipCard.Item key="modify">modify</FlipCard.Item>
-            </FlipCard>
-          </div>}
-        </QueueAnim>
+          </FlipCard.Item>
+          <FlipCard.Item key="modify">modify</FlipCard.Item>
+        </FlipCard>
       </div>
     )
   }

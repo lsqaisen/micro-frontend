@@ -1,4 +1,4 @@
-import styles from './style/logo.less';
+import styles from './style/index.less';
 
 const Logo = (props: any) => {
   return (

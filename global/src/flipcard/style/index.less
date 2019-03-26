@@ -24,7 +24,7 @@
   .flip_@{asix} {
     .front,
     .back {
-      transform-origin: @asix center;
+      transform-origin: left center;
     }
   }
 }
@@ -34,23 +34,25 @@
 .setAsix(right);
 @keyframes tf_front_center {
   0% {
+    width: 0;
     z-index: 1;
-    transform: rotateY(-180deg)
+    transform: translateX(-100%) rotateY(-90deg);
   }
   100% {
+    width: 100%;
     z-index: 2;
-    transform: rotateY(0deg)
+    transform: translateX(0) rotateY(0deg);
   }
 }
 
 @keyframes tf_back_center {
   0% {
     z-index: 2;
-    transform: rotateY(0deg)
+    transform: translateX(0) rotateY(0deg)
   }
   100% {
     z-index: 1;
-    transform: rotateY(180deg)
+    transform: translateX(100%) rotateY(90deg)
   }
 }
 

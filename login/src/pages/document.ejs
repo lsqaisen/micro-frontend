@@ -9,6 +9,11 @@
 <body>
   <div id="loader">
     <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
       #loader {
         position: absolute;
         width: 100%;
@@ -58,28 +63,20 @@
           left: calc(50% - 25px);
         }
 
-        25% {
-          top: calc(45% - 25px);
-          left: calc(50% - 25px);
-        }
-
         50% {
-          top: calc(45% - 25px);
+          top: calc(50% - 25px);
           left: calc(50% - 25px);
           transform: rotate(180deg);
           width: 50px;
           height: 50px;
         }
 
-        75% {
-          transform: rotate(360deg);
-        }
-
         100% {
-          top: 45%;
+          top: calc(50% - 50px);
           left: 50%;
           width: 0;
           height: 0;
+          transform: rotate(560deg);
         }
       }
 

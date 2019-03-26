@@ -1,4 +1,5 @@
 import * as React from 'react';
+import ReactDOM from 'react-dom';
 import { polyfill } from 'react-lifecycles-compat';
 import Item from './flipcard-item';
 import styles from './style/index.less';
@@ -56,7 +57,7 @@ class FlipCard extends (PureComponent || Component)<FlipCardProps, FlipCardState
   }
 
   componentDidMount() {
-
+    console.log(3)
   }
 
   render() {
@@ -64,7 +65,7 @@ class FlipCard extends (PureComponent || Component)<FlipCardProps, FlipCardState
     const { back, front } = this.state;
     return (
       <section
-        className={`${styles.flip_box} ${styles[`flip_${axis}`]} ${className || ''}`}
+        className={`${styles.flip_box} ${styles[`flip_${axis}`]} `}
         style={{ ...(style || {}) }}
       >
         {React.Children.map(children, (child: any, i) => {

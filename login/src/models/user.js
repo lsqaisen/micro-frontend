@@ -1,7 +1,9 @@
 import router from 'umi/router';
 import { profile, login, license, active, modifyPassword } from '@/services/user';
+import { message } from 'antd';
 
 export default {
+	namespace: 'user',
 	state: {
 		profile: { data: undefined, err: null },
 		domain: { data: [], err: null },
@@ -11,14 +13,12 @@ export default {
 	subscriptions: {
 		setup({ dispatch, history }, done) {
 			history.listen(({ pathname }) => {
-				// if (pathname !== '/login') {
 				dispatch({
 					type: 'profile',
 					payload: {
 						pathname
 					}
 				});
-				// }
 			});
 		},
 	},
@@ -34,7 +34,6 @@ export default {
 				}
 			})
 			const { pathname } = payload;
-			console.log(_profile, pathname)
 			if (!!_profile.data && !_profile.err && (pathname === '/login' || pathname === '/')) {
 				router.push('/dashboard');
 			} else if (!_profile.data && !!_profile.err && pathname !== '/login') {
@@ -42,13 +41,23 @@ export default {
 			}
 		},
 		*login({ payload }, { select, call, put }) {
-			const data = yield call(login, payload);
-			return data;
+			message.destroy()
+			const { err } = yield call(login, payload);
+			if (!!err) {
+				message.error(err, 0)
+			} else {
+				yield put({
+					type: 'profile',
+					payload: {
+						pathname: '/login'
+					}
+				});
+			}
 		},
 		*logout(_, { put }) {
 			window.location.href = '/logout'
 			yield put({
-				type: 'updateState',
+				type: 'save',
 				payload: {
 					profile: { data: null, err: null },
 				},

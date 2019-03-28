@@ -1,7 +1,6 @@
 import { PureComponent, Component } from 'react';
 import { connect } from 'dva';
 import { createSelector } from 'reselect';
-import { Button } from 'antd';
 import Login from "@/components";
 
 @connect(createSelector(
@@ -17,21 +16,19 @@ import Login from "@/components";
     return { isLogin, loading }
   },
 ))
-export default class extends (PureComponent || Component) {
+export default class extends (PureComponent || Component)<any, any> {
   state = {
     domains: []
   }
 
-  login = (data) => {
+  login = (data: object) => {
     const { dispatch } = this.props;
-    // return newPromise(dispatch, {
-    //   type: `user/login`,
-    //   payload: data,
-    // }, (data) => {
-    //   if (data.code !== 203) {
-    //     dispatch({ type: `user/profile` });
-    //   }
-    // });
+    return new Promise((resolve, reject) => {
+      dispatch({
+        type: `user/login`,
+        payload: data,
+      })
+    })
   }
 
   getCode = (email) => {
@@ -82,6 +79,7 @@ export default class extends (PureComponent || Component) {
   }
 
   toDashboard = (props) => {
+    console.log(props)
     if (props.isLogin) {
       this.props.dispatch(routerRedux.push('/dashboard'));
     }
@@ -90,27 +88,27 @@ export default class extends (PureComponent || Component) {
   componentWillReceiveProps(nextProps) {
     this.toDashboard(nextProps);
   }
-
+  
   componentDidMount() {
-    this.relation();
-    // this.toDashboard(this.props);
+    const box = document.getElementById('box'),
+      shadow = document.getElementById('shadow'),
+      loader = document.getElementById('loader');
+    if (box) box.style.animation = "stop 0.8s linear";
+    if (shadow) shadow.style.animation = "shadowstop 0.8s linear"
+    setTimeout(() => {
+      if (loader) loader.remove()
+    }, 700)
   }
-
+  
   render() {
     const { domains } = this.state;
     const { loading } = this.props;
     return (
       <Login
-        loginFormData={{
-          loginData: {
-            domains,
-            loading: loading[`user/login`],
-            onSubmit: this.login,
-          },
-          firstLoginData: {
-            loading: loading[`user/login&user/modifyPassword`],
-            onSubmit: this.firstLogin,
-          },
+        loginProps={{
+          domains: [],
+          loading: loading[`user/login`],
+          onSubmit: this.login,
         }}
         changePwdData={{
           loading: loading[`user/resetPassword`],

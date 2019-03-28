@@ -7575,12 +7575,13 @@ micromatch@^3.1.10, micromatch@^3.1.4, micromatch@^3.1.8, micromatch@^3.1.9:
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
 
-mife@^0.0.0:
-  version "0.0.0"
-  resolved "https://registry.yarnpkg.com/mife/-/mife-0.0.0.tgz#540828d6db542f214fa2f01d8d39b5c295021133"
-  integrity sha512-vjwSv50JUNIHszaWHirMBhUXlVolXfMHnPRHEbBB0hdN3kI9HlunzeBI4M/ujHPmGZXe0f0FKxxFFDl9xz8I1g==
+mife@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/mife/-/mife-0.0.2.tgz#aeafdcf3b47b79c628a086d12b544d82eab9eef7"
+  integrity sha512-AJ5+e9Q3KASkJ0Nl2cd8SscQ6vJ/Q/zE6gfnfUhYAXeizIhtw6ZcsJlJ2G1fgYuAbW95rXOsJcvX1qgzgkMRfA==
   dependencies:
     copy-webpack-plugin "^4.6.0"
+    scriptjs "^2.5.9"
 
 miller-rabin@^4.0.0:
   version "4.0.1"
@@ -8423,11 +8424,6 @@ package-json@^4.0.0:
     registry-auth-token "^3.0.1"
     registry-url "^3.0.3"
     semver "^5.1.0"
-
-pako@^1.0.10:
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/pako/-/pako-1.0.10.tgz#4328badb5086a426aa90f541977d4955da5c9732"
-  integrity sha512-0DTvPVU3ed8+HNXOu5Bs+o//Mbdj9VNQMUOe9oKCwh8l0GNwpTDMKCWbRjgtD291AWnkAgkqA/LOnQS8AmS1tw==
 
 pako@~1.0.5:
   version "1.0.8"

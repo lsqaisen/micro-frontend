@@ -5,7 +5,7 @@ import request from '../utils/request';
  */
 export function profile(data) {
     const { admin = '', current = '' } = data;
-    return request(`/profile?admin=${admin}&current=${current}`);
+    return request(`/api/profile?admin=${admin}&current=${current}`);
 }
 
 /**
@@ -14,7 +14,7 @@ export function profile(data) {
  */
 export function login(data) {
     const { username, password } = data;
-    return request(`/login?username=${username}&password=${password}`, {
+    return request(`/api/login?username=${username}&password=${password}`, {
         method: 'post',
         body: data
     });

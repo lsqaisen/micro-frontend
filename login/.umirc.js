@@ -14,7 +14,7 @@ export default {
         ],
       },
       dynamicImport: {
-        webpackChunkName: true
+        webpackChunkName: false,
       },
     }],
     ['mife', {
@@ -28,7 +28,6 @@ export default {
       },
     }],
   ],
-  publicPath: '/mmmm',
   hash: true,
   copy: [{ from: './src/public/oem', to: './static/oem', toType: 'dir' },],
   chainWebpack(config, { webpack }) {
@@ -44,50 +43,15 @@ export default {
     "@primary-color": "#2D225A"
   },
   proxy: {
-    "/profile": {
+    "/api": {
       "target": "http://www.baidu.com/",
       "changeOrigin": true,
-      "pathRewrite": { "^/profile": "/profile" }
+      "pathRewrite": { "^/api": "/" }
     },
-    // "/service": {
-    //   "target": "http://192.168.1.101:30000/",
-    //   "changeOrigin": true,
-    //   "pathRewrite": { "^/service": "/service" }
-    // },
-    // "/ui": {
-    //   "target": "http://192.168.1.101:30000/",
-    //   "changeOrigin": true,
-    //   "pathRewrite": { "^/ui": "/ui" }
-    // },
-    // "/login": {
-    //   "target": "http://192.168.1.101:30000/",
-    //   "changeOrigin": true,
-    //   "pathRewrite": { "^/login": "/login" }
-    // },
-    // "/logout": {
-    //   "target": "http://192.168.1.101:30000/",
-    //   "changeOrigin": true,
-    //   "pathRewrite": { "^/logout": "/logout" }
-    // },
-    // "/api/plugin": {
-    //   "target": "http://192.168.1.101:30000/",
-    //   "changeOrigin": true,
-    //   "pathRewrite": { "^/api/plugin": "/api/plugin" }
-    // },
-    // "/api/license": {
-    //   "target": "http://192.168.1.101:30000/",
-    //   "changeOrigin": true,
-    //   "pathRewrite": { "^/api/license": "/api/license" }
-    // },
-    // "/api/apps": {
-    //   "target": "http://192.168.1.101:30000/",
-    //   "changeOrigin": true,
-    //   "pathRewrite": { "^/api/apps": "/api/apps" }
-    // },
-    // "/api/template": {
-    //   "target": "http://192.168.1.101:30000/",
-    //   "changeOrigin": true,
-    //   "pathRewrite": { "^/api/template": "/api/template" }
-    // },
+    "/logout": {
+        "target": "http://192.168.1.103:30000/",
+        "changeOrigin": true,
+        "pathRewrite": { "^/logout": "/logout" }
+    },
   },
 }

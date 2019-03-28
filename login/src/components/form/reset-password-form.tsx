@@ -11,7 +11,7 @@ import styles from './style/index.less';
 
 const FormItem = Form.Item;
 
-type ResetPasswordProps = {
+export type ResetPasswordProps = {
   loading?: boolean;
   changeLogin: () => void;
   onSubmit?: (values: object) => void;

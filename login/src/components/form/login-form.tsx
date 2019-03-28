@@ -18,9 +18,9 @@ export type LoginFormProps = {
   changeResetPassword: () => void;
   onSubmit: (values: any) => any;
   goFirstLogin: (e: React.MouseEvent) => void;
-};
+} & NameInputProps & FormComponentProps;
 
-class LoginForm extends (PureComponent || Component)<LoginFormProps & NameInputProps & FormComponentProps, any> {
+class LoginForm extends (PureComponent || Component)<LoginFormProps, any> {
   state = {
     error: "",
     loginType: 'local',
@@ -114,7 +114,7 @@ class LoginForm extends (PureComponent || Component)<LoginFormProps & NameInputP
                   )}
                 </FormItem>
                 <FormItem style={{ marginBottom: '16px' }}>
-                  <Button className={styles[`btn`]} type="primary" loading={loading} onClick={goFirstLogin}>登录</Button>
+                  <Button className={styles[`btn`]} type="primary" loading={loading} htmlType="submit">登录</Button>
                 </FormItem>
                 <footer style={{ lineHeight: '24px' }}>
                   <a href="" onClick={(e) => {
@@ -166,4 +166,4 @@ class LoginForm extends (PureComponent || Component)<LoginFormProps & NameInputP
 polyfill(LoginForm);
 
 
-export default Form.create<LoginFormProps & NameInputProps & FormComponentProps>()(LoginForm);
+export default Form.create<LoginFormProps>()(LoginForm);

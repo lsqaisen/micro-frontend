@@ -1,20 +1,31 @@
 {
 	"compilerOptions": {
-		"module": "es6",
-		"target": "es6",
-		"allowSyntheticDefaultImports": true,
-		"baseUrl": "types",
+		"module": "esnext",
+		"target": "esnext",
+		"moduleResolution": "node",
+		"allowSyntheticDefaultImports": false,
 		"sourceMap": true,
 		"outDir": "ts-build",
 		"jsx": "preserve",
 		"strict": true,
+		"experimentalDecorators": true,
+		"types": [
+			"node"
+		],
 		"typeRoots": [
 			"types"
 		],
 		"lib": [
 			"es2017",
 			"dom"
-		]
+		],
+		"baseUrl": "./src",
+		"paths": {
+			"@/*": [
+				"*",
+				"/components/*"
+			]
+		}
 	},
 	"exclude": [
 		"node_modules"

@@ -1,16 +1,17 @@
 import * as React from 'react';
 import QueueAnim from 'rc-queue-anim';
-import Login from './form/login-form';
-import ResetPassword from './form/reset-password-form';
+import Login, { LoginFormProps } from './form/login-form';
+import ResetPassword, { ResetPasswordProps } from './form/reset-password-form';
 import styles from './style/index.less';
 
 const { PureComponent, Component } = React;
 
-type LoginBoxProps = {
-  show: string
+export type LoginProps = {
+  loginProps: LoginFormProps;
+  resetProps: ResetPasswordProps;
 }
 
-export default class extends (PureComponent || Component)<LoginBoxProps, any> {
+export default class extends (PureComponent || Component)<LoginProps, any> {
   state = {
     type: '',
     style: {},
@@ -31,18 +32,9 @@ export default class extends (PureComponent || Component)<LoginBoxProps, any> {
       type: type === "reset" ? "login" : "reset"
     })
   }
-  componentDidMount() {
-    const box = document.getElementById('box'),
-      shadow = document.getElementById('shadow'),
-      loader = document.getElementById('loader');
-    if (box) box.style.animation = "stop 0.8s linear";
-    if (shadow) shadow.style.animation = "shadowstop 0.8s linear"
-    setTimeout(() => {
-      if (loader) loader.remove()
-    }, 700)
-  }
   render() {
     const { type, style, firstLogin } = this.state;
+    const { loginProps, resetProps } = this.props;
     return (
       <div className={styles.loginBox} >
         <QueueAnim
@@ -60,11 +52,10 @@ export default class extends (PureComponent || Component)<LoginBoxProps, any> {
             className={`${styles.box} ${type === "login" && styles.box_flip_l} ${type === "reset" && styles.box_flip_r}`}
           >
             {type === "" || type === "login" ? <Login
+              {...loginProps}
               firstLogin={firstLogin}
-              domains={[]}
               onChange={() => { }}
               changeResetPassword={this.changeResetPassword}
-              onSubmit={() => { }}
               goFirstLogin={this.goFirstLogin}
             /> :
               <ResetPassword

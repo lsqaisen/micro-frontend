@@ -6,7 +6,7 @@ import { createSelector } from 'reselect';
 import { Button } from 'antd';
 import { sub, unsub } from 'mife/bin/api';
 import withRouter from 'umi/withRouter';
-import Layout from '@/components/layouts';
+import Layout from './layout';
 import "antd/lib/style/index.less"
 
 @(withRouter as any)
@@ -29,6 +29,7 @@ export default class extends (PureComponent || Component)<any, any> {
   render() {
     const { user, children } = this.props;
     const { init } = this.state;
+    return <Layout />
     if (!init || !user || (!user.profile.data && !user.profile.err)) return null;
     else if (!!user) {
       if (!!user.profile.err) {

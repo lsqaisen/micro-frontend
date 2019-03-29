@@ -34,6 +34,7 @@
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-lifecycles-compat": "^3.0.4",
+    "react-perfect-scrollbar": "^1.4.4",
     "tslib": "^1.9.3"
   },
   "devDependencies": {

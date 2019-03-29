@@ -8,5 +8,8 @@
     "mife": "^0.0.1",
     "umi": "^2.4.4",
     "umi-plugin-react": "^1.4.2"
+  },
+  "dependencies": {
+    "react-lifecycles-compat": "^3.0.4"
   }
 }

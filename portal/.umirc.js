@@ -34,7 +34,7 @@ export default {
     "process.env.OEM_NAME": '/kubeup'
   },
   theme: {
-    "@primary-color": "#2E70FB",
+    "@primary-color": "#1557fb",
     "@sider-background-color": "#EDF0F5"
   },
   proxy: {
@@ -55,14 +55,14 @@ export default {
       "pathRewrite": { "^/lib/login": "" }
     },
     //oem
-    "/static/oem": {
-      "target": "http://localhost:8080/",
-      "changeOrigin": true,
-      "pathRewrite": { "^/static/oem": "/static/oem/kubeup" }
-    },
+    // "/static/oem": {
+    //   "target": "http://localhost:8080/",
+    //   "changeOrigin": true,
+    //   "pathRewrite": { "^/static/oem": "/static/oem/kubeup" }
+    // },
     // api
     "/api": {
-      "target": "http://192.168.1.103:30000/",
+      "target": "http://ocalhost:8080/",
       "changeOrigin": true,
       "pathRewrite": { "^/api": "/" }
     },

@@ -29,7 +29,6 @@ export default {
     }],
   ],
   hash: true,
-  copy: [{ from: './src/public/oem', to: './static/oem', toType: 'dir' },],
   chainWebpack(config, { webpack }) {
     config.resolve.extensions.add(".tsx");
   },
@@ -40,7 +39,7 @@ export default {
     "process.env.OEM_NAME": '/kubeup'
   },
   theme: {
-    "@primary-color": "#2D225A"
+    "@primary-color": "#1557fb"
   },
   proxy: {
   },

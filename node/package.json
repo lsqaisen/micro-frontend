@@ -2,10 +2,11 @@
   "name": "node",
   "scripts": {
     "start": "umi dev",
-    "build": "umi build"
+    "build": "umi build",
+    "serve": "serve ./dist"
   },
   "devDependencies": {
-    "mife": "^0.0.1",
+    "mife": "^0.0.2",
     "umi": "^2.4.4",
     "umi-plugin-react": "^1.4.2"
   },

@@ -2,7 +2,8 @@
   "name": "login",
   "scripts": {
     "start": "umi dev",
-    "build": "umi build"
+    "build": "umi build",
+    "serve": "serve ./dist"
   },
   "devDependencies": {
     "mife": "^0.0.1",

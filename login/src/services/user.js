@@ -5,7 +5,7 @@ import request from '../utils/request';
  */
 export function profile(data) {
     const { admin = '', current = '' } = data;
-    return request(`/api/profile?admin=${admin}&current=${current}`);
+    return request(`/profile?admin=${admin}&current=${current}`);
 }
 
 /**
@@ -14,7 +14,7 @@ export function profile(data) {
  */
 export function login(data) {
     const { username, password } = data;
-    return request(`/api/login?username=${username}&password=${password}`, {
+    return request(`/login?username=${username}&password=${password}`, {
         method: 'post',
         body: data
     });
@@ -42,21 +42,4 @@ export function modifyPassword(data) {
  */
 export async function relation() {
     return request('/service/auth/api/ldap/domain');
-}
-
-/**
- * 获取license信息
- */
-export function license() {
-    return request(`/api/license`);
-}
-/**
- * 延长
- * @param {string} content license 
- */
-export function active({ content }) {
-    return request(`/api/license`, {
-        method: 'post',
-        body: { content },
-    });
 }

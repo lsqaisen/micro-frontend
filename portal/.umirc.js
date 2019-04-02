@@ -34,8 +34,7 @@ export default {
     "process.env.OEM_NAME": '/kubeup'
   },
   theme: {
-    "@primary-color": "#1557fb",
-    "@sider-background-color": "#EDF0F5"
+    "primary-color": "#1557fb",
   },
   proxy: {
     //plugin

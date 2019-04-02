@@ -7575,10 +7575,10 @@ micromatch@^3.1.10, micromatch@^3.1.4, micromatch@^3.1.8:
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
 
-mife@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/mife/-/mife-0.0.1.tgz#8a3200905e9360d73a40e98ee26c3c8bb4fb86f0"
-  integrity sha512-SFyunire1yAiwuyY+HeaxHmyMrztMn5gtMQKdFvtWfUmPYXEleGi7YuhbUAxPiJFQtF1UWJ/MsuUjeRaseImVw==
+mife@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/mife/-/mife-0.0.2.tgz#aeafdcf3b47b79c628a086d12b544d82eab9eef7"
+  integrity sha512-AJ5+e9Q3KASkJ0Nl2cd8SscQ6vJ/Q/zE6gfnfUhYAXeizIhtw6ZcsJlJ2G1fgYuAbW95rXOsJcvX1qgzgkMRfA==
   dependencies:
     copy-webpack-plugin "^4.6.0"
     scriptjs "^2.5.9"

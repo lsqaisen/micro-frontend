@@ -44,14 +44,24 @@ export default {
   },
   proxy: {
     "/api": {
-      "target": "http://localhost:8080",
+      "target": "http://192.168.1.60:30000/",
       "changeOrigin": true,
-      "pathRewrite": { "^/api": "/" }
+      "pathRewrite": { "^/api": "/api" }
+    },
+    "/login": {
+      "target": "http://192.168.1.60:30000/",
+      "changeOrigin": true,
+      "pathRewrite": { "^/login": "/login" }
     },
     "/logout": {
-        "target": "http://192.168.1.103:30000/",
-        "changeOrigin": true,
-        "pathRewrite": { "^/logout": "/logout" }
+      "target": "http://192.168.1.60:30000/",
+      "changeOrigin": true,
+      "pathRewrite": { "^/logout": "/logout" }
+    },
+    "/profile": {
+      "target": "http://192.168.1.60:30000/",
+      "changeOrigin": true,
+      "pathRewrite": { "^/profile": "/profile" }
     },
   },
 }

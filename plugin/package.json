@@ -1,0 +1,16 @@
+{
+  "name": "plugin",
+  "scripts": {
+    "start": "umi dev",
+    "build": "umi build"
+  },
+  "devDependencies": {
+    "mife": "^0.0.2",
+    "umi": "^2.4.4",
+    "umi-plugin-react": "^1.4.2"
+  },
+  "dependencies": {
+    "rc-queue-anim": "^1.6.12",
+    "react-lifecycles-compat": "^3.0.4"
+  }
+}

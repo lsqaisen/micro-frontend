@@ -1,5 +1,7 @@
+const { NODE_ENV } = process.env;
 
 export default {
+  history: 'hash',
   plugins: [
     ['umi-plugin-react', {
       dva: true,
@@ -14,11 +16,12 @@ export default {
         ],
       },
       dynamicImport: {
-        webpackChunkName: false,
+        webpackChunkName: true,
+        loadingComponent: null,
       },
     }],
     ['mife', {
-      type: 'plugin',
+      type: NODE_ENV === "development" ? 'portal' : 'plugin',
       dynamicImport: true,
       publicPath: '/lib/',
       externals: {
@@ -29,10 +32,6 @@ export default {
     }],
   ],
   hash: true,
-  copy: [{ from: './src/public/oem', to: './static/oem', toType: 'dir' },],
-  chainWebpack(config, { webpack }) {
-    config.resolve.extensions.add(".tsx");
-  },
   alias: {
     '@': './src/components/'
   },
@@ -40,8 +39,33 @@ export default {
     "process.env.OEM_NAME": '/kubeup'
   },
   theme: {
-    "@primary-color": "#2D225A"
+    "@primary-color": "#1557fb"
   },
   proxy: {
+    "/lib/login": {
+      "target": "http://localhost:5000",
+      "changeOrigin": true,
+      "pathRewrite": { "^/lib/login": "" }
+    },
+    //oem
+    "/static/oem": {
+      "target": "http://localhost:5000/",
+      "changeOrigin": true,
+      "pathRewrite": { "^/static/oem": "/static/oem/kubeup" }
+    },
+    // api
+    "/api": {
+      "target": "http://192.168.1.60:30000/",
+      "changeOrigin": true,
+      "pathRewrite": { "^/api": "/" }
+    },
+    "/logout": {
+      "target": "http://192.168.1.60:30000/",
+      "changeOrigin": true,
+      "pathRewrite": { "^/logout": "/logout" }
+    },
+  },
+  chainWebpack(config, { webpack }) {
+    config.resolve.extensions.add(".tsx");
   },
 }

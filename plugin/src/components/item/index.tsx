@@ -2,7 +2,12 @@ import { Tag, Button, Tooltip, Modal } from 'antd';
 import Action from './action';
 import styles from './style/index.less';
 
+
+const ItemTypes = ['grid', 'default'];
+type ItemType = (typeof ItemTypes)[number]
+
 export type ItemProps = {
+  type?: ItemType | undefined;
   plugin: any;
   onActive: () => void;
   onDel: () => void;
@@ -18,7 +23,7 @@ function getImg(id: string) {
   return img;
 }
 
-export default ({ plugin, onActive, onDel }: ItemProps) => {
+export default ({ type = 'default', plugin, onActive, onDel }: ItemProps) => {
   const { status, spec } = plugin;
   return (
     <div className={`${styles.item} ${styles[status]}`}>

@@ -40,7 +40,7 @@ export default {
 				router.push('/login');
 			}
 		},
-		*login({ payload }, { select, call, put }) {
+		*login({ payload }, { call, put }) {
 			message.destroy()
 			const { err } = yield call(login, payload);
 			if (!!err) {

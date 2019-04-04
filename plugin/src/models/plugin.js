@@ -6,7 +6,7 @@ import { message } from 'antd';
 export default {
 	namespace: 'plugin',
 	state: {
-		active: false,
+		loading: false,
 		data: [],
 	},
 	subscriptions: {
@@ -16,13 +16,25 @@ export default {
 	},
 	effects: {
 		*plugins(_, { call, put }) {
+			yield put({
+				type: 'save',
+				payload: {
+					loading: true,
+				}
+			})
 			const { data, err } = yield call(plugins);
 			if (!!err) {
 				message.error(err, 5)
+				yield put({
+					type: 'save',
+					payload: {
+						loading: false,
+					}
+				})
 			} else {
 				yield put({
 					type: 'save',
-					payload: { data: (data || {}).plugins || [] }
+					payload: { loading: false, data: (data || {}).plugins || [] }
 				});
 			}
 		},
@@ -42,9 +54,11 @@ export default {
 				yield put({ type: 'plugins' })
 			}
 		},
-		*auto({ payload }, { call, select, put }) {
+		*auto(_, { select, put }) {
 			do {
 				yield delay(5000);
+				const loading = yield select(_ => _.plugin.loading);
+				if (loading) continue;
 				const { data: _plugins } = yield select(_ => _.plugin);
 				if ((_plugins || []).some(v => v.status !== "active" && v.status !== "inactive")) {
 					yield put({ type: 'plugins' });

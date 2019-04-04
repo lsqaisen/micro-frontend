@@ -62,7 +62,7 @@ export default ({ status, always, onDel, onActive, ...props }: ActionProps) => {
             onOk: onDel,
           })
         },
-        text: "激活中，点击取消",
+        text: [<Icon key="loading" type="loading" />, "激活中，点击取消"],
       }
       break;
     case 'uninstalling':

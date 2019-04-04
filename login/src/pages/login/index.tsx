@@ -7,7 +7,7 @@ import Login from "@/components";
   [
     (props: any) => props.user.isLogin,
     (props: any) => ({
-      [`user/login`]: !!props.loading.effects['user/login'],
+      [`user/login`]: !!props.loading.effects['user/login'] || !!props.loader.effects['user/profile'],
       [`user/resetPassword`]: !!props.loading.effects[`user/resetPassword`],
       [`user/login&user/modifyPassword`]: !!props.loading.effects['user/login'] || !!props.loading.effects[`user/modifyPassword`],
     }),
@@ -88,7 +88,7 @@ export default class extends (PureComponent || Component)<any, any> {
   componentWillReceiveProps(nextProps) {
     this.toDashboard(nextProps);
   }
-  
+
   componentDidMount() {
     const box = document.getElementById('box'),
       shadow = document.getElementById('shadow'),
@@ -99,7 +99,7 @@ export default class extends (PureComponent || Component)<any, any> {
       if (loader) loader.remove()
     }, 700)
   }
-  
+
   render() {
     const { domains } = this.state;
     const { loading } = this.props;

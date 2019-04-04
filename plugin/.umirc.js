@@ -71,9 +71,9 @@ export default {
       "pathRewrite": { "^/logout": "/logout" }
     },
     "/profile": {
-        "target": "http://192.168.1.60:30000/",
-        "changeOrigin": true,
-        "pathRewrite": { "^/profile": "/profile" }
+      "target": "http://192.168.1.60:30000/",
+      "changeOrigin": true,
+      "pathRewrite": { "^/profile": "/profile" }
     },
   },
   chainWebpack(config, { webpack }) {

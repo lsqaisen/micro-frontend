@@ -33,7 +33,7 @@ export default class extends (PureComponent || Component)<any, any> {
     else if (!!user) {
       return (
         <LocaleProvider locale={zhCN}>
-          <div style={{ marginLeft: '256px', padding: '24px' }}>
+          <div style={{ padding: '24px', marginLeft: 256, position: 'relative', height: '100%' }}>
             {children}
           </div>
         </LocaleProvider>

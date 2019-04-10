@@ -1,9 +1,8 @@
 import { PureComponent, Component } from 'react';
 import { connect } from 'dva';
-import Link from 'umi/link';
-import router from 'umi/router';
 import { createSelector } from 'reselect';
-import { Button } from 'antd';
+import { LocaleProvider } from 'antd';
+import zhCN from 'antd/lib/locale-provider/zh_CN';
 import { sub, unsub } from 'mife/bin/api';
 import withRouter from 'umi/withRouter';
 
@@ -28,8 +27,17 @@ export default class extends (PureComponent || Component)<any, any> {
     const { user, children } = this.props;
     const { init } = this.state;
     if (!init || !user || (!user.profile.data && !user.profile.err)) return null;
-    else if (!!user) {
+    else if (!!user.profile.err) {
       return children
+    }
+    else if (!!user) {
+      return (
+        <LocaleProvider locale={zhCN}>
+          <div style={{ marginLeft: 256, position: 'relative', height: '100%' }}>
+            {children}
+          </div>
+        </LocaleProvider>
+      )
     }
   }
 }

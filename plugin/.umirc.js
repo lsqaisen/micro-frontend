@@ -75,6 +75,11 @@ export default {
       "changeOrigin": true,
       "pathRewrite": { "^/profile": "/profile" }
     },
+    "/service": {
+      "target": "http://192.168.1.60:30000/",
+      "changeOrigin": true,
+      "pathRewrite": { "^/service": "/service" }
+    },
   },
   chainWebpack(config, { webpack }) {
     config.resolve.extensions.add(".tsx");

@@ -2,8 +2,7 @@
   "name": "node",
   "scripts": {
     "start": "umi dev",
-    "build": "umi build",
-    "serve": "serve ./dist"
+    "build": "umi build"
   },
   "devDependencies": {
     "mife": "^0.0.2",
@@ -11,6 +10,10 @@
     "umi-plugin-react": "^1.4.2"
   },
   "dependencies": {
-    "react-lifecycles-compat": "^3.0.4"
+    "@antv/g2": "^3.5.3",
+    "rc-queue-anim": "^1.6.12",
+    "react-lifecycles-compat": "^3.0.4",
+    "react-perfect-scrollbar": "^1.4.4",
+    "react-time-format": "^0.0.5"
   }
 }

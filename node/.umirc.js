@@ -13,6 +13,7 @@ export default {
       routes: {
         exclude: [
           /model/,
+          /basic/
         ],
       },
       dynamicImport: {
@@ -39,7 +40,10 @@ export default {
     "process.env.OEM_NAME": '/kubeup'
   },
   theme: {
-    "@primary-color": "#1557fb"
+    "primary-color": "#1557fb"
+  },
+  chainWebpack(config, { webpack }) {
+    config.resolve.extensions.add(".tsx");
   },
   proxy: {
     "/lib/login": {
@@ -55,17 +59,29 @@ export default {
     },
     // api
     "/api": {
-      "target": "http://192.168.1.60:30000/",
+      "target": "http://192.168.1.106:30000/",
       "changeOrigin": true,
-      "pathRewrite": { "^/api": "/" }
+      "pathRewrite": { "^/api": "/api" }
+    },
+    "/login": {
+      "target": "http://192.168.1.106:30000/",
+      "changeOrigin": true,
+      "pathRewrite": { "^/login": "/login" }
     },
     "/logout": {
-      "target": "http://192.168.1.60:30000/",
+      "target": "http://192.168.1.106:30000/",
       "changeOrigin": true,
       "pathRewrite": { "^/logout": "/logout" }
     },
-  },
-  chainWebpack(config, { webpack }) {
-    config.resolve.extensions.add(".tsx");
+    "/profile": {
+      "target": "http://192.168.1.106:30000/",
+      "changeOrigin": true,
+      "pathRewrite": { "^/profile": "/profile" }
+    },
+    "/service": {
+      "target": "http://192.168.1.106:30000/",
+      "changeOrigin": true,
+      "pathRewrite": { "^/service": "/service" }
+    },
   },
 }

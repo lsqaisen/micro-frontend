@@ -79,7 +79,6 @@ export default class extends (PureComponent || Component)<any, any> {
   }
 
   toDashboard = (props) => {
-    console.log(props)
     if (props.isLogin) {
       this.props.dispatch(routerRedux.push('/dashboard'));
     }

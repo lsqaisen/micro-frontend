@@ -1,0 +1,143 @@
+import { PureComponent, Component } from 'react';
+import { Form, Input, Radio } from 'antd';
+import { FormComponentProps } from 'antd/lib/form';
+import VCenterInput from './input/vcenter-input';
+import AliyunInput from './input/aliyun-input';
+
+const TextArea = Input.TextArea;
+const RadioGroup = Radio.Group;
+const FormItem = Form.Item;
+
+export type AddClusterFormProps = {
+
+} & FormComponentProps
+
+@(Form.create() as any)
+class AddClusterForm extends (PureComponent || Component)<AddClusterFormProps, any> {
+  state = {
+    type: 'vcenter'
+  }
+
+  render() {
+    const { getFieldDecorator } = this.props.form;
+    const { type } = this.state;
+    const formItemLayout = {
+      labelCol: {
+        span: 3,
+      },
+      wrapperCol: {
+        span: 21,
+      },
+    };
+    return (
+      <Form >
+        <FormItem
+          label="名称"
+          required
+          {...formItemLayout}
+        >
+          {getFieldDecorator('name', {
+            rules: [
+              { required: true, message: '名称不能为空!' },
+              {
+                validator: (rule, value, callback) => {
+                  if (!!value) {
+                    if (value.length > 63) {
+                      callback('名称长度为1~63！');
+                    } else if (!/^[a-z0-9-]{1,}$/.test(value)) {
+                      callback(`名称由小写字母、数字和字符‘-’组成！`);
+                    } else if (/^\d/.test(value)) {
+                      callback(`开始字符不能是数字`);
+                    } else if (/^[-]/.test(value) || /[-]$/.test(value)) {
+                      callback('字符‘-’不能为开始和结束字符！');
+                    }
+                  }
+                  callback();
+                }
+              }
+            ]
+          })(
+            <Input placeholder="名称" />
+          )}
+        </FormItem>
+        <FormItem
+          label="备注"
+          {...formItemLayout}
+        >
+          {getFieldDecorator('desc')(
+            <TextArea autosize={{ minRows: 4, maxRows: 4 }} placeholder="请输入备注" />
+          )}
+        </FormItem>
+        <FormItem
+          label="类型"
+          required
+          {...formItemLayout}
+        >
+          {getFieldDecorator('type', {
+            initialValue: type,
+            rules: [{ required: true, message: '必须选择集群类型!' }]
+          })(
+            <RadioGroup onChange={(v) => { this.setState({ type: v.target.value }) }}>
+              <Radio value="vcenter">vcenter</Radio>
+              <Radio value="aliyun">aliyun</Radio>
+            </RadioGroup>
+          )}
+        </FormItem>
+        {type === 'vcenter' ?
+          <FormItem
+            {...formItemLayout}
+            label="配置"
+            validateStatus=""
+            help=""
+            required>
+            {getFieldDecorator('vcenter', {
+              rules: [{
+                validator: (rule, value, callback) => {
+                  console.log(value)
+                  if (!value) callback('数据有误')
+                  else {
+                    if (!value.name) {
+                      callback('用户名不能为空！');
+                    }
+                    if (!value.password) {
+                      callback('用户密码不能为空！');
+                    }
+                    if (!value.url) {
+                      callback('集群地址不能为空！');
+                    }
+                  }
+                  callback();
+                }
+              }]
+            })(
+              <VCenterInput />
+            )}
+          </FormItem> : <FormItem
+            {...formItemLayout}
+            label="配置"
+          >
+            {getFieldDecorator('aliyun', {
+              rules: [{
+                validator: (rule, value, callback) => {
+                  if (!value) callback('数据有误')
+                  else {
+                    if (!value.key) {
+                      callback('key不能为空！');
+                    }
+                    if (!value.secret) {
+                      callback('secret不能为空！');
+                    }
+                  }
+                  callback();
+                }
+              }],
+            })(
+              <AliyunInput />
+            )}
+          </FormItem>}
+      </Form>
+    )
+  }
+}
+
+export default AddClusterForm;

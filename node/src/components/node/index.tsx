@@ -21,7 +21,7 @@ interface INode {
 
 interface NodeTableData {
   total: number;
-  data: INode[];
+  data?: INode[];
 }
 
 export type NodeProps = {
@@ -71,14 +71,13 @@ class Node extends (PureComponent || Component)<NodeProps, any> {
   }
   render() {
     const { loading, node, children } = this.props;
+    const { total = 0, data = [] } = node;
     return (
       <Table<INode>
-        pagination={{
-          total: node.total,
-        }}
+        pagination={{ total }}
         loading={loading}
         columns={this.columns}
-        dataSource={node.data}
+        dataSource={data.map((v: INode) => ({ key: v.name, ...v }))}
         footer={() => children}
       />
     )

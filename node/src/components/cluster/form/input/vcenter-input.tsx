@@ -1,30 +1,27 @@
 import { PureComponent, Component, Fragment } from 'react';
 import { Form, Input } from 'antd';
-import { InputProps } from 'antd/lib/input';
-import { FormComponentProps } from 'antd/lib/form'
+import FormInput, { FormInputProps } from '@/components/forminput';
 
 const FormItem = Form.Item;
 
-type ValueType = {
-	name?: string | undefined,
+interface ValueType {
+	name?: string,
 	password?: string | undefined,
 	url?: string | undefined,
 }
 
-@(Form.create({
-	onFieldsChange: (props, fields) => {
-		console.log(props, fields)
-	},
-	onValuesChange: ({ onChange = (v: any) => { } }: InputProps, changedValues, allValues) => {
-		
-		onChange(Object.assign({}, changedValues, allValues) as any);
+export type VCenterProps = FormInputProps<ValueType>
+
+@(FormInput as any)
+class VCenterInput extends (PureComponent || Component)<VCenterProps, any> {
+	static readonly defaultProps: VCenterProps = {
+		form: {} as any,
+		value: {} as any
 	}
-}) as any)
-class VCenterInput extends (PureComponent || Component)<InputProps & FormComponentProps & any, any> {
 	render() {
-		const { value = {}, form } = this.props;
+		const { value, form } = this.props;
 		const { getFieldDecorator } = form;
-		const { name = undefined, password = undefined, url = undefined } = (value as ValueType) || {};
+		const { name, password, url } = (value as ValueType);
 		return (
 			<Fragment>
 				<FormItem required>

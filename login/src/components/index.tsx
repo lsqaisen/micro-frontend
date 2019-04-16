@@ -6,9 +6,11 @@ import styles from './style/index.less';
 
 const { PureComponent, Component } = React;
 
-export type LoginProps = {
-  loginProps: LoginFormProps;
-  resetProps: ResetPasswordProps;
+export interface LoginProps extends LoginFormProps, ResetPasswordProps {
+  loginLoading?: boolean;
+  resetLoading?: boolean;
+  // loginProps?: LoginFormProps;
+  // resetProps?: ResetPasswordProps;
 }
 
 export default class extends (PureComponent || Component)<LoginProps, any> {
@@ -17,24 +19,32 @@ export default class extends (PureComponent || Component)<LoginProps, any> {
     style: {},
     firstLogin: false
   }
-  goFirstLogin = () => {
-    const { firstLogin } = this.state;
+  changeIsFirstLogin = (isFirstLogin?: boolean) => {
     this.setState({
-      style: firstLogin ? { height: '328px', transition: "height .4s" } : { height: '368px', transition: "height .4s" },
-      firstLogin: !firstLogin,
+      style: !isFirstLogin ? { height: '328px', transition: "height .4s" } : { height: '368px', transition: "height .4s" },
     })
   }
-  changeResetPassword = () => {
+  changeIsResetPassword = (isResetPassword?: boolean) => {
     const { type } = this.state;
     this.setState({
-      style: type === "reset" ? { height: '328px', transition: "height .4s" } : { height: '418px', transition: "height .4s" },
-      firstLogin: false,
+      style: !isResetPassword ? { height: '328px', transition: "height .4s" } : { height: '418px', transition: "height .4s" },
       type: type === "reset" ? "login" : "reset"
     })
   }
   render() {
-    const { type, style, firstLogin } = this.state;
-    const { loginProps, resetProps } = this.props;
+    const { type, style } = this.state;
+    const { loginLoading, resetLoading } = this.props;
+    const loginProps: LoginFormProps = {
+      loading: loginLoading,
+      changeIsFirstLogin: this.changeIsFirstLogin,
+      goResetPassword: () => this.changeIsResetPassword(true),
+      ...this.props,
+    };
+    const resetProps: ResetPasswordProps = {
+      loading: resetLoading,
+      goLogin: () => this.changeIsResetPassword(false),
+      ...this.props,
+    }
     return (
       <div className={styles.loginBox} >
         <QueueAnim
@@ -51,16 +61,12 @@ export default class extends (PureComponent || Component)<LoginProps, any> {
             style={{ ...style }}
             className={`${styles.box} ${type === "login" && styles.box_flip_l} ${type === "reset" && styles.box_flip_r}`}
           >
-            {type === "" || type === "login" ? <Login
-              {...loginProps}
-              firstLogin={firstLogin}
-              onChange={() => { }}
-              changeResetPassword={this.changeResetPassword}
-              goFirstLogin={this.goFirstLogin}
-            /> :
-              <ResetPassword
-                changeLogin={this.changeResetPassword}
-              />}
+            {type === "" || type === "login" ? (
+              <Login {...loginProps} />
+            ) : (
+                <ResetPassword {...resetProps} />
+              )
+            }
           </div>
         </QueueAnim>
       </div >

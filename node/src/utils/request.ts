@@ -1,14 +1,13 @@
-import fetch from 'dva/fetch';
+import 'dva/fetch';
 
-function ab2str(buf) {
+function ab2str(buf: BufferSource | Blob | string) {
 	return new Promise((resolve, reject) => {
 		let b = new Blob([buf], {
 			type: 'text/plain'
 		});
-		//将Blob 对象转换成字符串
-		var reader = new FileReader();
+		var reader: any = new FileReader();
 		reader.readAsText(b, 'utf-8');
-		reader.onload = function (e) {
+		reader.onload = function () {
 			try {
 				resolve(JSON.parse(reader.result))
 			} catch (error) {
@@ -18,7 +17,7 @@ function ab2str(buf) {
 	})
 }
 
-async function parseJSON(response) {
+async function parseJSON(response: Response) {
 	const X_Total_Count = response.headers.get('X-Total-Count');
 	let buf = await response.arrayBuffer();
 	if (X_Total_Count !== null && X_Total_Count !== undefined) {
@@ -30,15 +29,15 @@ async function parseJSON(response) {
 	return ab2str(buf);
 }
 
-function errorParse(response) {
+function errorParse(response: Response) {
 	return new Promise(async (resolve, reject) => {
 		let buf = await response.arrayBuffer();
-		let data = await ab2str(buf);
+		let data: any = await ab2str(buf);
 		resolve(typeof data === 'object' ? data.error || JSON.stringify(data) : data)
 	})
 }
 
-async function checkStatus(response) {
+async function checkStatus(response: Response) {
 	if (response.status >= 200 && response.status < 300) {
 		return response;
 	}
@@ -49,12 +48,16 @@ async function checkStatus(response) {
 	throw error;
 }
 
-export default function request(url, options, upload = false) {
+interface RequestOptions extends RequestInit {
+	body?: any
+}
+
+export default function request(url: string, options?: RequestOptions, upload?: boolean) {
 	const defaultOptions = {
 		credentials: 'include',
 		mode: 'cors',
 	};
-	const newOptions = { ...defaultOptions, ...options };
+	const newOptions: any = { ...defaultOptions, ...options };
 	if ((newOptions.method || '').toLocaleUpperCase() === 'POST' ||
 		(newOptions.method || '').toLocaleUpperCase() === 'PUT' ||
 		(newOptions.method || '').toLocaleUpperCase() === 'DELETE'
@@ -76,8 +79,8 @@ export default function request(url, options, upload = false) {
 	return fetch(`${url}`, newOptions)
 		.then(checkStatus)
 		.then(parseJSON)
-		.then((data) => ({ data }))
-		.catch((err) => {
+		.then((data: any) => ({ data }))
+		.catch((err: any) => {
 			return { err };
 		})
 }

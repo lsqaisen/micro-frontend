@@ -4,20 +4,12 @@ import { InputProps } from 'antd/lib/input';
 import { polyfill } from 'react-lifecycles-compat';
 import styles from './style/index.less';
 
-export type EmailInputProps = {
-  error?: string;
-  value?: string;
-  onChange?: (value: string) => void;
-  onCode?: (value: string | undefined) => void;
-} & InputProps
+export interface EmailInputProps extends InputProps {
+  sending?: boolean;
+  sendCode?: (value: string | undefined) => any;
+}
 
 class EmailInput extends (PureComponent || Component)<EmailInputProps, any> {
-  static defaultProps = {
-    error: '',
-    value: '',
-    onChange: () => { },
-    onCode: () => { },
-  }
   state = {
     sending: false,
     time: 0,
@@ -31,33 +23,29 @@ class EmailInput extends (PureComponent || Component)<EmailInputProps, any> {
     }, 1000)
   }
 
-  code = async (e: React.MouseEvent) => {
+  sendCode = async (e: React.MouseEvent) => {
     e.preventDefault();
-    const { value, onCode = () => { } } = this.props;
-    this.setState({ sending: true })
-    try {
-      await onCode(value);
-      this.setState({ time: 60, sending: false })
-      this.waitCode();
-    } catch (error) {
-      this.setState({ sending: false })
-      Modal.error({ title: '发送验证码失败！', content: `${error}` })
+    const { value, sendCode } = this.props;
+    let error = await sendCode!(value as string);
+    if (!!error) {
+      this.setState({ time: 3 })
+    } else {
+      this.setState({ time: 60 })
     }
+    this.waitCode();
   }
 
   render() {
-    const { error, size, value, onChange = () => { }, ...props } = this.props;
-    const { sending, time } = this.state;
-    const disabled = !value || !(!time && !error);
+    const { value, sending, ...props } = this.props;
+    const { time } = this.state;
+    const disabled = !value || !!time;
     return (
       <Input
         {...props}
         className={styles.email_input}
-        size={size}
+        value={value}
         prefix={<Icon type="mail" />}
         placeholder="请输入邮箱"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
         addonAfter={
           <Button
             style={{ width: '102px' }}
@@ -65,34 +53,10 @@ class EmailInput extends (PureComponent || Component)<EmailInputProps, any> {
             type="primary"
             loading={sending}
             disabled={disabled}
-            onClick={this.code}
+            onClick={this.sendCode}
           >{sending ? '发送中' : !time ? `发送验证码` : `${time}秒`}</Button>
         }
       />
-    )
-    return (
-      <Row>
-        <Col style={{ width: 'calc(100% - 102px)', float: 'left' }}>
-          <Input
-            size={size}
-            prefix={<Icon type="mail" />}
-            placeholder="请输入邮箱"
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            addonAfter={
-              <Button
-                style={{ width: '102px' }}
-                ghost
-                type="primary"
-                loading={sending}
-                disabled={disabled}
-                onClick={this.code}
-              >{sending ? '发送中' : !time ? `发送验证码` : `${time}秒`}</Button>
-
-            }
-          />
-        </Col>
-      </Row >
     )
   }
 }

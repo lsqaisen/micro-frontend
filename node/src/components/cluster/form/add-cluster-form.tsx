@@ -8,27 +8,38 @@ const TextArea = Input.TextArea;
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item;
 
-export type AddClusterFormProps = {
-
-} & FormComponentProps
-
 @(Form.create() as any)
-class AddClusterForm extends (PureComponent || Component)<AddClusterFormProps, any> {
+class AddClusterForm extends (PureComponent || Component)<FormComponentProps & any, any> {
+  static readonly defaultProps = {
+    formItemLayout: {
+      labelCol: { span: 3, },
+      wrapperCol: { span: 21, },
+    }
+  };
+
   state = {
     type: 'vcenter'
   }
 
+  checkName = (rule: any, value: any, callback: any) => {
+    if (!!value) {
+      if (value.length > 63) {
+        callback('名称长度为1~63！');
+      } else if (!/^[a-z0-9-]{1,}$/.test(value)) {
+        callback(`名称由小写字母、数字和字符‘-’组成！`);
+      } else if (/^\d/.test(value)) {
+        callback(`开始字符不能是数字`);
+      } else if (/^[-]/.test(value) || /[-]$/.test(value)) {
+        callback('字符‘-’不能为开始和结束字符！');
+      }
+    }
+    callback();
+  }
+
   render() {
-    const { getFieldDecorator } = this.props.form;
+    const { formItemLayout, form } = this.props;
+    const { getFieldDecorator } = form;
     const { type } = this.state;
-    const formItemLayout = {
-      labelCol: {
-        span: 3,
-      },
-      wrapperCol: {
-        span: 21,
-      },
-    };
     return (
       <Form >
         <FormItem
@@ -39,22 +50,7 @@ class AddClusterForm extends (PureComponent || Component)<AddClusterFormProps, a
           {getFieldDecorator('name', {
             rules: [
               { required: true, message: '名称不能为空!' },
-              {
-                validator: (rule, value, callback) => {
-                  if (!!value) {
-                    if (value.length > 63) {
-                      callback('名称长度为1~63！');
-                    } else if (!/^[a-z0-9-]{1,}$/.test(value)) {
-                      callback(`名称由小写字母、数字和字符‘-’组成！`);
-                    } else if (/^\d/.test(value)) {
-                      callback(`开始字符不能是数字`);
-                    } else if (/^[-]/.test(value) || /[-]$/.test(value)) {
-                      callback('字符‘-’不能为开始和结束字符！');
-                    }
-                  }
-                  callback();
-                }
-              }
+              { validator: this.checkName }
             ]
           })(
             <Input placeholder="名称" />
@@ -91,46 +87,18 @@ class AddClusterForm extends (PureComponent || Component)<AddClusterFormProps, a
             help=""
             required>
             {getFieldDecorator('vcenter', {
-              rules: [{
-                validator: (rule, value, callback) => {
-                  console.log(value)
-                  if (!value) callback('数据有误')
-                  else {
-                    if (!value.name) {
-                      callback('用户名不能为空！');
-                    }
-                    if (!value.password) {
-                      callback('用户密码不能为空！');
-                    }
-                    if (!value.url) {
-                      callback('集群地址不能为空！');
-                    }
-                  }
-                  callback();
-                }
-              }]
+              rules: []
             })(
               <VCenterInput />
             )}
           </FormItem> : <FormItem
             {...formItemLayout}
             label="配置"
+            validateStatus=""
+            help=""
           >
             {getFieldDecorator('aliyun', {
-              rules: [{
-                validator: (rule, value, callback) => {
-                  if (!value) callback('数据有误')
-                  else {
-                    if (!value.key) {
-                      callback('key不能为空！');
-                    }
-                    if (!value.secret) {
-                      callback('secret不能为空！');
-                    }
-                  }
-                  callback();
-                }
-              }],
+              rules: [],
             })(
               <AliyunInput />
             )}

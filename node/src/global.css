@@ -1,4 +1,5 @@
 @import './iconfont.css';
+
 html,
 body,
 #root {
@@ -6,4 +7,16 @@ body,
   height: 100%;
   font-family: PingFangSC-Light, 'helvetica neue', arial, 'hiragino sans gb', 'microsoft yahei ui', 'microsoft yahei', simsun, sans-serif;
   background-color: #f8f8f8;
+}
+
+
+.node-actions {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid #e9e9e9;
+  padding: 10px 16px;
+  background: #fff;
+  text-align: right;
 }

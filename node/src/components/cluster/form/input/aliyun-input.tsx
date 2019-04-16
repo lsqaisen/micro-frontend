@@ -1,50 +1,47 @@
-import { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Row, Col, Input } from 'antd';
+import { PureComponent, Component, Fragment } from 'react';
+import { Form, Input } from 'antd';
+import FormInput, { FormInputProps } from '@/components/forminput';
 
-class AliyunInput extends Component {
-    constructor(props) {
-        super(props);
-    }
+const FormItem = Form.Item;
 
-    render() {
-        const { labelCol, wrapperCol, value = {}, onChange, ...props } = this.props;
-        const { key = '', secret = '' } = value;
-        return (
-            <div>
-                <Row style={{ marginBottom: 12 }}>
-                    {/* <Col {...labelCol }>
-                        <label className="input-label">账户名</label>
-                    </Col> */}
-                    <Col {...wrapperCol}>
-                        <Input
-                            placeholder="key"
-                            type="text"
-                            size="large"
-                            value={key}
-                            onChange={(v) => { onChange(Object.assign({}, value, { name: v.target.value })) }}
-                            style={{ width: '100%' }}
-                        />
-                    </Col>
-                </Row>
-                <Row style={{ marginBottom: 12 }}>
-                    {/* <Col {...labelCol }>
-                        <label className="input-label">密码</label>
-                    </Col> */}
-                    <Col {...wrapperCol}>
-                        <Input
-                            placeholder="secret"
-                            type="text"
-                            size="large"
-                            value={secret}
-                            onChange={(v) => { onChange(Object.assign({}, value, { password: v.target.value })) }}
-                            style={{ width: '100%' }}
-                        />
-                    </Col>
-                </Row>
-            </div>
-        )
-    }
+interface ValueType {
+	key?: string,
+	secret?: string,
+}
+
+export type AliyunProps = FormInputProps<ValueType>
+
+@(FormInput as any)
+class AliyunInput extends (PureComponent || Component)<AliyunProps, any> {
+	static readonly defaultProps: AliyunProps = {
+		form: {} as any,
+		value: {} as any
+	}
+	render() {
+		const { value, form } = this.props;
+		const { getFieldDecorator } = form;
+		const { key = '', secret = '' } = (value as ValueType) || {};
+		return (
+			<Fragment>
+				<FormItem required>
+					{getFieldDecorator('key', {
+						initialValue: key,
+						rules: [{ required: true, message: 'key不能为空！!' }]
+					})(
+						<Input placeholder="key" />
+					)}
+				</FormItem>
+				<FormItem required>
+					{getFieldDecorator('secret', {
+						initialValue: secret,
+						rules: [{ required: true, message: 'secret不能为空!' }]
+					})(
+						<Input placeholder="secret" />
+					)}
+				</FormItem>
+			</Fragment>
+		)
+	}
 }
 
 export default AliyunInput;

@@ -1,5 +1,5 @@
 import { PureComponent, Component } from 'react';
-import { Form, Input, Icon, Button } from 'antd';
+import { Form, Input, Icon, Button, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form'
 import { polyfill } from 'react-lifecycles-compat';
 import QueueAnim from 'rc-queue-anim';
@@ -7,38 +7,58 @@ import Logo from '../logo';
 import NameInput from '../input/name-input';
 import { NameInputProps } from '../input/name-input';
 import { checkPassword } from './checks';
+import { LoginRequest, ModifyPasswordRequest } from '@/services/user';
 import styles from './style/index.less';
 
 const FormItem = Form.Item;
 
-export type LoginFormProps = {
+export interface LoginFormProps {
+  domains: any[];
   loading?: boolean;
-  firstLogin?: boolean;
-  formItemLayout?: object;
-  changeResetPassword: () => void;
-  onSubmit: (values: any) => any;
-  goFirstLogin: (e: React.MouseEvent) => void;
-} & NameInputProps & FormComponentProps;
+  goResetPassword?: () => void;
+  changeIsFirstLogin?: (isFirstLogin?: boolean) => void;
+  onLogin?: (values: LoginRequest) => any;
+  modifyPassword?: (values: ModifyPasswordRequest) => any;
+};
 
-class LoginForm extends (PureComponent || Component)<LoginFormProps, any> {
+class LoginForm extends (PureComponent || Component)<LoginFormProps & FormComponentProps, any> {
   state = {
-    error: "",
+    isFirstLogin: false,
     loginType: 'local',
+    old_password: '',
   }
 
   _onSubmit: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement> = e => {
     e.preventDefault();
-    const { form: { validateFields }, onSubmit, goFirstLogin } = this.props;
-    this.setState({ error: '' })
+    const { form: { validateFields }, onLogin, modifyPassword, changeIsFirstLogin } = this.props;
+    const { isFirstLogin, old_password } = this.state;
     validateFields(async (err, values) => {
       if (!err) {
         try {
-          let response = await onSubmit(values);
-          if (response.code === 203) {
-            goFirstLogin(values);
+          if (!isFirstLogin) {
+            let code = await onLogin!(values);
+            if (code === 203) {
+              this.setState({
+                isFirstLogin: true,
+                old_password: values.password,
+              }, () => changeIsFirstLogin!(true))
+            }
+          } else {
+            let data: ModifyPasswordRequest = {
+              username: values.username,
+              old_password: old_password,
+              new_password: values.new_password,
+            }
+            let error = await modifyPassword!(data);
+            if (!error) {
+              message.success('密码修改成功！')
+              await onLogin!({
+                username: data.username,
+                password: data.new_password,
+              } as LoginRequest);
+            }
           }
         } catch (error) {
-          this.setState({ error })
         }
       }
     })
@@ -55,9 +75,9 @@ class LoginForm extends (PureComponent || Component)<LoginFormProps, any> {
   }
 
   render() {
-    const { form, domains, loading, firstLogin, changeResetPassword, goFirstLogin } = this.props;
-    const { getFieldDecorator, setFieldsValue } = form;
-    const { error, loginType } = this.state;
+    const { form, domains, loading, changeIsFirstLogin, goResetPassword } = this.props;
+    const { getFieldDecorator } = form;
+    const { loginType, isFirstLogin } = this.state;
     return (
       <QueueAnim
         delay={600}
@@ -76,8 +96,7 @@ class LoginForm extends (PureComponent || Component)<LoginFormProps, any> {
               rules: [{
                 whitespace: true,
               }, {
-                required: true,
-                message: '请输入用户名',
+                required: true, message: '请输入用户名',
               }, {
                 validator: (rule, value, callback) => {
                   if (value && loginType === 'relation') {
@@ -89,7 +108,7 @@ class LoginForm extends (PureComponent || Component)<LoginFormProps, any> {
                 }
               }],
             })(
-              <NameInput disabled={firstLogin} domains={domains} />
+              <NameInput disabled={isFirstLogin} domains={domains} />
             )}
           </FormItem>
           <QueueAnim
@@ -101,7 +120,7 @@ class LoginForm extends (PureComponent || Component)<LoginFormProps, any> {
               { opacity: [1, 0] }
             ]}
           >
-            {!firstLogin ? (
+            {!isFirstLogin ? (
               <div className={styles.item} key="password">
                 <FormItem key="password">
                   {getFieldDecorator('password', {
@@ -117,9 +136,9 @@ class LoginForm extends (PureComponent || Component)<LoginFormProps, any> {
                   <Button className={styles[`btn`]} type="primary" loading={loading} htmlType="submit">登录</Button>
                 </FormItem>
                 <footer style={{ lineHeight: '24px' }}>
-                  <a href="" onClick={(e) => {
+                  <a href="#" onClick={(e) => {
                     e.preventDefault();
-                    changeResetPassword();
+                    goResetPassword!()
                   }} >忘记密码</a>
                 </footer>
               </div>
@@ -146,11 +165,11 @@ class LoginForm extends (PureComponent || Component)<LoginFormProps, any> {
                   )}
                 </FormItem>
                 <FormItem style={{ marginBottom: '16px' }}>
-                  <Button type="primary" loading={loading} onClick={goFirstLogin} style={{ width: '186px' }}>重置密码并登录</Button>
+                  <Button style={{ width: '186px' }} type="primary" loading={loading} htmlType="submit">修改密码并登录</Button>
                   <footer style={{ float: "right", lineHeight: '40px' }}>
-                    <a href="" onClick={(e) => {
+                    <a href="#" onClick={(e) => {
                       e.preventDefault();
-                      goFirstLogin(e);
+                      changeIsFirstLogin!(false);
                     }} >返回</a>
                   </footer>
                 </FormItem>

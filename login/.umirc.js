@@ -1,5 +1,7 @@
+const { NODE_ENV } = process.env;
 
 export default {
+  history: 'hash',
   plugins: [
     ['umi-plugin-react', {
       dva: true,
@@ -11,14 +13,16 @@ export default {
       routes: {
         exclude: [
           /model/,
+          /basic/
         ],
       },
       dynamicImport: {
-        webpackChunkName: false,
+        webpackChunkName: true,
+        loadingComponent: null,
       },
     }],
     ['mife', {
-      type: 'plugin',
+      type: NODE_ENV === "development" ? 'portal' : 'plugin',
       dynamicImport: true,
       publicPath: '/lib/',
       externals: {
@@ -30,36 +34,43 @@ export default {
   ],
   hash: true,
   copy: [{ from: './src/public/oem', to: './static/oem', toType: 'dir' },],
-  chainWebpack(config, { webpack }) {
-    config.resolve.extensions.add(".tsx");
-  },
   alias: {
     '@': './src/components/'
   },
   define: {
-    "process.env.OEM_NAME": '/kubeup'
+    "process.env.OEM_NAME": '/kubeup',
+    "process.env.VERSION": new Date().getTime(),
   },
   theme: {
-    "@primary-color": "#1557fb"
+    "primary-color": "#1557fb"
+  },
+  chainWebpack(config, { webpack }) {
+    config.resolve.extensions
+      .add(".tsx")
+      .prepend(".tsx");
+    config.resolve.extensions
+      .add(".ts")
+      .prepend(".ts");
   },
   proxy: {
-    "/api": {
-      "target": "http://192.168.1.60:30000/",
+    // api
+    "/service": {
+      "target": "http://192.168.1.103:30000/",
       "changeOrigin": true,
-      "pathRewrite": { "^/api": "/api" }
+      "pathRewrite": { "^/service": "/service" }
     },
     "/login": {
-      "target": "http://192.168.1.60:30000/",
+      "target": "http://192.168.1.103:30000/",
       "changeOrigin": true,
       "pathRewrite": { "^/login": "/login" }
     },
     "/logout": {
-      "target": "http://192.168.1.60:30000/",
+      "target": "http://192.168.1.103:30000/",
       "changeOrigin": true,
       "pathRewrite": { "^/logout": "/logout" }
     },
     "/profile": {
-      "target": "http://192.168.1.60:30000/",
+      "target": "http://192.168.1.103:30000/",
       "changeOrigin": true,
       "pathRewrite": { "^/profile": "/profile" }
     },

@@ -7,16 +7,14 @@ import withRouter from 'umi/withRouter';
 @connect(createSelector(
   [
     (props: any) => props.user.profile,
+    (props: any) => props.user.init,
   ],
-  (profile) => ({ profile })
+  (profile, init) => ({ profile, init })
 ))
 class Layout extends (Component || PureComponent)<any, any>  {
   render() {
-    const { profile, location } = this.props;
-    if ((!profile.data && !profile.err) ||
-      (!profile.data && !!profile.err && location.pathname !== '/login')) {
-      return null
-    }
+    const { profile, init } = this.props;
+    if (!init) return null;
     return this.props.children;
   }
 }

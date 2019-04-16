@@ -1,94 +1,54 @@
 import { PureComponent, Component } from 'react';
 import { connect } from 'dva';
 import { createSelector } from 'reselect';
-import Login from "@/components";
+import Login from '@/components';
+import { LoginRequest, ModifyPasswordRequest, ResetPasswordRequest } from '@/services/user';
 
 @connect(createSelector(
   [
-    (props: any) => props.user.isLogin,
-    (props: any) => ({
-      [`user/login`]: !!props.loading.effects['user/login'] || !!props.loader.effects['user/profile'],
-      [`user/resetPassword`]: !!props.loading.effects[`user/resetPassword`],
-      [`user/login&user/modifyPassword`]: !!props.loading.effects['user/login'] || !!props.loading.effects[`user/modifyPassword`],
-    }),
+    (props: any) => props.user.domain,
+    (props: any) => {
+      return ({
+        [`user/login`]: !!props.loading.effects['user/login'] || !!props.loading.effects['user/modify'],
+        [`user/reset`]: !!props.loading.effects[`user/reset`],
+        [`user/send`]: !!props.loading.effects[`user/send`],
+      })
+    }
   ],
-  (isLogin, loading) => {
-    return { isLogin, loading }
-  },
+  (domains, loading) => ({ domains, loading }),
 ))
 export default class extends (PureComponent || Component)<any, any> {
-  state = {
-    domains: []
+  domains = () => {
+    return this.props.dispatch({ type: `user/getDomain` })
   }
 
-  login = (data: object) => {
-    const { dispatch } = this.props;
-    return new Promise((resolve, reject) => {
-      dispatch({
-        type: `user/login`,
-        payload: data,
-      })
+  login = (data: LoginRequest) => {
+    return this.props.dispatch({
+      type: `user/login`,
+      payload: data,
     })
   }
 
-  getCode = (email) => {
-    const { dispatch } = this.props;
-    // return newPromise(dispatch, {
-    //   type: `user/code`,
-    //   payload: email,
-    // });
+  modify = (data: ModifyPasswordRequest) => {
+    return this.props.dispatch({
+      type: `user/modify`,
+      payload: data,
+    })
   }
-
-  resetPassword = (data) => {
-    const { dispatch } = this.props;
-    // return newPromise(dispatch, {
-    //   type: `user/resetPassword`,
-    //   payload: data,
-    // });
+  reset = (data: ResetPasswordRequest) => {
+    return this.props.dispatch({
+      type: `user/reset`,
+      payload: data,
+    })
   }
-
-  firstLogin = (resetData, loginData) => {
-    const { dispatch } = this.props;
-    // return new Promise(async (resolve, reject) => {
-    //   try {
-    //     await newPromise(dispatch, {
-    //       type: `user/modifyPassword`,
-    //       payload: resetData,
-    //     })
-    //     try {
-    //       let data = await this.login(loginData);
-    //       resolve(data);
-    //     } catch (error) {
-    //       reject(`密码修改成功，登录失败：${error}`);
-    //     }
-    //   } catch (error) {
-    //     reject(`密码修改失败：${error}`);
-    //   }
-    // })
+  send = (email: string = "") => {
+    return this.props.dispatch({
+      type: `user/send`,
+      payload: email!,
+    })
   }
-
-  relation = async () => {
-    const { dispatch } = this.props;
-    // await newPromise(dispatch, {
-    //   type: `user/query`,
-    // }, (data) => {
-    //   this.setState({
-    //     domains: Object.keys(data || {}).map(key => (data || {})[key]).filter(v => !!v)
-    //   })
-    // })
-  }
-
-  toDashboard = (props) => {
-    if (props.isLogin) {
-      this.props.dispatch(routerRedux.push('/dashboard'));
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.toDashboard(nextProps);
-  }
-
   componentDidMount() {
+    this.domains()
     const box = document.getElementById('box'),
       shadow = document.getElementById('shadow'),
       loader = document.getElementById('loader');
@@ -100,20 +60,17 @@ export default class extends (PureComponent || Component)<any, any> {
   }
 
   render() {
-    const { domains } = this.state;
-    const { loading } = this.props;
+    const { domains, loading } = this.props;
     return (
       <Login
-        loginProps={{
-          domains: [],
-          loading: loading[`user/login`],
-          onSubmit: this.login,
-        }}
-        changePwdData={{
-          loading: loading[`user/resetPassword`],
-          getCode: this.getCode,
-          onSubmit: this.resetPassword,
-        }}
+        domains={domains}
+        loginLoading={loading[`user/login`]!}
+        onLogin={this.login}
+        modifyPassword={this.modify}
+        resetLoading={loading[`user/login`]!}
+        sending={loading[`user/send`]!}
+        sendCode={this.send}
+        resetPassword={this.reset}
       />
     )
   }

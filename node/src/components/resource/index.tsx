@@ -1,51 +1,84 @@
-import { PureComponent, Component, Fragment } from 'react';
-import { Tabs, Icon, Button } from 'antd';
+import { PureComponent, Component } from 'react';
+import { Tabs, Modal } from 'antd';
 import router from 'umi/router';
-import QueueAnim from 'rc-queue-anim';
-import Node, { NodeProps } from '../node';
+import AddResource from './add-resource';
+import { createResourceRequest } from '@/services/resource';
 import styles from './style/index.less';
 
 const TabPane = Tabs.TabPane;
 
 export type ResourceProps = {
-  resource: any[];
-  cluster: string;
-  currentResource: string;
+  data: any[];
+  clusterName: string;
+  resourceName: string;
+  onAdd?: (value: createResourceRequest) => void;
+  onDelete?: (name: string | any) => void;
 };
 
 class Resource extends (PureComponent || Component)<ResourceProps, any> {
-  UNSAFE_componentWillReceiveProps({ resource, cluster, currentResource }: ResourceProps) {
-    if (resource.length > 0) {
-      if (!currentResource && !!this.props.currentResource) {
-        router.push(`/node?cluster=${cluster || ''}&resource=${resource[0].name || ''}`);
+
+  setResource = (resourceName?: string) => {
+    const { clusterName } = this.props;
+    router.push(`/node?cluster=${clusterName!}&resource=${resourceName!}`);
+  }
+  UNSAFE_componentWillReceiveProps({ data, resourceName }: ResourceProps) {
+    if (data.length > 0) {
+      if ((!resourceName && !!this.props.resourceName) || data.every(v => `${v.name}` !== resourceName)) {
+        this.setResource(data[0].name)
       }
-      if (!!currentResource && this.props.currentResource !== currentResource && resource.every(v => `${v.name}` !== currentResource)) {
-        router.push(`/node?cluster=${cluster || ''}&resource=${this.props.currentResource || ''}`);
+      if (!!resourceName && this.props.resourceName !== resourceName && data.every(v => `${v.name}` !== resourceName)) {
+        if (data.every(v => `${v.name}` !== this.props.resourceName)) {
+          this.setResource(data[0].name)
+        } else {
+          this.setResource(this.props.resourceName)
+        }
       }
     }
   }
   componentDidMount() {
-    const { currentResource, cluster, resource } = this.props;
-    if (!currentResource) {
-      router.push(`/node?cluster=${cluster || ''}&resource=${resource[0].name || ''}`);
+    const { resourceName, data } = this.props;
+    if (!resourceName) {
+      this.setResource(data[0].name)
     }
   }
   render() {
-    const { cluster, currentResource, resource = [], children } = this.props;
+    const { resourceName, data = [], children, onAdd, onDelete } = this.props;
     return (
       <Tabs
+        hideAdd
         className={styles.resource}
-        onChange={(activeKey: string) => router.push(`/node?cluster=${cluster || ''}&resource=${activeKey || ''}`)}
-        activeKey={currentResource}
+        onChange={(activeKey: string) => this.setResource(activeKey)}
+        activeKey={resourceName}
         type="editable-card"
-        onEdit={() => { }}
+        tabBarExtraContent={<AddResource onSubmit={onAdd} />}
+        onEdit={(resourceName) => {
+          Modal.confirm({
+            title: `确认是否需要删除资源池${resourceName}?`,
+            content: data.find(v => v.name === resourceName).desc,
+            okText: '确认',
+            okType: 'danger',
+            cancelText: '取消',
+            onOk() {
+              return new Promise(async (resolve, reject) => {
+                const error: any = await onDelete!(resourceName);
+                if (!error) {
+                  resolve()
+                } else {
+                  reject(error)
+                }
+              })
+            },
+          })
+        }}
       >
-        {resource.map(v => (
-          <TabPane tab={v.tag} key={v.name}>
-            {children}
-          </TabPane>
-        ))}
-      </Tabs>
+        {
+          data.map(v => (
+            <TabPane tab={v.tag} key={v.name}>
+              {children}
+            </TabPane>
+          ))
+        }
+      </Tabs >
     )
   }
 }

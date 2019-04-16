@@ -37,13 +37,19 @@ export default {
     '@': './src/components/'
   },
   define: {
-    "process.env.OEM_NAME": '/kubeup'
+    "process.env.OEM_NAME": '/kubeup',
+    "process.env.VERSION": new Date().getTime(),
   },
   theme: {
     "primary-color": "#1557fb"
   },
   chainWebpack(config, { webpack }) {
-    config.resolve.extensions.add(".tsx");
+    config.resolve.extensions
+      .add(".tsx")
+      .prepend(".tsx");
+    config.resolve.extensions
+      .add(".ts")
+      .prepend(".ts");
   },
   proxy: {
     "/lib/login": {

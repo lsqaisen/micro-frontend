@@ -7,35 +7,29 @@ import Logo from '../logo';
 import EmailInput from '../input/email-input';
 import { EmailInputProps } from '../input/email-input';
 import { checkPassword } from './checks';
+import { ResetPasswordRequest } from '@/services/user'
 import styles from './style/index.less';
 
 const FormItem = Form.Item;
 
-export type ResetPasswordProps = {
+export interface ResetPasswordProps extends EmailInputProps {
   loading?: boolean;
-  changeLogin: () => void;
-  onSubmit?: (values: object) => void;
-  getCode?: (value: string | undefined) => void;
-  onSuccess?: () => void;
+  goLogin?: () => void;
+  resetPassword?: (values: ResetPasswordRequest) => any;
 }
 
-class ResetPassword extends (PureComponent || Component)<ResetPasswordProps & EmailInputProps & FormComponentProps, any> {
+class ResetPassword extends (PureComponent || Component)<ResetPasswordProps & FormComponentProps, any> {
 
   state = { error: '' };
 
-  onSubmit: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement> = e => {
+  _onSubmit: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement> = e => {
     e.preventDefault();
-    const { form: { validateFields }, onSubmit = () => { }, onSuccess = () => { } } = this.props;
+    const { form: { validateFields }, resetPassword } = this.props;
     this.setState({ error: '' });
     validateFields(async (err, values) => {
       if (!err) {
         try {
-          await onSubmit(values);
-          Modal.success({
-            title: '重置密码成功！',
-            onOk: () => onSuccess(),
-          });
-
+          await resetPassword!(values);
         } catch (error) {
           console.error(error)
           this.setState({ error })
@@ -55,7 +49,7 @@ class ResetPassword extends (PureComponent || Component)<ResetPasswordProps & Em
   }
 
   render() {
-    const { form, getCode, loading, changeLogin } = this.props;
+    const { form, sendCode, loading, sending, goLogin } = this.props;
     const { getFieldDecorator, getFieldError } = form;
     const { error } = this.state;
     return (
@@ -67,7 +61,7 @@ class ResetPassword extends (PureComponent || Component)<ResetPasswordProps & Em
           { opacity: [1, 0] }
         ]}
       >
-        <Form key="reset" onSubmit={this.onSubmit}>
+        <Form key="reset" onSubmit={this._onSubmit}>
           <header className={styles.logo}>
             <Logo />
           </header>
@@ -81,7 +75,7 @@ class ResetPassword extends (PureComponent || Component)<ResetPasswordProps & Em
                 message: '邮箱格式有误！',
               }],
             })(
-              <EmailInput onCode={getCode} error={(getFieldError('username') || []).join(',') || ''} />
+              <EmailInput sending={sending} sendCode={sendCode} />
             )}
           </FormItem>
           <FormItem >
@@ -116,11 +110,11 @@ class ResetPassword extends (PureComponent || Component)<ResetPasswordProps & Em
           </FormItem>
           <p className={styles[`error`]}>{error}</p>
           <FormItem>
-            <Button type="primary" loading={loading} htmlType="submit" style={{ width: '136px' }}>重置密码</Button>
+            <Button style={{ width: '136px' }} type="primary" loading={loading} htmlType="submit" >重置密码</Button>
             <footer style={{ lineHeight: '40px', float: 'right' }}>
-              <a href="" onClick={(e) => {
+              <a href="#" onClick={(e) => {
                 e.preventDefault();
-                changeLogin();
+                goLogin!();
               }} >已有账户登录</a>
             </footer>
           </FormItem>

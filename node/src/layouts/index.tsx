@@ -19,7 +19,7 @@ export default class extends (PureComponent || Component)<any, any> {
     init: false
   }
   componentDidMount() {
-    sub(`/lib/login/login.js?${new Date()}`, 'login', () => {
+    sub(`/lib/login/login.js?${process.env.VERSION}`, 'login', () => {
       this.setState({ init: true })
     });
   }

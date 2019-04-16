@@ -1,38 +1,33 @@
-import { PureComponent, Component } from 'react';
-import { Button } from 'antd';
+import { Layout } from 'antd';
 import { connect } from 'dva';
-import { Link } from 'dva/router';
 import { createSelector } from 'reselect';
-import Layout from '@/components';
 import Loading from '@/components/loading';
+import Cluster from './basic/cluster';
 
-@connect(createSelector(
-  [
-    (props: any) => props.node.cluster,
-  ],
-  (cluster) => ({ cluster })
-))
-class Node extends (PureComponent || Component)<any, any> {
-  state = {
-    init: false,
-  }
-  cluster = async () => {
-    await this.props.dispatch({ type: 'node/cluster' });
-    this.setState({ init: true });
-  }
-  componentDidMount() {
-    this.cluster();
-  }
-  render() {
-    const { cluster, children, location } = this.props;
-    const { init } = this.state;
-    if (!init) return <Loading />
-    return (
-      <Layout cluster={cluster} currentCluster={`${location.query.cluster || ''}`}>
-        {children}
-      </Layout>
-    )
-  }
+interface LayoutProps {
+  init?: boolean;
+  dispatch: any;
+  children?: React.ReactChildren;
 }
 
-export default Node;
+export default connect(createSelector(
+  [
+    (props: any) => props.cluster.init,
+  ],
+  (init) => ({ init })
+))(({ init, dispatch, children }: LayoutProps) => {
+  if (!init) {
+    dispatch({ type: 'cluster/get' });
+    return <Loading />
+  }
+  return (
+    <Layout style={{ position: 'absolute', width: '100%', height: '100%' }}>
+      <Layout.Sider width="226" style={{ backgroundColor: '#f2f7fb', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.09)' }}>
+        <Cluster />
+      </Layout.Sider>
+      <Layout.Content className="node-body" style={{ position: 'relative' }}>
+        {init ? children : null}
+      </Layout.Content>
+    </Layout>
+  )
+})

@@ -1,40 +1,50 @@
-import { PureComponent, Component, Fragment } from 'react';
-import { Menu, Icon, Button } from 'antd';
+import { PureComponent, Component } from 'react';
+import { Menu, Icon, Modal } from 'antd';
 import router from 'umi/router';
 import QueueAnim from 'rc-queue-anim';
 import ScrollBar from 'react-perfect-scrollbar';
 import AddCluser from './add-cluster';
+import { addRequest } from '@/services/node';
 import styles from './style/index.less';
 
-const { SubMenu, ItemGroup } = Menu;
+const { ItemGroup } = Menu;
 
-export type CluseterProps = {
-  cluster: any[];
-  currentCluster?: string;
+export type ClusterProps = {
+  data: any[];
+  clusterName?: string;
+  onAdd?: (value: addRequest) => void;
+  onDelete?: (name: string) => void;
 }
 
-class Cluster extends (PureComponent || Component)<CluseterProps, any> {
-  UNSAFE_componentWillReceiveProps({ cluster, currentCluster }: CluseterProps) {
-    if (cluster.length > 0) {
-      if (!currentCluster && !!this.props.currentCluster) {
-        router.push(`/node?cluster=${this.props.currentCluster}`);
+class Cluster extends (PureComponent || Component)<ClusterProps, any> {
+  static readonly defaultProps: ClusterProps = {
+    data: []
+  }
+  setCluster = (clusterName?: string) => {
+    router.push(`/node?cluster=${clusterName!}`);
+  }
+  UNSAFE_componentWillReceiveProps({ data, clusterName }: ClusterProps) {
+    if (data.length > 0) {
+      if (!clusterName && !!this.props.clusterName) {
+        this.setCluster(this.props.clusterName)
       }
-      if (!!currentCluster && this.props.currentCluster !== currentCluster && cluster.every(v => `${v.name}` !== currentCluster)) {
-        router.push(`/node?cluster=${this.props.currentCluster}`);
+      if (!!clusterName && this.props.clusterName !== clusterName && data.every(v => `${v.name}` !== clusterName)) {
+        this.setCluster(this.props.clusterName);
       }
     }
+
   }
   componentDidMount() {
-    const { currentCluster, cluster } = this.props;
-    if (!currentCluster && cluster.length > 0) {
-      router.push(`/node?cluster=${(cluster || [])[0].name || ''}`);
+    const { clusterName, data } = this.props;
+    if (!clusterName && data.length > 0) {
+      this.setCluster((data || [])[0].name || '')
     }
   }
   render() {
-    const { currentCluster, cluster = [] } = this.props;
+    const { clusterName, data, onAdd, onDelete } = this.props;
     return (
       <div className={styles.menu_box}>
-        <AddCluser />
+        <AddCluser onSubmit={onAdd!} />
         <ScrollBar
           option={{
             suppressScrollX: true,
@@ -45,10 +55,8 @@ class Cluster extends (PureComponent || Component)<CluseterProps, any> {
             componentProps={{
               mode: "inline",
               style: { height: '100%' },
-              selectedKeys: [currentCluster],
-              onClick: (e: any) => {
-                router.push(`/node?cluster=${e.key}`);
-              }
+              selectedKeys: [clusterName],
+              onClick: (e: any) => this.setCluster(e.key)
             }}
             animConfig={[
               { opacity: [1, 0], translateX: [0, -250] },
@@ -56,16 +64,39 @@ class Cluster extends (PureComponent || Component)<CluseterProps, any> {
             ]}
           >
             <ItemGroup key="cluster" title="集群列表">
-              {cluster.map(v => (
+              {data.map((v: addRequest) => (
                 <Menu.Item key={v.name}>
                   {v.name}
-                  {v.name !== "default" && <Icon type="close" style={{ position: 'absolute', top: '13px', right: 0 }} />}
+                  {v.name !== "default" && <a
+                    href="#"
+                    style={{ position: 'absolute', top: 0, right: 0 }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      Modal.confirm({
+                        title: `确认是否需要删除集群${v.name}?`,
+                        content: v.desc,
+                        okText: '确认',
+                        okType: 'danger',
+                        cancelText: '取消',
+                        onOk() {
+                          return new Promise(async (resolve, reject) => {
+                            const error: any = await onDelete!(v.name);
+                            if (!error) {
+                              resolve()
+                            } else {
+                              reject(error)
+                            }
+                          })
+                        },
+                      })
+                    }}> <Icon type="close" /> </a>}
                 </Menu.Item>
               ))}
             </ItemGroup>
           </QueueAnim>
         </ScrollBar>
-      </div>
+      </div >
     )
   }
 }

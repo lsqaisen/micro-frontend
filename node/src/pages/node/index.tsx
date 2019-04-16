@@ -1,60 +1,75 @@
 import { PureComponent, Component } from 'react';
 import { connect } from 'dva';
 import { createSelector } from 'reselect';
-import Resource from '@/components/resource';
+import ResourceBasic from '@/components/resource';
 import Loading from '@/components/loading';
 import Table from './basic/table';
-import { resourceData, nodesData } from '@/services/node';
+import { resourceRequest, createResourceRequest } from '@/services/resource';
 
 @connect(createSelector(
   [
-    (props: any) => props.node.resource[`${props.routing.location.query.cluster}`],
+    (props: any) => props.resource,
+    (props: any) => {
+      const { routing: { location: { query: { cluster, resource } } } } = props;
+      return { clusterName: cluster, resourceName: resource };
+    }
   ],
-  (resource) => ({ resource })
+  (resource, { clusterName, resourceName }) => ({ resource, clusterName, resourceName })
 ))
-class Node extends (PureComponent || Component)<any, any> {
-  state = {
-    init: false
-  }
-  resource = async (data: resourceData) => {
+class Resource extends (PureComponent || Component)<any, any> {
+  get = async (data: resourceRequest) => {
     await this.props.dispatch({
-      type: 'node/resource',
+      type: 'resource/get',
       payload: data,
     })
-    !this.state.init && this.setState({ init: true });
   }
-  componentWillReceiveProps({ location: { query: { cluster, resource } } }: any) {
-    if (this.props.location.query.cluster !== cluster && !!cluster) {
-      let data: resourceData = { cluster };
-      this.resource(data);
+  add = (data: createResourceRequest) => {
+    const { clusterName } = this.props;
+    return this.props.dispatch({
+      type: 'resource/add',
+      payload: { cluster: clusterName, ...data },
+    })
+  }
+  ['delete'] = (name: string) => {
+    const { clusterName } = this.props;
+    return this.props.dispatch({
+      type: 'resource/delete',
+      payload: { cluster: clusterName, name }
+    })
+  }
+  componentWillReceiveProps({ clusterName }: any) {
+    if (this.props.clusterName !== clusterName && !!clusterName) {
+      let data: resourceRequest = { cluster: clusterName };
+      this.get(data);
     }
   }
   componentDidMount() {
-    const { location } = this.props;
-    if (!!location.query.cluster) {
-      let data: resourceData = {
-        cluster: location.query.cluster
+    const { clusterName } = this.props;
+    if (!!clusterName) {
+      let data: resourceRequest = {
+        cluster: clusterName
       };
-      this.resource(data);
+      this.get(data);
     }
   }
   render() {
-    const { resource, location } = this.props;
-    const { init } = this.state;
-    if (!init) return <Loading />
+    const { resource, clusterName, resourceName } = this.props;
+    if (!(resource[clusterName] || {}).init) return <Loading />
     return (
-      <Resource
-        cluster={location.query.cluster}
-        currentResource={location.query.resource}
-        resource={[{
+      <ResourceBasic
+        clusterName={clusterName}
+        resourceName={resourceName}
+        data={[{
           name: 'all',
-          tag: '所有'
-        }].concat(resource)}
+          tag: '所有节点'
+        }].concat(resource[clusterName].data)}
+        onAdd={this.add}
+        onDelete={this['delete']}
       >
-        <Table location={location} />
-      </Resource>
+        <Table />
+      </ResourceBasic>
     )
   }
 }
 
-export default Node;
+export default Resource;

@@ -65,27 +65,27 @@ export default {
     },
     // api
     "/api": {
-      "target": "http://192.168.1.106:30000/",
+      "target": "http://192.168.1.103:30000/",
       "changeOrigin": true,
       "pathRewrite": { "^/api": "/api" }
     },
     "/login": {
-      "target": "http://192.168.1.106:30000/",
+      "target": "http://192.168.1.103:30000/",
       "changeOrigin": true,
       "pathRewrite": { "^/login": "/login" }
     },
     "/logout": {
-      "target": "http://192.168.1.106:30000/",
+      "target": "http://192.168.1.103:30000/",
       "changeOrigin": true,
       "pathRewrite": { "^/logout": "/logout" }
     },
     "/profile": {
-      "target": "http://192.168.1.106:30000/",
+      "target": "http://192.168.1.103:30000/",
       "changeOrigin": true,
       "pathRewrite": { "^/profile": "/profile" }
     },
     "/service": {
-      "target": "http://192.168.1.106:30000/",
+      "target": "http://192.168.1.103:30000/",
       "changeOrigin": true,
       "pathRewrite": { "^/service": "/service" }
     },

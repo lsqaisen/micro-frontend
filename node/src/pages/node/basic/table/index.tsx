@@ -86,7 +86,7 @@ class Table extends (PureComponent || Component)<any, any> {
           key={resourceName}
           loading={loading}
           node={node} >
-          {!resourceName || resourceName === 'all' && <Install location={location} />}
+          {!resourceName || resourceName === 'all' ? <Install location={location} /> : undefined}
         </Node>
       </Fragment>
     )

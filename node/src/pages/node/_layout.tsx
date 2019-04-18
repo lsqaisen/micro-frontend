@@ -21,7 +21,7 @@ export default connect(createSelector(
     return <Loading />
   }
   return (
-    <Layout style={{ position: 'absolute', width: '100%', height: '100%' }}>
+    <Layout style={{ position: 'absolute', background: '#fff', width: '100%', height: '100%' }}>
       <Layout.Sider width="226" style={{ backgroundColor: '#f2f7fb', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.09)' }}>
         <Cluster />
       </Layout.Sider>

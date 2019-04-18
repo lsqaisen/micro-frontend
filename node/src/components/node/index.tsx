@@ -1,9 +1,7 @@
-import { PureComponent, Component, Fragment } from 'react';
-import { Tag, Divider, Icon, Button } from 'antd';
+import { PureComponent, Component } from 'react';
 import { ColumnProps } from 'antd/lib/table';
 import { Link } from 'dva/router';
 import Table from '@/components/table';
-import styles from './style/index.less';
 
 interface hostIPS {
   address?: string;
@@ -53,32 +51,20 @@ class Node extends (PureComponent || Component)<NodeProps, any> {
       render: (t) => t === '' ? '公共主机' : `私有主机，工作空间${t}`,
     },
   ];
-  onDelete = (key, e) => {
-    e.preventDefault();
-    const data = this.state.data.filter(item => item.key !== key);
-    this.setState({ data });
-  }
-
-  onAdd = () => {
-    const data = [...this.state.data];
-    data.push({
-      name: 'Jim Red',
-      age: 18,
-      address: 'London1asdfasdfasdfasdfasdfasdfasdfasdfasdf1asdfasdfasdfasdfasdfasdfasdfasdfasdf1asdfasdfasdfasdfasdfasdfasdfasdfasdf1asdfasdfasdfasdfasdfasdfasdfasdfasdfNo.1asdfasdfasdfasdfasdfasdfasdfasdfasdf Lake Park',
-      key: Date.now(),
-    });
-    this.setState({ data });
-  }
   render() {
-    const { loading, node, children } = this.props;
+    const { loading, node, children, ...props } = this.props;
     const { total = 0, data = [] } = node;
+    const _props = children ? {
+      ...props,
+      footer: () => children
+    } : props;
     return (
       <Table<INode>
+        {..._props}
         pagination={{ total }}
         loading={loading}
         columns={this.columns}
         dataSource={data.map((v: INode) => ({ key: v.name, ...v }))}
-        footer={() => children}
       />
     )
   }

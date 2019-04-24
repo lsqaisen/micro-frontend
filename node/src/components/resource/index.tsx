@@ -1,5 +1,5 @@
 import { PureComponent, Component } from 'react';
-import { Tabs, Modal } from 'antd';
+import { Tabs, Modal, PageHeader } from 'antd';
 import router from 'umi/router';
 import AddResource from './add-resource';
 import { createResourceRequest } from '@/services/resource';
@@ -14,6 +14,21 @@ export type ResourceProps = {
   onAdd?: (value: createResourceRequest) => void;
   onDelete?: (name: string | any) => void;
 };
+
+const routes = [
+  {
+    path: 'index',
+    breadcrumbName: 'First-level Menu',
+  },
+  {
+    path: 'first',
+    breadcrumbName: 'Second-level Menu',
+  },
+  {
+    path: 'second',
+    breadcrumbName: 'Third-level Menu',
+  },
+];
 
 class Resource extends (PureComponent || Component)<ResourceProps, any> {
 
@@ -43,42 +58,49 @@ class Resource extends (PureComponent || Component)<ResourceProps, any> {
   }
   render() {
     const { resourceName, data = [], children, onAdd, onDelete } = this.props;
+    const resource = data.find(v => v.name === resourceName) || {};
     return (
-      <Tabs
-        hideAdd
-        className={styles.resource}
-        onChange={(activeKey: string) => this.setResource(activeKey)}
-        activeKey={resourceName}
-        type="editable-card"
-        tabBarExtraContent={<AddResource onSubmit={onAdd} />}
-        onEdit={(resourceName) => {
-          Modal.confirm({
-            title: `确认是否需要删除资源池${resourceName}?`,
-            content: data.find(v => v.name === resourceName).desc,
-            okText: '确认',
-            okType: 'danger',
-            cancelText: '取消',
-            onOk() {
-              return new Promise(async (resolve, reject) => {
-                const error: any = await onDelete!(resourceName);
-                if (!error) {
-                  resolve()
-                } else {
-                  reject(error)
-                }
-              })
-            },
-          })
-        }}
+      <PageHeader
+        title={resource.tag}
+        subTitle={resource.desc}
+        breadcrumb={{ routes }}
       >
-        {
-          data.map(v => (
-            <TabPane tab={v.tag} key={v.name}>
-              {children}
-            </TabPane>
-          ))
-        }
-      </Tabs >
+        <Tabs
+          hideAdd
+          className={styles.resource}
+          onChange={(activeKey: string) => this.setResource(activeKey)}
+          activeKey={resourceName}
+          type="editable-card"
+          tabBarExtraContent={<AddResource onSubmit={onAdd} />}
+          onEdit={(resourceName) => {
+            Modal.confirm({
+              title: `确认是否需要删除资源池${resourceName}?`,
+              content: data.find(v => v.name === resourceName).desc,
+              okText: '确认',
+              okType: 'danger',
+              cancelText: '取消',
+              onOk() {
+                return new Promise(async (resolve, reject) => {
+                  const error: any = await onDelete!(resourceName);
+                  if (!error) {
+                    resolve()
+                  } else {
+                    reject(error)
+                  }
+                })
+              },
+            })
+          }}
+        >
+          {
+            data.map(v => (
+              <TabPane tab={v.tag} key={v.name}>
+                {children}
+              </TabPane>
+            ))
+          }
+        </Tabs >
+      </PageHeader>
     )
   }
 }

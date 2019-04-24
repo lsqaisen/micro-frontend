@@ -51,11 +51,48 @@ class Dashboard extends (PureComponent || Component)<any, any> {
       type: 'user/logout'
     })
   }
+
+  state = {
+    data: [{
+      key: 1,
+      name: 'John Brown',
+      age: 32,
+      address: 'New York No.1 Lake Park',
+    },
+    {
+      key: 2,
+      name: 'Jim Green',
+      age: 42,
+      address: 'London No.1 Lake Park',
+    },
+    {
+      key: 3,
+      name: 'Joe Black',
+      age: 32,
+      address: 'Sidney No.1 Lake Park',
+    },
+    {
+      key: 4,
+      name: 'Jim Red',
+      age: 18,
+      address: 'London1asdfasdfasdfasdfasdfasdfasdfasdfasdf1asdfasdfasdfasdfasdfasdfasdfasdfasdf1asdfasdfasdfasdfasdfasdfasdfasdfasdf1asdfasdfasdfasdfasdfasdfasdfasdfasdfNo',
+    },]
+  }
+
   render() {
     return (
       <div style={{ width: '100%' }}>
-        <Table<IUser> columns={columns} dataSource={data} />
-
+        <Button onClick={() => {
+          this.setState({
+            data: this.state.data.concat([{
+              key: new Date().getTime(),
+              name: 'Jim Red',
+              age: 18,
+              address: 'London1asdfasdfasdfasdfasdfasdfasdfasdfasdf1asdfasdfasdfasdfasdfasdfasdfasdfasdf1asdfasdfasdfasdfasdfasdfasdfasdfasdf1asdfasdfasdfasdfasdfasdfasdfasdfasdfNo',
+            }])
+          })
+        }}></Button>
+        <Table<IUser> columns={columns} dataSource={this.state.data} />
       </div>
     )
   }

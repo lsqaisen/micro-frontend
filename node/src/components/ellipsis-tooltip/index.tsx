@@ -1,11 +1,16 @@
 import { PureComponent, Component } from 'react';
 import { Tooltip } from 'antd';
 
-class EllipsisTooltip extends (PureComponent || Component)<any, any> {
+export interface EllipsisTooltipProps {
+  title?: any;
+}
+
+class EllipsisTooltip extends (PureComponent || Component)<EllipsisTooltipProps, any> {
   state = {
     visible: false
   }
-  handleVisibleChange = (visible) => {
+  container: any = null;
+  handleVisibleChange = (visible: boolean) => {
     if (this.container.clientWidth < this.container.scrollWidth) {
       this.setState({
         visible: visible
@@ -15,7 +20,7 @@ class EllipsisTooltip extends (PureComponent || Component)<any, any> {
   render() {
     return (
       <Tooltip visible={this.state.visible} onVisibleChange={this.handleVisibleChange} title={this.props.title}>
-        <div ref={node => this.container = node} style={{
+        <div ref={node => this.container = node as any} style={{
           textOverflow: 'ellipsis',
           overflow: 'hidden',
         }}>{this.props.children}</div>

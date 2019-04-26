@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import ResourceBasic from '@/components/resource';
 import Loading from '@/components/loading';
 import Table from './basic/table';
-import { resourceRequest, createResourceRequest } from '@/services/resource';
+import { getResourceRequest, createResourceRequest } from '@/services/resource';
 
 @connect(createSelector(
   [
@@ -17,7 +17,7 @@ import { resourceRequest, createResourceRequest } from '@/services/resource';
   (resource, { clusterName, resourceName }) => ({ resource, clusterName, resourceName })
 ))
 class Resource extends (PureComponent || Component)<any, any> {
-  get = async (data: resourceRequest) => {
+  get = async (data: getResourceRequest) => {
     await this.props.dispatch({
       type: 'resource/get',
       payload: data,
@@ -39,14 +39,14 @@ class Resource extends (PureComponent || Component)<any, any> {
   }
   componentWillReceiveProps({ clusterName }: any) {
     if (this.props.clusterName !== clusterName && !!clusterName) {
-      let data: resourceRequest = { cluster: clusterName };
+      let data: getResourceRequest = { cluster: clusterName };
       this.get(data);
     }
   }
   componentDidMount() {
     const { clusterName } = this.props;
     if (!!clusterName) {
-      let data: resourceRequest = {
+      let data: getResourceRequest = {
         cluster: clusterName
       };
       this.get(data);

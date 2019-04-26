@@ -2,7 +2,7 @@ import { PureComponent, Component } from 'react';
 import { connect } from 'dva';
 import { createSelector } from 'reselect';
 import Install from '@/components/node/install';
-import { nodesRequest } from '@/services/node';
+import { getNodesRequest } from '@/services/node';
 
 @connect(createSelector(
   [
@@ -16,7 +16,7 @@ import { nodesRequest } from '@/services/node';
   (installs, { clusterName, resourceName }, loading) => ({ installs, clusterName, resourceName, loading })
 ))
 class NodeInstall extends (PureComponent || Component)<any, any> {
-  install = async (data: nodesRequest) => {
+  install = async (data: getNodesRequest) => {
     await this.props.dispatch({
       type: 'node/installs',
       payload: data,
@@ -25,7 +25,7 @@ class NodeInstall extends (PureComponent || Component)<any, any> {
   componentDidMount() {
     const { clusterName, resourceName } = this.props;
     if (!!clusterName && (!resourceName || resourceName === 'all')) {
-      let data: nodesRequest = {
+      let data: getNodesRequest = {
         cluster: clusterName,
         type: 'install'
       };

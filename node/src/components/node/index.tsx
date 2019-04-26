@@ -50,10 +50,11 @@ class Node extends (PureComponent || Component)<NodeProps, any> {
     {
       title: '节点名称',
       dataIndex: 'name',
+      width: '20%',
       onCell: () => ({
         style: {
           whiteSpace: 'nowrap',
-          minWidth: 96,
+          maxWidth: 126,
         }
       }),
       render: (t, r, i) => {
@@ -95,13 +96,14 @@ class Node extends (PureComponent || Component)<NodeProps, any> {
       onCell: () => {
         return {
           style: {
-            minWidth: 72,
+            whiteSpace: 'nowrap',
+            maxWidth: 136,
           }
         }
       },
       render: (t) => {
-        let text = t === '' ? '公共主机' : `私有主机，工作空间${t}`;
-        return text;
+        let text = t === '' ? '公共' : `${t}私有`;
+        return (<EllipsisTooltip title={text}>{text}</EllipsisTooltip>)
       },
     }, {
       title: <Fragment>CPU<Divider type="vertical" />总共/申请</Fragment>,
@@ -111,7 +113,7 @@ class Node extends (PureComponent || Component)<NodeProps, any> {
         return {
           style: {
             whiteSpace: 'nowrap',
-            minWidth: 130,
+            minWidth: 146,
           }
         }
       },
@@ -134,7 +136,7 @@ class Node extends (PureComponent || Component)<NodeProps, any> {
         return {
           style: {
             whiteSpace: 'nowrap',
-            minWidth: 125,
+            minWidth: 140,
           }
         }
       },

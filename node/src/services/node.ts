@@ -1,12 +1,9 @@
-
 import request from '../utils/request';
-
-const ORDER_API = '/service/node/api';
 
 /**
  * 获取节点列表
  */
-export interface nodesRequest {
+interface getNodesRequest {
 	cluster?: string | undefined;      // 集群名称
 	namespace?: string | undefined;    // 工作空间，system代表为系统管理员
 	resource?: string | undefined; 		 // 资源池名称
@@ -15,11 +12,10 @@ export interface nodesRequest {
 	itemsPerPage?: number | undefined;  // 每页条数
 }
 
-export function nodes(data: nodesRequest) {
+function getNodes(data: getNodesRequest) {
 	const { cluster = 'default', namespace = 'system', resource = '', type = 'node', page = 1, itemsPerPage = 10 } = data;
 	return request(`/service/node/api/cluster/${cluster}/node/?namespace=${namespace}&resource=${resource}&type=${type}&page=${page}&itemsPerPage=${itemsPerPage}`);
 }
-
 
 /**
  * 添加主机
@@ -87,7 +83,8 @@ export function deleteInstalls() {
  * 获取节点详情
  * @param {string} name 节点名称 
  */
-export function nodedetail(name: string) {
+
+function getNodeDetail(name: string) {
 	return request(`/service/node/api/cluster/default/node/detail/${name}`);
 }
 
@@ -161,4 +158,14 @@ export function setApply({ id, status, allocNode = "" }: setApplyRequest) {
 		method: 'put',
 		body: { status, allocNode },
 	});
+}
+
+
+export {
+	getNodesRequest,
+}
+
+export default {
+	getNodes,
+	getNodeDetail,
 }

@@ -5,7 +5,7 @@ import { Button } from 'antd';
 import Node from '@/components/node';
 import Install from '../install';
 import JoinResource from '@/components/resource/join-resource';
-import { nodesRequest } from '@/services/node';
+import { getNodesRequest } from '@/services/node';
 import { joinResourceRequest } from '@/services/resource';
 
 @connect(createSelector(
@@ -24,7 +24,7 @@ import { joinResourceRequest } from '@/services/resource';
   (node, allNode, { clusterName, resourceName }, loading) => ({ node, allNode, clusterName, resourceName, loading })
 ))
 class Table extends (PureComponent || Component)<any, any> {
-  get = async (data: nodesRequest) => {
+  get = async (data: getNodesRequest) => {
     await this.props.dispatch({
       type: 'node/nodes',
       payload: data,
@@ -38,7 +38,7 @@ class Table extends (PureComponent || Component)<any, any> {
       })
       if (!error) {
         const { clusterName, resourceName } = this.props;
-        let data: nodesRequest = {
+        let data: getNodesRequest = {
           cluster: clusterName,
           resource: !resourceName || resourceName === 'all' ? '' : resourceName
         };
@@ -51,14 +51,14 @@ class Table extends (PureComponent || Component)<any, any> {
   }
   componentWillReceiveProps({ clusterName, resourceName }: any) {
     if (resourceName !== resourceName && !!resourceName) {
-      let data: nodesRequest = { cluster: clusterName, resource: resourceName };
+      let data: getNodesRequest = { cluster: clusterName, resource: resourceName };
       this.get(data);
     }
   }
   componentDidMount() {
     const { clusterName, resourceName } = this.props;
     if (!!clusterName) {
-      let data: nodesRequest = {
+      let data: getNodesRequest = {
         cluster: clusterName,
         resource: !resourceName || resourceName === 'all' ? '' : resourceName
       };
@@ -73,7 +73,7 @@ class Table extends (PureComponent || Component)<any, any> {
           <JoinResource
             resourceName={resourceName}
             onSubmit={this.join}
-            searchNodes={(data: nodesRequest) => {
+            searchNodes={(data: getNodesRequest) => {
               return new Promise(async (resolve, reject) => {
                 await this.get(data);
                 resolve(allNode.data);

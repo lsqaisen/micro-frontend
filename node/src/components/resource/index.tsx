@@ -1,6 +1,7 @@
 import { PureComponent, Component } from 'react';
 import { Tabs, Modal, PageHeader } from 'antd';
 import router from 'umi/router';
+import { Link } from 'dva/router';
 import AddResource from './add-resource';
 import { createResourceRequest } from '@/services/resource';
 import styles from './style/index.less';
@@ -11,27 +12,24 @@ export type ResourceProps = {
   data: any[];
   clusterName: string;
   resourceName: string;
+  routes?: any[];
   onAdd?: (value: createResourceRequest) => void;
   onDelete?: (name: string | any) => void;
 };
 
-const routes = [
-  {
-    path: 'index',
-    breadcrumbName: 'First-level Menu',
-  },
-  {
-    path: 'first',
-    breadcrumbName: 'Second-level Menu',
-  },
-  {
-    path: 'second',
-    breadcrumbName: 'Third-level Menu',
-  },
-];
-
 class Resource extends (PureComponent || Component)<ResourceProps, any> {
-
+  static readonly defaultProps: ResourceProps = {
+    data: [],
+    clusterName: '',
+    resourceName: '',
+    routes: [{
+      path: '/dashboard',
+      breadcrumbName: '总览',
+    }, {
+      path: '/node',
+      breadcrumbName: '节点列表',
+    }]
+  }
   setResource = (resourceName?: string) => {
     const { clusterName } = this.props;
     router.push(`/node?cluster=${clusterName!}&resource=${resourceName!}`);
@@ -57,13 +55,19 @@ class Resource extends (PureComponent || Component)<ResourceProps, any> {
     }
   }
   render() {
-    const { resourceName, data = [], children, onAdd, onDelete } = this.props;
+    const { routes, resourceName, data = [], children, onAdd, onDelete } = this.props;
     const resource = data.find(v => v.name === resourceName) || {};
     return (
       <PageHeader
         title={resource.tag}
         subTitle={resource.desc}
-        breadcrumb={{ routes }}
+        breadcrumb={{
+          routes,
+          itemRender(route, _, routes) {
+            const last = routes.indexOf(route) === routes.length - 1;
+            return last ? <span>{route.breadcrumbName}</span> : <Link to={route.path}>{route.breadcrumbName}</Link>;
+          }
+        }}
       >
         <Tabs
           hideAdd

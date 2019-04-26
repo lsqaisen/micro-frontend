@@ -2,14 +2,14 @@ import { PureComponent, Component } from 'react';
 import { Form, Input } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import SearchSelect from '@/components/search-select';
-import { nodesRequest } from '@/services/node';
+import { getNodesRequest } from '@/services/node';
 
 const FormItem = Form.Item;
 
 export interface JosinResourceFormProps {
   resourceName?: string;
   formItemLayout?: any;
-  searchNodes?: (data: nodesRequest) => any[];
+  searchNodes?: (data: getNodesRequest) => any[];
 }
 
 @(Form.create() as any)
@@ -69,7 +69,7 @@ class AddResourceForm extends (PureComponent || Component)<JosinResourceFormProp
               style={{ width: '100%' }}
               onSearch={(params: any = {}) => {
                 const { page = 1, itemsPerPage = 10 }: any = params;
-                let request: nodesRequest = { page, itemsPerPage };
+                let request: getNodesRequest = { page, itemsPerPage };
                 return new Promise(async (resolve, reject) => {
                   let response: any[] = await searchNodes!(request);
                   resolve({

@@ -4,7 +4,7 @@ import router from 'umi/router';
 import QueueAnim from 'rc-queue-anim';
 import ScrollBar from 'react-perfect-scrollbar';
 import AddCluser from './add-cluster';
-import { addRequest } from '@/services/node';
+import { addClusterRequest } from '@/services/cluster';
 import styles from './style/index.less';
 
 const { ItemGroup } = Menu;
@@ -12,7 +12,7 @@ const { ItemGroup } = Menu;
 export type ClusterProps = {
   data: any[];
   clusterName?: string;
-  onAdd?: (value: addRequest) => void;
+  onAdd?: (value: addClusterRequest) => void;
   onDelete?: (name: string) => void;
 }
 
@@ -32,7 +32,6 @@ class Cluster extends (PureComponent || Component)<ClusterProps, any> {
         this.setCluster(this.props.clusterName);
       }
     }
-
   }
   componentDidMount() {
     const { clusterName, data } = this.props;
@@ -64,7 +63,7 @@ class Cluster extends (PureComponent || Component)<ClusterProps, any> {
             ]}
           >
             <ItemGroup key="cluster" title="集群列表">
-              {data.map((v: addRequest) => (
+              {data.map((v: addClusterRequest) => (
                 <Menu.Item key={v.name}>
                   {v.name}
                   {v.name !== "default" && <a

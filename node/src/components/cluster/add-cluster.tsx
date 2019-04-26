@@ -1,11 +1,11 @@
 import { PureComponent, Component } from 'react';
 import { Icon, Button, Drawer } from 'antd';
 import AddClusterForm from './form/add-cluster-form';
-import { addRequest } from '@/services/node';
+import { addClusterRequest } from '@/services/cluster';
 import styles from './style/index.less';
 
 export interface AddClusterProps {
-  onSubmit?: (value: addRequest) => void
+  onSubmit?: (value: addClusterRequest) => void
 }
 
 class AddCluster extends (PureComponent || Component)<AddClusterProps, any> {
@@ -37,7 +37,7 @@ class AddCluster extends (PureComponent || Component)<AddClusterProps, any> {
           <div className={"node-actions"} >
             <Button onClick={() => { this.setState({ visible: false }) }} style={{ marginRight: 8 }}> 取消 </Button>
             <Button loading={loading} onClick={() => {
-              (this.refs.addcluster as any).validateFields(async (error: any, values: addRequest) => {
+              (this.refs.addcluster as any).validateFields(async (error: any, values: addClusterRequest) => {
                 if (!error) {
                   this.setState({ loading: true })
                   if ((await onSubmit!(values)) as any) {

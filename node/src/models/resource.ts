@@ -1,7 +1,7 @@
 import { EffectsCommandMap } from 'dva';
 import { AnyAction } from 'redux';
 import { message } from 'antd';
-import { getResource, createResource, deleteResource, joinResource, removeResource } from '@/services/resource';
+import api from '@/services/resource';
 
 export default {
   namespace: 'resource',
@@ -10,7 +10,7 @@ export default {
   effects: {
     *get({ payload }: AnyAction, { call, put }: EffectsCommandMap) {
       const { cluster } = payload;
-      const { data, err } = yield call(getResource, payload);
+      const { data, err } = yield call(api.getResource, payload);
       if (!!err) {
         message.error(err, 5)
       } else {
@@ -27,7 +27,7 @@ export default {
     },
     *add({ payload }: AnyAction, { put, call }: EffectsCommandMap) {
       const { clusterName, ...request } = payload;
-      const { err } = yield call(createResource, request);
+      const { err } = yield call(api.createResource, request);
       if (!!err) {
         message.error(err, 5);
         return err;
@@ -41,7 +41,7 @@ export default {
     },
     *[`delete`]({ payload }: AnyAction, { put, call }: EffectsCommandMap) {
       const { clusterName, ...request } = payload;
-      const { err } = yield call(deleteResource, request);
+      const { err } = yield call(api.deleteResource, request);
       if (!!err) {
         message.error(err, 5);
         return err;
@@ -55,7 +55,7 @@ export default {
     },
     *join({ payload }: AnyAction, { put, call }: EffectsCommandMap) {
       const { clusterName, ...request } = payload;
-      const { err } = yield call(joinResource, request);
+      const { err } = yield call(api.joinResource, request);
       if (!!err) {
         message.error(err, 5);
         return err;
@@ -65,7 +65,7 @@ export default {
     },
     *remove({ payload }: AnyAction, { put, call }: EffectsCommandMap) {
       const { clusterName, ...request } = payload;
-      const { err } = yield call(removeResource, request);
+      const { err } = yield call(api.removeResource, request);
       if (!!err) {
         message.error(err, 5);
         return err;

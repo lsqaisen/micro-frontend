@@ -1,11 +1,13 @@
 import { EffectsCommandMap } from 'dva';
 import { AnyAction } from 'redux';
 import { message } from 'antd';
-import { getCluster, addCluster, deleteCluster } from '@/services/cluster';
+import api from '@/services/cluster';
+import services from '@/services';
 
 export default {
   namespace: 'cluster',
   state: {
+    active: undefined,
     init: false,
     data: [],
   },
@@ -22,13 +24,27 @@ export default {
           });
         }
       });
+      dispatch({ type: 'active' })
       done();
     },
   },
 
   effects: {
+    *active(_: AnyAction, { call, put }: EffectsCommandMap) {
+      const { data, err } = yield call(services.getPluginStatus, 'node');
+      if (!!err) {
+        message.error(err, 5)
+      } else {
+        yield put({
+          type: 'save',
+          payload: {
+            active: !!data,
+          }
+        });
+      }
+    },
     *get(_: AnyAction, { call, put }: EffectsCommandMap) {
-      const { data, err } = yield call(getCluster);
+      const { data, err } = yield call(api.getCluster);
       if (!!err) {
         message.error(err, 5)
       } else {
@@ -42,7 +58,7 @@ export default {
       }
     },
     *add({ payload }: AnyAction, { put, call }: EffectsCommandMap) {
-      const { err } = yield call(addCluster, payload);
+      const { err } = yield call(api.addCluster, payload);
       if (!!err) {
         message.error(err, 5);
         return err;
@@ -52,7 +68,7 @@ export default {
       }
     },
     *[`delete`]({ payload }: AnyAction, { put, call }: EffectsCommandMap) {
-      const { err } = yield call(deleteCluster, payload);
+      const { err } = yield call(api.deleteCluster, payload);
       if (!!err) {
         message.error(err, 5);
         return err;

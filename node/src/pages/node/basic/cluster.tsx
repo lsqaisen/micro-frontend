@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { createSelector } from 'reselect';
 import Loading from '@/components/loading';
 import Cluster from '@/components/cluster';
-import { addRequest } from '@/services/cluster';
+import { addClusterRequest } from '@/services/cluster';
 
 @connect(createSelector(
   [
@@ -17,7 +17,7 @@ import { addRequest } from '@/services/cluster';
   (data, init, clusterName) => ({ data, init, clusterName })
 ))
 class Node extends (PureComponent || Component)<any, any> {
-  add = (data: addRequest) => {
+  add = (data: addClusterRequest) => {
     return this.props.dispatch({
       type: 'cluster/add',
       payload: data
@@ -31,7 +31,6 @@ class Node extends (PureComponent || Component)<any, any> {
   }
   render() {
     const { init, data, clusterName } = this.props;
-    console.log(clusterName)
     if (!init) return <Loading />
     return (
       <Cluster

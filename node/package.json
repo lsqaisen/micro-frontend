@@ -13,6 +13,7 @@
     "@antv/g2": "^3.5.3",
     "rc-animate": "^2.6.0",
     "rc-queue-anim": "^1.6.12",
+    "react-json-view": "^1.19.1",
     "react-lifecycles-compat": "^3.0.4",
     "react-perfect-scrollbar": "^1.4.4",
     "react-time-format": "^0.0.5"

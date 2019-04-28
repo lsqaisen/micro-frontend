@@ -80,13 +80,20 @@ export default {
 			const { name, type } = payload as getMetricsRequest;
 			const { data, err } = yield call(metric.getMetrics, payload);
 			if (!err) {
-				const { data: metricArray = [], total, used } = data;
+				const { data: metricArray = [], total, used, ..._data } = data;
 				let metricData: any[] = [];
 				if (Array.isArray(metricArray)) {
-					metricArray.map(({ values = [] }: any) => {
-						metricData = metricData.concat(values.map(([time, value]: any, key: any) => ({ key, time, value })));
+					metricArray.map(({ values = [] }: any, key: any) => {
+						metricData = metricData.concat(values.map(([time, value]: any) => ({ key, time, value })));
 					})
 				}
+				Object.entries(_data || {}).forEach(([key, value]: any) => {
+					if (Array.isArray(value)) {
+						value.map(({ values = [] }: any) => {
+							metricData = metricData.concat(values.map(([time, value]: any) => ({ key, time, value })));
+						})
+					}
+				})
 				yield put({
 					type: 'updateMetrics',
 					payload: {

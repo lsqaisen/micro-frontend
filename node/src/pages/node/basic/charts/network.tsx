@@ -1,10 +1,10 @@
 import { connect } from 'dva';
 import { createSelector } from 'reselect';
-import SystemLoadChart from '@/components/node-charts/systemload';
+import NetworkChart from '@/components/node-charts/network';
 
 export default connect(createSelector(
   [
-    () => 'systemload',
+    () => 'network',
     (props: any) => props.node.metrics,
   ],
   (type, metrics) => ({ type, metrics })
@@ -12,14 +12,14 @@ export default connect(createSelector(
   const { type, metrics, name, ..._props } = props;
   const { data = [] } = (metrics[name] || {})[type] || {};
   return (
-    <SystemLoadChart
+    <NetworkChart
       {..._props}
       type={type}
       name={name}
       data={data.map(({ key, time, value }: any) => ({
-        title: key === 0 ? '1分钟' : key === 1 ? '5分钟' : '10分钟',
+        title: key === "in" ? "流入" : "流出",
         time: time * 1000,
-        value: Number(value).toFixed(2)
+        value,
       }))}
     />
   )

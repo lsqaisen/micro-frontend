@@ -5,6 +5,11 @@ import { Row, Col, Select, Radio } from 'antd';
 import Cpu from './cpu';
 import Mem from './mem';
 import SystemLoad from './systemload';
+import FileSystem from './filesystem';
+import Io from './io';
+import Inode from './inode';
+import Tcpestab from './tcpestab';
+import Network from './network';
 
 const Option = Select.Option;
 const RadioButton = Radio.Button;
@@ -37,7 +42,6 @@ class Metric extends (PureComponent || Component)<any, any> {
   render() {
     const { nodes: { data = [] } } = this.props;
     const { name, step, dur } = this.state;
-    console.log(data)
     return (
       <Fragment>
         <Row style={{ margin: '24px 0' }}>
@@ -72,6 +76,25 @@ class Metric extends (PureComponent || Component)<any, any> {
           </Col>
           <Col span={8} >
             <SystemLoad name={name} dur={dur} step={step} />
+          </Col>
+        </Row>
+        <Row gutter={24}>
+          <Col span={6} >
+            <FileSystem name={name} dur={dur} step={step} />
+          </Col>
+          <Col span={9}>
+            <Io name={name} dur={dur} step={step} />
+          </Col>
+          <Col span={9}>
+            <Inode name={name} dur={dur} step={step} />
+          </Col>
+        </Row>
+        <Row gutter={24}>
+          <Col span={8}>
+            <Tcpestab name={name} dur={dur} step={step} />
+          </Col>
+          <Col span={8}>
+            <Network name={name} dur={dur} step={step} />
           </Col>
         </Row>
       </Fragment>

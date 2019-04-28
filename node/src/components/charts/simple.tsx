@@ -1,8 +1,8 @@
-import { PureComponent, Component, Fragment } from 'react';
+import { PureComponent, Component } from 'react';
 import * as G2 from '@antv/g2';
 import { generateUUID } from '@/utils';
 
-enum Types { line = "line", area = "area" }
+enum Types { line = "line", area = "area", interval = "interval" }
 
 export interface DataType {
   title: string;
@@ -15,6 +15,8 @@ export interface SimpleProps {
   color?: string[];
   symbol?: string;
   height?: number;
+  timeMask?: string;
+  format?: Function;
   data?: DataType[];
 }
 
@@ -24,6 +26,7 @@ class Simple extends (PureComponent || Component)<SimpleProps, any> {
     symbol: '%',
     data: [],
     height: 260,
+    timeMask: 'mm:ss',
     color: ['#286cff']
   }
 
@@ -31,33 +34,39 @@ class Simple extends (PureComponent || Component)<SimpleProps, any> {
 
   id = generateUUID();
 
-  UNSAFE_componentWillReceiveProps({ data = [] }: SimpleProps) {
+  UNSAFE_componentWillReceiveProps({ data = [], timeMask }: SimpleProps) {
     if (JSON.stringify(data) !== JSON.stringify(this.props.data)) {
       this.chart && this.chart.changeData(data);
     }
-
+    if (timeMask !== this.props.timeMask) {
+      this.chart.scale({
+        time: {
+          type: 'time',
+          mask: timeMask,
+        }
+      });
+    }
   }
   componentDidMount() {
-    const { type, height, color, symbol, data } = this.props;
+    const { type, timeMask, height, color, symbol, format, data } = this.props;
     this.chart = new G2.Chart({
       container: this.id,
       forceFit: true,
       height,
-      padding: [24, 0, 50, 56]
+      padding: [16, 8, 50, 60]
     });
     this.chart.source(data);
-
     this.chart.scale({
       value: {
         type: 'linear',
         sync: true,
         formatter(val: any) {
-          return `${val}${symbol}`
+          return format ? format(val) : `${val}${symbol}`
         }
       },
       time: {
         type: 'time',
-        mask: 'h:mm:ss',
+        mask: timeMask,
       }
     });
     this.chart.axis('title');
@@ -68,9 +77,12 @@ class Simple extends (PureComponent || Component)<SimpleProps, any> {
     this.chart.legend({
       attachLast: true
     });
-
-    this.chart.line().position('time*value').color("title", color);
-    type === Types.area && this.chart.area().position('time*value').color("title", color).opacity(.4);
+    if (type === Types.interval) {
+      this.chart.interval().position('time*value').color("title", color).shape('spline');
+    } else {
+      this.chart.line().position('time*value').color("title", color).shape('smooth');
+      type === Types.area && this.chart.area().position('time*value').color("title", color).opacity(.4);
+    }
     this.chart.render();
   }
   render() {

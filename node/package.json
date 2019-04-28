@@ -10,6 +10,7 @@
     "umi-plugin-react": "^1.4.2"
   },
   "dependencies": {
+    "@antv/data-set": "^0.10.2",
     "@antv/g2": "^3.5.3",
     "rc-animate": "^2.6.0",
     "rc-queue-anim": "^1.6.12",

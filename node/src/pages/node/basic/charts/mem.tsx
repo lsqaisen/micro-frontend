@@ -25,7 +25,7 @@ export default connect(createSelector(
       used={_used}
       usedSuffix={_usuffix}
       data={data.map(({ time, value }: any) => ({
-        title: type,
+        title: '内存',
         time: time * 1000,
         value: (value * 100).toFixed(2)
       }))}

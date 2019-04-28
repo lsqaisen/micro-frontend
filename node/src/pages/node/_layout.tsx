@@ -8,6 +8,7 @@ interface LayoutProps {
   active?: boolean;
   init?: boolean;
   dispatch: any;
+  location: any;
   children?: React.ReactChildren;
 }
 
@@ -17,7 +18,7 @@ export default connect(createSelector(
     (props: any) => props.cluster.init,
   ],
   (active, init) => ({ active, init })
-))(({ active, init, dispatch, children }: LayoutProps) => {
+))(({ active, init, dispatch, children, location: { pathname } }: LayoutProps) => {
   if (active === undefined || !init) {
     if (!!active) dispatch({ type: 'cluster/get' });
     return <Loading />
@@ -32,9 +33,9 @@ export default connect(createSelector(
   }
   return (
     <Layout style={{ position: 'absolute', background: '#fff', width: '100%', height: '100%' }}>
-      <Layout.Sider width="226" style={{ backgroundColor: '#f2f7fb', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.09)' }}>
+      {(pathname.split('\/').filter((v: any) => !!v).length < 2) && <Layout.Sider width="226" style={{ backgroundColor: '#f2f7fb', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.09)' }}>
         <Cluster />
-      </Layout.Sider>
+      </Layout.Sider>}
       <Layout.Content className="node-body" style={{ position: 'relative' }}>
         {init ? children : null}
       </Layout.Content>

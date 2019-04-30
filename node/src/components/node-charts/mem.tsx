@@ -1,32 +1,29 @@
 import { PureComponent, Component } from 'react';
-import { Row, Col, Statistic } from 'antd';
+import { Row, Col, Statistic, PageHeader } from 'antd';
 import basic, { BasicProps } from './basic';
 import Chart from '@/components/charts/simple';
 import Empty from './basic/empty';
 
 export interface MemProps extends BasicProps {
   timeMask: string;
-  totalSuffix: React.ReactNode;
-  usedSuffix: React.ReactNode;
 }
 
 @basic
 class Mem extends (PureComponent || Component)<MemProps, any> {
   render() {
-    const { data, total, used, totalSuffix, usedSuffix, timeMask } = this.props;
-    if (data!.length <= 0) return (<Empty description="暂无CPU监控数据" />);
+    const { type, data, total, used, timeMask } = this.props;
+    if (data!.length <= 0) return (<Empty description={`暂无${type}监控数据`} />);
     return (
-      <Row gutter={24}>
-        <Col span={12} style={{ textAlign: 'right' }}>
-          <Statistic title="内存总量" suffix={totalSuffix!} value={total} />
-        </Col>
-        <Col span={12} style={{ textAlign: 'right' }}>
-          <Statistic title="内存使用量" suffix={usedSuffix!} value={used} />
-        </Col>
-        <Col span={24} style={{ height: 260 }}>
-          <Chart timeMask={timeMask} color={["#0db46e"]} data={data} />
-        </Col>
-      </Row>
+      <PageHeader style={{ padding: 0 }} title="内存" subTitle="使用量/总量">
+        <Row gutter={24}>
+          <Col span={24} style={{ paddingBottom: 16 }}>
+            <Statistic suffix={`/ ${total}`} value={used} />
+          </Col>
+          <Col span={24}>
+            <Chart line type="area" height={248} timeMask={timeMask} color={["#0db46e"]} data={data} />
+          </Col>
+        </Row>
+      </PageHeader>
     )
   }
 }

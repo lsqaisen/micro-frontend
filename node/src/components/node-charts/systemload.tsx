@@ -12,14 +12,10 @@ export interface SystemLoadProps extends BasicProps {
 class SystemLoad extends (PureComponent || Component)<SystemLoadProps, any> {
   render() {
     const { data, timeMask } = this.props;
-    if (data!.length <= 0) return (<Empty description="暂无CPU监控数据" />);
+    if (data!.length <= 0) return (<Empty description={`暂无系统负载监控数据`} />);
     return (
       <PageHeader style={{ padding: 0 }} title="系统平均负载">
-        <Row gutter={24} style={{ paddingTop: 24 }}>
-          <Col span={24} style={{ height: 260 }}>
-            <Chart timeMask={timeMask} type={"line" as any} color={["#286cff", "#0db46e", "#ff9000"]} data={data} />
-          </Col>
-        </Row>
+        <Chart legend={{ position: 'top-center' }} type="line" height={298} timeMask={timeMask} color={["#286cff", "#0db46e", "#ff9000"]} data={data} />
       </PageHeader>
     )
   }

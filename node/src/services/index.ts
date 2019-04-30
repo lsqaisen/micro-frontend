@@ -7,7 +7,7 @@ import request from '../utils/request';
 async function getPluginStatus(name: string) {
   return request(`/api/plugin`).then(({ data, err }: any) => {
     return {
-      data: (data.plugins || []).some((plugin: any) => plugin.spec.id === name && plugin.status === 'active'),
+      data: ((data || {}).plugins || []).some((plugin: any) => plugin.spec.id === name && plugin.status === 'active'),
       err
     }
   });

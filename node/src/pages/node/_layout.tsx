@@ -1,6 +1,7 @@
 import { Layout, Empty, Button } from 'antd';
 import { connect } from 'dva';
 import { createSelector } from 'reselect';
+import Media from 'react-media';
 import Loading from '@/components/loading';
 import Cluster from './basic/cluster';
 
@@ -33,9 +34,13 @@ export default connect(createSelector(
   }
   return (
     <Layout style={{ position: 'absolute', background: '#fff', width: '100%', height: '100%' }}>
-      {(pathname.split('\/').filter((v: any) => !!v).length < 2) && <Layout.Sider width="226" style={{ backgroundColor: '#f2f7fb', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.09)' }}>
-        <Cluster />
-      </Layout.Sider>}
+      {(pathname.split('\/').filter((v: any) => !!v).length < 2) && (
+        <Media query="(min-width: 599px)">
+          <Layout.Sider width="226" style={{ backgroundColor: '#f2f7fb', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.09)' }}>
+            <Cluster />
+          </Layout.Sider>
+        </Media>
+      )}
       <Layout.Content className="node-body" style={{ position: 'relative' }}>
         {init ? children : null}
       </Layout.Content>

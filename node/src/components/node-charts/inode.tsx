@@ -12,12 +12,12 @@ export interface InodeProps extends BasicProps {
 class Inode extends (PureComponent || Component)<InodeProps, any> {
   render() {
     const { data, timeMask } = this.props;
-    if (data!.length <= 0) return (<Empty description="暂无CPU监控数据" />);
+    if (data!.length <= 0) return (<Empty description="暂无Inode监控数据" />);
     return (
       <PageHeader style={{ padding: 0 }} title="Inode使用率">
         <Row gutter={24}>
           <Col span={24} style={{ height: 260 }}>
-            <Chart timeMask={timeMask} color={["#286cff"]} data={data} />
+            <Chart line type="area" timeMask={timeMask} color={["#286cff"]} data={data} />
           </Col>
         </Row>
       </PageHeader>

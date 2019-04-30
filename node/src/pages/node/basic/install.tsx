@@ -34,7 +34,6 @@ class NodeInstall extends (PureComponent || Component)<any, any> {
   }
   render() {
     const { resourceName } = this.props;
-    if (!resourceName || resourceName === 'all') return null;
     return (
       <Install />
     )

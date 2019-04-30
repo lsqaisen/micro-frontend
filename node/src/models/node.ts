@@ -78,28 +78,15 @@ export default {
 		},
 		*metric({ payload }: AnyAction, { call, put }: EffectsCommandMap) {
 			const { name, type } = payload as getMetricsRequest;
+			if (!name || !type) return;
 			const { data, err } = yield call(metric.getMetrics, payload);
 			if (!err) {
-				const { data: metricArray = [], total, used, ..._data } = data;
-				let metricData: any[] = [];
-				if (Array.isArray(metricArray)) {
-					metricArray.map(({ values = [] }: any, key: any) => {
-						metricData = metricData.concat(values.map(([time, value]: any) => ({ key, time, value })));
-					})
-				}
-				Object.entries(_data || {}).forEach(([key, value]: any) => {
-					if (Array.isArray(value)) {
-						value.map(({ values = [] }: any) => {
-							metricData = metricData.concat(values.map(([time, value]: any) => ({ key, time, value })));
-						})
-					}
-				})
 				yield put({
 					type: 'updateMetrics',
 					payload: {
-						info: payload,
+						name,
 						data: {
-							[name]: { [type]: { total, used, data: metricData, } },
+							[name]: { [type]: data },
 						}
 					}
 				});
@@ -133,14 +120,14 @@ export default {
 				}
 			}
 		},
-		updateMetrics(state: any, { payload }: AnyAction) {
+		updateMetrics(state: any, { payload: { name, data } }: AnyAction) {
 			return {
 				...state,
 				metrics: {
 					...state.metrics,
-					[(payload.info as getMetricsRequest).name]: {
-						...state.metrics[(payload.info as getMetricsRequest).name],
-						...payload.data[(payload.info as getMetricsRequest).name],
+					[name]: {
+						...state.metrics[name],
+						...data[name],
 					}
 				}
 			}

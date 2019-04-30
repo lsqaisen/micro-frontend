@@ -172,15 +172,11 @@ class Node extends (PureComponent || Component)<NodeProps, any> {
     }
   ];
   render() {
-    const { loading, node, children, ...props } = this.props;
+    const { loading, node, ...props } = this.props;
     const { total = 0, data = [] } = node;
-    const _props = children ? {
-      ...props,
-      footer: () => children
-    } : props;
     return (
       <Table<INode>
-        {..._props}
+        {...props}
         pagination={{ total }}
         loading={loading}
         columns={this.columns}

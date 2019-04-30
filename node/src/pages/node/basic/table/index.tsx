@@ -5,6 +5,7 @@ import { Button } from 'antd';
 import Node from '@/components/node';
 import Install from '../install';
 import JoinResource from '@/components/resource/join-resource';
+import AddNode from '@/components/node/add-node';
 import { getNodesRequest } from '@/services/node';
 import { joinResourceRequest } from '@/services/resource';
 
@@ -69,24 +70,42 @@ class Table extends (PureComponent || Component)<any, any> {
     const { node = {}, allNode, loading, resourceName } = this.props;
     return (
       <Fragment>
-        <div style={{ textAlign: "right", marginBottom: 16 }}>
-          <JoinResource
-            resourceName={resourceName}
-            onSubmit={this.join}
-            searchNodes={(data: getNodesRequest) => {
-              return new Promise(async (resolve, reject) => {
-                await this.get(data);
-                resolve(allNode.data);
-              })
-            }}
-          />
-          <Button style={{ marginLeft: 16 }} loading={loading} onClick={this.get}>刷新</Button>
+        <div style={{ overflow: 'hidden', marginBottom: 16 }}>
+          <div className="fl" style={{ lineHeight: '40px' }} >
+            {!resourceName || resourceName === 'all' ? <Install location={location} /> : undefined}
+          </div>
+          <div className="fr">
+            {!resourceName || resourceName === 'all' ? (
+              < AddNode
+                resourceName={resourceName}
+                onSubmit={this.join}
+                searchNodes={(data: getNodesRequest) => {
+                  return new Promise(async (resolve, reject) => {
+                    await this.get(data);
+                    resolve(allNode.data);
+                  })
+                }}
+              />
+            ) : (
+                <JoinResource
+                  resourceName={resourceName}
+                  onSubmit={this.join}
+                  searchNodes={(data: getNodesRequest) => {
+                    return new Promise(async (resolve, reject) => {
+                      await this.get(data);
+                      resolve(allNode.data);
+                    })
+                  }}
+                />
+              )}
+            <Button style={{ marginLeft: 16 }} loading={loading} onClick={this.get}>刷新</Button>
+          </div>
         </div>
         <Node
           key={resourceName}
           loading={loading}
           node={node} >
-          {!resourceName || resourceName === 'all' ? <Install location={location} /> : undefined}
+
         </Node>
       </Fragment>
     )

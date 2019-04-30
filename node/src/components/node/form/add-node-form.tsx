@@ -41,7 +41,7 @@ class AddClusterForm extends (PureComponent || Component)<FormComponentProps & a
     const { getFieldDecorator } = form;
     const { type } = this.state;
     return (
-      <Form>
+      <Form >
         <FormItem
           label="名称"
           required

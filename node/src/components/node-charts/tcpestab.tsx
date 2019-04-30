@@ -16,11 +16,11 @@ class Tcpestab extends (PureComponent || Component)<TcpestabProps, any> {
     return (
       <PageHeader style={{ padding: 0 }} title="TCP连接数">
         <Row>
-          <Col>
-            <Statistic title="TCP连接数" suffix="（个）" value={data!.slice(-1)[0].value} />
-          </Col>  
-          <Col span={24} style={{ height: 260 }}>
-            <Chart timeMask={timeMask} symbol="个" type={"interval" as any} color={["#286cff", "#0db46e", "#ff9000"]} data={data} />
+          <Col style={{ paddingBottom: 16 }}>
+            <Statistic suffix="（个）" value={data!.slice(-1)[0].value} />
+          </Col>
+          <Col span={24}>
+            <Chart line type='area' min={undefined} timeMask={timeMask} symbol="个" color={["#286cff"]} data={data} />
           </Col>
         </Row>
       </PageHeader>

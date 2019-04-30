@@ -48,7 +48,7 @@ class Install extends (PureComponent || Component)<any, any> {
       <Fragment>
         <a href="" onClick={this.show}>安装详情</a>
         <Drawer
-          // title="安装详情"
+          title="安装详情"
           placement="bottom"
           height={'auto'}
           getContainer={document.getElementsByClassName('node-body')[0] as HTMLElement}

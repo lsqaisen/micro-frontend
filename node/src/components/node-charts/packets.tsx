@@ -1,0 +1,24 @@
+import { PureComponent, Component } from 'react';
+import { PageHeader } from 'antd';
+import basic, { BasicProps } from './basic';
+import Chart from '@/components/charts/simple';
+import Empty from './basic/empty';
+
+export interface PacketsProps extends BasicProps {
+  timeMask: string
+}
+
+@basic
+class Packets extends (PureComponent || Component)<PacketsProps, any> {
+  render() {
+    const { data, timeMask } = this.props;
+    if (data!.length <= 0) return (<Empty description="暂无网络流入流出数据包" />);
+    return (
+      <PageHeader style={{ padding: 0 }} title="网络流入流出数据包（pps）">
+        <Chart height={308} legend={{ position: 'top' }} min={undefined} line type="area" timeMask={timeMask} color={["#286cff", "#0db46e", "#ff9000"]} data={data} symbol="pps" />
+      </PageHeader>
+    )
+  }
+}
+
+export default Packets;

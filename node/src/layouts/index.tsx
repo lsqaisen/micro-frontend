@@ -1,3 +1,5 @@
+import * as React from 'react';
+import ReactDOM from 'react-dom';
 import { PureComponent, Component } from 'react';
 import { connect } from 'dva';
 import { createSelector } from 'reselect';
@@ -16,7 +18,7 @@ import withRouter from 'umi/withRouter';
 ))
 export default class extends (PureComponent || Component)<any, any> {
   state = {
-    init: false
+    init: false,
   }
   UNSAFE_componentWillReceiveProps({ profile, init }: any) {
     if (!!init && !!profile) {

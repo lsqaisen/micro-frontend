@@ -16,6 +16,7 @@ export default {
     setup({ dispatch, history }: any, done: any) {
       history.listen(({ pathname, search }: any) => {
         if (pathname === '/node' && !search) {
+          dispatch({ type: 'active' })
           dispatch({
             type: 'save',
             payload: {

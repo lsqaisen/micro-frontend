@@ -2,30 +2,22 @@ import { PureComponent, Component } from 'react';
 import * as G2 from '@antv/g2'
 import Chart, { Types } from './basic';
 
-export interface SimpleProps {
-  min?: number;
-  legend?: any;
+export interface AreaProps {
   line?: boolean;
   type?: Types;
   color?: string[];
   symbol?: string;
   timeMask?: string;
   data?: any[];
-  height?: number;
-  opacity?: number;
-  formatter?: (val: any) => any;
   initDraw?: (chart: G2.Chart) => void;
 }
 
-class Simple extends (PureComponent || Component)<SimpleProps, any> {
-  static readonly defaultProps: SimpleProps = {
-    min: 0,
-    legend: false,
+class Area extends (PureComponent || Component)<AreaProps, any> {
+  static readonly defaultProps: AreaProps = {
     line: false,
     type: 'line',
     symbol: '%',
     timeMask: 'mm:ss',
-    opacity: 1,
     color: ['#286cff'],
     data: [],
     initDraw: () => null,
@@ -34,17 +26,15 @@ class Simple extends (PureComponent || Component)<SimpleProps, any> {
   chart: G2.Chart | null | undefined;
 
   initDraw = (chart: G2.Chart) => {
-    const { min, legend, line, type, data, symbol, color, formatter, opacity, initDraw } = this.props;
-    chart.legend(legend!);
+    const { line, type, data, initDraw } = this.props;
     chart.source(data);
     chart.scale({
       value: {
-        min: min || min === 0 ? min : undefined,
         type: 'linear',
         sync: true,
-        formatter: formatter ? formatter : (val: any) => {
-          return `${val}${symbol}`
-        },
+        formatter(val: any) {
+          return `${val}%`
+        }
       },
       time: {
         type: 'time',
@@ -52,13 +42,13 @@ class Simple extends (PureComponent || Component)<SimpleProps, any> {
       }
     });
     if (type !== 'line' && line) {
-      chart.line().position('time*value').color("title", color!).shape('smooth');
+      chart.line().position('time*value').color("title").shape('smooth');
     }
-    chart[type!]().position('time*value').color("title", color!).shape('smooth').opacity(line ? .3 : opacity!);
+    chart[type!]().position('time*value').color("title").shape('smooth');
     initDraw!(chart);
   }
 
-  UNSAFE_componentWillReceiveProps({ data = [], timeMask }: SimpleProps) {
+  UNSAFE_componentWillReceiveProps({ data = [], timeMask }: AreaProps) {
     if (JSON.stringify(data) !== JSON.stringify(this.props.data)) {
       this.chart!.changeData(data);
     }
@@ -82,4 +72,4 @@ class Simple extends (PureComponent || Component)<SimpleProps, any> {
   }
 }
 
-export default Simple;
+export default Area;

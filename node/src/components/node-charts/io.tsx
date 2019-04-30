@@ -19,7 +19,7 @@ class Io extends (PureComponent || Component)<IoProps, any> {
           <Col span={24} style={{ height: 260 }}>
             <Chart
               timeMask={timeMask}
-              color={["#286cff", "#0db46e", "#0db46eaa", "#286cffaa",]}
+              color={["#0db46eaa", "#286cffaa", "#286cff", "#0db46e",]}
               data={data}
             />
           </Col>

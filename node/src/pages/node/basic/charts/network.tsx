@@ -4,23 +4,16 @@ import NetworkChart from '@/components/node-charts/network';
 
 export default connect(createSelector(
   [
-    () => 'network',
-    (props: any) => props.node.metrics,
+    ({ node: { metrics } }: any, { name }: any) => {
+      const { data = undefined } = (metrics[name] || {})['network'] || {};
+      return { data: data ? Object.assign(data) : undefined };
+    }
   ],
-  (type, metrics) => ({ type, metrics })
-))((props: any) => {
-  const { type, metrics, name, ..._props } = props;
-  const { data = [] } = (metrics[name] || {})[type] || {};
-  return (
-    <NetworkChart
-      {..._props}
-      type={type}
-      name={name}
-      data={data.map(({ key, time, value }: any) => ({
-        title: key === "in" ? "流入" : "流出",
-        time: time * 1000,
-        value,
-      }))}
-    />
-  )
-});
+  (metric) => (metric)
+))(({ data, ...props }: any) => (
+  <NetworkChart
+    {...props}
+    type='network'
+    data={data || []}
+  />
+));

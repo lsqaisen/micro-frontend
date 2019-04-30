@@ -16,6 +16,7 @@
     "rc-queue-anim": "^1.6.12",
     "react-json-view": "^1.19.1",
     "react-lifecycles-compat": "^3.0.4",
+    "react-media": "^1.9.2",
     "react-perfect-scrollbar": "^1.4.4",
     "react-time-format": "^0.0.5"
   }

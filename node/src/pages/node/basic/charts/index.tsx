@@ -10,6 +10,7 @@ import Io from './io';
 import Inode from './inode';
 import Tcpestab from './tcpestab';
 import Network from './network';
+import Packets from './packets';
 
 const Option = Select.Option;
 const RadioButton = Radio.Button;
@@ -95,6 +96,9 @@ class Metric extends (PureComponent || Component)<any, any> {
           </Col>
           <Col span={8}>
             <Network name={name} dur={dur} step={step} />
+          </Col>
+          <Col span={8}>
+            <Packets name={name} dur={dur} step={step} />
           </Col>
         </Row>
       </Fragment>

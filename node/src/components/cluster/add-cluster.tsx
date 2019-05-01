@@ -8,7 +8,7 @@ export interface AddClusterProps {
   onSubmit?: (value: addClusterRequest) => void
 }
 
-class AddCluster extends (PureComponent || Component)<AddClusterProps, any> {
+class AddCluster extends PureComponent<AddClusterProps, any> {
   static readonly defaultProps: AddClusterProps = {
     onSubmit: () => null
   };

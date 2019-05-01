@@ -1,4 +1,4 @@
-import { PureComponent, Component, Fragment } from 'react';
+import { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import { createSelector } from 'reselect';
 import { Button } from 'antd';
@@ -6,7 +6,7 @@ import Node from '@/components/node';
 import Install from '../install';
 import JoinResource from '@/components/resource/join-resource';
 import AddNode from '@/components/node/add-node';
-import { getNodesRequest } from '@/services/node';
+import { getNodesRequest, installRequest } from '@/services/node';
 import { joinResourceRequest } from '@/services/resource';
 
 @connect(createSelector(
@@ -24,10 +24,16 @@ import { joinResourceRequest } from '@/services/resource';
   ],
   (node, allNode, { clusterName, resourceName }, loading) => ({ node, allNode, clusterName, resourceName, loading })
 ))
-class Table extends (PureComponent || Component)<any, any> {
+class Table extends PureComponent<any, any> {
   get = async (data: getNodesRequest) => {
     await this.props.dispatch({
       type: 'node/nodes',
+      payload: data,
+    })
+  }
+  install = (data: installRequest) => {
+    return this.props.dispatch({
+      type: 'node/install',
       payload: data,
     })
   }
@@ -76,22 +82,14 @@ class Table extends (PureComponent || Component)<any, any> {
           </div>
           <div className="fr">
             {!resourceName || resourceName === 'all' ? (
-              < AddNode
-                resourceName={resourceName}
-                onSubmit={this.join}
-                searchNodes={(data: getNodesRequest) => {
-                  return new Promise(async (resolve, reject) => {
-                    await this.get(data);
-                    resolve(allNode.data);
-                  })
-                }}
-              />
+              <AddNode onSubmit={this.join} />
             ) : (
                 <JoinResource
                   resourceName={resourceName}
                   onSubmit={this.join}
                   searchNodes={(data: getNodesRequest) => {
                     return new Promise(async (resolve, reject) => {
+                      console.log(data)
                       await this.get(data);
                       resolve(allNode.data);
                     })

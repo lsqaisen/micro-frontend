@@ -16,7 +16,7 @@ import { getResourceRequest, createResourceRequest } from '@/services/resource';
   ],
   (resource, { clusterName, resourceName }) => ({ resource, clusterName, resourceName })
 ))
-class Resource extends (PureComponent || Component)<any, any> {
+class Resource extends PureComponent<any, any> {
   get = async (data: getResourceRequest) => {
     await this.props.dispatch({
       type: 'resource/get',
@@ -61,7 +61,8 @@ class Resource extends (PureComponent || Component)<any, any> {
         resourceName={resourceName}
         data={[{
           name: 'all',
-          tag: '所有节点'
+          tag: '所有节点',
+          type: 'builtin',
         }].concat(resource[clusterName].data)}
         onAdd={this.add}
         onDelete={this['delete']}

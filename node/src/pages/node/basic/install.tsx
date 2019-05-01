@@ -15,7 +15,7 @@ import { getNodesRequest } from '@/services/node';
   ],
   (installs, { clusterName, resourceName }, loading) => ({ installs, clusterName, resourceName, loading })
 ))
-class NodeInstall extends (PureComponent || Component)<any, any> {
+class NodeInstall extends PureComponent<any, any> {
   install = async (data: getNodesRequest) => {
     await this.props.dispatch({
       type: 'node/installs',

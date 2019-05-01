@@ -14,7 +14,7 @@ export type LoginProps = {
   firstLoginData: any;
 }
 
-class Login extends (PureComponent || Component)<LoginProps, any>{
+class Login extends PureComponent<LoginProps, any>{
   static NameInput = null;
   static EmailInput = null;
 

@@ -9,7 +9,7 @@ const RadioGroup = Radio.Group;
 const FormItem = Form.Item;
 
 @(Form.create() as any)
-class AddClusterForm extends (PureComponent || Component)<FormComponentProps & any, any> {
+class AddClusterForm extends PureComponent<FormComponentProps & any, any> {
   static readonly defaultProps = {
     formItemLayout: {
       labelCol: { span: 3, },

@@ -64,7 +64,7 @@ const leaveAnim = (isPageTween: boolean) => {
     ]
 };
 
-class ATable<T> extends (PureComponent || Component)<TableProps<T>, any> {
+class ATable<T> extends PureComponent<TableProps<T>, any> {
   animTag = (props: any) => {
     return (
       <TableContext.Consumer>

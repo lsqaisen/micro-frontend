@@ -16,7 +16,7 @@ export type FirstLoginFormProps = {
   goFirstLogin: (values: any) => void;
 } & NameInputProps & FormComponentProps;
 
-class FirstLoginForm extends (PureComponent || Component)<FirstLoginFormProps, any> {
+class FirstLoginForm extends PureComponent<FirstLoginFormProps, any> {
   constructor(props) {
     super(props);
     this.state = {

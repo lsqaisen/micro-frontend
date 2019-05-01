@@ -11,7 +11,7 @@ export interface BasicProps extends ChartProps {
   onDraw?: (chart: G2.Chart) => void
 }
 
-class Basic extends (PureComponent || Component)<BasicProps, any> {
+class Basic extends PureComponent<BasicProps, any> {
   static readonly defaultProps: BasicProps = {
     container: generateUUID(),
     forceFit: true,

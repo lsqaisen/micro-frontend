@@ -1,4 +1,4 @@
-import { PureComponent, Component, Fragment } from 'react';
+import { PureComponent, Fragment } from 'react';
 import { Divider, Icon } from 'antd';
 import { ColumnProps } from 'antd/lib/table';
 import { Link } from 'dva/router';
@@ -45,7 +45,7 @@ export type NodeProps = {
   loading: boolean;
 }
 
-class Node extends (PureComponent || Component)<NodeProps, any> {
+class Node extends PureComponent<NodeProps, any> {
   columns: ColumnProps<INode>[] = [
     {
       title: '节点名称',
@@ -113,7 +113,7 @@ class Node extends (PureComponent || Component)<NodeProps, any> {
         return {
           style: {
             whiteSpace: 'nowrap',
-            minWidth: 146,
+            minWidth: 186,
           }
         }
       },
@@ -136,7 +136,7 @@ class Node extends (PureComponent || Component)<NodeProps, any> {
         return {
           style: {
             whiteSpace: 'nowrap',
-            minWidth: 140,
+            minWidth: 256,
           }
         }
       },

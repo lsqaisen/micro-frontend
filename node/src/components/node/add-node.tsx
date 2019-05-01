@@ -1,14 +1,14 @@
-import { PureComponent, Component, Fragment } from 'react';
+import { PureComponent, Fragment } from 'react';
 import { Icon, Button, Drawer } from 'antd';
 import AddNodeForm from './form/add-node-form';
 import { addClusterRequest } from '@/services/cluster';
 import styles from './style/chart.less';
 
 export interface AddNodeProps {
-  onSubmit?: (value: addClusterRequest) => void
+  onSubmit?: (value: addClusterRequest) => any
 }
 
-class AddNode extends (PureComponent || Component)<AddNodeProps, any> {
+class AddNode extends PureComponent<AddNodeProps, any> {
   static readonly defaultProps: AddNodeProps = {
     onSubmit: () => null
   };
@@ -33,11 +33,11 @@ class AddNode extends (PureComponent || Component)<AddNodeProps, any> {
           onClose={() => { this.setState({ visible: false }) }}
           visible={visible}
         >
-          <AddNodeForm ref="addcluster" />
+          <AddNodeForm ref="addnode" />
           <div className={"node-actions"} >
             <Button onClick={() => { this.setState({ visible: false }) }} style={{ marginRight: 8 }}> 取消 </Button>
             <Button loading={loading} onClick={() => {
-              (this.refs.addcluster as any).validateFields(async (error: any, values: addClusterRequest) => {
+              (this.refs.addnode as any).validateFields(async (error: any, values: addClusterRequest) => {
                 if (!error) {
                   this.setState({ loading: true })
                   if ((await onSubmit!(values)) as any) {

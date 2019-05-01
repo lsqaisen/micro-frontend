@@ -13,7 +13,7 @@ export interface JosinResourceFormProps {
 }
 
 @(Form.create() as any)
-class AddResourceForm extends (PureComponent || Component)<JosinResourceFormProps & FormComponentProps, any> {
+class AddResourceForm extends PureComponent<JosinResourceFormProps & FormComponentProps, any> {
   static readonly defaultProps = {
     form: {},
     formItemLayout: {

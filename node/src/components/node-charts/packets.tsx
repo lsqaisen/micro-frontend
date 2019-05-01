@@ -9,7 +9,7 @@ export interface PacketsProps extends BasicProps {
 }
 
 @basic
-class Packets extends (PureComponent || Component)<PacketsProps, any> {
+class Packets extends PureComponent<PacketsProps, any> {
   render() {
     const { data, timeMask } = this.props;
     if (data!.length <= 0) return (<Empty description="暂无网络流入流出数据包" />);

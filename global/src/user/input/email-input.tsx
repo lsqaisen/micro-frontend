@@ -10,7 +10,7 @@ export type EmailInputProps = {
   onCode: (value: string) => void;
 } & InputProps
 
-class EmailInput extends (PureComponent || Component)<EmailInputProps, any> {
+class EmailInput extends PureComponent<EmailInputProps, any> {
   static state = {
     sending: false,
     time: 0,

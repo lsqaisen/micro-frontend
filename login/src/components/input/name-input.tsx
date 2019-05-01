@@ -16,7 +16,7 @@ export type NameInputProps = {
   onChange: (value: string) => void;
 } & InputProps
 
-class NameInput extends (PureComponent || Component)<NameInputProps, any> {
+class NameInput extends PureComponent<NameInputProps, any> {
   static defaultProps: {
     onChange: (value: string) => void;
   }

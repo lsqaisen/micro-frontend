@@ -12,7 +12,7 @@ export interface ContrastProps {
   initDraw?: (chart: G2.Chart) => void;
 }
 
-class Contrast extends (PureComponent || Component)<ContrastProps, any> {
+class Contrast extends PureComponent<ContrastProps, any> {
   static readonly defaultProps: ContrastProps = {
     types: ['line', 'area'],
     symbol: '%',

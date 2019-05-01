@@ -6,7 +6,7 @@ import User from './user';
 import Namespace from './namespace';
 const { Content, Sider } = Layout;
 
-export default class extends (PureComponent || Component) {
+export default class extends PureComponent {
   componentDidMount() {
     const box = document.getElementById('box'),
       shadow = document.getElementById('shadow'),

@@ -17,7 +17,7 @@ export interface SimpleProps {
   initDraw?: (chart: G2.Chart) => void;
 }
 
-class Simple extends (PureComponent || Component)<SimpleProps, any> {
+class Simple extends PureComponent<SimpleProps, any> {
   static readonly defaultProps: SimpleProps = {
     min: 0,
     legend: false,

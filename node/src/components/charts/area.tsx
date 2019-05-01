@@ -12,7 +12,7 @@ export interface AreaProps {
   initDraw?: (chart: G2.Chart) => void;
 }
 
-class Area extends (PureComponent || Component)<AreaProps, any> {
+class Area extends PureComponent<AreaProps, any> {
   static readonly defaultProps: AreaProps = {
     line: false,
     type: 'line',

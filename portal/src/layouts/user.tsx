@@ -9,7 +9,7 @@ import { createSelector } from 'reselect';
   ],
   (user) => ({ user })
 ))
-export default class extends (PureComponent || Component)<any, any> {
+export default class extends PureComponent<any, any> {
   render() {
     return (
       <User name="admin" />

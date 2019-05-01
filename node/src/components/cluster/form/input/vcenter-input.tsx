@@ -1,4 +1,4 @@
-import { PureComponent, Component, Fragment } from 'react';
+import { PureComponent, Fragment } from 'react';
 import { Form, Input } from 'antd';
 import FormInput, { FormInputProps } from '@/components/forminput';
 
@@ -13,7 +13,7 @@ interface ValueType {
 export type VCenterProps = FormInputProps<ValueType>
 
 @(FormInput as any)
-class VCenterInput extends (PureComponent || Component)<VCenterProps, any> {
+class VCenterInput extends PureComponent<VCenterProps, any> {
 	static readonly defaultProps: VCenterProps = {
 		form: {} as any,
 		value: {} as any

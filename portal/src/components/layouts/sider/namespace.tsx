@@ -14,7 +14,7 @@ type UserState = {
   color?: colorType;
 }
 
-export default class extends (PureComponent || Component)<any, UserState> {
+export default class extends PureComponent<any, UserState> {
   state = {
     color: colorList[parseInt(`${Math.random() * 10}`) % 4]
   }

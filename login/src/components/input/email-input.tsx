@@ -9,7 +9,7 @@ export interface EmailInputProps extends InputProps {
   sendCode?: (value: string | undefined) => any;
 }
 
-class EmailInput extends (PureComponent || Component)<EmailInputProps, any> {
+class EmailInput extends PureComponent<EmailInputProps, any> {
   state = {
     sending: false,
     time: 0,

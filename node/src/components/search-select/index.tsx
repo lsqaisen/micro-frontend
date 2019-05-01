@@ -26,7 +26,7 @@ interface SearchSelectState {
 	nextParams?: any,
 }
 
-class SearchSelect extends (PureComponent || Component)<SearchSelectProps, SearchSelectState> {
+class SearchSelect extends PureComponent<SearchSelectProps, SearchSelectState> {
 	static readonly defaultProps = {
 		data: []
 	}

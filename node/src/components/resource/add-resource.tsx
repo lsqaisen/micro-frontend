@@ -1,4 +1,4 @@
-import { PureComponent, Component, Fragment } from 'react';
+import { PureComponent, Fragment } from 'react';
 import { Icon, Button, Drawer } from 'antd';
 import AddResourceForm from './form/add-resource-form';
 import { createResourceRequest } from '@/services/resource';
@@ -7,7 +7,7 @@ export interface AddResourceProps {
   onSubmit?: (value: createResourceRequest) => void
 }
 
-class AddResource extends (PureComponent || Component)<AddResourceProps, any> {
+class AddResource extends PureComponent<AddResourceProps, any> {
   static readonly defaultProps: AddResourceProps = {
     onSubmit: () => null
   };

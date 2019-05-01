@@ -14,7 +14,7 @@ export type FlipCardItemProps = {
   flipTimes?: number;
 }
 
-class FlipCardItem extends (PureComponent || Component)<FlipCardItemProps, any> {
+class FlipCardItem extends PureComponent<FlipCardItemProps, any> {
   static defaultProps = {
     className: ''
   }

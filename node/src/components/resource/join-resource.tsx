@@ -1,4 +1,4 @@
-import { PureComponent, Component, Fragment } from 'react';
+import { PureComponent, Fragment } from 'react';
 import { Icon, Button, Drawer } from 'antd';
 import JoinResourceForm, { JosinResourceFormProps } from './form/join-resource-form';
 import { joinResourceRequest } from '@/services/resource';
@@ -7,7 +7,7 @@ export interface JoinResourceProps extends JosinResourceFormProps {
   onSubmit?: (value: joinResourceRequest) => void
 }
 
-class JoinResource extends (PureComponent || Component)<JoinResourceProps, any> {
+class JoinResource extends PureComponent<JoinResourceProps, any> {
   state = {
     loading: false,
     visible: false,

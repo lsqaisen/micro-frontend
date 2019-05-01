@@ -13,7 +13,7 @@ export interface CircleProps {
   initDraw?: (chart: G2.Chart) => void;
 }
 
-class Circle extends (PureComponent || Component)<CircleProps, any> {
+class Circle extends PureComponent<CircleProps, any> {
   static readonly defaultProps: CircleProps = {
     line: false,
     type: 'line',

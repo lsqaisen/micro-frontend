@@ -9,7 +9,7 @@ export interface TcpestabProps extends BasicProps {
 }
 
 @basic
-class Tcpestab extends (PureComponent || Component)<TcpestabProps, any> {
+class Tcpestab extends PureComponent<TcpestabProps, any> {
   render() {
     const { data, timeMask } = this.props;
     if (data!.length <= 0) return (<Empty description="暂无TCP连接数数据" />);

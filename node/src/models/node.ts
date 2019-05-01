@@ -60,6 +60,12 @@ export default {
 				});
 			}
 		},
+		*install({ payload }: AnyAction, { call, put }: EffectsCommandMap) {
+			const { err } = yield call(api.install, payload);
+			if (!!err) {
+				message.error(err, 5)
+			}
+		},
 		*detail({ payload }: AnyAction, { call, put }: EffectsCommandMap) {
 			const { data, err } = yield call(api.getNodeDetail, payload);
 			if (!!err) {

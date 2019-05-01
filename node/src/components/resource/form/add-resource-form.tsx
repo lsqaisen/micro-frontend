@@ -6,7 +6,7 @@ const TextArea = Input.TextArea;
 const FormItem = Form.Item;
 
 @(Form.create() as any)
-class AddResourceForm extends (PureComponent || Component)<FormComponentProps & any, any> {
+class AddResourceForm extends PureComponent<FormComponentProps & any, any> {
   static readonly defaultProps = {
     formItemLayout: {
       labelCol: { span: 5, },

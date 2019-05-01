@@ -20,16 +20,15 @@ function getNodes(data: getNodesRequest) {
 /**
  * 添加主机
  */
-enum authType { username_password = "username_password", sshkey = "sshkey" }
-export interface installRequest {
-	auth_type: authType;     //shh类型
+interface installRequest {
+	auth_type: "username_password" | "sshkey";     //shh类型
 	ssh_username?: string | undefined;    // 当为auth_type 为sshkey时,可以不填
 	ssh_password?: string | undefined; 		 // 当为auth_type 为sshkey时,可以不填
 	ssh_key?: string | undefined;         // 当为auth_type 为username_password时,可以不填
 	node_port: string | number;    		 // 端口
-	node_ip: string;  // 节点IP
+	node_ip: string[];  // 节点IP
 }
-export function install(requestData: installRequest) {
+function install(requestData: installRequest) {
 	return request(`/service/node/api/cluster/default/node`, {
 		method: 'post',
 		body: { ...requestData, node_port: `${requestData.node_port}` },
@@ -94,7 +93,7 @@ function getNodeDetail(name: string) {
 enum allocatable { uncordon = "uncordon", drain = "drain" }
 export interface modifyStatusRequest {
 	name: string;     //节点名称
-	allocatable: allocatable;    // 是否可调度
+	allocatable: "uncordon" | "drain";    // 是否可调度
 }
 
 export function modifyStatus({ name, allocatable }: modifyStatusRequest) {
@@ -163,9 +162,12 @@ export function setApply({ id, status, allocNode = "" }: setApplyRequest) {
 
 export {
 	getNodesRequest,
+	installRequest
 }
 
 export default {
 	getNodes,
 	getNodeDetail,
+	install,
 }
+

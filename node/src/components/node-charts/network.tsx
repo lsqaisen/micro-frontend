@@ -9,7 +9,7 @@ export interface NetworkProps extends BasicProps {
 }
 
 @basic
-class Network extends (PureComponent || Component)<NetworkProps, any> {
+class Network extends PureComponent<NetworkProps, any> {
   render() {
     const { data, timeMask } = this.props;
     if (data!.length <= 0) return (<Empty description="暂无网络流入流出数据" />);

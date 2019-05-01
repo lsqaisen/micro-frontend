@@ -17,7 +17,7 @@ import { LoginRequest, ModifyPasswordRequest, ResetPasswordRequest } from '@/ser
   ],
   (domains, loading) => ({ domains, loading }),
 ))
-export default class extends (PureComponent || Component)<any, any> {
+export default class extends PureComponent<any, any> {
   domains = () => {
     return this.props.dispatch({ type: `user/getDomain` })
   }

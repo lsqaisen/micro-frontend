@@ -1,4 +1,4 @@
-import { PureComponent, Component, Fragment } from 'react';
+import { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import { createSelector } from 'reselect';
 import { Row, Col, Select, Radio } from 'antd';
@@ -22,7 +22,7 @@ const RadioGroup = Radio.Group;
   ],
   (nodes) => ({ nodes })
 ))
-class Metric extends (PureComponent || Component)<any, any> {
+class Metric extends PureComponent<any, any> {
   constructor(props: any) {
     super(props);
     this.state = {

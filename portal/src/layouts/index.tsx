@@ -17,7 +17,7 @@ import "antd/lib/style/index.less"
   ],
   (user, menus) => ({ user, menus })
 ))
-export default class extends (PureComponent || Component)<any, any> {
+export default class extends PureComponent<any, any> {
   state = {
     init: false
   }

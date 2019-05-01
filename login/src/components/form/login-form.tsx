@@ -21,7 +21,7 @@ export interface LoginFormProps {
   modifyPassword?: (values: ModifyPasswordRequest) => any;
 };
 
-class LoginForm extends (PureComponent || Component)<LoginFormProps & FormComponentProps, any> {
+class LoginForm extends PureComponent<LoginFormProps & FormComponentProps, any> {
   state = {
     isFirstLogin: false,
     loginType: 'local',

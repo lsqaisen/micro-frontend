@@ -1,4 +1,4 @@
-import { PureComponent, Component, Fragment } from 'react';
+import { PureComponent, Fragment } from 'react';
 import { Divider } from 'antd';
 import * as G2 from '@antv/g2';
 import { generateUUID } from '@/utils';
@@ -20,7 +20,7 @@ export interface ChartProps {
   data?: ChartDataProps[];
 }
 
-class Cpu extends (PureComponent || Component)<ChartProps, any> {
+class Cpu extends PureComponent<ChartProps, any> {
   static readonly defaultProps: ChartProps = {
     id: `${new Date().getTime()}`,
     symbol: '%',

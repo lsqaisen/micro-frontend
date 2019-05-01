@@ -9,7 +9,7 @@ export interface InodeProps extends BasicProps {
 }
 
 @basic
-class Inode extends (PureComponent || Component)<InodeProps, any> {
+class Inode extends PureComponent<InodeProps, any> {
   render() {
     const { data, timeMask } = this.props;
     if (data!.length <= 0) return (<Empty description="暂无Inode监控数据" />);

@@ -9,7 +9,7 @@ export interface MemProps extends BasicProps {
 }
 
 @basic
-class Mem extends (PureComponent || Component)<MemProps, any> {
+class Mem extends PureComponent<MemProps, any> {
   render() {
     const { type, data, total, used, timeMask } = this.props;
     if (data!.length <= 0) return (<Empty description={`暂无${type}监控数据`} />);

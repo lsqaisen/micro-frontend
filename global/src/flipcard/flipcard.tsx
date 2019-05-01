@@ -23,7 +23,7 @@ type FlipCardState = {
   front?: string | undefined;
 }
 
-class FlipCard extends (PureComponent || Component)<FlipCardProps, FlipCardState> {
+class FlipCard extends PureComponent<FlipCardProps, FlipCardState> {
   static Item: typeof Item;
   static defaultProps = {
     axis: 'center',

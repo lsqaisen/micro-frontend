@@ -9,7 +9,7 @@ export interface FileSystemProps extends BasicProps {
 }
 
 @basic
-class FileSystem extends (PureComponent || Component)<FileSystemProps, any> {
+class FileSystem extends PureComponent<FileSystemProps, any> {
   render() {
     const { type, total, used, pused, timeMask } = this.props;
     return (

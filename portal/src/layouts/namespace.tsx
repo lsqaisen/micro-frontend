@@ -9,7 +9,7 @@ import Namespace from '@/components/layouts/sider/namespace';
   ],
   (user) => ({ user })
 ))
-export default class extends (PureComponent || Component)<any, any> {
+export default class extends PureComponent<any, any> {
   render() {
     return (
       <Namespace />

@@ -16,7 +16,7 @@ import { addClusterRequest } from '@/services/cluster';
   ],
   (data, init, clusterName) => ({ data, init, clusterName })
 ))
-class Node extends (PureComponent || Component)<any, any> {
+class Node extends PureComponent<any, any> {
   add = (data: addClusterRequest) => {
     return this.props.dispatch({
       type: 'cluster/add',

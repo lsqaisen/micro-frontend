@@ -10,7 +10,7 @@ export interface FormInputProps<T = any> extends FormComponentProps {
 }
 
 export default <T extends Object = {}>(WrappedComponent: React.ComponentClass<any, any>) => {
-  class FormInput extends (PureComponent || Component)<FormInputProps<T>, any> {
+  class FormInput extends PureComponent<FormInputProps<T>, any> {
     changeValidator = (rules: any[]) => {
       const { validateFields } = this.props.form;
       const index = rules.findIndex(rule => Object.keys(rule).includes('validator'));

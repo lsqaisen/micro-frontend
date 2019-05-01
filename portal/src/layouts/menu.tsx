@@ -9,7 +9,7 @@ import { createSelector } from 'reselect';
   ],
   (menus) => ({ menus })
 ))
-export default class extends (PureComponent || Component)<any, any> {
+export default class extends PureComponent<any, any> {
   render() {
     return (
       <Menu />

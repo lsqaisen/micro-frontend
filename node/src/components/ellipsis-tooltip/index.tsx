@@ -5,7 +5,7 @@ export interface EllipsisTooltipProps {
   title?: any;
 }
 
-class EllipsisTooltip extends (PureComponent || Component)<EllipsisTooltipProps, any> {
+class EllipsisTooltip extends PureComponent<EllipsisTooltipProps, any> {
   state = {
     visible: false
   }

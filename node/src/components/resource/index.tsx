@@ -17,7 +17,7 @@ export type ResourceProps = {
   onDelete?: (name: string | any) => void;
 };
 
-class Resource extends (PureComponent || Component)<ResourceProps, any> {
+class Resource extends PureComponent<ResourceProps, any> {
   static readonly defaultProps: ResourceProps = {
     data: [],
     clusterName: '',
@@ -98,7 +98,7 @@ class Resource extends (PureComponent || Component)<ResourceProps, any> {
         >
           {
             data.map(v => (
-              <TabPane tab={v.tag} key={v.name}>
+              <TabPane tab={v.tag} key={v.name} closable={v.type !== "builtin"}>
                 {children}
               </TabPane>
             ))

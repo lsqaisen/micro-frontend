@@ -14,7 +14,7 @@ import Loading from '@/components/loading';
   ],
   (plugins, loading) => ({ plugins, loading })
 ))
-class Plugin extends (PureComponent || Component)<any, any> {
+class Plugin extends PureComponent<any, any> {
   state = {
     init: false,
   }

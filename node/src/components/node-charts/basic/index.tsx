@@ -15,7 +15,7 @@ export interface BasicProps {
 }
 
 export default <T extends BasicProps = { name: string, type: string }>(Chart: React.ComponentClass<T, any>) => {
-  return class extends (PureComponent || Component)<T, any> {
+  return class extends PureComponent<T, any> {
     static readonly defaultProps = {
       dur: 60 * 10,
       step: 5,

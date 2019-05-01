@@ -18,7 +18,7 @@ export interface ResetPasswordProps extends EmailInputProps {
   resetPassword?: (values: ResetPasswordRequest) => any;
 }
 
-class ResetPassword extends (PureComponent || Component)<ResetPasswordProps & FormComponentProps, any> {
+class ResetPassword extends PureComponent<ResetPasswordProps & FormComponentProps, any> {
 
   state = { error: '' };
 

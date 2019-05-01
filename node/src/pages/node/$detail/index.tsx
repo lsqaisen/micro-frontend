@@ -20,7 +20,7 @@ import Charts from '../basic/charts';
 ],
   (metricActive, detail, { clusterName, resourceName }) => ({ metricActive, detail, clusterName, resourceName })
 ))
-class Detail extends (PureComponent || Component)<any, any> {
+class Detail extends PureComponent<any, any> {
   detail = (name: string) => {
     return this.props.dispatch({
       type: 'node/detail',

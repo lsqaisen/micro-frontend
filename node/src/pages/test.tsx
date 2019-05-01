@@ -44,7 +44,7 @@ const data: IUser[] = [{
 },];
 
 
-class Dashboard extends (PureComponent || Component)<any, any> {
+class Dashboard extends PureComponent<any, any> {
   logout = (e: React.MouseEvent) => {
     e.preventDefault();
     this.props.dispatch({

@@ -1,4 +1,4 @@
-import { PureComponent, Component, Fragment } from 'react';
+import { PureComponent, Fragment } from 'react';
 import { Icon, Drawer } from 'antd';
 import { ColumnProps } from 'antd/lib/table';
 import Table from '@/components/table';
@@ -27,7 +27,7 @@ export type PodsProps = {
   pods: IPod[];
 }
 
-class Pods extends (PureComponent || Component)<PodsProps, any> {
+class Pods extends PureComponent<PodsProps, any> {
   columns: ColumnProps<IPod>[] = [
     {
       title: '副本名称',

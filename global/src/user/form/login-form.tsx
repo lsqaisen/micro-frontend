@@ -17,7 +17,7 @@ export type LoginFormProps = {
 } & NameInputProps & FormComponentProps;
 
 @Form.create()
-class LoginForm extends (PureComponent || Component)<LoginFormProps, any> {
+class LoginForm extends PureComponent<LoginFormProps, any> {
   state = {
     error: "",
     loginType: 'local',

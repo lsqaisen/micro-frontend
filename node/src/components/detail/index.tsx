@@ -1,4 +1,4 @@
-import { PureComponent, Component, Fragment, Children } from 'react';
+import { PureComponent, Fragment, Children } from 'react';
 import { Tag, Tabs, Button, PageHeader, Row, Col, Statistic, Typography, Breadcrumb } from 'antd';
 import router from 'umi/router';
 import { Link } from 'dva/router';
@@ -17,7 +17,7 @@ export interface NodeProps {
   onLoad?: () => void;
 }
 
-class Node extends (PureComponent || Component)<NodeProps, any> {
+class Node extends PureComponent<NodeProps, any> {
   static readonly defaultProps: NodeProps = {
     node: {},
   }

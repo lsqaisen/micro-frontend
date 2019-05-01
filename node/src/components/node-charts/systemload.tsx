@@ -9,7 +9,7 @@ export interface SystemLoadProps extends BasicProps {
 }
 
 @basic
-class SystemLoad extends (PureComponent || Component)<SystemLoadProps, any> {
+class SystemLoad extends PureComponent<SystemLoadProps, any> {
   render() {
     const { data, timeMask } = this.props;
     if (data!.length <= 0) return (<Empty description={`暂无系统负载监控数据`} />);

@@ -1,19 +1,19 @@
 import { PureComponent, Component } from 'react';
 import { Form, Input, Radio } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
-import VCenterInput from './input/vcenter-input';
-import AliyunInput from './input/aliyun-input';
+import HostIPInput from './input/hostip-input';
+import IPInput from '@/components/inputs/ip';
 
 const TextArea = Input.TextArea;
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item;
 
 @(Form.create() as any)
-class AddClusterForm extends (PureComponent || Component)<FormComponentProps & any, any> {
+class AddNodeForm extends PureComponent<FormComponentProps & any, any> {
   static readonly defaultProps = {
     formItemLayout: {
-      labelCol: { span: 3, },
-      wrapperCol: { span: 21, },
+      labelCol: { span: 5, },
+      wrapperCol: { span: 19, },
     }
   };
 
@@ -41,71 +41,151 @@ class AddClusterForm extends (PureComponent || Component)<FormComponentProps & a
     const { getFieldDecorator } = form;
     const { type } = this.state;
     return (
-      <Form >
+      <Form>
         <FormItem
-          label="名称"
-          required
           {...formItemLayout}
+          label="IP地址范围"
         >
-          {getFieldDecorator('name', {
-            rules: [
-              { required: true, message: '名称不能为空!' },
-              { validator: this.checkName }
-            ]
+          <IPInput />
+        </FormItem>
+        <FormItem
+          {...formItemLayout}
+          label="IP地址范围"
+        >
+          <Input />
+        </FormItem>
+        {/* <FormItem
+          {...formItemLayout}
+          label="IP地址">
+          {getFieldDecorator('node_ip', {
+            rules: [{ required: true, message: '至少选择一个主机IP!' }],
           })(
-            <Input placeholder="名称" />
+            <Select
+              placeholder="请先添加IP地址/范围"
+              mode="multiple"
+              style={{ width: '100%' }}
+              onChange={(v) => {
+                this.setState({
+                  select_iplist: v,
+                })
+              }}
+            >
+              {iplist.map(ip => {
+                return <Option key={ip}>{ip}</Option>
+              })}
+            </Select>
           )}
         </FormItem>
         <FormItem
-          label="备注"
           {...formItemLayout}
+          label="端口"
         >
-          {getFieldDecorator('desc')(
-            <TextArea autosize={{ minRows: 4, maxRows: 4 }} placeholder="请输入备注" />
+          {getFieldDecorator('node_port', {
+            initialValue: 22,
+            rules: [{ required: true, message: '端口不能为空  !' }, {
+              validator: (rule, value, callback) => {
+                //验证必须为正整数
+                let pattern = /^([1-9][0-9]*)$/;
+                if (!pattern.test(value)) {
+                  callback('端口必须是正整数');
+                }
+                if (value < 1 || value > 65535) {
+                  callback('端口必须在1到65535范围');
+                }
+                callback();
+              }
+            }],
+          })(
+            <InputNumber style={{ width: '40%' }} />
           )}
         </FormItem>
         <FormItem
-          label="类型"
-          required
           {...formItemLayout}
+          label="认证方式"
         >
-          {getFieldDecorator('type', {
+          {getFieldDecorator('auth_type', {
             initialValue: type,
-            rules: [{ required: true, message: '必须选择集群类型!' }]
           })(
             <RadioGroup onChange={(v) => { this.setState({ type: v.target.value }) }}>
-              <Radio value="vcenter">vcenter</Radio>
-              <Radio value="aliyun">aliyun</Radio>
+              <Radio value="username_password">用户密码</Radio>
+              <Radio value="ssh_key">SSHKey</Radio>
             </RadioGroup>
           )}
         </FormItem>
-        {type === 'vcenter' ?
+        {type === 'username_password' ? [
           <FormItem
             {...formItemLayout}
-            label="配置"
-            validateStatus=""
-            help=""
-            required>
-            {getFieldDecorator('vcenter', {
-              rules: []
-            })(
-              <VCenterInput />
-            )}
-          </FormItem> : <FormItem
-            {...formItemLayout}
-            label="配置"
-            validateStatus=""
-            help=""
+            label="用户名"
+            key="1"
           >
-            {getFieldDecorator('aliyun', {
-              rules: [],
+            {getFieldDecorator('ssh_username', {
+              initialValue: 'root',
+              rules: [{ required: true, message: '用户名不能为空!' }, {
+                validator: (rule, value, callback) => {
+                  if (!!value) {
+                    let pattern = /[\u4e00-\u9fa5]/;
+                    let n = 0;
+                    for (let i = 0; i < value.length; i++) {
+                      if (pattern.test(value[i])) {
+                        n = n + 3;
+                      } else {
+                        n = n + 1;
+                      }
+                    }
+                    if (n > 50) {
+                      callback('用户名长度超出限制');
+                    }
+                  }
+                  callback();
+                }
+              }],
             })(
-              <AliyunInput />
+              <Input disabled placeholder="请输入用户名" />
             )}
-          </FormItem>}
+          </FormItem>,
+          <FormItem
+            {...formItemLayout}
+            label="密码"
+            key="2"
+          >
+            {getFieldDecorator('ssh_password', {
+              rules: [{ required: true, message: '密码不能为空!' }, {
+                validator: (rule, value, callback) => {
+                  if (!!value) {
+                    let pattern = /[\u4e00-\u9fa5]/;
+                    let n = 0;
+                    for (let i = 0; i < value.length; i++) {
+                      if (pattern.test(value[i])) {
+                        n = n + 3;
+                      } else {
+                        n = n + 1;
+                      }
+                    }
+                    if (n > 50) {
+                      callback('密码长度超出限制');
+                    }
+                  }
+                  callback();
+                }
+              }],
+            })(
+              <Input type='password' autoComplete="new-password" placeholder="请输入密码" />
+            )}
+          </FormItem>,
+        ] : [<FormItem
+          {...formItemLayout}
+          label="SSHKey"
+          key="ssh_key"
+        >
+          {getFieldDecorator('ssh_key', {
+            rules: [{ required: true, message: 'SSHKey不能为空!' }],
+          })(
+            <Input type="textarea" size="large" autosize={{ minRows: 6, maxRows: 10 }} placeholder="请输入SSHKey" />
+          )}
+        </FormItem>]} */}
       </Form>
     )
   }
 }
 
-export default AddClusterForm;
+export default AddNodeForm;

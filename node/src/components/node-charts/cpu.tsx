@@ -9,7 +9,7 @@ export interface CpuProps extends BasicProps {
 }
 
 @basic
-class Cpu extends (PureComponent || Component)<CpuProps, any> {
+class Cpu extends PureComponent<CpuProps, any> {
   render() {
     const { data, total, used, timeMask } = this.props;
     if (data!.length <= 0) return (<Empty description="暂无CPU监控数据" />);

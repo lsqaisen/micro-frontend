@@ -1,72 +1,56 @@
-import { Form, Input, InputNumber, Row, Col } from 'antd';
+import { PureComponent, Fragment } from 'react';
+import { Form, Input } from 'antd';
+import FormInput, { FormInputProps } from '@/components/forminput';
+
 const FormItem = Form.Item;
 
-class HostIpInput extends React.Component {
-    constructor(props) {
-        super(props);
-        const data = this.props.value || { num: 1 };
-        this.state = {
-            ip: data.ip || '',
-            num: data.num || '',
-        };
-    }
-    componentWillReceiveProps(nextProps) {
-        if ('value' in nextProps) {
-            const data = nextProps.value;
-            this.setState(data);
-        }
-    }
-    handleKeyChange(e) {
-        const ip = e.target.value;
-        if (!('value' in this.props)) {
-            this.setState({ ip });
-        }
-        this.triggerChange({ ip });
-    }
-    handleValueChange(e) {
-        const num = e;
-        if (!('value' in this.props)) {
-            this.setState({ num });
-        }
-        this.triggerChange({ num });
-    }
-    triggerChange(changedValue) {
-        // Should provide an event to pass value to Form.
-        const onChange = this.props.onChange;
-        if (onChange) {
-            onChange(Object.assign({}, this.state, changedValue));
-        }
-    }
-    render() {
-        const { size } = this.props;
-        const state = this.state;
-        return (
-            <Row style={{ ...this.props.style }}>
-                <Col span="17">
-                    <Input
-                        placeholder="IP地址，例：192.168.1.1"
-                        type="text"
-                        size={size}
-                        value={state.ip}
-                        onChange={this.handleKeyChange.bind(this)}
-                        style={{ width: '100%' }}
-                    />
-                </Col>
-                <Col span="1"><p className="ant-form-split">{this.props.symbol}</p></Col>
-                <Col span="6">
-                    <InputNumber
-                        size={size}
-                        min={1}
-                        max={255}
-                        defaultValue={1}
-                        value={state.num}
-                        onChange={this.handleValueChange.bind(this)}
-                        style={{ width: '100%' }}
-                    />
-                </Col>
-            </Row>
-        );
-    }
+interface ValueType {
+	name?: string,
+	password?: string | undefined,
+	url?: string | undefined,
 }
 
-export default HostIpInput;
+export type VCenterProps = FormInputProps<ValueType>
+
+@(FormInput as any)
+class HostIPInput extends PureComponent<VCenterProps, any> {
+	static readonly defaultProps: VCenterProps = {
+		form: {} as any,
+		value: {} as any
+	}
+	render() {
+		const { value, form } = this.props;
+		const { getFieldDecorator } = form;
+		const { name, password, url } = (value as ValueType);
+		return (
+			<Fragment>
+				<FormItem required>
+					{getFieldDecorator('name', {
+						initialValue: name,
+						rules: [{ required: true, message: '用户名不能为空!' }]
+					})(
+						<Input placeholder="账户名" />
+					)}
+				</FormItem>
+				<FormItem required>
+					{getFieldDecorator('password', {
+						initialValue: password,
+						rules: [{ required: true, message: '用户密码不能为空!' }]
+					})(
+						<Input placeholder="密码" type="password" />
+					)}
+				</FormItem>
+				<FormItem required>
+					{getFieldDecorator('url', {
+						initialValue: url,
+						rules: [{ required: true, message: '集群地址不能为空!' }]
+					})(
+						<Input placeholder="URL" />
+					)}
+				</FormItem>
+			</Fragment>
+		)
+	}
+}
+
+export default HostIPInput;

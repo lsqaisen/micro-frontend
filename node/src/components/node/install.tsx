@@ -1,4 +1,4 @@
-import { PureComponent, Component, Fragment } from 'react';
+import { PureComponent, Fragment } from 'react';
 import { Drawer } from 'antd';
 import { ColumnProps } from 'antd/lib/table';
 import Table from '@/components/table';
@@ -12,7 +12,7 @@ interface InstallLog {
 }
 
 
-class Install extends (PureComponent || Component)<any, any> {
+class Install extends PureComponent<any, any> {
   columns: ColumnProps<InstallLog>[] = [{
     title: '安装节点IP',
     dataIndex: 'ip',

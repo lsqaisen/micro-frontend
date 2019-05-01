@@ -9,7 +9,7 @@ export interface IoProps extends BasicProps {
 }
 
 @basic
-class Io extends (PureComponent || Component)<IoProps, any> {
+class Io extends PureComponent<IoProps, any> {
   render() {
     const { data, timeMask } = this.props;
     if (data!.length <= 0) return (<Empty description="暂无磁盘读写请求数据" />);

@@ -16,7 +16,7 @@ import withRouter from 'umi/withRouter';
   ],
   (profile, init) => ({ profile, init })
 ))
-export default class extends (PureComponent || Component)<any, any> {
+export default class extends PureComponent<any, any> {
   state = {
     init: false,
   }

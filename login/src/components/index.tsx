@@ -13,7 +13,7 @@ export interface LoginProps extends LoginFormProps, ResetPasswordProps {
   // resetProps?: ResetPasswordProps;
 }
 
-export default class extends (PureComponent || Component)<LoginProps, any> {
+export default class extends PureComponent<LoginProps, any> {
   state = {
     type: '',
     style: {},

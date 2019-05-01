@@ -16,7 +16,7 @@ export type ClusterProps = {
   onDelete?: (name: string) => void;
 }
 
-class Cluster extends (PureComponent || Component)<ClusterProps, any> {
+class Cluster extends PureComponent<ClusterProps, any> {
   static readonly defaultProps: ClusterProps = {
     data: []
   }

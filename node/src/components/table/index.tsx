@@ -7,7 +7,7 @@ import 'rc-table/assets/animation.css';
 import './style/index.less';
 
 
-class ATable<T> extends (PureComponent || Component)<TableProps<T>, any> {
+class ATable<T> extends PureComponent<TableProps<T>, any> {
   render() {
     return (
       <Table

@@ -1,4 +1,4 @@
-import { PureComponent, Component, Fragment } from 'react';
+import { PureComponent, Fragment } from 'react';
 import { Form, Input } from 'antd';
 import FormInput, { FormInputProps } from '@/components/forminput';
 
@@ -12,7 +12,7 @@ interface ValueType {
 export type AliyunProps = FormInputProps<ValueType>
 
 @(FormInput as any)
-class AliyunInput extends (PureComponent || Component)<AliyunProps, any> {
+class AliyunInput extends PureComponent<AliyunProps, any> {
 	static readonly defaultProps: AliyunProps = {
 		form: {} as any,
 		value: {} as any

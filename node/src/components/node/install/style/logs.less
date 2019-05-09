@@ -1,0 +1,25 @@
+.logs {
+  background-color: #fff;
+
+  :global {
+    .ant-tabs-bar {
+      margin-bottom: 0;
+    }
+  }
+
+  &.fullscreen {
+    padding: 24px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 100000;
+
+    :global {
+      .ant-tabs-tabpane {
+        height: calc(100vh - 88px) !important
+      }
+    }
+  }
+}

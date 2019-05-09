@@ -61,9 +61,18 @@ export default {
 			}
 		},
 		*install({ payload }: AnyAction, { call, put }: EffectsCommandMap) {
-			const { err } = yield call(api.install, payload);
+			const { clusterName, ..._payload } = payload;
+			const { err } = yield call(api.install, _payload);
 			if (!!err) {
 				message.error(err, 5)
+			} else {
+				yield put({
+					type: 'installs',
+					payload: {
+						cluster: clusterName,
+						type: 'install'
+					}
+				});
 			}
 		},
 		*detail({ payload }: AnyAction, { call, put }: EffectsCommandMap) {

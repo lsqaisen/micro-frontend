@@ -1,8 +1,7 @@
-import { PureComponent, Component } from 'react';
-import { Form, Input, Radio } from 'antd';
+import { PureComponent } from 'react';
+import { Form, Input, Radio, InputNumber } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import HostIPInput from './input/hostip-input';
-import IPInput from '@/components/inputs/ip';
 
 const TextArea = Input.TextArea;
 const RadioGroup = Radio.Group;
@@ -18,22 +17,7 @@ class AddNodeForm extends PureComponent<FormComponentProps & any, any> {
   };
 
   state = {
-    type: 'vcenter'
-  }
-
-  checkName = (rule: any, value: any, callback: any) => {
-    if (!!value) {
-      if (value.length > 63) {
-        callback('名称长度为1~63！');
-      } else if (!/^[a-z0-9-]{1,}$/.test(value)) {
-        callback(`名称由小写字母、数字和字符‘-’组成！`);
-      } else if (/^\d/.test(value)) {
-        callback(`开始字符不能是数字`);
-      } else if (/^[-]/.test(value) || /[-]$/.test(value)) {
-        callback('字符‘-’不能为开始和结束字符！');
-      }
-    }
-    callback();
+    type: 'username_password'
   }
 
   render() {
@@ -44,36 +28,14 @@ class AddNodeForm extends PureComponent<FormComponentProps & any, any> {
       <Form>
         <FormItem
           {...formItemLayout}
+          style={{ marginBottom: 0 }}
           label="IP地址范围"
+          validateStatus=""
+          help=""
+          required
         >
-          <IPInput />
-        </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label="IP地址范围"
-        >
-          <Input />
-        </FormItem>
-        {/* <FormItem
-          {...formItemLayout}
-          label="IP地址">
-          {getFieldDecorator('node_ip', {
-            rules: [{ required: true, message: '至少选择一个主机IP!' }],
-          })(
-            <Select
-              placeholder="请先添加IP地址/范围"
-              mode="multiple"
-              style={{ width: '100%' }}
-              onChange={(v) => {
-                this.setState({
-                  select_iplist: v,
-                })
-              }}
-            >
-              {iplist.map(ip => {
-                return <Option key={ip}>{ip}</Option>
-              })}
-            </Select>
+          {getFieldDecorator('node_ip', { rules: [] })(
+            <HostIPInput />
           )}
         </FormItem>
         <FormItem
@@ -83,8 +45,7 @@ class AddNodeForm extends PureComponent<FormComponentProps & any, any> {
           {getFieldDecorator('node_port', {
             initialValue: 22,
             rules: [{ required: true, message: '端口不能为空  !' }, {
-              validator: (rule, value, callback) => {
-                //验证必须为正整数
+              validator: (rule: any, value: any, callback: any) => {
                 let pattern = /^([1-9][0-9]*)$/;
                 if (!pattern.test(value)) {
                   callback('端口必须是正整数');
@@ -121,7 +82,7 @@ class AddNodeForm extends PureComponent<FormComponentProps & any, any> {
             {getFieldDecorator('ssh_username', {
               initialValue: 'root',
               rules: [{ required: true, message: '用户名不能为空!' }, {
-                validator: (rule, value, callback) => {
+                validator: (rule: any, value: any, callback: any) => {
                   if (!!value) {
                     let pattern = /[\u4e00-\u9fa5]/;
                     let n = 0;
@@ -149,40 +110,23 @@ class AddNodeForm extends PureComponent<FormComponentProps & any, any> {
             key="2"
           >
             {getFieldDecorator('ssh_password', {
-              rules: [{ required: true, message: '密码不能为空!' }, {
-                validator: (rule, value, callback) => {
-                  if (!!value) {
-                    let pattern = /[\u4e00-\u9fa5]/;
-                    let n = 0;
-                    for (let i = 0; i < value.length; i++) {
-                      if (pattern.test(value[i])) {
-                        n = n + 3;
-                      } else {
-                        n = n + 1;
-                      }
-                    }
-                    if (n > 50) {
-                      callback('密码长度超出限制');
-                    }
-                  }
-                  callback();
-                }
-              }],
+              rules: [{ required: true, message: '密码不能为空!' }],
             })(
               <Input type='password' autoComplete="new-password" placeholder="请输入密码" />
             )}
           </FormItem>,
-        ] : [<FormItem
-          {...formItemLayout}
-          label="SSHKey"
-          key="ssh_key"
-        >
-          {getFieldDecorator('ssh_key', {
-            rules: [{ required: true, message: 'SSHKey不能为空!' }],
-          })(
-            <Input type="textarea" size="large" autosize={{ minRows: 6, maxRows: 10 }} placeholder="请输入SSHKey" />
+        ] : (
+            <FormItem
+              {...formItemLayout}
+              label="SSHKey"
+            >
+              {getFieldDecorator('ssh_key', {
+                rules: [{ required: true, message: 'SSHKey不能为空!' }],
+              })(
+                <TextArea autosize={{ minRows: 6, maxRows: 10 }} placeholder="请输入SSHKey" />
+              )}
+            </FormItem>
           )}
-        </FormItem>]} */}
       </Form>
     )
   }

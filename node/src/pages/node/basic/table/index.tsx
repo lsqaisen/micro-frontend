@@ -34,7 +34,7 @@ class Table extends PureComponent<any, any> {
   install = (data: installRequest) => {
     return this.props.dispatch({
       type: 'node/install',
-      payload: data,
+      payload: { ...data, clusterName: this.props.clusterName },
     })
   }
   join = (data: joinResourceRequest) => {
@@ -82,7 +82,7 @@ class Table extends PureComponent<any, any> {
           </div>
           <div className="fr">
             {!resourceName || resourceName === 'all' ? (
-              <AddNode onSubmit={this.join} />
+              <AddNode onSubmit={this.install} />
             ) : (
                 <JoinResource
                   resourceName={resourceName}
@@ -103,7 +103,6 @@ class Table extends PureComponent<any, any> {
           key={resourceName}
           loading={loading}
           node={node} >
-
         </Node>
       </Fragment>
     )

@@ -1,54 +1,105 @@
-import { PureComponent, Fragment } from 'react';
-import { Form, Input } from 'antd';
+import { PureComponent } from 'react';
+import { Form, Row, Col, Button, Select, InputNumber } from 'antd';
 import FormInput, { FormInputProps } from '@/components/forminput';
+import IPInput from '@/components/inputs/ip';
+
+const Option = Select.Option;
 
 const FormItem = Form.Item;
 
-interface ValueType {
-	name?: string,
-	password?: string | undefined,
-	url?: string | undefined,
-}
 
-export type VCenterProps = FormInputProps<ValueType>
+
+export type HostIPInputProps = FormInputProps<{ list: string[] }>
 
 @(FormInput as any)
-class HostIPInput extends PureComponent<VCenterProps, any> {
-	static readonly defaultProps: VCenterProps = {
+class HostIPInput extends PureComponent<HostIPInputProps, any> {
+	static readonly defaultProps: HostIPInputProps = {
 		form: {} as any,
-		value: {} as any
+		value: [] as any
+	}
+	state = {
+		start_ip: '',
+		ip_number: 1,
+		list: [],
+	}
+	setIps = () => {
+		const { value, form } = this.props;
+		const { start_ip, ip_number } = this.state;
+		let list = [start_ip], select_list = value!.list || [];
+		console.log(list, select_list, value)
+		for (let i = 1; i < Number(ip_number); i++) {
+			let items: any[] = start_ip.split('.');
+			items = items.map(item => parseInt(item));
+			items[3] += i;
+			if (items[3] >= 255) {
+				items[3] = items[3] - 254;
+				items[2] += 1;
+				if (items[2] > 255) {
+					items[2] = 0;
+					items[1] += 1;
+					if (items[1] > 255) {
+						items[1] = 0;
+						items[0] += 1;
+					}
+				}
+			}
+			list.push(items.join('.'));
+		}
+		for (let i = 0; i < list.length; i++) {
+			select_list.indexOf(list[i]) == -1 && select_list.push(list[i]);
+		}
+		this.setState({ list: select_list })
+		form.setFieldsValue({ list: select_list })
 	}
 	render() {
-		const { value, form } = this.props;
+		const { form } = this.props;
+		const { start_ip, ip_number, list } = this.state;
 		const { getFieldDecorator } = form;
-		const { name, password, url } = (value as ValueType);
 		return (
-			<Fragment>
-				<FormItem required>
-					{getFieldDecorator('name', {
-						initialValue: name,
-						rules: [{ required: true, message: '用户名不能为空!' }]
-					})(
-						<Input placeholder="账户名" />
-					)}
-				</FormItem>
-				<FormItem required>
-					{getFieldDecorator('password', {
-						initialValue: password,
-						rules: [{ required: true, message: '用户密码不能为空!' }]
-					})(
-						<Input placeholder="密码" type="password" />
-					)}
-				</FormItem>
-				<FormItem required>
-					{getFieldDecorator('url', {
-						initialValue: url,
-						rules: [{ required: true, message: '集群地址不能为空!' }]
-					})(
-						<Input placeholder="URL" />
-					)}
-				</FormItem>
-			</Fragment>
+			<Row gutter={16}>
+				<Col>填写起始IP地址和连续接入的节点数，以批量设置IP地址</Col>
+				<Col span={12}>
+					<IPInput
+						value={start_ip}
+						placeholder="节点IP起始地址"
+						onChange={(v: any) => this.setState({ start_ip: v.target.value })}
+					/>
+				</Col>
+				<Col span={6}>
+					<InputNumber
+						style={{ width: '100%' }}
+						placeholder="IP数量"
+						value={ip_number}
+						onChange={(v: any) => this.setState({ ip_number: v })}
+					/>
+				</Col>
+				<Col span={6}>
+					<Button style={{ width: '100%' }} disabled={!start_ip} onClick={this.setIps}>追加</Button>
+				</Col>
+				<Col span={24}>
+					<FormItem>
+						{getFieldDecorator('list', {
+							rules: [{ required: true, message: '至少选择一个主机IP!' }],
+						})(
+							<Select
+								allowClear
+								placeholder="请先添加IP地址/范围"
+								mode="multiple"
+								style={{ width: '100%' }}
+								onChange={(v) => {
+									this.setState({
+										select_iplist: v,
+									})
+								}}
+							>
+								{list.map(ip => {
+									return <Option key={ip}>{ip}</Option>
+								})}
+							</Select>
+						)}
+					</FormItem>
+				</Col>
+			</Row>
 		)
 	}
 }

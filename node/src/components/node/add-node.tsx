@@ -1,11 +1,11 @@
 import { PureComponent, Fragment } from 'react';
 import { Icon, Button, Drawer } from 'antd';
 import AddNodeForm from './form/add-node-form';
-import { addClusterRequest } from '@/services/cluster';
+import { installRequest } from '@/services/node';
 import styles from './style/chart.less';
 
 export interface AddNodeProps {
-  onSubmit?: (value: addClusterRequest) => any
+  onSubmit?: (value: installRequest) => any
 }
 
 class AddNode extends PureComponent<AddNodeProps, any> {
@@ -27,8 +27,9 @@ class AddNode extends PureComponent<AddNodeProps, any> {
           <Icon type="import" /> 安装节点
         </Button>
         <Drawer
-          title="添加集群"
-          width={482}
+          bodyStyle={{ height: 'calc(100% - 108px)', overflow: 'auto' }}
+          title="安装节点"
+          width={500}
           placement="right"
           onClose={() => { this.setState({ visible: false }) }}
           visible={visible}
@@ -37,10 +38,10 @@ class AddNode extends PureComponent<AddNodeProps, any> {
           <div className={"node-actions"} >
             <Button onClick={() => { this.setState({ visible: false }) }} style={{ marginRight: 8 }}> 取消 </Button>
             <Button loading={loading} onClick={() => {
-              (this.refs.addnode as any).validateFields(async (error: any, values: addClusterRequest) => {
+              (this.refs.addnode as any).validateFields(async (error: any, values: installRequest) => {
                 if (!error) {
                   this.setState({ loading: true })
-                  if ((await onSubmit!(values)) as any) {
+                  if ((await onSubmit!({ ...values, node_ip: (values.node_ip as any).list })) as any) {
                     this.setState({ loading: false })
                   } else {
                     this.setState({ visible: false, loading: false })

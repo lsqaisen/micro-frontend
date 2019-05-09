@@ -13,10 +13,10 @@ import { getNodesRequest } from '@/services/node';
     },
     (props: any) => !!props.loading.effects[`node/installs`],
   ],
-  (installs, { clusterName, resourceName }, loading) => ({ installs, clusterName, resourceName, loading })
+  (data, { clusterName, resourceName }, loading) => ({ data, clusterName, resourceName, loading })
 ))
 class NodeInstall extends PureComponent<any, any> {
-  install = async (data: getNodesRequest) => {
+  installs = async (data: getNodesRequest) => {
     await this.props.dispatch({
       type: 'node/installs',
       payload: data,
@@ -29,13 +29,13 @@ class NodeInstall extends PureComponent<any, any> {
         cluster: clusterName,
         type: 'install'
       };
-      this.install(data);
+      this.installs(data);
     }
   }
   render() {
-    const { resourceName } = this.props;
+    const { data } = this.props;
     return (
-      <Install />
+      <Install data={data} />
     )
   }
 }

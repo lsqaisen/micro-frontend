@@ -1,4 +1,4 @@
-import { PureComponent, Component } from 'react';
+import { PureComponent } from 'react';
 import * as G2 from '@antv/g2'
 import Chart, { Types } from './basic';
 import styles from './style/index.less';

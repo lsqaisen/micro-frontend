@@ -1,6 +1,6 @@
 import { PureComponent, Fragment } from 'react';
 import { Form, Input } from 'antd';
-import FormInput, { FormInputProps } from '@/components/forminput';
+import FormInput, { FormInputProps } from '@/components/global/forminput';
 
 const FormItem = Form.Item;
 

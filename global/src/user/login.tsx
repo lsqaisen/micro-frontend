@@ -1,4 +1,4 @@
-import React, { PureComponent, Component } from 'react';
+import React, { PureComponent } from 'react';
 import { polyfill } from 'react-lifecycles-compat';
 import { Form, Card, Button } from 'antd';
 import FlipCard from '../flipcard';

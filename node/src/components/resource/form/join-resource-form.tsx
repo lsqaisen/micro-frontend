@@ -1,7 +1,7 @@
-import { PureComponent, Component } from 'react';
+import { PureComponent } from 'react';
 import { Form, Input } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
-import SearchSelect from '@/components/search-select';
+import SearchSelect from '@/components/global/search-select';
 import { getNodesRequest } from '@/services/node';
 
 const FormItem = Form.Item;

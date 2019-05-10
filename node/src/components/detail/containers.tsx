@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 import { Typography } from 'antd';
 import ReactJson from 'react-json-view'
 import Description from './description';
-import Status from '@/components/status';
+import Status from '@/components/global/status';
 
 const { Title, Paragraph } = Typography;
 

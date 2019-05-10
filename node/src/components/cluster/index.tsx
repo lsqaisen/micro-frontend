@@ -1,4 +1,4 @@
-import { PureComponent, Component } from 'react';
+import { PureComponent } from 'react';
 import { Menu, Icon, Modal } from 'antd';
 import router from 'umi/router';
 import QueueAnim from 'rc-queue-anim';

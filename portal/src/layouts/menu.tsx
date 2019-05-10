@@ -1,4 +1,4 @@
-import { PureComponent, Component } from 'react';
+import { PureComponent } from 'react';
 import { connect } from 'dva';
 import Menu from '@/components/layouts/sider/menu';
 import { createSelector } from 'reselect';

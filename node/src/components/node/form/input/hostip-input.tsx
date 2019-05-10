@@ -1,7 +1,7 @@
 import { PureComponent } from 'react';
 import { Form, Row, Col, Button, Select, InputNumber } from 'antd';
-import FormInput, { FormInputProps } from '@/components/forminput';
-import IPInput from '@/components/inputs/ip';
+import FormInput, { FormInputProps } from '@/components/global/forminput';
+import IPInput from '@/components/global/inputs/ip';
 
 const Option = Select.Option;
 

@@ -1,4 +1,4 @@
-import { PureComponent, Component } from 'react';
+import { PureComponent } from 'react';
 import { Form, Input } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 

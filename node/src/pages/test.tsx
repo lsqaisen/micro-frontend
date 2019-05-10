@@ -1,8 +1,8 @@
-import { PureComponent, Component } from 'react';
+import { PureComponent } from 'react';
 import { Button } from 'antd';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import Table from '@/components/table';
+import Table from '@/components/global/table';
 import { ColumnProps } from 'antd/lib/table';
 
 

@@ -1,7 +1,7 @@
 import { PureComponent, Fragment } from 'react';
-import { Drawer, Badge, Modal, Divider, Icon, Tooltip } from 'antd';
+import { Drawer, Badge, Modal, Divider, Icon, Tooltip, Button } from 'antd';
 import { ColumnProps } from 'antd/lib/table';
-import Table from '@/components/table';
+import Table from '@/components/global/table';
 import Logs from './logs';
 import styles from './style/index.less';
 
@@ -20,10 +20,13 @@ interface InstallState {
 }
 
 export interface InstallProps {
+  loading?: boolean;
   data: any[];
-  onCancelPengding: (id: string) => any;
+  getList: () => any;
+  onCancelPengding: (ip: string) => any;
   onCancelInstalling: () => any;
-  onDeleteRecord: (id: string) => any;
+  onDeleteRecord: (ip: string) => any;
+  onDeleteAllRecord: () => any;
 }
 
 class Install extends PureComponent<InstallProps, InstallState> {
@@ -154,7 +157,7 @@ class Install extends PureComponent<InstallProps, InstallState> {
     this.setState({ visible: false })
   }
   render() {
-    const { data } = this.props;
+    const { loading, data, getList, onDeleteAllRecord } = this.props;
     const { visible, loglist } = this.state;
     return (
       <Fragment>
@@ -181,7 +184,12 @@ class Install extends PureComponent<InstallProps, InstallState> {
               fullScreen ? this.nodeBodyElement.style.transform = "none" : this.nodeBodyElement.style.transform = "scale(1)";
             }}
           />}
+          <div style={{ overflow: 'hidden', marginTop: 16 }}>
+            <Button type="primary" loading={loading} onClick={onDeleteAllRecord}>删除所有安装记录</Button>
+            <Button style={{ marginLeft: 16 }} loading={loading} onClick={getList}>刷新</Button>
+          </div>
           <Table
+            loading={loading}
             pagination={{ pageSize: 5 }}
             columns={this.columns}
             dataSource={data.map(v => ({ key: v.ip, ...v }))}

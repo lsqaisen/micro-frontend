@@ -2,7 +2,7 @@ import { PureComponent, Fragment } from 'react';
 import { Divider } from 'antd';
 import * as G2 from '@antv/g2';
 import { generateUUID } from '@/utils';
-import EllipsisTooltip from '@/components/ellipsis-tooltip';
+import EllipsisTooltip from '@/components/global/ellipsis-tooltip';
 import styles from './style/chart.less';
 
 interface ChartDataProps {

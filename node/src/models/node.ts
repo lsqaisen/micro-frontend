@@ -12,7 +12,6 @@ export default {
 	state: {
 		metricActive: undefined,
 		nodes: {},
-		installs: [],
 		details: {},
 		metrics: {},
 	},
@@ -43,34 +42,6 @@ export default {
 							data: data.nodes || [],
 							total: (data.listMeta || {}).totalItems || (data.nodes || []).length
 						}
-					}
-				});
-			}
-		},
-		*installs({ payload }: AnyAction, { call, put }: EffectsCommandMap) {
-			const { data, err } = yield call(api.getNodes, payload);
-			if (!!err) {
-				message.error(err, 5)
-			} else {
-				yield put({
-					type: 'save',
-					payload: {
-						installs: data || [],
-					}
-				});
-			}
-		},
-		*install({ payload }: AnyAction, { call, put }: EffectsCommandMap) {
-			const { clusterName, ..._payload } = payload;
-			const { err } = yield call(api.install, _payload);
-			if (!!err) {
-				message.error(err, 5)
-			} else {
-				yield put({
-					type: 'installs',
-					payload: {
-						cluster: clusterName,
-						type: 'install'
 					}
 				});
 			}

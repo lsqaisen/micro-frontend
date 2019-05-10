@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { PureComponent, Component } from 'react';
+import { PureComponent } from 'react';
 import { Table } from 'antd';
 import { TableProps } from 'antd/lib/table';
 import Animate from 'rc-animate';

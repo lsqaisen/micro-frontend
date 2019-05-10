@@ -1,6 +1,6 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import { PureComponent, Component } from 'react';
+import { PureComponent } from 'react';
 import { connect } from 'dva';
 import { createSelector } from 'reselect';
 import { LocaleProvider } from 'antd';

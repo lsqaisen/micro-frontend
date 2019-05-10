@@ -1,8 +1,8 @@
-import React, { PureComponent, Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Input, Icon, Row, Col, Select } from 'antd';
 import { InputProps } from 'antd/lib/input';
 import { polyfill } from 'react-lifecycles-compat'
-// import styles from './style/index.less'
+import styles from './style/index.less'
 
 const Option = Select.Option;
 

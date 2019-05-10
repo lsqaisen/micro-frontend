@@ -1,9 +1,9 @@
 import { PureComponent, Fragment } from 'react';
 import { Icon, Drawer } from 'antd';
 import { ColumnProps } from 'antd/lib/table';
-import Table from '@/components/table';
-import EllipsisTooltip from '@/components/ellipsis-tooltip';
-import Status from '@/components/status';
+import Table from '@/components/global/table';
+import EllipsisTooltip from '@/components/global/ellipsis-tooltip';
+import Status from '@/components/global/status';
 import Containers from './containers';
 
 interface IPod {

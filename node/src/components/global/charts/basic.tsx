@@ -1,4 +1,4 @@
-import { PureComponent, Component } from 'react';
+import { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
 import * as G2 from '@antv/g2';
 import { ChartProps } from '@antv/g2'

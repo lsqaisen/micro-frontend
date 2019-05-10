@@ -1,6 +1,6 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import { PureComponent, Component } from 'react';
+import { PureComponent } from 'react';
 import { Table } from 'antd';
 import { TableProps, ColumnProps } from 'antd/lib/table';
 import { TweenOneGroup } from 'rc-tween-one';

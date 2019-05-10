@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { PureComponent, Component } from 'react';
+import { PureComponent } from 'react';
 import { Form } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { generateUUID } from '@/utils'

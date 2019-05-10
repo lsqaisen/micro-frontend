@@ -1,9 +1,9 @@
-import { PureComponent, Component } from 'react';
+import { PureComponent } from 'react';
 import { connect } from 'dva';
 import { createSelector } from 'reselect';
 import router from 'umi/router';
 import { Empty, Button } from 'antd';
-import Loading from '@/components/loading';
+import Loading from '@/components/global/loading';
 import DetailCmp from '@/components/detail';
 import Charts from '../basic/charts';
 

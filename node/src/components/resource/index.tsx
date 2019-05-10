@@ -1,4 +1,4 @@
-import { PureComponent, Component } from 'react';
+import { PureComponent } from 'react';
 import { Tabs, Modal, PageHeader } from 'antd';
 import router from 'umi/router';
 import { Link } from 'dva/router';

@@ -1,8 +1,8 @@
-import { PureComponent, Component } from 'react';
+import { PureComponent } from 'react';
 import { connect } from 'dva';
 import { createSelector } from 'reselect';
 import ResourceBasic from '@/components/resource';
-import Loading from '@/components/loading';
+import Loading from '@/components/global/loading';
 import Table from './basic/table';
 import { getResourceRequest, createResourceRequest } from '@/services/resource';
 
@@ -45,6 +45,7 @@ class Resource extends PureComponent<any, any> {
   }
   componentDidMount() {
     const { clusterName } = this.props;
+    console.log(clusterName)
     if (!!clusterName) {
       let data: getResourceRequest = {
         cluster: clusterName
@@ -54,6 +55,7 @@ class Resource extends PureComponent<any, any> {
   }
   render() {
     const { resource, clusterName, resourceName } = this.props;
+    console.log((resource[clusterName] || {}).init)
     if (!(resource[clusterName] || {}).init) return <Loading />
     return (
       <ResourceBasic

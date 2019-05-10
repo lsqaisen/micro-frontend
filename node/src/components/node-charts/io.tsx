@@ -1,7 +1,7 @@
-import { PureComponent, Component } from 'react';
+import { PureComponent } from 'react';
 import { Row, Col, PageHeader } from 'antd';
 import basic, { BasicProps } from './basic';
-import Chart from '@/components/charts/contrast';
+import Chart from '@/components/global/charts/contrast';
 import Empty from './basic/empty';
 
 export interface IoProps extends BasicProps {

@@ -4,7 +4,7 @@ import Login, { LoginFormProps } from './form/login-form';
 import ResetPassword, { ResetPasswordProps } from './form/reset-password-form';
 import styles from './style/index.less';
 
-const { PureComponent, Component } = React;
+const { PureComponent } = React;
 
 export interface LoginProps extends LoginFormProps, ResetPasswordProps {
   loginLoading?: boolean;

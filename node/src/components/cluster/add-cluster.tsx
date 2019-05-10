@@ -1,4 +1,4 @@
-import { PureComponent, Component } from 'react';
+import { PureComponent } from 'react';
 import { Icon, Button, Drawer } from 'antd';
 import AddClusterForm from './form/add-cluster-form';
 import { addClusterRequest } from '@/services/cluster';

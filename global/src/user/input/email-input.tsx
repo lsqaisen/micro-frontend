@@ -1,4 +1,4 @@
-import React, { PureComponent, Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Input, Icon, Row, Col, Modal, Button } from 'antd';
 import { InputProps } from 'antd/lib/input';
 import { polyfill } from 'react-lifecycles-compat';

@@ -1,7 +1,7 @@
-import { PureComponent, Component } from 'react';
+import { PureComponent } from 'react';
 import { Row, Col, Statistic, PageHeader } from 'antd';
 import basic, { BasicProps } from './basic';
-import Chart from '@/components/charts/simple';
+import Chart from '@/components/global/charts/simple';
 import Empty from './basic/empty';
 
 export interface MemProps extends BasicProps {

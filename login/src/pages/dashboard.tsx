@@ -1,4 +1,4 @@
-import { PureComponent, Component } from 'react';
+import { PureComponent } from 'react';
 import { Button } from 'antd';
 import { connect } from 'dva';
 import { Link } from 'dva/router';

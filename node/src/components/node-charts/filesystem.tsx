@@ -1,6 +1,6 @@
-import { PureComponent, Component } from 'react';
+import { PureComponent } from 'react';
 import { PageHeader, Statistic } from 'antd';
-import Chart from '@/components/charts/circle';
+import Chart from '@/components/global/charts/circle';
 import basic, { BasicProps } from './basic';
 
 export interface FileSystemProps extends BasicProps {

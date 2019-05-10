@@ -1,6 +1,6 @@
-import { PureComponent, Component } from 'react';
+import { PureComponent } from 'react';
 import debounce from 'lodash.debounce';
-import { DataType } from '@/components/charts/simple';
+import { DataType } from '@/components/global/charts/simple';
 import { getMetricsRequest } from '@/services/metric';
 
 export interface BasicProps {

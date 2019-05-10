@@ -38,23 +38,24 @@ function install(requestData: installRequest) {
 /**
  * 删除节点
  */
-export function deleteNode(name: string) {
+function deleteNode(name: string) {
 	return request(`/service/node/api/cluster/default/node/${name}`, {
 		method: 'delete'
 	});
 }
 
 /**
- * 取消安装等待
+ * 取消安装
  */
-export function cancelInstalling() {
+function cancelInstalling() {
 	return request(`/service/node/api/cluster/default/node/stop`);
 }
 
 /**
- * 取消安装
+ * 取消安装等待
  */
-export function cancelPengding(ip: string) {
+
+function cancelPengding(ip: string) {
 	return request(`/service/node/api/cluster/default/node/pending/${ip}`, {
 		method: 'delete',
 	});
@@ -63,7 +64,7 @@ export function cancelPengding(ip: string) {
 /**
  * 删除安装记录
  */
-export function deleteInstall(ip: string) {
+function deleteInstallRecord(ip: string) {
 	return request(`/service/node/api/cluster/default/node/history/${ip}`, {
 		method: 'delete',
 	});
@@ -72,7 +73,7 @@ export function deleteInstall(ip: string) {
 /**
  * 删除所有安装记录
  */
-export function deleteInstalls() {
+function deleteInstallAllRecord() {
 	return request(`/service/node/api/machine/queue/all`, {
 		method: 'delete',
 	});
@@ -169,5 +170,10 @@ export default {
 	getNodes,
 	getNodeDetail,
 	install,
+	deleteNode,
+	cancelInstalling,
+	cancelPengding,
+	deleteInstallRecord,
+	deleteInstallAllRecord,
 }
 

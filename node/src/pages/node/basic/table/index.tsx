@@ -33,7 +33,7 @@ class Table extends PureComponent<any, any> {
   }
   install = (data: installRequest) => {
     return this.props.dispatch({
-      type: 'node/install',
+      type: 'install/install',
       payload: { ...data, clusterName: this.props.clusterName },
     })
   }

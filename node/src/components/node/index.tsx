@@ -2,9 +2,9 @@ import { PureComponent, Fragment } from 'react';
 import { Divider, Icon } from 'antd';
 import { ColumnProps } from 'antd/lib/table';
 import { Link } from 'dva/router';
-import Table from '@/components/table';
+import Table from '@/components/global/table';
 import Chart from './chart';
-import EllipsisTooltip from '@/components/ellipsis-tooltip';
+import EllipsisTooltip from '@/components/global/ellipsis-tooltip';
 
 interface hostIPS {
   address?: string;

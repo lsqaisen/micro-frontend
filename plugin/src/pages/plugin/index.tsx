@@ -1,11 +1,11 @@
-import { PureComponent, Component } from 'react';
+import { PureComponent } from 'react';
 import { Row, Col } from 'antd';
 import { connect } from 'dva';
 import { createSelector } from 'reselect';
 import QueueAnim from 'rc-queue-anim';
 import Item from '@/components/item';
 import Plugins from '@/components/plugins';
-import Loading from '@/components/loading';
+import Loading from '@/components/global/loading';
 
 @connect(createSelector(
   [

@@ -1,6 +1,6 @@
 import { PureComponent } from 'react';
 import { Tabs, Tooltip, Icon } from 'antd';
-import Terminal from '@/components/terminal';
+import Terminal from '@/components/global/terminal';
 import styles from './style/logs.less';
 
 const TabPane = Tabs.TabPane;

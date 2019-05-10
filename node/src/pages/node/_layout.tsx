@@ -1,8 +1,9 @@
-import { Layout, Empty, Button } from 'antd';
+import * as React from 'react';
+import { Layout, Empty, Button, Drawer, Icon } from 'antd';
 import { connect } from 'dva';
 import { createSelector } from 'reselect';
 import Media from 'react-media';
-import Loading from '@/components/loading';
+import Loading from '@/components/global/loading';
 import Cluster from './basic/cluster';
 
 interface LayoutProps {
@@ -10,7 +11,7 @@ interface LayoutProps {
   init?: boolean;
   dispatch: any;
   location: any;
-  children?: React.ReactChildren;
+  children?: React.ReactChildren | React.ReactNode;
 }
 
 export default connect(createSelector(
@@ -20,6 +21,7 @@ export default connect(createSelector(
   ],
   (active, init) => ({ active, init })
 ))(({ active, init, dispatch, children, location: { pathname } }: LayoutProps) => {
+  console.log(active, init)
   if (active === undefined || !init) {
     if (!!active) dispatch({ type: 'cluster/get' });
     return <Loading />
@@ -33,17 +35,32 @@ export default connect(createSelector(
     )
   }
   return (
-    <Layout style={{ position: 'absolute', background: '#fff', width: '100%', height: '100%' }}>
-      {(pathname.split('\/').filter((v: any) => !!v).length < 2) && (
-        <Media query="(min-width: 599px)">
-          <Layout.Sider width="226" style={{ backgroundColor: '#f2f7fb', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.09)' }}>
-            <Cluster />
-          </Layout.Sider>
-        </Media>
-      )}
-      <Layout.Content className="node-body" style={{ position: 'relative' }}>
-        {init ? children : null}
-      </Layout.Content>
-    </Layout>
+    <Media
+      query="(min-width: 599px)"
+      children={(matches) => {
+        let _children = React.cloneElement(children as any, {
+          matches
+        })
+        return (
+          <Layout style={{ position: 'absolute', background: '#fff', width: '100%', height: '100%' }}>
+            {(pathname.split('\/').filter((v: any) => !!v).length < 2) && (
+              matches ? <Layout.Sider width="226" style={{ backgroundColor: '#f2f7fb', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.09)' }}>
+                <Cluster />
+              </Layout.Sider> : <React.Fragment>
+                  <Button><Icon type="list" /></Button>
+                  <Drawer >
+                    <Layout.Sider width="226" style={{ backgroundColor: '#f2f7fb', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.09)' }}>
+                      <Cluster />
+                    </Layout.Sider>
+                  </Drawer>
+                </React.Fragment>
+            )}
+            <Layout.Content className="node-body" style={{ position: 'relative' }}>
+              {init ? _children : null}
+            </Layout.Content>
+          </Layout>
+        )
+      }}
+    />
   )
 })

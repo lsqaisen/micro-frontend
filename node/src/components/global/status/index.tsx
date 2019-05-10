@@ -1,5 +1,5 @@
 import { Badge, Tooltip } from 'antd';
-import EllipsisTooltip from '@/components/ellipsis-tooltip';
+import EllipsisTooltip from '@/components/global/ellipsis-tooltip';
 import styles from './style/index.less';
 
 export interface StatusInfo {

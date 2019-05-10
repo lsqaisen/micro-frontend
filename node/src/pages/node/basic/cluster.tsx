@@ -1,7 +1,7 @@
-import { PureComponent, Component } from 'react';
+import { PureComponent } from 'react';
 import { connect } from 'dva';
 import { createSelector } from 'reselect';
-import Loading from '@/components/loading';
+import Loading from '@/components/global/loading';
 import Cluster from '@/components/cluster';
 import { addClusterRequest } from '@/services/cluster';
 

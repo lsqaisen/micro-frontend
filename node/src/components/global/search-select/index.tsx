@@ -1,7 +1,7 @@
-import { PureComponent, Component } from 'react';
+import { PureComponent } from 'react';
 import { Select, Spin } from 'antd';
 import { SelectProps } from 'antd/lib/select';
-import _ from 'lodash'
+import debounce from 'lodash.debounce'
 const Option = Select.Option;
 const OptGroup = Select.OptGroup;
 
@@ -62,7 +62,7 @@ class SearchSelect extends PureComponent<SearchSelectProps, SearchSelectState> {
 		return null;
 	}
 
-	load = async (e:any) => {
+	load = async (e: any) => {
 		console.log(e)
 		const { onSearch } = this.props;
 		const { data: _data, nextParams } = this.state;
@@ -95,7 +95,7 @@ class SearchSelect extends PureComponent<SearchSelectProps, SearchSelectState> {
 		return (
 			<Select
 				{...props}
-				onFocus={_.debounce(this.load, 100)}
+				onFocus={debounce(this.load, 100)}
 				notFoundContent={error ? <p>
 					<span style={{ color: 'red' }}>{error}</span><br />
 					<a onClick={this.load}>重新加载</a>

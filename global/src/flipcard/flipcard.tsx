@@ -4,7 +4,7 @@ import { polyfill } from 'react-lifecycles-compat';
 import Item from './flipcard-item';
 import styles from './style/index.less';
 
-const { PureComponent, Component } = React;
+const { PureComponent } = React;
 
 const AxisTypes = ['left', 'right', 'center'];
 type AxisType = (typeof AxisTypes)[number]

@@ -1,4 +1,4 @@
-import { PureComponent, Component } from 'react';
+import { PureComponent } from 'react';
 import { Tooltip } from 'antd';
 
 export interface EllipsisTooltipProps {

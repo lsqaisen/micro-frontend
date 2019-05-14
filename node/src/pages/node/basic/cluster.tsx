@@ -31,7 +31,7 @@ class Node extends PureComponent<any, any> {
   }
   render() {
     const { init, data, clusterName } = this.props;
-    if (!init) return <Loading />
+    // if (!init) return <Loading />
     return (
       <Cluster
         data={data}

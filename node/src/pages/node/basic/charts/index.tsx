@@ -46,58 +46,64 @@ class Metric extends PureComponent<any, any> {
     return (
       <Fragment>
         <Row style={{ margin: '24px 0' }}>
-          {this.props.name ? null : <label style={{ marginRight: 56 }}>
-            {`节点：`}
-            <Select value={name} style={{ width: '240px' }} onChange={name => this.setState({ name })}>
-              <Option key='.*'>所有节点{`(${data.length})`}</Option>
-              {data.map((node: any) => <Option key={node.name}>{node.name}</Option>)}
-            </Select>
-          </label>}
-          <label>
-            {`时间：`}
-            <RadioGroup value={dur} onChange={e => this.setState({
-              dur: e.target.value,
-              step: e.target.value == 60 * 10 ? 5 : e.target.value / 180
-            })}>
-              <RadioButton value={60 * 10}>实时</RadioButton>
-              <RadioButton value={60 * 60 * 3}>近3小时</RadioButton>
-              <RadioButton value={60 * 60 * 12}>近12小时</RadioButton>
-              <RadioButton value={60 * 60 * 24}>近24小时</RadioButton>
-              <RadioButton value={60 * 60 * 24 * 3}>近3天</RadioButton>
-              <RadioButton value={60 * 60 * 24 * 7}>近7天</RadioButton>
-            </RadioGroup>
-          </label>
+          {this.props.name ? null : (
+            <Col md={24}>
+              <label style={{ marginRight: 56 }}>
+                {`节点：`}
+                <Select value={name} style={{ width: '240px' }} onChange={name => this.setState({ name })}>
+                  <Option key='.*'>所有节点{`(${data.length})`}</Option>
+                  {data.map((node: any) => <Option key={node.name}>{node.name}</Option>)}
+                </Select>
+              </label>
+            </Col>
+          )}
+          <Col md={24}>
+            <label>
+              {`时间：`}
+              <RadioGroup value={dur} onChange={e => this.setState({
+                dur: e.target.value,
+                step: e.target.value == 60 * 10 ? 5 : e.target.value / 180
+              })}>
+                <RadioButton value={60 * 10}>实时</RadioButton>
+                <RadioButton value={60 * 60 * 3}>近3小时</RadioButton>
+                <RadioButton value={60 * 60 * 12}>近12小时</RadioButton>
+                <RadioButton value={60 * 60 * 24}>近24小时</RadioButton>
+                <RadioButton value={60 * 60 * 24 * 3}>近3天</RadioButton>
+                <RadioButton value={60 * 60 * 24 * 7}>近7天</RadioButton>
+              </RadioGroup>
+            </label>
+          </Col>
         </Row>
         <Row gutter={24}>
-          <Col span={8} >
+          <Col lg={8} md={24} >
             <Cpu name={name} dur={dur} step={step} />
           </Col>
-          <Col span={8} >
+          <Col lg={8} md={24}>
             <Mem name={name} dur={dur} step={step} />
           </Col>
-          <Col span={8} >
+          <Col lg={8} md={24}>
             <SystemLoad name={name} dur={dur} step={step} />
           </Col>
         </Row>
         <Row gutter={24}>
-          <Col span={6} >
+          <Col lg={6} md={24}>
             <FileSystem name={name} dur={dur} step={step} />
           </Col>
-          <Col span={9}>
+          <Col lg={9} md={24}>
             <Io name={name} dur={dur} step={step} />
           </Col>
-          <Col span={9}>
+          <Col lg={9} md={24}>
             <Inode name={name} dur={dur} step={step} />
           </Col>
         </Row>
         <Row gutter={24}>
-          <Col span={8}>
+          <Col lg={8} md={24}>
             <Tcpestab name={name} dur={dur} step={step} />
           </Col>
-          <Col span={8}>
+          <Col lg={8} md={24}>
             <Network name={name} dur={dur} step={step} />
           </Col>
-          <Col span={8}>
+          <Col lg={8} md={24}>
             <Packets name={name} dur={dur} step={step} />
           </Col>
         </Row>

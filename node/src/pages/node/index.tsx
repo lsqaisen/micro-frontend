@@ -45,7 +45,6 @@ class Resource extends PureComponent<any, any> {
   }
   componentDidMount() {
     const { clusterName } = this.props;
-    console.log(clusterName)
     if (!!clusterName) {
       let data: getResourceRequest = {
         cluster: clusterName
@@ -55,7 +54,6 @@ class Resource extends PureComponent<any, any> {
   }
   render() {
     const { resource, clusterName, resourceName } = this.props;
-    console.log((resource[clusterName] || {}).init)
     if (!(resource[clusterName] || {}).init) return <Loading />
     return (
       <ResourceBasic

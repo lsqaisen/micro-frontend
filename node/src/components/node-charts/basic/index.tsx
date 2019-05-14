@@ -1,20 +1,14 @@
 import { PureComponent } from 'react';
-import debounce from 'lodash.debounce';
-import { DataType } from '@/components/global/charts/simple';
 import { getMetricsRequest } from '@/services/metric';
 
-export interface BasicProps {
+export interface BasicProps extends getMetricsRequest {
   total?: number;
   used?: number;
-  name: string;
-  step?: number;
-  dur?: number;
-  type: string | string[];
-  data?: DataType[];
+  data?: any[];
   dispatch?: Function,
 }
 
-export default <T extends BasicProps = { name: string, type: string }>(Chart: React.ComponentClass<T, any>) => {
+export default <T extends BasicProps>(Chart: React.ComponentClass<T, any>) => {
   return class extends PureComponent<T, any> {
     static readonly defaultProps = {
       dur: 60 * 10,
@@ -62,7 +56,7 @@ export default <T extends BasicProps = { name: string, type: string }>(Chart: Re
       const { name: _name, step: _step, dur: _dur, type: _type } = this.props;
       if (name !== _name || step !== _step || dur !== _dur || JSON.stringify(type) !== JSON.stringify(_type)) {
         this.metric(props);
-        this.interval(step!);
+        this.interval(Number(step!));
       }
     }
     componentWillUnmount() {
@@ -74,7 +68,7 @@ export default <T extends BasicProps = { name: string, type: string }>(Chart: Re
     componentDidMount() {
       this.metric(this.props)
       const { step } = this.props;
-      this.interval(step!);
+      this.interval(Number(step!));
     }
     render() {
       const { dur } = this.props;

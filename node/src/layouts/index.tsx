@@ -1,12 +1,13 @@
 import * as React from 'react';
-import ReactDOM from 'react-dom';
 import { PureComponent } from 'react';
 import { connect } from 'dva';
 import { createSelector } from 'reselect';
 import { LocaleProvider } from 'antd';
+import Media from 'react-media';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import { sub, unsub } from 'mife/bin/api';
 import withRouter from 'umi/withRouter';
+import Layout from '@/components/global/layout';
 
 @(withRouter as any)
 @connect(createSelector(
@@ -38,11 +39,22 @@ export default class extends PureComponent<any, any> {
       return children
     } else {
       return (
-        <LocaleProvider locale={zhCN}>
-          <div style={{ position: 'relative', height: '100%' }}>
-            {children}
-          </div>
-        </LocaleProvider>
+        <Media query="(min-width: 599px)">
+          {(matches) => (
+            <LocaleProvider locale={zhCN}>
+              <Layout
+                level={0}
+                state='centent'
+                matches={!matches}
+                width={0}
+                sider={null}>
+                <div style={{ position: 'relative', height: '100%' }}>
+                  {children}
+                </div>
+              </Layout>
+            </LocaleProvider>
+          )}
+        </Media>
       )
     }
   }

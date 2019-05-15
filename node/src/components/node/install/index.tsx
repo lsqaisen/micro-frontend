@@ -184,7 +184,7 @@ class Install extends PureComponent<InstallProps, InstallState> {
               fullScreen ? this.nodeBodyElement.style.transform = "none" : this.nodeBodyElement.style.transform = "scale(1)";
             }}
           />}
-          <div style={{ overflow: 'hidden', marginTop: 16 }}>
+          <div style={{ overflow: 'hidden', marginTop: loglist.length > 0 ? 16 : 0 }}>
             <Button type="primary" loading={loading} onClick={onDeleteAllRecord}>删除所有安装记录</Button>
             <Button style={{ marginLeft: 16 }} loading={loading} onClick={getList}>刷新</Button>
           </div>

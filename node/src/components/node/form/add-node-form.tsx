@@ -11,8 +11,8 @@ const FormItem = Form.Item;
 class AddNodeForm extends PureComponent<FormComponentProps & any, any> {
   static readonly defaultProps = {
     formItemLayout: {
-      labelCol: { span: 5, },
-      wrapperCol: { span: 19, },
+      labelCol: { md: 8, lg: 5 },
+      wrapperCol: { md: 16, lg: 19 },
     }
   };
 

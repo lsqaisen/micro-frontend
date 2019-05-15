@@ -13,12 +13,16 @@ export default connect(createSelector(
     (props: any) => props.cluster.data,
     (props: any) => props.cluster.active,
     (props: any) => props.cluster.init,
-    (props: any) => {
-      const { routing: { location: { query: { cluster } } } } = props;
+    (_: any, state: any) => {
+      const { location: { query: { cluster } } } = state;
       return cluster;
     },
+    (_: any, state: any) => {
+      const { location: { pathname } } = state;
+      return pathname.split('\/').filter((v: any) => !!v).length < 2;
+    },
   ],
-  (data, active, init, clusterName) => ({ data, active, init, clusterName })
+  (data, active, init, clusterName, hasSider) => ({ data, active, init, clusterName, hasSider })
 ))(class extends React.PureComponent<any, any> {
   componentDidMount() {
     const { active, init, dispatch } = this.props;
@@ -27,7 +31,7 @@ export default connect(createSelector(
     }
   }
   render() {
-    const { data, clusterName, active, init, location: { pathname }, dispatch, children } = this.props;
+    const { data, clusterName, active, init, hasSider, dispatch, children } = this.props;
     return (
       <Media query="(min-width: 599px)">
         {(matches) => (
@@ -36,7 +40,7 @@ export default connect(createSelector(
             width={226}
             matches={!matches}
             state={active === undefined || !init ? 'initially' : active === false ? 'empty' : 'centent'}
-            sider={(pathname.split('\/').filter((v: any) => !!v).length < 2) && <Cluster
+            sider={hasSider && <Cluster
               data={data}
               clusterName={clusterName}
               onAdd={(data: addClusterRequest) => {

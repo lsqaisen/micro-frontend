@@ -8,13 +8,25 @@
 }
 
 .sider {
-  background-color: #f2f7fb;
+  background-color: @sider-background-color;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
   transition: all .4s ease-out;
   width: 100%;
   flex: 0 0 100%;
   max-width: 100%;
   min-width: 100%;
+}
+
+.drawer_sider {
+  :global {
+    .ant-drawer-content-wrapper {
+      background-color: @sider-background-color;
+
+      .ant-drawer-wrapper-body {
+        background-color: @sider-background-color;
+      }
+    }
+  }
 }
 
 .open {

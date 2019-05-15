@@ -45,7 +45,7 @@ class SiderDrawerItem extends React.PureComponent<SiderDrawerItemProps, any> {
       <React.Fragment>
         <Drawer
           {...props}
-          className={`media-sider-drawer ${init ? '' : styles.drawer}`}
+          className={`media-sider-drawer ${styles.drawer_sider} ${init ? '' : styles.drawer}`}
           bodyStyle={{ padding: 0 }}
           visible={!init ? true : visible}
           closable={false}

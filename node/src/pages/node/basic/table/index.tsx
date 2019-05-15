@@ -8,21 +8,15 @@ import JoinResource from '@/components/resource/join-resource';
 import AddNode from '@/components/node/add-node';
 import { getNodesRequest, installRequest } from '@/services/node';
 import { joinResourceRequest } from '@/services/resource';
+import Actions from './actions';
 
 @connect(createSelector(
   [
-    (props: any) => {
-      const { routing: { location: { query: { resource } } } } = props;
-      return props.node.nodes[`${!resource || resource === 'all' ? '$all' : resource}`];
-    },
-    (props: any) => props.node.nodes[`$all`],
-    (props: any) => {
-      const { routing: { location: { query: { cluster, resource } } } } = props;
-      return { clusterName: cluster, resourceName: resource };
-    },
+    (props: any, { resourceName }: any) => props.node.nodes[`${!resourceName || resourceName === 'all' ? '$all' : resourceName}`],
+    (props: any) => props.node.nodes[`$all`] || { data: [], total: 0 },
     (props: any) => !!props.loading.effects[`node/nodes`],
   ],
-  (node, allNode, { clusterName, resourceName }, loading) => ({ node, allNode, clusterName, resourceName, loading })
+  (node, allNode, loading) => ({ node, allNode, loading })
 ))
 class Table extends PureComponent<any, any> {
   get = async (data: getNodesRequest) => {
@@ -38,22 +32,10 @@ class Table extends PureComponent<any, any> {
     })
   }
   join = (data: joinResourceRequest) => {
-    return new Promise(async (resolve, reject) => {
-      let error = this.props.dispatch({
-        type: 'resource/join',
-        payload: data,
-      })
-      if (!error) {
-        const { clusterName, resourceName } = this.props;
-        let data: getNodesRequest = {
-          cluster: clusterName,
-          resource: !resourceName || resourceName === 'all' ? '' : resourceName
-        };
-        this.get(data);
-        resolve()
-      } else {
-        reject(error)
-      }
+    const { clusterName, resourceName } = this.props;
+    return this.props.dispatch({
+      type: 'resource/join',
+      payload: { clusterName, resourceName, ...data },
     })
   }
   componentWillReceiveProps({ clusterName, resourceName }: any) {
@@ -73,12 +55,12 @@ class Table extends PureComponent<any, any> {
     }
   }
   render() {
-    const { node = {}, allNode, loading, resourceName } = this.props;
+    const { node = {}, loading, clusterName, resourceName } = this.props;
     return (
       <Fragment>
         <div style={{ overflow: 'hidden', marginBottom: 16 }}>
           <div className="fl" style={{ lineHeight: '40px' }} >
-            {!resourceName || resourceName === 'all' ? <Install location={location} /> : undefined}
+            {!resourceName || resourceName === 'all' ? <Install {...{ clusterName, resourceName }} /> : undefined}
           </div>
           <div className="fr">
             {!resourceName || resourceName === 'all' ? (
@@ -88,10 +70,11 @@ class Table extends PureComponent<any, any> {
                   resourceName={resourceName}
                   onSubmit={this.join}
                   searchNodes={(data: getNodesRequest) => {
-                    return new Promise(async (resolve, reject) => {
-                      console.log(data)
-                      await this.get(data);
-                      resolve(allNode.data);
+                    return new Promise(async (resolve) => {
+                      await this.get(data).then(() => {
+                        const { allNode, resourceName } = this.props;
+                        resolve(allNode.data.filter((node: any) => (node.resources || []).indexOf(resourceName) === -1));
+                      });
                     })
                   }}
                 />
@@ -102,7 +85,18 @@ class Table extends PureComponent<any, any> {
         <Node
           key={resourceName}
           loading={loading}
-          node={node} >
+          node={node}
+          actions={({ node }: any) => {
+            const { clusterName, resourceName } = this.props;
+            return (
+              <Actions {...{
+                clusterName, resourceName,
+                name: node.name,
+                allocatable: node.status.indexOf('SchedulingDisabled') !== -1 ? true : false,
+              }} />
+            )
+          }}
+        >
         </Node>
       </Fragment>
     )

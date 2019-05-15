@@ -38,7 +38,7 @@ class Sider extends React.PureComponent<SiderProps, any> {
     const { state, matches, width, children } = this.props;
     return (
       <React.Fragment>
-        <Layout.Sider
+        {!matches && <Layout.Sider
           className={styles.sider}
           width={width}
           collapsedWidth={0}
@@ -47,11 +47,9 @@ class Sider extends React.PureComponent<SiderProps, any> {
             type="alpha"
             duration={600}
           >
-            {state === "initially" ?
-              <Loading key="loading" /> : !matches ?
-                React.cloneElement(children as any, { key: 'children' }) : null}
+            {state === "initially" ? <Loading key="loading" /> : React.cloneElement(children as any, { key: 'children' })}
           </QueueAnim>
-        </Layout.Sider>
+        </Layout.Sider>}
       </React.Fragment>
     )
   }

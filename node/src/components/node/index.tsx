@@ -1,5 +1,5 @@
 import { PureComponent, Fragment } from 'react';
-import { Divider, Icon } from 'antd';
+import { Divider, Icon, Dropdown } from 'antd';
 import { ColumnProps } from 'antd/lib/table';
 import { Link } from 'dva/router';
 import Table from '@/components/global/table';
@@ -43,6 +43,7 @@ export type NodeProps = {
   type?: number,
   node: NodeTableData;
   loading: boolean;
+  actions: React.ReactNode | (() => React.ReactNode);
 }
 
 class Node extends PureComponent<NodeProps, any> {
@@ -164,11 +165,16 @@ class Node extends PureComponent<NodeProps, any> {
           }
         }
       },
-      render: () => (
-        <a href="javascript:;" className="ant-dropdown-link">
-          操作 <Icon type="down" />
-        </a>
-      )
+      render: (_, r) => {
+        const Actions = this.props.actions as any;
+        return (
+          <Dropdown placement="bottomRight" overlay={<Actions node={r} />}>
+            <a className="ant-dropdown-link" href="#" onClick={(e) => e.preventDefault()}>
+              操作 <Icon type="down" />
+            </a>
+          </Dropdown>
+        )
+      }
     }
   ];
   render() {

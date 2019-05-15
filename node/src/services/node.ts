@@ -91,13 +91,12 @@ function getNodeDetail(name: string) {
 /**
  * 修改主机调度状态
  */
-enum allocatable { uncordon = "uncordon", drain = "drain" }
-export interface modifyStatusRequest {
+interface modifyStatusRequest {
 	name: string;     //节点名称
 	allocatable: "uncordon" | "drain";    // 是否可调度
 }
 
-export function modifyStatus({ name, allocatable }: modifyStatusRequest) {
+function modifyStatus({ name, allocatable }: modifyStatusRequest) {
 	return request(`/service/node/api/cluster/default/node/${name}?oper=${allocatable}`, {
 		method: 'put',
 	});
@@ -163,7 +162,8 @@ export function setApply({ id, status, allocNode = "" }: setApplyRequest) {
 
 export {
 	getNodesRequest,
-	installRequest
+	installRequest,
+	modifyStatusRequest,
 }
 
 export default {
@@ -175,5 +175,6 @@ export default {
 	cancelPengding,
 	deleteInstallRecord,
 	deleteInstallAllRecord,
+	modifyStatus,
 }
 

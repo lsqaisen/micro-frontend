@@ -67,7 +67,7 @@ class Resource extends PureComponent<any, any> {
         onAdd={this.add}
         onDelete={this['delete']}
       >
-        <Table />
+        <Table {...{ clusterName, resourceName }} />
       </ResourceBasic>
     )
   }

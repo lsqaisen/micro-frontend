@@ -46,6 +46,14 @@ export default {
 				});
 			}
 		},
+		*modifyStatus({ payload }: AnyAction, { call, put }: EffectsCommandMap) {
+			const { data, err } = yield call(api.modifyStatus, payload);
+			if (!!err) {
+				message.error(err, 5)
+				return err;
+			} else {
+			}
+		},
 		*detail({ payload }: AnyAction, { call, put }: EffectsCommandMap) {
 			const { data, err } = yield call(api.getNodeDetail, payload);
 			if (!!err) {

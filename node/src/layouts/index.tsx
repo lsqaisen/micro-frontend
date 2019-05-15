@@ -48,9 +48,7 @@ export default class extends PureComponent<any, any> {
                 matches={!matches}
                 width={0}
                 sider={null}>
-                <div style={{ position: 'relative', height: '100%' }}>
-                  {children}
-                </div>
+                {children}
               </Layout>
             </LocaleProvider>
           )}

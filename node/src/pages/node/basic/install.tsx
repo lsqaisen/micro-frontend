@@ -7,13 +7,9 @@ import { getNodesRequest } from '@/services/node';
 @connect(createSelector(
   [
     (props: any) => props.install.installs,
-    (props: any) => {
-      const { routing: { location: { query: { cluster, resource } } } } = props;
-      return { clusterName: cluster, resourceName: resource };
-    },
     (props: any) => !!props.loading.effects[`install/installs`],
   ],
-  (data, { clusterName, resourceName }, loading) => ({ data, clusterName, resourceName, loading })
+  (data, loading) => ({ data, loading })
 ))
 class NodeInstall extends PureComponent<any, any> {
   installs = async (data: getNodesRequest) => {

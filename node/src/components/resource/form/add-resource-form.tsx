@@ -9,8 +9,8 @@ const FormItem = Form.Item;
 class AddResourceForm extends PureComponent<FormComponentProps & any, any> {
   static readonly defaultProps = {
     formItemLayout: {
-      labelCol: { span: 5, },
-      wrapperCol: { span: 19, },
+      labelCol: { xs: 24, md: 5 },
+      wrapperCol: { xs: 24, md: 19 },
     }
   };
 

@@ -53,24 +53,34 @@ export default {
         })
       }
     },
-    *join({ payload }: AnyAction, { put, call }: EffectsCommandMap) {
-      const { clusterName, ...request } = payload;
-      const { err } = yield call(api.joinResource, request);
+    *join({ payload }: AnyAction, { put, call, select }: EffectsCommandMap) {
+      const { clusterName, resourceName, ...request } = payload;
+      const namespace = yield select(({ user: { profile: { current } } }: any) => current === 'default' ? undefined : current);
+      const { err } = yield call(api.joinResource, { namespace, resource: resourceName, ...request });
       if (!!err) {
         message.error(err, 5);
         return err;
       } else {
         message.success('加入成功', 5);
+        yield put({
+          type: 'node/nodes',
+          payload: { cluster: clusterName, resource: resourceName },
+        })
       }
     },
-    *remove({ payload }: AnyAction, { put, call }: EffectsCommandMap) {
-      const { clusterName, ...request } = payload;
-      const { err } = yield call(api.removeResource, request);
+    *remove({ payload }: AnyAction, { put, call, select }: EffectsCommandMap) {
+      const { clusterName, resourceName, ...request } = payload;
+      const namespace = yield select(({ user: { profile: { current } } }: any) => current === 'default' ? undefined : current);
+      const { err } = yield call(api.removeResource, { namespace, resource: resourceName, ...request });
       if (!!err) {
         message.error(err, 5);
         return err;
       } else {
         message.success('移除成功', 5);
+        yield put({
+          type: 'node/nodes',
+          payload: { cluster: clusterName, resource: resourceName },
+        })
       }
     },
   },

@@ -42,11 +42,11 @@ export default class extends React.PureComponent<LayoutProps, any> {
               >
                 {sider}
               </Sider>}
-              <Layout.Content className="node-body" style={{ position: 'relative' }}>
+              <Layout.Content className="node-body" style={{ position: 'relative', minHeight: "100vh" }}>
                 {children}
               </Layout.Content>
             </Layout>
-          </React.Fragment>
+          </React.Fragment >
         );
       case 'empty':
         return empty || <Empty key="empty" />;

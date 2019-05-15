@@ -63,7 +63,6 @@ class SearchSelect extends PureComponent<SearchSelectProps, SearchSelectState> {
 	}
 
 	load = async (e: any) => {
-		console.log(e)
 		const { onSearch } = this.props;
 		const { data: _data, nextParams } = this.state;
 		this.setState({ loading: true })

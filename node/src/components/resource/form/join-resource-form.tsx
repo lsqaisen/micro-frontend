@@ -9,7 +9,7 @@ const FormItem = Form.Item;
 export interface JosinResourceFormProps {
   resourceName?: string;
   formItemLayout?: any;
-  searchNodes?: (data: getNodesRequest) => any[];
+  searchNodes?: (data: getNodesRequest) => any;
 }
 
 @(Form.create() as any)
@@ -17,8 +17,8 @@ class AddResourceForm extends PureComponent<JosinResourceFormProps & FormCompone
   static readonly defaultProps = {
     form: {},
     formItemLayout: {
-      labelCol: { span: 5, },
-      wrapperCol: { span: 19, },
+      labelCol: { xs: 24, md: 5 },
+      wrapperCol: { xs: 24, md: 19 },
     }
   };
 
@@ -60,7 +60,7 @@ class AddResourceForm extends PureComponent<JosinResourceFormProps & FormCompone
         <FormItem
           {...formItemLayout}
           label="节点">
-          {getFieldDecorator('allocNode', {
+          {getFieldDecorator('names', {
             rules: [{ required: true, message: '请选择节点!' }],
           })(
             <SearchSelect

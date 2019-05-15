@@ -35,7 +35,7 @@ class JoinResource extends PureComponent<JoinResourceProps, any> {
           <div className="node-actions" >
             <Button onClick={() => { this.setState({ visible: false }) }} style={{ marginRight: 8 }}> 取消 </Button>
             <Button loading={loading} onClick={() => {
-              (this.refs.addresource as any).validateFields(async (error: any, values: joinResourceRequest) => {
+              (this.refs.joinresource as any).validateFields(async (error: any, values: joinResourceRequest) => {
                 if (!error) {
                   this.setState({ loading: true })
                   if ((await onSubmit!(values)) as any) {

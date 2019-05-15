@@ -28,6 +28,9 @@ class Cluster extends PureComponent<ClusterProps, any> {
       if (!clusterName && !!this.props.clusterName) {
         this.setCluster(this.props.clusterName)
       }
+      if (!clusterName && !this.props.clusterName) {
+        this.setCluster((data || [])[0].name || '')
+      }
       if (!!clusterName && this.props.clusterName !== clusterName && data.every(v => `${v.name}` !== clusterName)) {
         this.setCluster(this.props.clusterName);
       }

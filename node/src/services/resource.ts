@@ -59,7 +59,7 @@ interface joinResourceRequest {
 }
 function joinResource(requestData: joinResourceRequest) {
   const { namespace, resource, names } = requestData;
-  return request(`/service/node/api/cluster/default/namespace/${namespace}/resource/${resource}/node`, {
+  return request(`/service/node/api/cluster/default/namespace/${namespace || 'system'}/resource/${resource}/node`, {
     method: 'post',
     body: { names }
   });

@@ -3,6 +3,7 @@ import { Drawer, Badge, Modal, Divider, Icon, Tooltip, Button } from 'antd';
 import { ColumnProps } from 'antd/lib/table';
 import Table from '@/components/global/table';
 import Logs from './logs';
+import EllipsisTooltip from '@/components/global/ellipsis-tooltip';
 import styles from './style/index.less';
 
 interface InstallLog {
@@ -34,7 +35,17 @@ class Install extends PureComponent<InstallProps, InstallState> {
     title: '安装节点IP',
     dataIndex: 'ip',
     key: 'ip',
-    render: (t, r) => `${t}<${r.nodename || '--'}>`,
+    onCell: () => ({
+      style: {
+        whiteSpace: 'nowrap',
+        maxWidth: 166,
+      }
+    }),
+    render: (t, r) => (
+      <EllipsisTooltip title={`${t}<${r.nodename || '--'}>`}>
+        {`${t}<${r.nodename || '--'}>`}
+      </EllipsisTooltip>
+    ),
   }, {
     title: '状态',
     dataIndex: 'status',
@@ -49,22 +60,20 @@ class Install extends PureComponent<InstallProps, InstallState> {
       if (r.opt === "install") {
         if (r.status === "pending") o = (
           <Tooltip key="4" title="取消等待安装">
-            <section>
-              <Icon
-                className={styles.icon}
-                type="rollback"
-                onClick={() => {
-                  Modal.confirm({
-                    title: `是否取消等待安装?`,
-                    onOk: () => {
-                      return new Promise(async (resolve) => {
-                        await this.props.onCancelPengding(r.ip);
-                        resolve();
-                      })
-                    },
-                  })
-                }} />
-            </section>
+            <Icon
+              className={styles.icon}
+              type="rollback"
+              onClick={() => {
+                Modal.confirm({
+                  title: `是否取消等待安装?`,
+                  onOk: () => {
+                    return new Promise(async (resolve) => {
+                      await this.props.onCancelPengding(r.ip);
+                      resolve();
+                    })
+                  },
+                })
+              }} />
           </Tooltip>
         );
         else if (r.status === "running") o = (

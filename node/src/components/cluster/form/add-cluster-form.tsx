@@ -12,8 +12,8 @@ const FormItem = Form.Item;
 class AddClusterForm extends PureComponent<FormComponentProps & any, any> {
   static readonly defaultProps = {
     formItemLayout: {
-      labelCol: { span: 3, },
-      wrapperCol: { span: 21, },
+      labelCol: { xs: 24, md: 5 },
+      wrapperCol: { xs: 24, md: 19 },
     }
   };
 

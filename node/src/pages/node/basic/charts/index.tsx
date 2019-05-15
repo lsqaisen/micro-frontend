@@ -47,7 +47,7 @@ class Metric extends PureComponent<any, any> {
       <Fragment>
         <Row style={{ margin: '24px 0' }}>
           {this.props.name ? null : (
-            <Col md={24}>
+            <Col sm={24}>
               <label style={{ marginRight: 56 }}>
                 {`节点：`}
                 <Select value={name} style={{ width: '240px' }} onChange={name => this.setState({ name })}>
@@ -57,7 +57,7 @@ class Metric extends PureComponent<any, any> {
               </label>
             </Col>
           )}
-          <Col md={24}>
+          <Col sm={24}>
             <label>
               {`时间：`}
               <RadioGroup value={dur} onChange={e => this.setState({
@@ -75,35 +75,35 @@ class Metric extends PureComponent<any, any> {
           </Col>
         </Row>
         <Row gutter={24}>
-          <Col lg={8} md={24} >
+          <Col md={8} sm={24} >
             <Cpu name={name} dur={dur} step={step} />
           </Col>
-          <Col lg={8} md={24}>
+          <Col md={8} sm={24}>
             <Mem name={name} dur={dur} step={step} />
           </Col>
-          <Col lg={8} md={24}>
+          <Col md={8} sm={24}>
             <SystemLoad name={name} dur={dur} step={step} />
           </Col>
         </Row>
         <Row gutter={24}>
-          <Col lg={6} md={24}>
+          <Col md={6} sm={24}>
             <FileSystem name={name} dur={dur} step={step} />
           </Col>
-          <Col lg={9} md={24}>
+          <Col md={9} sm={24}>
             <Io name={name} dur={dur} step={step} />
           </Col>
-          <Col lg={9} md={24}>
+          <Col md={9} sm={24}>
             <Inode name={name} dur={dur} step={step} />
           </Col>
         </Row>
         <Row gutter={24}>
-          <Col lg={8} md={24}>
+          <Col md={8} sm={24}>
             <Tcpestab name={name} dur={dur} step={step} />
           </Col>
-          <Col lg={8} md={24}>
+          <Col md={8} sm={24}>
             <Network name={name} dur={dur} step={step} />
           </Col>
-          <Col lg={8} md={24}>
+          <Col md={8} sm={24}>
             <Packets name={name} dur={dur} step={step} />
           </Col>
         </Row>

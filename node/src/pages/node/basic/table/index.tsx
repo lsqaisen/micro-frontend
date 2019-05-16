@@ -1,4 +1,4 @@
-import { PureComponent, Fragment } from 'react';
+import { PureComponent, Fragment, useState } from 'react';
 import { connect } from 'dva';
 import { createSelector } from 'reselect';
 import { Button } from 'antd';
@@ -9,21 +9,36 @@ import AddNode from '@/components/node/add-node';
 import { getNodesRequest, installRequest } from '@/services/node';
 import { joinResourceRequest } from '@/services/resource';
 import Actions from './actions';
+import ManageResource from './actions/manage-resource';
 
 @connect(createSelector(
   [
     (props: any, { resourceName }: any) => props.node.nodes[`${!resourceName || resourceName === 'all' ? '$all' : resourceName}`],
     (props: any) => props.node.nodes[`$all`] || { data: [], total: 0 },
+    (props: any, { clusterName }: any) => props.resource[clusterName].data,
     (props: any) => !!props.loading.effects[`node/nodes`],
   ],
-  (node, allNode, loading) => ({ node, allNode, loading })
+  (node, allNode, allResources, loading) => ({ node, allNode, allResources, loading })
 ))
 class Table extends PureComponent<any, any> {
+  state = {
+    currentNode: {}
+  }
   get = async (data: getNodesRequest) => {
-    await this.props.dispatch({
+    return this.props.dispatch({
       type: 'node/nodes',
       payload: data,
     })
+  }
+  getCurrent = () => {
+    const { clusterName, resourceName } = this.props;
+    if (!!clusterName) {
+      let data: getNodesRequest = {
+        cluster: clusterName,
+        resource: !resourceName || resourceName === 'all' ? '' : resourceName
+      };
+      return this.get(data);
+    }
   }
   install = (data: installRequest) => {
     return this.props.dispatch({
@@ -36,29 +51,27 @@ class Table extends PureComponent<any, any> {
     return this.props.dispatch({
       type: 'resource/join',
       payload: { clusterName, resourceName, ...data },
+    }).then((error: any) => {
+      if (!error) {
+        this.getCurrent();
+      }
     })
   }
-  componentWillReceiveProps({ clusterName, resourceName }: any) {
+  UNSAFE_componentWillReceiveProps({ clusterName, resourceName }: any) {
     if (resourceName !== resourceName && !!resourceName) {
       let data: getNodesRequest = { cluster: clusterName, resource: resourceName };
       this.get(data);
     }
   }
   componentDidMount() {
-    const { clusterName, resourceName } = this.props;
-    if (!!clusterName) {
-      let data: getNodesRequest = {
-        cluster: clusterName,
-        resource: !resourceName || resourceName === 'all' ? '' : resourceName
-      };
-      this.get(data);
-    }
+    this.getCurrent();
   }
   render() {
-    const { node = {}, loading, clusterName, resourceName } = this.props;
+    const { node = {}, loading, allResources, clusterName, resourceName } = this.props;
+    const { currentNode } = this.state;
     return (
       <Fragment>
-        <div style={{ overflow: 'hidden', marginBottom: 16 }}>
+        <header style={{ overflow: 'hidden', marginBottom: 16 }}>
           <div className="fl" style={{ lineHeight: '40px' }} >
             {!resourceName || resourceName === 'all' ? <Install {...{ clusterName, resourceName }} /> : undefined}
           </div>
@@ -81,23 +94,24 @@ class Table extends PureComponent<any, any> {
               )}
             <Button style={{ marginLeft: 16 }} loading={loading} onClick={this.get}>刷新</Button>
           </div>
-        </div>
+        </header>
         <Node
           key={resourceName}
           loading={loading}
           node={node}
-          actions={({ node }: any) => {
-            const { clusterName, resourceName } = this.props;
-            return (
-              <Actions {...{
-                clusterName, resourceName,
-                name: node.name,
-                allocatable: node.status.indexOf('SchedulingDisabled') !== -1 ? true : false,
-              }} />
-            )
-          }}
-        >
-        </Node>
+          actions={(
+            <Actions
+              {...{ clusterName, resourceName, allResources }}
+              onUpdate={this.getCurrent}
+            />
+          )}
+        />
+        {/* <ManageResource
+          node={currentNode}
+          resourceName={resourceName}
+          allResources={allResources}
+          onUpdate={this.getCurrent}
+        /> */}
       </Fragment>
     )
   }

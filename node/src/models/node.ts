@@ -29,9 +29,10 @@ export default {
 				});
 			}
 		},
-		*nodes({ payload = {} }: AnyAction, { call, put }: EffectsCommandMap) {
+		*nodes({ payload = {} }: AnyAction, { call, put, select }: EffectsCommandMap) {
 			const { resource } = payload;
-			const { data, err } = yield call(api.getNodes, payload);
+			const namespace = yield select(({ user: { profile: { current } } }: any) => current === 'default' ? undefined : current);
+			const { data, err } = yield call(api.getNodes, { namespace, ...payload });
 			if (!!err) {
 				message.error(err, 5)
 			} else {
@@ -46,12 +47,21 @@ export default {
 				});
 			}
 		},
-		*modifyStatus({ payload }: AnyAction, { call, put }: EffectsCommandMap) {
-			const { data, err } = yield call(api.modifyStatus, payload);
+		*modifyStatus({ payload }: AnyAction, { call }: EffectsCommandMap) {
+			const { err } = yield call(api.modifyStatus, payload);
 			if (!!err) {
 				message.error(err, 5)
 				return err;
+			}
+			return err
+		},
+		*[`delete`]({ payload }: AnyAction, { put, call }: EffectsCommandMap) {
+			const { err } = yield call(api.deleteNode, payload);
+			if (!!err) {
+				message.error(err, 5);
+				return err;
 			} else {
+				message.success('删除节点成功', 5);
 			}
 		},
 		*detail({ payload }: AnyAction, { call, put }: EffectsCommandMap) {

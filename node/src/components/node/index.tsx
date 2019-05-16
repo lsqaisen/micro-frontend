@@ -1,10 +1,12 @@
+import * as React from 'react';
 import { PureComponent, Fragment } from 'react';
-import { Divider, Icon, Dropdown } from 'antd';
+import { Divider, Icon, Popover } from 'antd';
 import { ColumnProps } from 'antd/lib/table';
 import { Link } from 'dva/router';
 import Table from '@/components/global/table';
 import Chart from './chart';
 import EllipsisTooltip from '@/components/global/ellipsis-tooltip';
+import styles from './style/index.less';
 
 interface hostIPS {
   address?: string;
@@ -91,7 +93,7 @@ class Node extends PureComponent<NodeProps, any> {
         }
       },
     }, {
-      title: '主机类型',
+      title: '类型',
       dataIndex: 'tenant',
       width: 72,
       onCell: () => {
@@ -165,16 +167,14 @@ class Node extends PureComponent<NodeProps, any> {
           }
         }
       },
-      render: (_, r) => {
-        const Actions = this.props.actions as any;
-        return (
-          <Dropdown placement="bottomRight" overlay={<Actions node={r} />}>
-            <a className="ant-dropdown-link" href="#" onClick={(e) => e.preventDefault()}>
-              操作 <Icon type="down" />
-            </a>
-          </Dropdown>
+      render: (_, r) => React.cloneElement(this.props.actions as any, {
+        node: r,
+        children: (
+          <a className="ant-dropdown-link" href="#" onClick={(e) => e.preventDefault()}>
+            操作 <Icon type="down" />
+          </a>
         )
-      }
+      }),
     }
   ];
   render() {

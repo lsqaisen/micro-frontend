@@ -24,6 +24,11 @@ export default connect(createSelector(
   ],
   (data, active, init, clusterName, hasSider) => ({ data, active, init, clusterName, hasSider })
 ))(class extends React.PureComponent<any, any> {
+  UNSAFE_componentWillReceiveProps({ active, init, dispatch }: any) {
+    if (active === undefined || !init) {
+      if (!!active) dispatch({ type: 'cluster/get' });
+    }
+  }
   componentDidMount() {
     const { active, init, dispatch } = this.props;
     if (active === undefined || !init) {
@@ -36,6 +41,7 @@ export default connect(createSelector(
       <Media query="(min-width: 599px)">
         {(matches) => (
           <Layout
+            className="node-body"
             level={1}
             width={226}
             matches={!matches}

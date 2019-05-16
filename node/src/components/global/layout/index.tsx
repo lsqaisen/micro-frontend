@@ -7,6 +7,7 @@ import styles from './style/index.less';
 
 export interface LayoutProps extends SiderProps {
   empty?: any;
+  className?: string;
   sider: string | React.ReactNode;
 }
 
@@ -25,7 +26,7 @@ export default class extends React.PureComponent<LayoutProps, any> {
     })
   }
   getCentent = () => {
-    const { level, state, matches, width, empty, sider, children, } = this.props;
+    const { level, state, matches, width, empty, sider, className, children, } = this.props;
     switch (state) {
       case 'initially':
       case 'centent':
@@ -42,7 +43,7 @@ export default class extends React.PureComponent<LayoutProps, any> {
               >
                 {sider}
               </Sider>}
-              <Layout.Content className="node-body" style={{ position: 'relative', minHeight: "100vh" }}>
+              <Layout.Content className={className} style={{ position: 'relative', minHeight: "100vh" }}>
                 {children}
               </Layout.Content>
             </Layout>

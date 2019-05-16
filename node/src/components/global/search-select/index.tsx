@@ -62,13 +62,12 @@ class SearchSelect extends PureComponent<SearchSelectProps, SearchSelectState> {
 		return null;
 	}
 
-	load = async (e: any) => {
+	load = async (e?: any) => {
 		const { onSearch } = this.props;
 		const { data: _data, nextParams } = this.state;
 		this.setState({ loading: true })
 		try {
 			let { data, params } = await onSearch!(nextParams);
-			console.log(data, 1111)
 			this.setState({
 				loading: false,
 				nextParams: params,
@@ -76,7 +75,6 @@ class SearchSelect extends PureComponent<SearchSelectProps, SearchSelectState> {
 				end: !params
 			});
 		} catch (error) {
-			console.log(error, 1111)
 			this.setState({ error, loading: false })
 		}
 	}
@@ -88,13 +86,16 @@ class SearchSelect extends PureComponent<SearchSelectProps, SearchSelectState> {
 		}
 	}
 
+	componentDidMount() {
+		this.load();
+	}
+
 	render() {
 		const { onSearch, ...props } = this.props;
 		const { error, loading, end, data } = this.state;
 		return (
 			<Select
 				{...props}
-				onFocus={debounce(this.load, 100)}
 				notFoundContent={error ? <p>
 					<span style={{ color: 'red' }}>{error}</span><br />
 					<a onClick={this.load}>重新加载</a>

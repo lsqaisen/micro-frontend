@@ -23,10 +23,12 @@ class JoinResource extends PureComponent<JoinResourceProps, any> {
         </Button>
         <Drawer
           title="添加节点"
+          destroyOnClose
           width={482}
           placement="right"
           onClose={() => { this.setState({ visible: false }) }}
           visible={visible}
+
         >
           <JoinResourceForm
             ref="joinresource"

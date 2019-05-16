@@ -8,9 +8,10 @@ export default {
   state: {},
 
   effects: {
-    *get({ payload }: AnyAction, { call, put }: EffectsCommandMap) {
+    *get({ payload }: AnyAction, { call, put, select }: EffectsCommandMap) {
       const { cluster } = payload;
-      const { data, err } = yield call(api.getResource, payload);
+      const namespace = yield select(({ user: { profile: { current } } }: any) => current === 'default' ? undefined : current);
+      const { data, err } = yield call(api.getResource, { namespace, ...payload });
       if (!!err) {
         message.error(err, 5)
       } else {
@@ -25,9 +26,10 @@ export default {
         });
       }
     },
-    *add({ payload }: AnyAction, { put, call }: EffectsCommandMap) {
+    *add({ payload }: AnyAction, { put, call, select }: EffectsCommandMap) {
       const { clusterName, ...request } = payload;
-      const { err } = yield call(api.createResource, request);
+      const namespace = yield select(({ user: { profile: { current } } }: any) => current === 'default' ? undefined : current);
+      const { err } = yield call(api.createResource, { namespace, ...request });
       if (!!err) {
         message.error(err, 5);
         return err;
@@ -39,9 +41,10 @@ export default {
         })
       }
     },
-    *[`delete`]({ payload }: AnyAction, { put, call }: EffectsCommandMap) {
+    *[`delete`]({ payload }: AnyAction, { put, call, select }: EffectsCommandMap) {
       const { clusterName, ...request } = payload;
-      const { err } = yield call(api.deleteResource, request);
+      const namespace = yield select(({ user: { profile: { current } } }: any) => current === 'default' ? undefined : current);
+      const { err } = yield call(api.deleteResource, { namespace, ...request });
       if (!!err) {
         message.error(err, 5);
         return err;
@@ -53,35 +56,25 @@ export default {
         })
       }
     },
-    *join({ payload }: AnyAction, { put, call, select }: EffectsCommandMap) {
-      const { clusterName, resourceName, ...request } = payload;
+    *join({ payload }: AnyAction, { call, select }: EffectsCommandMap) {
       const namespace = yield select(({ user: { profile: { current } } }: any) => current === 'default' ? undefined : current);
-      const { err } = yield call(api.joinResource, { namespace, resource: resourceName, ...request });
+      const { err } = yield call(api.joinResource, { namespace, ...payload });
       if (!!err) {
         message.error(err, 5);
-        return err;
       } else {
         message.success('加入成功', 5);
-        yield put({
-          type: 'node/nodes',
-          payload: { cluster: clusterName, resource: resourceName },
-        })
       }
+      return err;
     },
-    *remove({ payload }: AnyAction, { put, call, select }: EffectsCommandMap) {
-      const { clusterName, resourceName, ...request } = payload;
+    *remove({ payload }: AnyAction, { call, select }: EffectsCommandMap) {
       const namespace = yield select(({ user: { profile: { current } } }: any) => current === 'default' ? undefined : current);
-      const { err } = yield call(api.removeResource, { namespace, resource: resourceName, ...request });
+      const { err } = yield call(api.removeResource, { namespace, ...payload });
       if (!!err) {
         message.error(err, 5);
-        return err;
       } else {
         message.success('移除成功', 5);
-        yield put({
-          type: 'node/nodes',
-          payload: { cluster: clusterName, resource: resourceName },
-        })
       }
+      return err;
     },
   },
   reducers: {

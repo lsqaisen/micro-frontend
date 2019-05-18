@@ -55,11 +55,7 @@ class Node extends PureComponent<NodeProps, any> {
               <span style={{ color: '#f5222d' }}>异常</span>}
           </Tag>] as any}
           extra={[
-            <Button key="3" onClick={onLoad!}>刷新</Button>,
-            <Button key="2">Operation</Button>,
-            <Button key="1" type="primary">
-              Primary
-        </Button>,
+            <Button key="3" onClick={onLoad!}>刷新</Button>
           ]}
           footer={
             <Tabs style={{ padding: '0 16px' }} defaultActiveKey="1">
@@ -82,8 +78,8 @@ class Node extends PureComponent<NodeProps, any> {
             </Tabs>
           }
         >
-          <div className={styles.wrap}>
-            <div className={styles.content}>
+          <Row className={`${styles.wrap} wrap`}>
+            <Col className={styles.content} xs={24} lg={12}>
               <Row gutter={24}>
                 <Description term="IP地址信息" span={24}>
                   {(node.nodeInfo.addresses.find((v: any) => v.type === "InternalIP") || { address: '' }).address}:{node.nodeInfo.endPoint}
@@ -91,27 +87,27 @@ class Node extends PureComponent<NodeProps, any> {
                 <Description term="创建时间" span={24}>
                   {node.nodeInfo.creationTime}
                 </Description>
-                <Description term="CPU分配/容量">
+                <Description term="CPU分配/容量" xs={24} md={12}>
                   <Statistic
                     suffix={` / ${(parseInt(node.nodeInfo.capacity.cpu) || 0).toFixed(1)}GHz`}
                     value={((parseInt(node.nodeInfo.allocatable.cpu) || 0) / 1000).toFixed(1)}
                   />
                 </Description>
-                <Description term="内存">
+                <Description term="内存" xs={24} md={12}>
                   <Statistic
                     suffix={` / ${((parseInt(node.nodeInfo.capacity.memory) || 0) / (1024 * 1024)).toFixed(1)}GB`}
                     value={((parseInt(node.nodeInfo.allocatable.memory) || 0) / (1024 * 1024)).toFixed(1)}
                   />
                 </Description>
-                <Description term="运行Pod数">
+                <Description term="运行Pod数" xs={24} md={12}>
                   <b className={styles.blue}>{node.pods.length} 个</b>
                 </Description>
-                <Description term="最大Pod数" >
+                <Description term="最大Pod数" xs={24} md={12}>
                   <b className={styles.blue}>{node.nodeInfo.allocatable.pods || 0}</b> 个
                </Description>
               </Row>
-            </div>
-            <div className={styles.extraContent}>
+            </Col>
+            <Col className={`${styles.extraContent} extraContent`}>
               <Row gutter={16}>
                 <Col span={12}>
                   <Statistic title="Status" value={node.status} />
@@ -120,8 +116,8 @@ class Node extends PureComponent<NodeProps, any> {
                   <Statistic title="Pods" suffix="个" value={node.pods.length} />
                 </Col>
               </Row>
-            </div>
-          </div>
+            </Col>
+          </Row>
         </PageHeader>
       </Fragment>
     )

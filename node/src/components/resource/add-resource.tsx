@@ -1,10 +1,11 @@
-import { PureComponent, Fragment } from 'react';
+import { PureComponent, Fragment, cloneElement } from 'react';
 import { Icon, Button, Drawer } from 'antd';
 import AddResourceForm from './form/add-resource-form';
 import { createResourceRequest } from '@/services/resource';
 
 export interface AddResourceProps {
-  onSubmit?: (value: createResourceRequest) => void
+  btn?: React.ReactNode;
+  onSubmit?: (value: createResourceRequest) => void;
 }
 
 class AddResource extends PureComponent<AddResourceProps, any> {
@@ -18,13 +19,14 @@ class AddResource extends PureComponent<AddResourceProps, any> {
   }
 
   render() {
-    const { onSubmit } = this.props;
+    const { btn, onSubmit } = this.props;
     const { loading, visible } = this.state;
     return (
       <Fragment>
-        <Button ghost type="primary" onClick={() => { this.setState({ visible: true }) }}>
+        {!btn ? <Button ghost type="primary" onClick={() => { this.setState({ visible: true }) }}>
           <Icon type="plus" /> 添加资源池
-        </Button>
+        </Button> :
+          cloneElement(btn as any, { onClick: () => { this.setState({ visible: true }) } })}
         <Drawer
           title="添加资源池"
           width={482}

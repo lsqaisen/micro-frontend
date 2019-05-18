@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { PureComponent, Fragment } from 'react';
-import { Divider, Icon, Popover } from 'antd';
+import { Divider, Icon } from 'antd';
 import { ColumnProps } from 'antd/lib/table';
 import { Link } from 'dva/router';
 import Table from '@/components/global/table';
 import Chart from './chart';
 import EllipsisTooltip from '@/components/global/ellipsis-tooltip';
-import styles from './style/index.less';
 
 interface hostIPS {
   address?: string;
@@ -49,6 +48,10 @@ export type NodeProps = {
 }
 
 class Node extends PureComponent<NodeProps, any> {
+  state = {
+    selectNodeIndex: 0,
+    visible: false,
+  }
   columns: ColumnProps<INode>[] = [
     {
       title: '节点名称',
@@ -167,8 +170,9 @@ class Node extends PureComponent<NodeProps, any> {
           }
         }
       },
-      render: (_, r) => React.cloneElement(this.props.actions as any, {
+      render: (_, r, i) => React.cloneElement(this.props.actions as any, {
         node: r,
+        onSelect: () => { this.setState({ visible: true, selectNodeIndex: i }) },
         children: (
           <a className="ant-dropdown-link" href="#" onClick={(e) => e.preventDefault()}>
             操作 <Icon type="down" />
@@ -178,16 +182,24 @@ class Node extends PureComponent<NodeProps, any> {
     }
   ];
   render() {
-    const { loading, node, ...props } = this.props;
+    const { loading, node, actions, children, ...props } = this.props;
     const { total = 0, data = [] } = node;
+    const { selectNodeIndex, visible } = this.state;
     return (
-      <Table<INode>
-        {...props}
-        pagination={{ total }}
-        loading={loading}
-        columns={this.columns}
-        dataSource={data.map((v: INode) => ({ key: v.name, ...v }))}
-      />
+      <Fragment>
+        <Table<INode>
+          {...props}
+          pagination={{ total }}
+          loading={loading}
+          columns={this.columns}
+          dataSource={data.map((v: INode) => ({ key: v.name, ...v }))}
+        />
+        {React.cloneElement(children as any, {
+          visible,
+          node: data[selectNodeIndex] || {},
+          onClose: () => { this.setState({ selectNodeIndex: 0, visible: false }) },
+        })}
+      </Fragment>
     )
   }
 }

@@ -22,6 +22,7 @@ import ManageResource from './actions/manage-resource';
 ))
 class Table extends PureComponent<any, any> {
   state = {
+    manageResourceVisible: false,
     currentNode: {}
   }
   get = async (data: getNodesRequest) => {
@@ -57,6 +58,9 @@ class Table extends PureComponent<any, any> {
       }
     })
   }
+  selectNode = (node: any, visible: boolean) => {
+    this.setState({ manageResourceVisible: visible, currentNode: node })
+  }
   UNSAFE_componentWillReceiveProps({ clusterName, resourceName }: any) {
     if (resourceName !== resourceName && !!resourceName) {
       let data: getNodesRequest = { cluster: clusterName, resource: resourceName };
@@ -67,8 +71,8 @@ class Table extends PureComponent<any, any> {
     this.getCurrent();
   }
   render() {
-    const { node = {}, loading, allResources, clusterName, resourceName } = this.props;
-    const { currentNode } = this.state;
+    const { node = {}, allResources, loading, clusterName, resourceName } = this.props;
+    const { manageResourceVisible, currentNode } = this.state;
     return (
       <Fragment>
         <header style={{ overflow: 'hidden', marginBottom: 16 }}>
@@ -101,17 +105,17 @@ class Table extends PureComponent<any, any> {
           node={node}
           actions={(
             <Actions
-              {...{ clusterName, resourceName, allResources }}
+              {...{ clusterName, resourceName, selectNode: this.selectNode }}
               onUpdate={this.getCurrent}
             />
           )}
-        />
-        {/* <ManageResource
-          node={currentNode}
-          resourceName={resourceName}
-          allResources={allResources}
-          onUpdate={this.getCurrent}
-        /> */}
+        >
+          <ManageResource
+            resourceName={resourceName}
+            allResources={allResources}
+            onUpdate={this.getCurrent}
+          />
+        </Node>
       </Fragment>
     )
   }

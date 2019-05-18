@@ -1,14 +1,13 @@
 import { Col } from 'antd';
+import { ColProps } from 'antd/lib/col'
 import styles from './style/index.less';
 
-export interface DescriptionProps {
+export interface DescriptionProps extends ColProps {
   term: any,
-  children: any,
-  span?: string | number
 }
 
-export default ({ term, children, span = 12 }: DescriptionProps) => (
-  <Col span={span}>
+export default ({ term, children, ...props }: DescriptionProps) => (
+  <Col {...props}>
     <div className={styles.description}>
       <div className={styles.term}>{term}</div>
       <div className={styles.detail}>{children}</div>

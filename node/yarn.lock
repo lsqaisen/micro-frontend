@@ -10514,11 +10514,6 @@ react-textarea-autosize@^6.1.0:
   dependencies:
     prop-types "^15.6.0"
 
-react-time-format@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/react-time-format/-/react-time-format-0.0.5.tgz#d9c967ec68c9a262fc37c3dd3a381da5bde08e83"
-  integrity sha1-2cln7GjJomL8N8PdOjgdpb3gjoM=
-
 react-tween-state@^0.1.5:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/react-tween-state/-/react-tween-state-0.1.5.tgz#e98b066551efb93cb92dd1be14995c2e3deae339"

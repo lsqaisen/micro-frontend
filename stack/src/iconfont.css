@@ -1,0 +1,170 @@
+@font-face {
+  font-family: "iconfont";
+  src: url('./assets/iconfont/iconfont.eot?t=1476952284');
+  /* IE9*/
+  src: url('./assets/iconfont/iconfont.eot?t=1476952284#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('./assets/iconfont/iconfont.woff?t=1476952284') format('woff'), /* chrome, firefox */
+  url('./assets/iconfont/iconfont.ttf?t=1476952284') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('./assets/iconfont/iconfont.svg?t=1476952284#iconfont') format('svg');
+  /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  display: inline-block;
+  font-style: normal;
+  vertical-align: baseline;
+  text-align: center;
+  text-transform: none;
+  text-rendering: auto;
+  line-height: 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 17px;
+}
+
+.icon-message:before {
+  content: "\e631";
+}
+
+.icon-postgres:before {
+  content: "\e602";
+}
+
+.icon-kong:before {
+  content: "\e8ec";
+}
+
+.icon-tidb:before {
+  content: "\e60e";
+}
+
+.icon-redis:before {
+  content: "\e6ba";
+}
+
+.icon-network:before {
+  content: "\e836";
+}
+
+.icon-storage:before {
+  content: "\ea0b";
+}
+
+.icon-monitor:before {
+  content: "\e63e";
+}
+
+.icon-node:before {
+  content: "\e600";
+}
+
+.icon-logging:before {
+  content: "\e629";
+}
+
+.icon-registry:before {
+  content: "\e65a";
+}
+
+.icon-auth:before {
+  content: "\e6bf";
+}
+
+.icon-appstore:before {
+  content: "\e631";
+}
+
+.icon-tenant:before {
+  content: "\e62d";
+}
+
+.icon-plugin:before {
+  content: "\e608";
+}
+
+.icon-stack:before {
+  content: "\e67b"
+}
+
+.icon-balance:before {
+  content: "\e6a7";
+}
+
+.icon-service:before {
+  content: "\e601";
+}
+
+.icon-microservices:before {
+  content: "\e967";
+}
+
+.icon-user:before {
+  content: "\e618";
+}
+
+.icon-admin:before {
+  content: "\e603";
+}
+
+.icon-space:before {
+  content: "\e62d";
+}
+
+.icon-balance:before {
+  content: "\e6d1";
+}
+
+.icon-ci:before {
+  content: "\e628";
+}
+
+.icon-gitlab:before {
+  content: "\e719";
+}
+
+.icon-commit:before {
+  content: "\e8b6";
+}
+
+.icon-branch:before {
+  content: "\e8b7";
+}
+
+.icon-dashboard:before {
+  content: "\e628";
+}
+
+.icon-cntrhost:before {
+  content: "\e61d";
+}
+
+.icon-devops:before {
+  content: "\e6a5";
+}
+
+.icon-mysql:before {
+  content: "\e601";
+}
+
+.icon-bigdata:before {
+  content: "\e692";
+}
+
+.icon-paas:before {
+  content: "\e600";
+  font-weight: bold;
+}
+
+.icon-time:before {
+  content: "\e636";
+}
+
+.icon-timelapse:before {
+  content: "\e6e5";
+}
+
+.icon-vm:before {
+  content: "\e66f";
+}

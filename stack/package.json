@@ -5,8 +5,15 @@
     "build": "umi build"
   },
   "devDependencies": {
-    "mife": "^0.0.1",
+    "mife": "^0.0.2",
     "umi": "^2.4.4",
     "umi-plugin-react": "^1.4.2"
+  },
+  "dependencies": {
+    "@antv/data-set": "^0.10.2",
+    "@antv/g2": "^3.5.3",
+    "inputmask": "^4.0.8",
+    "react-lifecycles-compat": "^3.0.4",
+    "xterm": "^3.12.2"
   }
 }

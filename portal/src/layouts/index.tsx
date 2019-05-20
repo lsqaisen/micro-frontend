@@ -1,42 +1,76 @@
-import { PureComponent } from 'react';
+import * as React from 'react';
 import { connect } from 'dva';
-import Link from 'umi/link';
 import router from 'umi/router';
 import { createSelector } from 'reselect';
-import { Button } from 'antd';
+import { LocaleProvider } from 'antd';
+import Media from 'react-media';
+import zhCN from 'antd/lib/locale-provider/zh_CN';
 import { sub, unsub } from 'mife/bin/api';
 import withRouter from 'umi/withRouter';
-import Layout from './layout';
-import "antd/lib/style/index.less"
+import Layout from '@/components/global/layout';
+import Logo from '@/components/layouts/logo';
+import Menu from '@/components/layouts/sider/menu';
+import User from '@/components/layouts/sider/user';
+import Namespace from '@/components/layouts/sider/namespace';
 
 @(withRouter as any)
 @connect(createSelector(
   [
-    (props: any) => props.user,
-    (props: any) => props.mife_menus,
+    // (props: any) => (props.user || {}).profile,
+    // (props: any) => (props.user || {}).init,
+    (props: any) => true,
+    (props: any) => true,
   ],
-  (user, menus) => ({ user, menus })
+  (profile, init) => ({ profile, init })
 ))
-export default class extends PureComponent<any, any> {
+export default class extends React.PureComponent<any, any> {
   state = {
-    init: false
+    init: false,
+  }
+  UNSAFE_componentWillReceiveProps({ profile, init }: any) {
+    if (!!init && !!profile) {
+      let loader = document.getElementById('loader');
+      if (loader) loader.remove();
+    }
   }
   componentDidMount() {
-    sub(`/lib/login/login.js?${new Date()}`, 'login', () => {
+    // sub(`/lib/login/login.js?${process.env.VERSION}`, 'login', () => {
+    //   this.setState({ init: true })
+    // });
+    sub(`/lib/node/node.js?${process.env.VERSION}`, 'node', () => {
       this.setState({ init: true })
     });
   }
   render() {
-    const { user, children } = this.props;
-    const { init } = this.state;
-    return <Layout />
-    if (!init || !user || (!user.profile.data && !user.profile.err)) return null;
-    else if (!!user) {
-      if (!!user.profile.err) {
-        return children
-      } else if (!!user.profile.data) {
-        return <Layout />
-      }
+    const { profile, init, children } = this.props;
+    console.log(!profile, !init)
+    if (!init) return null;
+    else if (!profile) {
+      return children
+    } else {
+      return (
+        <Media query="(min-width: 599px)">
+          {(matches) => (
+            <LocaleProvider locale={zhCN}>
+              <Layout
+                level={0}
+                state='centent'
+                matches={!matches}
+                width={256}
+                sider={(
+                  <div>
+                    <Logo />
+                    <User name="admin" />
+                    <Namespace />
+                    <Menu />
+                  </div>
+                )}>
+                {children}
+              </Layout>
+            </LocaleProvider>
+          )}
+        </Media>
+      )
     }
   }
 }

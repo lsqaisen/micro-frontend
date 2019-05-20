@@ -1,7 +1,6 @@
 import styles from './style/index.less';
 
 const Logo = (props: any) => {
-  console.log(process.env.NODE_ENV, process.env.OEM_NAME)
   return (
     <div className={styles.logoBox}>
       <a className={styles.logo} href="#" onClick={(e) => e.preventDefault()}>

@@ -1,1 +1,2 @@
-export default () => 'demo'
+import Node from "./node"
+export default Node;

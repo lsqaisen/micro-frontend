@@ -32,6 +32,12 @@ export default class extends PureComponent<any, any> {
                 { opacity: [1, 0], translateX: [0, 250] },
               ]}
             >
+              <Menu.Item key="node">
+                {/* <Link to="/node"> */}
+                  <i className={`${styles[`icon`]} iconfont icon-node`} />
+                  <span className={styles[`name`]}>node</span>
+                {/* </Link> */}
+              </Menu.Item>
               <SubMenu key="sub1" title={(
                 <Fragment>
                   <i className={`${styles[`icon`]} iconfont icon-stack`} />

@@ -10,9 +10,13 @@
     "umi-plugin-react": "^1.4.2"
   },
   "dependencies": {
+    "@antv/data-set": "^0.10.2",
+    "@antv/g2": "^3.5.3",
+    "inputmask": "^4.0.8",
     "rc-queue-anim": "^1.6.12",
-    "rc-tween-one": "^2.3.4",
-    "react-perfect-scrollbar": "^1.4.4",
-    "scriptjs": "^2.5.9"
+    "react-lifecycles-compat": "^3.0.4",
+    "react-media": "^1.9.2",
+    "react-perfect-scrollbar": "^1.5.2",
+    "xterm": "^3.12.2"
   }
 }

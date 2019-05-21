@@ -1,11 +1,12 @@
 {
   "name": "login",
   "scripts": {
-    "start": "umi dev",
+    "start": "MOCK=none umi dev",
+    "start:mock": "umi dev",
     "build": "umi build"
   },
   "devDependencies": {
-    "mife": "^0.0.3",
+    "mife": "^0.0.5",
     "umi": "^2.4.4",
     "umi-plugin-react": "^1.4.2"
   },

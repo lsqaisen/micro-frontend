@@ -16,16 +16,14 @@ import Namespace from '@/components/layouts/sider/namespace';
 @(withRouter as any)
 @connect(createSelector(
   [
-    // (props: any) => (props.user || {}).profile,
-    // (props: any) => (props.user || {}).init,
-    (props: any) => true,
-    (props: any) => true,
+    (props: any) => (props.user || {}).profile,
+    (props: any) => (props.user || {}).init,
   ],
   (profile, init) => ({ profile, init })
 ))
 export default class extends React.PureComponent<any, any> {
   state = {
-    init: false,
+    init: false
   }
   UNSAFE_componentWillReceiveProps({ profile, init }: any) {
     if (!!init && !!profile) {
@@ -34,16 +32,19 @@ export default class extends React.PureComponent<any, any> {
     }
   }
   componentDidMount() {
-    // sub(`/lib/login/login.js?${process.env.VERSION}`, 'login', () => {
-    //   this.setState({ init: true })
-    // });
+    sub(`/lib/login/login.js?${process.env.VERSION}`, 'login', (success: boolean) => {
+      if (!success) {
+        router.push('/local-login')
+      }
+      this.setState({ init: true })
+    });
     sub(`/lib/node/node.js?${process.env.VERSION}`, 'node', () => {
       this.setState({ init: true })
     });
   }
   render() {
     const { profile, init, children } = this.props;
-    console.log(!profile, !init)
+    console.log(profile, (window.g_umi||{}).mife)
     if (!init) return null;
     else if (!profile) {
       return children

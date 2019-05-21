@@ -72,7 +72,7 @@ export default {
       "pathRewrite": { "^/lib/login": "" }
     },
     "/lib/node": {
-      "target": "http://localhost:52116",
+      "target": "http://localhost:5001",
       "changeOrigin": true,
       "pathRewrite": { "^/lib/node": "" }
     },

@@ -20,9 +20,10 @@ export default {
 				window.historyListen = true;
 				history.listen(debounce(async ({ pathname }: any) => {
 					let { data = undefined, err = undefined } = await dispatch({ type: 'get' });
+					console.log(data)
 					if (!!data && !err && (pathname === '/login' || pathname === '/')) {
 						router.push('/dashboard');
-					} else if (!data && !!err && pathname !== '/login') {
+					} else if ((!data || !!err) && pathname !== '/login') {
 						router.push('/login');
 					}
 				}, 5000, { leading: true, trailing: false }));

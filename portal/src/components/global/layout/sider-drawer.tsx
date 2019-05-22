@@ -31,19 +31,16 @@ const SiderDrawer: any = () => {
   return getDrawersElement(data, [matches, setMatches]);
 }
 
-const _root = document.getElementById("media-siders") || document.createElement('div');
-function sider_drawers() {
-  _root.id = "media-siders";
-  document.body.appendChild(_root);
-  ReactDOM.render(<SiderDrawer />, _root);
-}
-
-sider_drawers.create = (data: any, level: number, show: boolean) => {
+export const create = (data: any, level: number) => {
   window.sider_drawers[level] = data;
-  if (matches !== show) setMatches(show);
-  setState(window.sider_drawers.filter((v: any) => !!v));
+  if (setState) setState(window.sider_drawers.filter((v: any) => !!v));
 }
 
-sider_drawers();
-
-export default sider_drawers;
+export default () => {
+  return (
+    ReactDOM.createPortal(
+      <SiderDrawer key="media-siders" />,
+      document.getElementById("media-siders")
+    )
+  )
+};

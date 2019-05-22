@@ -1,31 +1,37 @@
-import { Component, PureComponent, Fragment } from 'react';
+import { PureComponent, Fragment } from 'react';
 import { Menu, Icon } from 'antd';
+import { MenuProps } from 'antd/lib/menu'
 import ScrollBar from 'react-perfect-scrollbar';
 import QueueAnim from 'rc-queue-anim';
-import { Link } from 'dva/router';
+import Link from 'umi/link';
 import { TweenOneGroup } from 'rc-tween-one';
 import styles from './style/menu.less';
 
 const { SubMenu, ItemGroup } = Menu;
 
-export default class extends PureComponent<any, any> {
+export interface PortalMenuProps extends MenuProps {
+
+}
+
+export default class extends PureComponent<PortalMenuProps, any> {
   render() {
     return (
       <div className={styles.menu_box}>
         <ScrollBar
-          option={{
+          options={{
             suppressScrollX: true,
           }}
         >
           <Menu
             mode="inline"
             style={{ height: '100%' }}
+            {...this.props}
           >
             <QueueAnim
               component={ItemGroup}
               componentProps={{
                 key: "ddd",
-                title: 'dsfsdf'
+                title: 'dsfsddf'
               }}
               animConfig={[
                 { opacity: [1, 0], translateX: [0, -250] },
@@ -33,10 +39,10 @@ export default class extends PureComponent<any, any> {
               ]}
             >
               <Menu.Item key="node">
-                {/* <Link to="/node"> */}
+                <Link to="/node">
                   <i className={`${styles[`icon`]} iconfont icon-node`} />
                   <span className={styles[`name`]}>node</span>
-                {/* </Link> */}
+                </Link>
               </Menu.Item>
               <SubMenu key="sub1" title={(
                 <Fragment>

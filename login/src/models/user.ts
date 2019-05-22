@@ -5,7 +5,6 @@ import debounce from 'lodash.debounce';
 import api from '@/services/user';
 import { message } from 'antd';
 
-
 export default {
 	namespace: 'user',
 	state: {
@@ -20,7 +19,6 @@ export default {
 				window.historyListen = true;
 				history.listen(debounce(async ({ pathname }: any) => {
 					let { data = undefined, err = undefined } = await dispatch({ type: 'get' });
-					console.log(data)
 					if (!!data && !err && (pathname === '/login' || pathname === '/')) {
 						router.push('/dashboard');
 					} else if ((!data || !!err) && pathname !== '/login') {

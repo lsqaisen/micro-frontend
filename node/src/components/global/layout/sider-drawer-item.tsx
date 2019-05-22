@@ -55,7 +55,9 @@ class SiderDrawerItem extends React.PureComponent<SiderDrawerItemProps, any> {
         >
           {show && <Btn open={visible} onClick={this.changeVisible} />}
           {children}
-          {sider}
+          {React.cloneElement(sider as any, {
+            changeVisible: this.changeVisible
+          })}
         </Drawer>
       </React.Fragment>
     )

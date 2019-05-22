@@ -14,6 +14,7 @@ export type ClusterProps = {
   clusterName?: string;
   onAdd?: (value: addClusterRequest) => void;
   onDelete?: (name: string) => void;
+  changeVisible?: () => void;
 }
 
 class Cluster extends PureComponent<ClusterProps, any> {
@@ -43,7 +44,7 @@ class Cluster extends PureComponent<ClusterProps, any> {
     }
   }
   render() {
-    const { clusterName, data, onAdd, onDelete } = this.props;
+    const { clusterName, data, onAdd, onDelete, changeVisible } = this.props;
     return (
       <div className={styles.menu_box}>
         <AddCluser onSubmit={onAdd!} />
@@ -58,7 +59,10 @@ class Cluster extends PureComponent<ClusterProps, any> {
               mode: "inline",
               style: { height: '100%' },
               selectedKeys: [clusterName],
-              onClick: (e: any) => this.setCluster(e.key)
+              onClick: (e: any) => {
+                this.setCluster(e.key);
+                changeVisible && changeVisible();
+              }
             }}
             animConfig={[
               { opacity: [1, 0], translateX: [0, -250] },

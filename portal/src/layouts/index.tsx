@@ -8,10 +8,7 @@ import zhCN from 'antd/lib/locale-provider/zh_CN';
 import { sub, unsub } from 'mife/bin/api';
 import withRouter from 'umi/withRouter';
 import Layout from '@/components/global/layout';
-import Logo from '@/components/layouts/logo';
-import Menu from '@/components/layouts/sider/menu';
-import User from '@/components/layouts/sider/user';
-import Namespace from '@/components/layouts/sider/namespace';
+import Sider from './sider';
 
 @(withRouter as any)
 @connect(createSelector(
@@ -22,9 +19,11 @@ import Namespace from '@/components/layouts/sider/namespace';
   (profile, init) => ({ profile, init })
 ))
 export default class extends React.PureComponent<any, any> {
-  state = {
-    init: false
-  }
+  state: {
+    plugins: string[]
+  } = {
+      plugins: [],
+    }
   UNSAFE_componentWillReceiveProps({ profile, init }: any) {
     if (!!init && !!profile) {
       let loader = document.getElementById('loader');
@@ -36,42 +35,34 @@ export default class extends React.PureComponent<any, any> {
       if (!success) {
         router.push('/local-login')
       }
-      this.setState({ init: true })
+      this.setState({ plugins: this.state.plugins.concat(['login']) })
     });
-    sub(`/lib/node/node.js?${process.env.VERSION}`, 'node', () => {
-      this.setState({ init: true })
+    sub(`/lib/node/node.js?${process.env.VERSION}`, 'node', (success: boolean) => {
+      this.setState({ plugins: this.state.plugins.concat(['login']) })
     });
   }
   render() {
     const { profile, init, children } = this.props;
-    console.log(profile, (window.g_umi||{}).mife)
-    if (!init) return null;
-    else if (!profile) {
-      return children
-    } else {
-      return (
-        <Media query="(min-width: 599px)">
-          {(matches) => (
-            <LocaleProvider locale={zhCN}>
-              <Layout
-                level={0}
-                state='centent'
-                matches={!matches}
-                width={256}
-                sider={(
-                  <div>
-                    <Logo />
-                    <User name="admin" />
-                    <Namespace />
-                    <Menu />
-                  </div>
-                )}>
-                {children}
-              </Layout>
-            </LocaleProvider>
-          )}
-        </Media>
-      )
+    const { plugins } = this.state;
+    if (plugins.indexOf('login') !== -1 && init && !profile) {
+      return children;
     }
+    return (
+      <Media query="(min-width: 599px)">
+        {(matches) => (
+          <LocaleProvider locale={zhCN}>
+            <Layout
+              level={0}
+              state={!init ? 'initially' : 'centent'}
+              matches={!matches}
+              width={profile ? 256 : 0}
+              sider={profile ? <Sider /> : <div />}>
+              {plugins.length < 2 ? null : children}
+            </Layout>
+          </LocaleProvider>
+        )}
+      </Media>
+    )
   }
 }
+

@@ -1,52 +1,23 @@
 import { EffectsCommandMap } from 'dva';
 import { AnyAction } from 'redux';
 import { message } from 'antd';
-import api from '@/services/stack';
+import api from '@/services/app';
 import services from '@/services';
 
 export default {
-  namespace: 'stack',
+  namespace: 'app',
   state: {
-    active: undefined,
     init: false,
-    data: [],
-  },
-
-  subscriptions: {
-    setup({ dispatch, history }: any, done: any) {
-      history.listen(({ pathname, search }: any) => {
-        if (pathname === '/stack' && !search) {
-          dispatch({ type: 'active' })
-          dispatch({
-            type: 'save',
-            payload: {
-              init: false
-            }
-          });
-        }
-      });
-      dispatch({ type: 'active' })
-      done();
+    data: {
+      total: 0,
+      data: [],
     },
   },
 
   effects: {
-    *active(_: AnyAction, { call, put }: EffectsCommandMap) {
-      const { data, err } = yield call(services.getPluginStatus, 'stack');
-      if (!!err) {
-        message.error(err, 5)
-      } else {
-        yield put({
-          type: 'save',
-          payload: {
-            active: !!data,
-          }
-        });
-      }
-    },
     *get({ payload }: AnyAction, { call, put, select }: EffectsCommandMap) {
       const namespace = yield select(({ user: { profile: { current } } }: any) => current === 'default' ? undefined : current);
-      const { data, err } = yield call(api.getStack, { namespace, ...(payload || {}) });
+      const { data, err } = yield call(api.getApps, { namespace, ...(payload || {}) });
       if (!!err) {
         message.error(err, 5);
       } else {
@@ -54,7 +25,10 @@ export default {
           type: 'save',
           payload: {
             init: true,
-            data: ((data || {}).stacks || []).filter((stack: any) => stack.name !== "vm-exposed-ports"),
+            data: {
+              total: (data || {}).listMeta.totalItems || 0,
+              data: (data || {}).apps || []
+            },
           }
         });
       }

@@ -3,50 +3,48 @@ import { Menu, Icon, Modal } from 'antd';
 import router from 'umi/router';
 import QueueAnim from 'rc-queue-anim';
 import ScrollBar from 'react-perfect-scrollbar';
-// import AddCluser from './add-cluster';
-// import { addClusterRequest } from '@/services/cluster';
+import CreateStack from './add-stack';
+// import { addStackRequest } from '@/services/stack';
 import styles from './style/index.less';
 
 const { ItemGroup } = Menu;
 
-export type ClusterProps = {
+export type StackProps = {
   data: any[];
-  clusterName?: string;
+  stackName?: string;
   onAdd?: (value: any) => void;
   onDelete?: (name: string) => void;
 }
 
-class Cluster extends PureComponent<ClusterProps, any> {
-  static readonly defaultProps: ClusterProps = {
+class Stack extends PureComponent<StackProps, any> {
+  static readonly defaultProps: StackProps = {
     data: []
   }
-  // setCluster = (clusterName?: string) => {
-  //   router.push(`/node?cluster=${clusterName!}`);
-  // }
-  // UNSAFE_componentWillReceiveProps({ data, clusterName }: ClusterProps) {
-  //   if (data.length > 0) {
-  //     if (!clusterName && !!this.props.clusterName) {
-  //       this.setCluster(this.props.clusterName)
-  //     }
-  //     if (!clusterName && !this.props.clusterName) {
-  //       this.setCluster((data || [])[0].name || '')
-  //     }
-  //     if (!!clusterName && this.props.clusterName !== clusterName && data.every(v => `${v.name}` !== clusterName)) {
-  //       this.setCluster(this.props.clusterName);
-  //     }
-  //   }
-  // }
-  // componentDidMount() {
-  //   const { clusterName, data } = this.props;
-  //   if (!clusterName && data.length > 0) {
-  //     this.setCluster((data || [])[0].name || '')
-  //   }
-  // }
+  setStack = (stackName?: string) => {
+    router.push(`/stack/${stackName}`);
+  }
+  UNSAFE_componentWillReceiveProps({ data, stackName }: StackProps) {
+    if (data.length > 0) {
+      if (!data.find(v => v.name === stackName)) {
+        this.setStack((data || [])[0].name)
+      }
+    } else {
+      this.setStack('')
+    }
+  }
+  componentDidMount() {
+    const { stackName, data } = this.props;
+    if (!data.find(v => v.name === stackName) && data.length > 0) {
+      this.setStack((data || [])[0].name)
+    } else if (data.length <= 0) {
+      this.setStack('')
+    }
+  }
   render() {
-    const { clusterName, data, onAdd, onDelete } = this.props;
+    const { stackName, data, onAdd, onDelete } = this.props;
     return (
       <div className={styles.menu_box}>
-        {/* <AddCluser onSubmit={onAdd!} /> */}
+        <CreateStack onSubmit={onAdd!} />
         <ScrollBar
           option={{
             suppressScrollX: true,
@@ -57,26 +55,26 @@ class Cluster extends PureComponent<ClusterProps, any> {
             componentProps={{
               mode: "inline",
               style: { height: '100%' },
-              selectedKeys: [clusterName],
-              // onClick: (e: any) => this.setCluster(e.key)
+              selectedKeys: [stackName],
+              onClick: (e: any) => this.setStack(e.key)
             }}
             animConfig={[
               { opacity: [1, 0], translateX: [0, -250] },
               { opacity: [1, 0], translateX: [0, 250] },
             ]}
           >
-            <ItemGroup key="cluster" title="集群列表">
+            <ItemGroup key="stack" title="应用栈列表">
               {data.map((v: any) => (
                 <Menu.Item key={v.name}>
                   {v.name}
-                  {v.name !== "default" && <a
+                  <a
                     href="#"
                     style={{ position: 'absolute', top: 0, right: 0 }}
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
                       Modal.confirm({
-                        title: `确认是否需要删除集群${v.name}?`,
+                        title: `确认是否需要删除应用栈${v.name}?`,
                         content: v.desc,
                         okText: '确认',
                         okType: 'danger',
@@ -92,7 +90,9 @@ class Cluster extends PureComponent<ClusterProps, any> {
                           })
                         },
                       })
-                    }}> <Icon type="close" /> </a>}
+                    }}>
+                    <Icon type="close" />
+                  </a>
                 </Menu.Item>
               ))}
             </ItemGroup>
@@ -103,4 +103,4 @@ class Cluster extends PureComponent<ClusterProps, any> {
   }
 }
 
-export default Cluster;
+export default Stack;

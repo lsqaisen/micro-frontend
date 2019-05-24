@@ -3,7 +3,8 @@
   "scripts": {
     "start": "MOCK=none umi dev",
     "start:mock": "umi dev",
-    "build": "umi build"
+    "build": "umi build",
+    "udg": "mife-cli library"
   },
   "devDependencies": {
     "mife": "^0.0.5",

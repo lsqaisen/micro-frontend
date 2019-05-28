@@ -46,7 +46,7 @@ class Stack extends PureComponent<StackProps, any> {
       <div className={styles.menu_box}>
         <CreateStack onSubmit={onAdd!} />
         <ScrollBar
-          option={{
+          options={{
             suppressScrollX: true,
           }}
         >

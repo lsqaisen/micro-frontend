@@ -7,11 +7,11 @@ import { Scheduler } from '@/services/app';
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item;
 
-export type SchedulerInputProps = FormInputProps<Scheduler>
+export interface SchedulerInputProps extends FormInputProps<Scheduler> { }
 
-@(FormInput as any)
+@(FormInput({ name: 'scheduler' }) as any)
 class SchedulerInput extends PureComponent<SchedulerInputProps, any> {
-  static readonly defaultProps: SchedulerInputProps = {
+  static readonly defaultProps = {
     form: {} as any,
     value: {
       type: 'none',
@@ -56,7 +56,7 @@ class SchedulerInput extends PureComponent<SchedulerInputProps, any> {
                   <SearchSelect
                     placeholder="选择资源池"
                     style={{ width: '100%' }}
-                    onSearch={() => { }}
+                    onSearch={() => { return [{label: 'sdf', value: 'sdgsdg'}]}}
                   />
                 )}
               </FormItem>

@@ -38,6 +38,7 @@ class List extends PureComponent<any, any> {
   }
   componentDidMount() {
     const { active, init, data, stackName } = this.props;
+    console.log(active)
     if (active === undefined || !init) {
       if (!!active) this.get();
     }

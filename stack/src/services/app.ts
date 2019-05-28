@@ -19,6 +19,18 @@ function getApps({ namespace, page = 1, itemsPerPage = 100 }: getAppsRequest) {
 /**
  * 创建服务
  */
+interface Basic {
+  namespace: string;
+  name: string;
+  desc: string;
+  stateful: "none" | "share" | "exclusive";
+  replicas: number;
+  cpu: number;
+  memory: number;
+  collectLog: boolean;
+  scheduler: Scheduler;
+}
+
 interface Scheduler {
   type: 'none' | 'resource' | 'node';
   tenant?: string;
@@ -52,7 +64,7 @@ interface Volume {
   }
 }
 
-interface Containers {
+interface Container {
   name: string;
   image: string;
   command: string;
@@ -75,23 +87,17 @@ interface Containers {
   }[],
 }
 
-interface createAppRequest {
-  namespace: string;
-  name: string;
-  desc: string;
-  stateful: "none" | "share" | "exclusive";
-  replicas: number;
-  cpu: number;
-  memory: number;
-  collectLog: boolean;
-  scheduler: Scheduler;
+interface Pay {
   pay_method: "postpaid" | "prepaid";
   renew: boolean;
   duration: number;
+}
+
+interface createAppRequest extends Basic, Pay {
   service: {
     ports: Port[],
   },
-  containers: Containers[];
+  containers: Container[];
 }
 
 function createApp(data: createAppRequest) {
@@ -104,11 +110,12 @@ function createApp(data: createAppRequest) {
 
 export {
   getAppsRequest,
+  Basic,
   Scheduler,
   Port,
   Mount,
   Volume,
-  Containers,
+  Container,
   createAppRequest,
 }
 

@@ -1,6 +1,6 @@
 import { PureComponent, cloneElement } from 'react';
 import { Icon, Button, Drawer } from 'antd';
-import AddAppForm from './form/add-app-form';
+import AddAppForm from './form/add-app-form/';
 import { createStackRequest } from '@/services/stack';
 import styles from './style/index.less';
 
@@ -30,6 +30,7 @@ class AddApp extends PureComponent<AddAppProps, any> {
             <Icon type="plus" /> 添加应用栈
         </Button>}
         <Drawer
+          bodyStyle={{ padding: 0, height: `calc(100% - 108px)` }}
           title="添加服务"
           width={482}
           placement="right"

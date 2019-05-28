@@ -2,7 +2,7 @@
   "name": "stack",
   "scripts": {
     "start": "MOCK=none umi dev",
-    "start:mock": "umi dev",
+    "mock": "umi dev",
     "build": "umi build",
     "u": "mife-cli library"
   },

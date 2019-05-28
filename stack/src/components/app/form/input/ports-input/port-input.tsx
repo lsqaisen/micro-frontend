@@ -8,7 +8,7 @@ const FormItem = Form.Item;
 
 export type PortInputProps = FormInputProps<Port>
 
-@(FormInput as any)
+@(FormInput() as any)
 class PortInput extends PureComponent<PortInputProps, any> {
 	static readonly defaultProps: PortInputProps = {
 		form: {} as any,
@@ -25,7 +25,7 @@ class PortInput extends PureComponent<PortInputProps, any> {
 		const { getFieldDecorator } = form;
 		return (
 			<Row gutter={8}>
-				<Col span="5">
+				<Col span={7}>
 					<FormItem>
 						{getFieldDecorator('protocol', {
 							initialValue: protocol,
@@ -35,20 +35,20 @@ class PortInput extends PureComponent<PortInputProps, any> {
 								placeholder="选择协议"
 								style={{ width: '100%' }}
 							>
-								<Option value="tcp">TCP</Option>
-								<Option value="udp">UDP</Option>
+								<Option value="TCP">TCP</Option>
+								<Option value="UDP">UDP</Option>
 							</Select>
 						)}
 					</FormItem>
 				</Col>
-				<Col span="9">
+				<Col span={8}>
 					<FormItem>
 						{getFieldDecorator('containerPort', {
 							initialValue: containerPort,
-							rules: [{ required: true }],
+							rules: [{ required: true, message: "容器端口必填" }],
 						})(
 							<InputNumber
-								placeholder="容器内应用程序监听端口"
+								placeholder="容器监听端口"
 								min={1}
 								max={65535}
 								style={{ width: '100%' }}
@@ -56,15 +56,15 @@ class PortInput extends PureComponent<PortInputProps, any> {
 						)}
 					</FormItem>
 				</Col>
-				<Col span="1"><p className="ant-form-split">:</p></Col>
-				<Col span="9" >
+				<Col span={1}><p className="ant-form-split">:</p></Col>
+				<Col span={8} >
 					<FormItem>
 						{getFieldDecorator('servicePort', {
 							initialValue: servicePort,
-							rules: [{ required: true }],
+							rules: [{ required: true, message: '服务端口必填' }],
 						})(
 							<InputNumber
-								placeholder="服务端口，建议容器端口一致"
+								placeholder="服务端口，建议与容器端口一致"
 								min={1}
 								max={65535}
 								style={{ width: '100%' }}

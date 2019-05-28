@@ -26,7 +26,6 @@ class List extends PureComponent<ListProps, any> {
 
   render() {
     const { name, desc, routes, children } = this.props;
-    console.log(name)
     return (
       <PageHeader
         title={name}

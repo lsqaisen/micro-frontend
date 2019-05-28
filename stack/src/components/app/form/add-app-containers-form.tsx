@@ -1,12 +1,14 @@
 import { PureComponent } from 'react';
 import { Form } from 'antd';
+import { FormInputItem } from '@/components/global/forminput';
+import { Port } from '@/services/app';
 import { FormComponentProps } from 'antd/lib/form';
-import PortsInput, { PortsInputProps } from './input/ports-input';
+import ContainersInput from './input/containers-input';
 
-const FormItem = Form.Item;
 
-export interface AddAppPortsFormProps extends FormComponentProps, PortsInputProps {
+export interface AddAppPortsFormProps extends FormComponentProps {
   formItemLayout?: any;
+  data?: Port[];
 }
 
 @(Form.create() as any)
@@ -15,22 +17,19 @@ class AddAppPortsForm extends PureComponent<AddAppPortsFormProps, any> {
     form: {},
     data: [],
   };
-
   render() {
     const { data, form } = this.props;
     const { getFieldDecorator } = form;
     return (
       <Form>
-        <FormItem
-          required>
-          {getFieldDecorator('ports', {
+        <FormInputItem required>
+          {getFieldDecorator('containers', {
             initialValue: data,
-            validateFirst: true,
             rules: []
           })(
-            <PortsInput />
+            <ContainersInput />
           )}
-        </FormItem>
+        </FormInputItem>
       </Form>
     )
   }

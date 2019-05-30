@@ -1,21 +1,21 @@
 import { PureComponent, Fragment } from 'react';
 import { Icon, Row, Col, Button } from 'antd';
 import FormInput, { FormInputItem } from '@/components/global/forminput';
-import { Container } from '@/services/app';
-import ContainerInput from './container-input';
-import styles from '../../style/index.less';
+import { Port } from '@/services/app';
+import PortInput from './evn-input';
 
 let uuid = 0;
 
 @(FormInput({
-  onValuesChange: ({ value: ports, onChange = () => { } }: any, changeValues: any) => {
+  name: 'port',
+  onValuesChange: ({ value: ports, onChange }: any, changeValues: any) => {
     const { type, value }: any = changeValues.action || {};
     switch (type) {
       case 'add':
-        onChange(ports.concat(value))
+        onChange(ports.concat(value));
         break;
       case 'modify':
-        onChange(value)
+        onChange(value);
         break;
       case 'remove':
         let _value = [].concat(ports);
@@ -58,16 +58,16 @@ export default class extends PureComponent<any, any> {
         type: 'add',
         value: [{
           protocol: 'TCP',
-          containerContainer: undefined,
-          serviceContainer: undefined,
+          containerPort: undefined,
+          servicePort: undefined,
         }]
       }
     });
   }
 
-  change = (index: number, v: Container) => {
+  change = (index: any, v: Port) => {
     const { value: ports, form: { setFieldsValue } } = this.props;
-    let value: Container[] = [].concat(ports);
+    let value: Port[] = [].concat(ports);
     value[index] = v;
     setFieldsValue({
       action: {
@@ -104,18 +104,17 @@ export default class extends PureComponent<any, any> {
           <Col style={{ width: 'calc(100% - 42px)', float: 'left' }}>
             <Row gutter={8}>
               <FormInputItem required>
-                {getFieldDecorator(`port-${k}`, {
+                {getFieldDecorator(`port_${k}`, {
                   initialValue: value[index],
                   rules: [],
                 })(
-                  <ContainerInput onChange={(v) => this.change(index, v)} />
+                  <PortInput onChange={(v) => this.change(index, v)} />
                 )}
               </FormInputItem>
             </Row>
           </Col>
           <Col style={{ width: '42px', float: 'left', textAlign: 'center' }}>
             <Icon
-              className={styles[`dynamic-delete-button`]}
               type="minus-circle-o"
               onClick={() => this.remove(k)}
             />

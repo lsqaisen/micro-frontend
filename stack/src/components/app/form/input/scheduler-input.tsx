@@ -56,7 +56,17 @@ class SchedulerInput extends PureComponent<SchedulerInputProps, any> {
                   <SearchSelect
                     placeholder="选择资源池"
                     style={{ width: '100%' }}
-                    onSearch={() => { return [{label: 'sdf', value: 'sdgsdg'}]}}
+                    onSearch={() => { 
+                      return new Promise(async (resolve, reject) => {
+                        resolve({
+                          data:[{
+                            key: '34345',
+                            label: '345345345'
+                          }],
+                          params: undefined,
+                        })
+                      })
+                    }}
                   />
                 )}
               </FormItem>

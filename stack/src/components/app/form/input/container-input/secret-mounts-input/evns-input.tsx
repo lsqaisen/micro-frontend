@@ -2,8 +2,7 @@ import { PureComponent, Fragment } from 'react';
 import { Icon, Row, Col, Button } from 'antd';
 import FormInput, { FormInputItem } from '@/components/global/forminput';
 import { Port } from '@/services/app';
-import PortInput from './port-input';
-import styles from '../../style/index.less';
+import PortInput from './evn-input';
 
 let uuid = 0;
 
@@ -116,7 +115,6 @@ export default class extends PureComponent<any, any> {
           </Col>
           <Col style={{ width: '42px', float: 'left', textAlign: 'center' }}>
             <Icon
-              className={styles[`dynamic-delete-button`]}
               type="minus-circle-o"
               onClick={() => this.remove(k)}
             />

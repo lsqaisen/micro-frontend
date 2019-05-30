@@ -8,9 +8,9 @@ const FormItem = Form.Item;
 
 export type PortInputProps = FormInputProps<Port>
 
-@(FormInput() as any)
+@(FormInput({ name: 'port' }) as any)
 class PortInput extends PureComponent<PortInputProps, any> {
-	static readonly defaultProps: PortInputProps = {
+	static readonly defaultProps = {
 		form: {} as any,
 		value: {
 			protocol: 'TCP',

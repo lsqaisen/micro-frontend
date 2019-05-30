@@ -64,27 +64,53 @@ interface Volume {
   }
 }
 
+interface HealthCheck {
+  protocol: 'TCP' | 'HTTP' | 'CMD';
+  exec?: {
+    command: string;
+  };
+  httpGet?: {
+    path: string,
+    port: number,
+    host: string,
+    scheme: 'HTTP',
+  };
+  tcpSocket?: {
+    port: string;
+    host: string;
+  };
+  initialDelaySeconds: number;
+  timeoutSeconds: number;
+  periodSeconds: number;
+  successThreshold: number;
+  failureThreshold: number;
+}
+
+interface Env {
+  name: string;
+  value: string;
+}
+
+interface HostMount {
+  readOnly: boolean;
+  mountPath: string;
+}
+
 interface Container {
   name: string;
   image: string;
   command: string;
   stdin: boolean;
   tty: boolean;
-  envs: {
-    name: string;
-    value: string;
-  }[];
-  logDir: string;
-  healthCheck: any,
+  envs?: Env[];
+  logDir?: string;
+  healthCheck?: HealthCheck,
   cpuPercent: number,
   memPercent: number,
-  cfgFileMounts: Mount[];
-  secretMounts: Mount[],
-  volumes: Volume[],
-  hostMounts: {
-    readOnly: boolean;
-    mountPath: string;
-  }[],
+  cfgFileMounts?: Mount[];
+  secretMounts?: Mount[],
+  volumes?: Volume[],
+  hostMounts?: HostMount[],
 }
 
 interface Pay {
@@ -115,6 +141,9 @@ export {
   Port,
   Mount,
   Volume,
+  HealthCheck,
+  Env,
+  HostMount,
   Container,
   createAppRequest,
 }

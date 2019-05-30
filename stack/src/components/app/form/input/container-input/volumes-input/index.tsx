@@ -1,15 +1,16 @@
-import { PureComponent } from 'react';
-import { Form, Drawer, Button, PageHeader, Empty, Row, Col, List, Typography } from 'antd';
+import { PureComponent, Fragment } from 'react';
+import { Form, Drawer, Button, PageHeader, Empty, Row, Col, List, Typography, Divider } from 'antd';
 import FormInput, { FormInputProps, FormInputItem } from '@/components/global/forminput';
 import { Port } from '@/services/app';
-import PortsInput from '../input/ports-input';
+import PortsInput from './evns-input';
+import styles from '../style/index.less';
 
-export interface AddPortsProps extends FormInputProps<Port[]> {
+export interface AddEvnsProps extends FormInputProps<Port[]> {
   type?: 'create' | 'update' | 'edit';
 }
 
 @(FormInput({ name: 'ports' }) as any)
-class AddPorts extends PureComponent<AddPortsProps, any> {
+class AddEvns extends PureComponent<AddEvnsProps, any> {
   static readonly defaultProps = {
     form: {},
     type: 'create',
@@ -42,17 +43,26 @@ class AddPorts extends PureComponent<AddPortsProps, any> {
         validateStatus={errors ? 'error' : 'success'}
         help={errors}
       >
-        <PageHeader
-          className="box"
-          style={{ padding: 16, marginBottom: 8, border: errors ? '1px solid #ff5242' : '1px solid transparent' }}
-          title="端口映射"
-          subTitle="服务的端口映射信息"
-          extra={[
-            <a key="edit" onClick={(e) => {
-              e.preventDefault();
-              this.setState({ visible: true });
-            }}>编辑</a>
-          ]}
+        <List
+          className={styles.box}
+          locale={{
+            emptyText: null
+          }}
+          header={(
+            <Fragment>
+              {ports.length <= 0 && <Fragment>
+                <a key="load" onClick={(e) => {
+                  e.preventDefault();
+                  this.setState({ visible: true });
+                }}>读取配置</a>
+                <Divider type="vertical" />
+              </Fragment>}
+              <a key="add" onClick={(e) => {
+                e.preventDefault();
+                this.setState({ visible: true });
+              }}>添加</a>
+            </Fragment>
+          )}
           footer={(
             <Drawer
               title="端口映射"
@@ -77,34 +87,21 @@ class AddPorts extends PureComponent<AddPortsProps, any> {
               </div>
             </Drawer>
           )}
-        >
-          {ports.length > 0 ? (
-            <List
-              header={(
-                <Row gutter={8}>
-                  <Col span={8}><Typography.Text>协议</Typography.Text></Col>
-                  <Col span={8}><Typography.Text>容器端口</Typography.Text></Col>
-                  <Col span={8}><Typography.Text>服务端口</Typography.Text></Col>
-                </Row>
-              )}
-              dataSource={ports}
-              renderItem={(port: Port) => (
-                <List.Item>
-                  <Row gutter={8} style={{ width: `calc(100% + 8px)` }}>
-                    <Col span={8}><Typography.Text >{port.protocol}</Typography.Text></Col>
-                    <Col span={8}><Typography.Text>{port.containerPort}</Typography.Text></Col>
-                    <Col span={8}><Typography.Text>{port.servicePort}</Typography.Text></Col>
-                  </Row>
-                </List.Item>
-              )}
-            />
-          ) : (
-              <Empty description="未配置端口映射" />
-            )}
-        </PageHeader>
-      </FormInputItem >
+
+          dataSource={ports}
+          renderItem={(port: Port) => (
+            <List.Item>
+              <Row gutter={8} style={{ width: `calc(100% + 8px)` }}>
+                <Col span={8}><Typography.Text >{port.protocol}</Typography.Text></Col>
+                <Col span={8}><Typography.Text>{port.containerPort}</Typography.Text></Col>
+                <Col span={8}><Typography.Text>{port.servicePort}</Typography.Text></Col>
+              </Row>
+            </List.Item>
+          )}
+        />
+      </FormInputItem>
     )
   }
 }
 
-export default AddPorts;
+export default AddEvns;

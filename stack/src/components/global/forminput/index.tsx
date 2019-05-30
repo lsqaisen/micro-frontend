@@ -2,19 +2,18 @@ import * as React from 'react';
 import { PureComponent } from 'react';
 import { Form } from 'antd';
 import { FormItemProps, FormComponentProps, FormCreateOption } from 'antd/lib/form';
-import { WrappedFormUtils, GetFieldDecoratorOptions } from 'antd/lib/form/Form';
+// import ArrayInput, { ArrayInputProps } from './array-input';
 import { generateUUID } from '@/utils'
+
+// export { ArrayInput, ArrayInputProps };
 
 export interface FormInputItemProps extends FormItemProps {
   children: React.ReactNode,
 }
 
-export interface FormInputProps<T> extends FormComponentProps {
-  value?: T;
-  getFieldDecoratorID: string;
-  p_form: WrappedFormUtils;
-  getFieldDecoratorOptions: GetFieldDecoratorOptions;
-  onChange?: (value: T) => void;
+export interface FormInputProps<T = any> extends FormComponentProps {
+  value: T;
+  onChange: (v: T) => void;
 }
 
 export const FormInputItem = (props: FormInputItemProps) => {
@@ -28,36 +27,39 @@ export const FormInputItem = (props: FormInputItemProps) => {
   )
 }
 
-export default (options?: FormCreateOption<any>) => <T extends any>(WrappedComponent: React.ComponentClass<any, any>) => {
+export default (options?: FormCreateOption<any>) => <T extends Object = {}>(WrappedComponent: React.ComponentClass<any, any>) => {
   class FormInput extends PureComponent<FormInputProps<T>, any> {
-    UNSAFE_componentWillReceiveProps() {
-
+    changeValidator = (rules: any[]) => {
+      rules.push({
+        validator: (rule: any, value: any, callback: any) => {
+          !!this.props.form.validateFields && this.props.form.validateFields((error: any, _: any) => {
+            if (error) {
+              callback(!!error)
+            }
+            callback()
+          })
+        }
+      })
+    }
+    UNSAFE_componentWillReceiveProps(nextProps: any) {
+      if (!(nextProps as any)['data-__meta'].rules) {
+        (nextProps as any)['data-__meta'].rules = [];
+      }
+      this.changeValidator((nextProps as any)['data-__meta'].rules);
+    }
+    componentDidMount() {
+      if (!(this.props as any)['data-__meta'].rules) (this.props as any)['data-__meta'].rules = [];
+      this.changeValidator((this.props as any)['data-__meta'].rules);
     }
     render() {
-      const { getFieldDecoratorID, getFieldDecoratorOptions, p_form, form } = this.props;
-      const { validateFields } = form;
-      const { getFieldDecorator } = p_form;
-      const { rules = [], ...props } = getFieldDecoratorOptions;
-      return getFieldDecorator(getFieldDecoratorID, {
-        ...props,
-        rules: [...rules, {
-          validator: (rule: any, value: any, callback: any) => {
-            !!validateFields && validateFields((error: any, _: any) => {
-              if (error) {
-                callback(!!error)
-              }
-              callback()
-            })
-          }
-        }]
-      })(React.createElement(WrappedComponent, this.props));
+      return React.createElement(WrappedComponent, this.props);
     }
   }
 
   return Form.create<FormInputProps<T>>({
     name: `${generateUUID()}`,
-    onValuesChange: ({ getFieldDecoratorID, p_form }, changedValues, allValues) => {
-      // p_form.setFieldsValue({ [getFieldDecoratorID]: Object.assign({}, changedValues, allValues) });
+    onValuesChange: ({ onChange }, _, allValues) => {
+      onChange && onChange(allValues as T);
     },
     ...(options || {}),
   })(FormInput);

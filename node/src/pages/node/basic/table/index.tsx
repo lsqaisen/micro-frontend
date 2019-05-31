@@ -1,4 +1,4 @@
-import { PureComponent, Fragment, useState } from 'react';
+import { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import { createSelector } from 'reselect';
 import { Button } from 'antd';
@@ -21,10 +21,6 @@ import ManageResource from './actions/manage-resource';
   (node, allNode, allResources, loading) => ({ node, allNode, allResources, loading })
 ))
 class Table extends PureComponent<any, any> {
-  state = {
-    manageResourceVisible: false,
-    currentNode: {}
-  }
   get = async (data: getNodesRequest) => {
     return this.props.dispatch({
       type: 'node/nodes',
@@ -72,7 +68,6 @@ class Table extends PureComponent<any, any> {
   }
   render() {
     const { node = {}, allResources, loading, clusterName, resourceName } = this.props;
-    const { manageResourceVisible, currentNode } = this.state;
     return (
       <Fragment>
         <header style={{ overflow: 'hidden', marginBottom: 16 }}>

@@ -20,7 +20,7 @@ class EnvInput extends PureComponent<EnvInputProps, any> {
     const { getFieldDecorator } = form;
     return (
       <Row gutter={8}>
-        <Col span={10}>
+        <Col span={12}>
           <FormItem>
             {getFieldDecorator('name', {
               initialValue: name,
@@ -31,7 +31,7 @@ class EnvInput extends PureComponent<EnvInputProps, any> {
           </FormItem>
         </Col>
         <Col span={1}><p className="ant-form-split">:</p></Col>
-        <Col span={13}>
+        <Col span={11}>
           <FormItem>
             {getFieldDecorator('value', {
               initialValue: _value,

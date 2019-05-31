@@ -6,10 +6,11 @@ import styles from './style/index.less';
 
 export interface ArrayInputProps<T> extends FormInputProps<T> {
   allList?: T,
-  input?: React.ComponentClass<any, any>,
+  input?: React.ComponentClass<any, any> | React.FunctionComponentElement<any> | (() => React.ReactElement);
   header?: React.ReactNode;
-  btn?: any,
-  btnText: string,
+  btn?: any;
+  btnText: string;
+  inputProps?: { [key: string]: any };
 }
 
 let uuid = 0;
@@ -38,6 +39,7 @@ export default class <T> extends PureComponent<ArrayInputProps<T[]>, any> {
   static readonly defaultProps = {
     value: [],
     form: {},
+    inputProps: {},
     onChange: () => null,
   }
 
@@ -103,7 +105,7 @@ export default class <T> extends PureComponent<ArrayInputProps<T[]>, any> {
   }
 
   render() {
-    const { input, btn, btnText, header, allList, value, form: { getFieldDecorator, getFieldValue }, } = this.props;
+    const { input, inputProps, btn, btnText, header, allList, value, form: { getFieldDecorator, getFieldValue }, } = this.props;
     const { keys: initialValue } = this.state;
     getFieldDecorator('keys', { initialValue });
     getFieldDecorator('action', { initialValue: { type: '', value: null } });
@@ -123,15 +125,16 @@ export default class <T> extends PureComponent<ArrayInputProps<T[]>, any> {
         dataSource={keys}
         renderItem={(key: any, index: number) => (
           <List.Item actions={[
-            <Button onClick={() => this.remove(key)} style={{ marginBottom: 24 }} shape="circle" type="ghost" icon="minus" />
+            <Button size="small" onClick={() => this.remove(key)} style={{ marginBottom: 24 }} shape="circle" type="ghost" icon="minus" />
           ]}>
-            <div style={{ width: '100%' }}>
+            <div style={{ width: 'calc(100% - 48px)' }}>
               <FormInputItem required>
                 {getFieldDecorator(`env_${key}`, {
                   initialValue: value[index],
                   rules: [],
                 })(
                   React.createElement(input as any, {
+                    ...inputProps,
                     allList: allList!.filter((v, i) => i !== index),
                     onChange: (v: T) => this.change(index, v)
                   })

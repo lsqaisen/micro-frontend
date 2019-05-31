@@ -34,7 +34,13 @@ export default (options?: FormCreateOption<any>) => <T extends Object = {}>(Wrap
         validator: (rule: any, value: any, callback: any) => {
           !!this.props.form.validateFields && this.props.form.validateFields((error: any, _: any) => {
             if (error) {
-              callback(!!error)
+              let errors = Object.values(error).
+                map(({ errors }: any) => {
+                  return errors
+                    .map((error: any) => error.message)
+                    .join(';')
+                });
+              callback(Array.from(new Set(errors)))
             }
             callback()
           })

@@ -65,7 +65,7 @@ interface Volume {
 }
 
 interface HealthCheck {
-  protocol: 'TCP' | 'HTTP' | 'CMD';
+  protocol: 'NONE' | 'TCP' | 'HTTP' | 'CMD';
   exec?: {
     command: string;
   };
@@ -77,7 +77,7 @@ interface HealthCheck {
   };
   tcpSocket?: {
     port: string;
-    host: string;
+    host?: string;
   };
   initialDelaySeconds: number;
   timeoutSeconds: number;

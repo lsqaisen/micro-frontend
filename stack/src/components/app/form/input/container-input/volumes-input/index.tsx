@@ -1,107 +1,67 @@
-import { PureComponent, Fragment } from 'react';
-import { Form, Drawer, Button, PageHeader, Empty, Row, Col, List, Typography, Divider } from 'antd';
-import FormInput, { FormInputProps, FormInputItem } from '@/components/global/forminput';
-import { Port } from '@/services/app';
-import PortsInput from './evns-input';
-import styles from '../style/index.less';
+import * as React from 'react';
+import { PureComponent } from 'react';
+import formInput, { FormInputProps } from '@/components/global/forminput';
+import { Volume } from '@/services/app';
+import VolumeInput from './volume-input';
+import InputBasic from '../input-basic';
 
-export interface AddEvnsProps extends FormInputProps<Port[]> {
+export interface AddVolumeInputsProps extends FormInputProps<Volume[]> {
+  stateful: "none" | "share" | "exclusive";
   type?: 'create' | 'update' | 'edit';
 }
 
-@(FormInput({ name: 'ports' }) as any)
-class AddEvns extends PureComponent<AddEvnsProps, any> {
+@(formInput({
+  name: 'volumes',
+  onValuesChange: ({ onChange }, _, allValues) => {
+    onChange(allValues.volumes)
+  }
+}) as any)
+export default class extends PureComponent<AddVolumeInputsProps, any>{
   static readonly defaultProps = {
     form: {},
+    value: [],
     type: 'create',
+    stateful: 'share',
+    onChange: () => null,
   };
 
-  state = {
-    visible: false,
-  }
-
-  _onClose = (e: any) => {
-    if (!!e) e.preventDefault();
-    (this.props.form as any).validateFields(async (error: any, values: any) => {
-      if (!error) {
-        this.setState({
-          visible: false,
-        })
-      }
-    })
-  }
-
   render() {
-    const { type, value, form } = this.props;
-    const { getFieldsError, getFieldDecorator } = form;
-    const { visible } = this.state;
-    const { ports = [] }: any = value! || {};
-    const errors = Object.values(getFieldsError() || {}).filter(v => !!v).map(error => (error || []).join(',')).join(';');
+    const { stateful } = this.props;
+    const Action = ({ onClick }: any) => (
+      <a key="add" onClick={onClick}>添加网络挂载卷</a>
+    )
     return (
-      <FormInputItem
-        required
-        validateStatus={errors ? 'error' : 'success'}
-        help={errors}
-      >
-        <List
-          className={styles.box}
-          locale={{
-            emptyText: null
-          }}
-          header={(
-            <Fragment>
-              {ports.length <= 0 && <Fragment>
-                <a key="load" onClick={(e) => {
-                  e.preventDefault();
-                  this.setState({ visible: true });
-                }}>读取配置</a>
-                <Divider type="vertical" />
-              </Fragment>}
-              <a key="add" onClick={(e) => {
-                e.preventDefault();
-                this.setState({ visible: true });
-              }}>添加</a>
-            </Fragment>
-          )}
-          footer={(
-            <Drawer
-              title="端口映射"
-              width={482}
-              placement="right"
-              onClose={this._onClose}
-              visible={visible}
-            >
-              <Form>
-                <FormInputItem>
-                  {getFieldDecorator('ports', {
-                    initialValue: ports,
-                    rules: [],
-                  })(
-                    <PortsInput />
-                  )}
-                </FormInputItem>
-              </Form>
-              <div className={"node-actions"} >
-                <Button onClick={() => { this.setState({ visible: false }) }} style={{ marginRight: 8 }}> 取消 </Button>
-                <Button onClick={this._onClose} type="primary"> 确认 </Button>
-              </div>
-            </Drawer>
-          )}
-
-          dataSource={ports}
-          renderItem={(port: Port) => (
-            <List.Item>
-              <Row gutter={8} style={{ width: `calc(100% + 8px)` }}>
-                <Col span={8}><Typography.Text >{port.protocol}</Typography.Text></Col>
-                <Col span={8}><Typography.Text>{port.containerPort}</Typography.Text></Col>
-                <Col span={8}><Typography.Text>{port.servicePort}</Typography.Text></Col>
-              </Row>
-            </List.Item>
-          )}
-        />
-      </FormInputItem>
+      <InputBasic<Volume>
+        {...this.props}
+        inputProps={{ stateful }}
+        title="网络挂载卷"
+        name="volumes"
+        btnText="添加网络挂载卷"
+        grid={{
+          title: stateful ? {
+            claimName: '数据卷',
+            mountPath: '挂载路径',
+            readOnly: '读写权限'
+          } : {
+              pvcpool: '数据卷组',
+              mountPath: '挂载路径',
+              readOnly: '读写权限'
+            },
+          grid: {
+            claimName: { span: 9 },
+            pvcpool: { span: 9 },
+            mountPath: { span: 10 },
+            readOnly: { span: 5 }
+          },
+          transform: (key, value, data) => {
+            let _value = stateful === 'share' ? (data.persistentVolumeClaim || {})[key] : (data.volumeClaimTemplate || {})[key];
+            if (key === 'readOnly') return _value ? '只读' : '读写';
+            return _value;
+          },
+        }}
+        input={VolumeInput}
+        action={<Action />}
+      />
     )
   }
 }
-
-export default AddEvns;

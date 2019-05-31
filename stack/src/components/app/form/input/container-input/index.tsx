@@ -106,7 +106,7 @@ class ContainerInput extends PureComponent<ContainerInputProps, any> {
             <ConfigMountsInput />
           )}
         </FormInputItem> */}
-        {/* <FormInputItem
+        <FormInputItem
           {...formItemLayout}
           label="证书挂载"
         >
@@ -116,7 +116,7 @@ class ContainerInput extends PureComponent<ContainerInputProps, any> {
           })(
             <SecretMountsInput />
           )}
-        </FormInputItem> */}
+        </FormInputItem>
         <FormInputItem
           {...formItemLayout}
           label="本地挂载卷"
@@ -128,7 +128,7 @@ class ContainerInput extends PureComponent<ContainerInputProps, any> {
             <HostMountsInput />
           )}
         </FormInputItem>
-        {/* <FormInputItem
+        <FormInputItem
           {...formItemLayout}
           label="网络挂载卷"
         >
@@ -138,15 +138,15 @@ class ContainerInput extends PureComponent<ContainerInputProps, any> {
           })(
             <VolumesInput />
           )}
-        </FormInputItem> */}
-        {/* <FormInputItem>
+        </FormInputItem>
+        <FormInputItem>
           {getFieldDecorator('healthCheck', {
             initialValue: value!.healthCheck || {},
             rules: []
           })(
-            <HealthCheckInput />
+            <HealthCheckInput formItemLayout={formItemLayout} />
           )}
-        </FormInputItem> */}
+        </FormInputItem>
       </Fragment>
     )
   }

@@ -15,7 +15,8 @@ class SchedulerInput extends PureComponent<SchedulerInputProps, any> {
     form: {} as any,
     value: {
       type: 'none',
-    } as any
+    } as any,
+    onChange: () => null,
   }
   render() {
     const { value, form } = this.props;
@@ -56,10 +57,10 @@ class SchedulerInput extends PureComponent<SchedulerInputProps, any> {
                   <SearchSelect
                     placeholder="选择资源池"
                     style={{ width: '100%' }}
-                    onSearch={() => { 
+                    onSearch={() => {
                       return new Promise(async (resolve, reject) => {
                         resolve({
-                          data:[{
+                          data: [{
                             key: '34345',
                             label: '345345345'
                           }],

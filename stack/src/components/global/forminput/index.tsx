@@ -12,8 +12,8 @@ export interface FormInputItemProps extends FormItemProps {
 }
 
 export interface FormInputProps<T = any> extends FormComponentProps {
-  value: T;
-  onChange: (v: T) => void;
+  value?: T;
+  onChange?: (v: T) => void;
 }
 
 export const FormInputItem = (props: FormInputItemProps) => {

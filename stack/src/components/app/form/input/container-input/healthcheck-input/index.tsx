@@ -46,7 +46,7 @@ class AddHealthCheck extends PureComponent<AddHealthCheckProps, any> {
 
   changeHealthCheckStatus = (status: boolean) => {
     if (status) {
-      this.props.onChange({
+      this.props.onChange!({
         protocol: 'TCP',
         initialDelaySeconds: 5,
         timeoutSeconds: 6,
@@ -55,7 +55,7 @@ class AddHealthCheck extends PureComponent<AddHealthCheckProps, any> {
         failureThreshold: 3,
       });
     } else {
-      this.props.onChange({
+      this.props.onChange!({
         protocol: 'NONE',
         initialDelaySeconds: 5,
         timeoutSeconds: 6,
@@ -78,84 +78,83 @@ class AddHealthCheck extends PureComponent<AddHealthCheckProps, any> {
         validateStatus={errors ? 'error' : 'success'}
         help={errors}
       >
-        <PageHeader
-          className="box"
-          style={{ padding: 16, marginBottom: 8, border: errors ? '1px solid #ff5242' : '1px solid transparent' }}
-          title="健康检查"
-          subTitle="容器健康检查配置信息"
-          extra={[
-            <a key="edit" onClick={(e) => {
-              e.preventDefault();
-              this.setState({ visible: true });
-            }}>{status ? "编辑" : "开启健康检查"}</a>
-          ]}
-          footer={(
-            <Drawer
-              destroyOnClose={true}
-              title="端口映射"
-              width={482}
-              placement="right"
-              onClose={this._onClose}
-              visible={visible}
-            >
-              <Form>
-                <Form.Item
-                  {...formItemLayout}
-                  label="健康检查"
-                >
-                  <Switch
-                    checkedChildren="开"
-                    unCheckedChildren="关"
-                    defaultChecked={status}
-                    onClick={this.changeHealthCheckStatus}
-                  />
-                </Form.Item>
-                {status && <FormInputItem>
-                  {getFieldDecorator('healthCheck', {
-                    initialValue: value! || {},
-                    rules: [],
-                  })(
-                    <HealthcheckInput formItemLayout={formItemLayout} />
-                  )}
-                </FormInputItem>}
-              </Form>
-              <div className={"node-actions"} >
-                <Button onClick={() => {
-                  this.setState({ visible: false }, resetFields);
-                }} style={{ marginRight: 8 }}> 取消 </Button>
-                <Button onClick={this._onClose} type="primary"> 确认 </Button>
-              </div>
-            </Drawer>
-          )}
+        <FormInputItem
+          {...formItemLayout}
+          label="健康检查"
         >
-          {status ? Object.entries(value || {}).map(([key, value]) => {
-            const dataBasic: any = {
-              protocol: '检测协议',
-              initialDelaySeconds: '初始化延时(秒)',
-              timeoutSeconds: '检测间隔(秒)',
-              periodSeconds: '响应时限(秒)',
-              successThreshold: '健康阈值(次)',
-              failureThreshold: '故障阈值(次)',
-            }
-            if (dataBasic[key]) {
-              return (
-                <Description key={key} term={dataBasic[key]}>{value}</Description>
-              )
-            } else if (key === "tcpSocket") {
-              return (
-                <Description key={key} term="监听端口">{(value || {}).port}</Description>
-              )
-            } else if (key === "httpGet") {
-              return (
-                <Description key={key} term="HTTP协议">{`http://${(value || {}).host || ''}:${(value || {}).port || ''}/${(value || {}).path || ''}`}</Description>
-              )
-            } else if (key === "exec") {
-              return (
-                <Description key={key} term="命令">{(value || {}).command}</Description>
-              )
-            }
-          }) : <Empty description="未开启健康检查" />}
-        </PageHeader>
+          <a key="edit" onClick={(e) => {
+            e.preventDefault();
+            this.setState({ visible: true });
+          }}>{status ? "编辑" : "开启健康检查"}</a>
+        </FormInputItem>
+        <Drawer
+          destroyOnClose={true}
+          title="端口映射"
+          width={482}
+          placement="right"
+          onClose={this._onClose}
+          visible={visible}
+        >
+          <Form>
+            <Form.Item
+              {...formItemLayout}
+              label="健康检查"
+            >
+              <Switch
+                checkedChildren="开"
+                unCheckedChildren="关"
+                defaultChecked={status}
+                onClick={this.changeHealthCheckStatus}
+              />
+            </Form.Item>
+            {status && <FormInputItem>
+              {getFieldDecorator('healthCheck', {
+                initialValue: value! || {},
+                rules: [],
+              })(
+                <HealthcheckInput formItemLayout={formItemLayout} />
+              )}
+            </FormInputItem>}
+          </Form>
+          <div className={"node-actions"} >
+            <Button onClick={() => {
+              this.setState({ visible: false }, resetFields);
+            }} style={{ marginRight: 8 }}> 取消 </Button>
+            <Button onClick={this._onClose} type="primary"> 确认 </Button>
+          </div>
+        </Drawer>
+        {status &&
+          <FormInputItem
+            wrapperCol={{ xs: 24, md: { span: 19, offset: 5 } }}
+          >
+            {Object.entries(value || {}).map(([key, value]) => {
+              const dataBasic: any = {
+                protocol: '检测协议',
+                initialDelaySeconds: '初始化延时(秒)',
+                timeoutSeconds: '检测间隔(秒)',
+                periodSeconds: '响应时限(秒)',
+                successThreshold: '健康阈值(次)',
+                failureThreshold: '故障阈值(次)',
+              }
+              if (dataBasic[key]) {
+                return (
+                  <Description key={key} term={dataBasic[key]}>{value}</Description>
+                )
+              } else if (key === "tcpSocket") {
+                return (
+                  <Description key={key} term="监听端口">{(value || {}).port}</Description>
+                )
+              } else if (key === "httpGet") {
+                return (
+                  <Description key={key} term="HTTP协议">{`http://${(value || {}).host || ''}:${(value || {}).port || ''}/${(value || {}).path || ''}`}</Description>
+                )
+              } else if (key === "exec") {
+                return (
+                  <Description key={key} term="命令">{(value || {}).command}</Description>
+                )
+              }
+            })}
+          </FormInputItem>}
       </FormInputItem>
     )
   }

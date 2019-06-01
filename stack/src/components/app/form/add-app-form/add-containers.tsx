@@ -4,12 +4,42 @@ import FormInput, { FormInputProps, FormInputItem } from '@/components/global/fo
 import { Container } from '@/services/app';
 import ContainersInput from '../input/container-input';
 
-export interface AddContainersProps extends FormInputProps<Container[]> {
+interface KeyContainer extends Container {
+  key: string;
+}
+
+export interface AddContainersProps extends FormInputProps<KeyContainer[]> {
   type?: 'create' | 'update' | 'edit';
   formItemLayout?: any;
 }
 
-@(FormInput({ name: 'containers' }) as any)
+let uuid = 0;
+
+@(FormInput({
+  name: 'containers',
+  onValuesChange: ({ value, onChange }, _, changeValue) => {
+    console.log(value, changeValue)
+    const { container, container_key, action } = changeValue;
+    let _value: any[] = [].concat(value || []);
+    if (action == 'add' || action == 'modify') {
+      const i = _value.findIndex((v: any) => {
+        console.log(v.container_key, container_key)
+        return v.container_key === container_key;
+
+      });
+      console.log(i, 13)
+      if (i !== -1) {
+        _value[i] = { container_key, ...container };
+      } else {
+        _value.push({ container_key, ...container })
+      }
+    } else if (action === 'delete') {
+      const i = _value.findIndex((v: any) => v.container_key === container_key);
+      _value.splice(i, 1);
+    }
+    onChange(_value)
+  }
+}) as any)
 class AddContainers extends PureComponent<AddContainersProps, any> {
   static readonly defaultProps = {
     form: {},
@@ -21,7 +51,7 @@ class AddContainers extends PureComponent<AddContainersProps, any> {
   };
 
   state = {
-    visible: true,
+    visible: false,
   }
 
   _onClose = (e: any) => {
@@ -35,12 +65,24 @@ class AddContainers extends PureComponent<AddContainersProps, any> {
     })
   }
 
+  add = (e?: any) => {
+    e && e.preventDefault();
+    this.props.form.resetFields();
+    this.props.form.setFieldsValue({
+      action: 'add',
+      container_key: `container_${uuid++}`,
+    })
+    this.setState({ visible: true });
+  }
 
   render() {
     const { type, value, form } = this.props;
     const { getFieldsError, getFieldDecorator } = form;
     const { visible } = this.state;
     const errors = Object.values(getFieldsError() || {}).filter(v => !!v).map(error => (error || []).join(',')).join(';');
+    getFieldDecorator(`action`);
+    getFieldDecorator(`container_key`);
+    console.log(value, 111)
     return (
       <FormInputItem
         style={{ marginBottom: 8 }}
@@ -54,10 +96,7 @@ class AddContainers extends PureComponent<AddContainersProps, any> {
           title="容器配置"
           subTitle="服务的容器配置信息"
           extra={[
-            <a key="edit" onClick={(e) => {
-              e.preventDefault();
-              this.setState({ visible: true });
-            }}>添加</a>
+            <a key="edit" onClick={this.add}>添加</a>
           ]}
           footer={(
             <Drawer
@@ -70,8 +109,7 @@ class AddContainers extends PureComponent<AddContainersProps, any> {
             >
               <Form style={{ padding: 24, height: "100%", overflow: "auto" }}>
                 <FormInputItem required>
-                  {getFieldDecorator('containers', {
-                    initialValue: value || [],
+                  {getFieldDecorator(`container`, {
                     rules: []
                   })(
                     <ContainersInput />
@@ -86,22 +124,23 @@ class AddContainers extends PureComponent<AddContainersProps, any> {
           )}
         >
           {(value || []).length > 0 ? (
-            <List
-              itemLayout="horizontal"
-              dataSource={(value || [])}
-              renderItem={(cntr: Container) => (
-                <List.Item actions={[<a>edit</a>, <a>delete</a>]}>
-                  <List.Item.Meta
-                    title={cntr.name}
-                    description={`镜像:${cntr.image}`}
-                  />
-                  <div>content</div>
-                </List.Item>
-              )}
-            />
+            null
+            // <List
+            //   itemLayout="horizontal"
+            //   dataSource={(value || [])}
+            //   renderItem={(cntr: Container) => (
+            //     <List.Item actions={[<a>edit</a>, <a>delete</a>]}>
+            //       <List.Item.Meta
+            //         title={cntr.name}
+            //         description={`镜像:${cntr.image}`}
+            //       />
+            //       <div>content</div>
+            //     </List.Item>
+            //   )}
+            // />
           ) : (
               <Empty description="未配置容器" >
-                <Button type="primary" onClick={() => this.setState({ visible: true })}>立即添加</Button>
+                <Button type="primary" onClick={this.add}>立即添加</Button>
               </Empty>
             )}
         </PageHeader>

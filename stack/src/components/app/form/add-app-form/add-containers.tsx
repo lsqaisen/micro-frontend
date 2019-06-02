@@ -1,8 +1,8 @@
 import { PureComponent } from 'react';
-import { Form, Drawer, Button, PageHeader, Empty, List } from 'antd';
+import { Form, Drawer, Button, PageHeader, Collapse, Icon, List } from 'antd';
 import FormInput, { FormInputProps, FormInputItem } from '@/components/global/forminput';
 import { Container } from '@/services/app';
-import ContainersInput from '../input/container-input';
+import ContainerInput from './add-container';
 
 interface KeyContainer extends Container {
   key: string;
@@ -17,27 +17,24 @@ let uuid = 0;
 
 @(FormInput({
   name: 'containers',
-  onValuesChange: ({ value, onChange }, _, changeValue) => {
-    console.log(value, changeValue)
-    const { container, container_key, action } = changeValue;
-    let _value: any[] = [].concat(value || []);
-    if (action == 'add' || action == 'modify') {
-      const i = _value.findIndex((v: any) => {
-        console.log(v.container_key, container_key)
-        return v.container_key === container_key;
 
-      });
-      console.log(i, 13)
-      if (i !== -1) {
-        _value[i] = { container_key, ...container };
-      } else {
-        _value.push({ container_key, ...container })
-      }
-    } else if (action === 'delete') {
-      const i = _value.findIndex((v: any) => v.container_key === container_key);
-      _value.splice(i, 1);
+  onValuesChange: ({ value: __value, onChange }: any, changeValues: any) => {
+    const { type, value }: any = changeValues.action || {};
+    switch (type) {
+      case 'add':
+        onChange(__value.concat(value));
+        break;
+      case 'modify':
+        onChange(value);
+        break;
+      case 'remove':
+        let _value = [].concat(__value);
+        _value.splice(value, 1);
+        onChange(_value);
+        break;
+      default:
+        break;
     }
-    onChange(_value)
   }
 }) as any)
 class AddContainers extends PureComponent<AddContainersProps, any> {
@@ -51,100 +48,89 @@ class AddContainers extends PureComponent<AddContainersProps, any> {
   };
 
   state = {
-    visible: false,
+    keys: [],
   }
 
-  _onClose = (e: any) => {
-    if (!!e) e.preventDefault();
-    (this.props.form as any).validateFieldsAndScroll(async (error: any, values: any) => {
-      if (!error) {
-        this.setState({
-          visible: false,
-        })
+  remove = (k: any) => {
+    const { form: { getFieldValue, setFieldsValue } } = this.props;
+    const keys = getFieldValue('keys');
+    if (keys.length === 0) {
+      return;
+    }
+    setFieldsValue({
+      keys: keys.filter((key: any) => key !== k),
+      action: {
+        type: 'remove',
+        value: keys.findIndex((key: any) => key === k),
       }
+    });
+  }
+
+  add = () => {
+    uuid++;
+    const { form: { getFieldValue, setFieldsValue } } = this.props;
+    const keys = getFieldValue('keys');
+    const nextKeys = keys.concat(uuid);
+    setFieldsValue({
+      keys: nextKeys,
+      action: {
+        type: 'add',
+        value: [new Object({} as Container)]
+      }
+    });
+  }
+
+  change = (index: any, v: Container) => {
+    const { value: _value, form: { setFieldsValue } } = this.props;
+    let value: Container[] = [].concat(_value as any);
+    value[index] = v;
+    setFieldsValue({
+      action: {
+        type: 'modify',
+        value,
+      },
     })
   }
 
-  add = (e?: any) => {
-    e && e.preventDefault();
-    this.props.form.resetFields();
-    this.props.form.setFieldsValue({
-      action: 'add',
-      container_key: `container_${uuid++}`,
-    })
-    this.setState({ visible: true });
+  getValues = () => {
+    const { form: { getFieldsValue } } = this.props;
+    let value = getFieldsValue() || {};
+    delete value.keys;
+    delete value.action;
+    return value;
+  }
+
+  componentDidMount() {
+    const { value } = this.props;
+    this.setState({
+      keys: Object.keys(value!).map(key => parseInt(key, 10)),
+    });
   }
 
   render() {
     const { type, value, form } = this.props;
-    const { getFieldsError, getFieldDecorator } = form;
-    const { visible } = this.state;
+    const { getFieldsError, getFieldDecorator, getFieldValue } = form;
+    const { keys: initialValue } = this.state;
     const errors = Object.values(getFieldsError() || {}).filter(v => !!v).map(error => (error || []).join(',')).join(';');
-    getFieldDecorator(`action`);
-    getFieldDecorator(`container_key`);
-    console.log(value, 111)
+    getFieldDecorator('keys', { initialValue });
+    getFieldDecorator('action', { initialValue: { type: '', value: null } });
+    const keys = getFieldValue('keys');
+    console.log(errors, 34234234, getFieldsError())
     return (
-      <FormInputItem
-        style={{ marginBottom: 8 }}
-        required
-        validateStatus={errors ? 'error' : 'success'}
-        help={errors}
-      >
-        <PageHeader
-          className="box"
-          style={{ padding: 16, marginBottom: 8, borderRadius: "8px", border: errors ? '1px solid #ff5242' : '1px solid transparent' }}
-          title="容器配置"
-          subTitle="服务的容器配置信息"
-          extra={[
-            <a key="edit" onClick={this.add}>添加</a>
-          ]}
-          footer={(
-            <Drawer
-              title="容器配置"
-              bodyStyle={{ padding: 0, height: `calc(100% - 108px)` }}
-              width={482}
-              placement="right"
-              onClose={this._onClose}
-              visible={visible}
-            >
-              <Form style={{ padding: 24, height: "100%", overflow: "auto" }}>
-                <FormInputItem required>
-                  {getFieldDecorator(`container`, {
-                    rules: []
-                  })(
-                    <ContainersInput />
-                  )}
-                </FormInputItem>
-              </Form>
-              <div className={"node-actions"} >
-                <Button onClick={() => { this.setState({ visible: false }) }} style={{ marginRight: 8 }}> 取消 </Button>
-                <Button onClick={this._onClose} type="primary"> 确认 </Button>
-              </div>
-            </Drawer>
-          )}
-        >
-          {(value || []).length > 0 ? (
-            null
-            // <List
-            //   itemLayout="horizontal"
-            //   dataSource={(value || [])}
-            //   renderItem={(cntr: Container) => (
-            //     <List.Item actions={[<a>edit</a>, <a>delete</a>]}>
-            //       <List.Item.Meta
-            //         title={cntr.name}
-            //         description={`镜像:${cntr.image}`}
-            //       />
-            //       <div>content</div>
-            //     </List.Item>
-            //   )}
-            // />
-          ) : (
-              <Empty description="未配置容器" >
-                <Button type="primary" onClick={this.add}>立即添加</Button>
-              </Empty>
+      <List
+        itemLayout="vertical"
+        dataSource={keys}
+        renderItem={(key: number, index) => (
+          <FormInputItem required>
+            {getFieldDecorator(`container_${key}`, {
+              initialValue: value![index],
+              rules: []
+            })(
+              <ContainerInput />
             )}
-        </PageHeader>
-      </FormInputItem>
+          </FormInputItem>
+        )}
+      />
     )
   }
 }

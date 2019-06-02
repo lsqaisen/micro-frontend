@@ -53,7 +53,6 @@ export default class <T> extends PureComponent<ArrayInputProps<T[]>, any> {
     if (keys.length === 0) {
       return;
     }
-    console.log(keys.filter((key: any) => key !== k))
     setFieldsValue({
       keys: keys.filter((key: any) => key !== k),
       action: {
@@ -100,7 +99,7 @@ export default class <T> extends PureComponent<ArrayInputProps<T[]>, any> {
   componentDidMount() {
     const { value } = this.props;
     this.setState({
-      keys: Object.keys(value).map(key => parseInt(key, 10)),
+      keys: Object.keys(value!).map(key => parseInt(key, 10)),
     });
   }
 
@@ -130,7 +129,7 @@ export default class <T> extends PureComponent<ArrayInputProps<T[]>, any> {
             <div style={{ width: 'calc(100% - 48px)' }}>
               <FormInputItem required>
                 {getFieldDecorator(`env_${key}`, {
-                  initialValue: value[index],
+                  initialValue: value![index],
                   rules: [],
                 })(
                   React.createElement(input as any, {

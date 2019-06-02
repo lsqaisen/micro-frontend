@@ -38,46 +38,44 @@ class AddPorts extends PureComponent<AddPortsProps, any> {
     const errors = Object.values(getFieldsError() || {}).filter(v => !!v).map(error => (error || []).join(',')).join(';');
     return (
       <FormInputItem
+        className="box"
+        style={{ marginBottom: 16, padding: 16, paddingTop: 0, border: errors ? '1px solid #ff5242' : '1px solid transparent' }}
         required
         validateStatus={errors ? 'error' : 'success'}
-        help={errors}
+        help={errors ? '端口映射存在错误' : ''}
       >
         <PageHeader
-          className="box"
-          style={{ padding: 16, marginBottom: 8, border: errors ? '1px solid #ff5242' : '1px solid transparent' }}
-          title="端口映射"
-          subTitle="服务的端口映射信息"
-          extra={[
-            <a key="edit" onClick={(e) => {
-              e.preventDefault();
+          style={{ padding: '16px 0', marginBottom: 8 }}
+          title={<span style={{ color: errors ? "#ff5242" : "" }}>端口映射</span>}
+          subTitle={<span style={{ color: errors ? "#ff5242" : "" }}>服务的端口映射信息</span>}
+          footer={<div style={{ padding: `0 8px` }}>
+            <Button style={{ width: '100%' }} type="dashed" onClick={() => {
               this.setState({ visible: true });
-            }}>编辑</a>
-          ]}
-          footer={(
-            <Drawer
-              title="端口映射"
-              width={482}
-              placement="right"
-              onClose={this._onClose}
-              visible={visible}
-            >
-              <Form>
-                <FormInputItem>
-                  {getFieldDecorator('ports', {
-                    initialValue: ports,
-                    rules: [],
-                  })(
-                    <PortsInput />
-                  )}
-                </FormInputItem>
-              </Form>
-              <div className={"node-actions"} >
-                <Button onClick={() => { this.setState({ visible: false }) }} style={{ marginRight: 8 }}> 取消 </Button>
-                <Button onClick={this._onClose} type="primary"> 确认 </Button>
-              </div>
-            </Drawer>
-          )}
+            }}>编辑</Button>
+          </div>}
         >
+          <Drawer
+            title="端口映射"
+            width={482}
+            placement="right"
+            onClose={this._onClose}
+            visible={visible}
+          >
+            <Form>
+              <FormInputItem>
+                {getFieldDecorator('ports', {
+                  initialValue: ports,
+                  rules: [],
+                })(
+                  <PortsInput />
+                )}
+              </FormInputItem>
+            </Form>
+            <div className={"node-actions"} >
+              <Button onClick={() => { this.setState({ visible: false }) }} style={{ marginRight: 8 }}> 取消 </Button>
+              <Button onClick={this._onClose} type="primary"> 确认 </Button>
+            </div>
+          </Drawer>
           {ports.length > 0 ? (
             <List
               header={(

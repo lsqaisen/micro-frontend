@@ -7,6 +7,7 @@ import BasicForm from './add-basic';
 import PortsForm from './add-ports';
 import ContainersForm from './add-containers';
 import { createAppRequest } from '@/services/app';
+import styles from './style/index.less';
 
 
 export interface AddAppFormProps extends FormComponentProps {
@@ -23,7 +24,8 @@ class AddAppForm extends PureComponent<AddAppFormProps, any> {
   };
   render() {
     const { type, data, form } = this.props;
-    const { getFieldDecorator } = form;
+    const { getFieldDecorator, getFieldValue } = form;
+    const basic = getFieldValue('basic') || {};
     return (
       <Form style={{ padding: 24, height: "100%", overflow: "auto" }}>
         <FormInputItem required>
@@ -44,12 +46,20 @@ class AddAppForm extends PureComponent<AddAppFormProps, any> {
         </FormInputItem>
         <FormInputItem>
           {getFieldDecorator('containers', {
-            initialValue: data!.containers,
+            initialValue: data!.containers || [{}, {}],
             rules: [],
           })(
             <ContainersForm type={type} />
           )}
         </FormInputItem>
+        {/* {basic.name && <FormInputItem>
+          {getFieldDecorator('containers', {
+            initialValue: data!.containers || [{}],
+            rules: [],
+          })(
+            <ContainersForm type={type} />
+          )}
+        </FormInputItem>} */}
       </Form>
     )
   }

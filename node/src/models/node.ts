@@ -31,7 +31,7 @@ export default {
 		},
 		*nodes({ payload = {} }: AnyAction, { call, put, select }: EffectsCommandMap) {
 			const { resource } = payload;
-			const namespace = yield select(({ user: { profile: { current } } }: any) => current === 'default' ? undefined : current);
+			const namespace = yield select(({ user: { namespace } }: any) => namespace);
 			const { data, err } = yield call(api.getNodes, { namespace, ...payload });
 			if (!!err) {
 				message.error(err, 5)

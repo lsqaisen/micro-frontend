@@ -1,7 +1,7 @@
 import { PureComponent, Fragment } from 'react';
 import { Form, Drawer, Button, PageHeader, Empty, Radio, Input, InputNumber, Switch } from 'antd';
 import FormInput, { FormInputProps, FormInputItem } from '@/components/global/forminput';
-import SchedulerInput from '../input/scheduler-input';
+import SchedulerInput, { SchedulerSearchHandles } from '../input/scheduler-input';
 import CpuMemInput from '../input/cpu-mem-input';
 import Description from '../description';
 import { Basic } from '@/services/app';
@@ -10,13 +10,13 @@ const RadioGroup = Radio.Group;
 const TextArea = Input.TextArea;
 const FormItem = Form.Item;
 
-export interface AddBasicProps extends FormInputProps<Basic> {
+export interface AddBasicProps extends SchedulerSearchHandles {
   type?: 'create' | 'update' | 'edit';
   formItemLayout?: any;
 }
 
 @(FormInput() as any)
-class AddBasic extends PureComponent<AddBasicProps, any> {
+class AddBasic extends PureComponent<FormInputProps<Basic> & AddBasicProps, any> {
   static readonly defaultProps = {
     form: {},
     type: 'create',
@@ -42,7 +42,7 @@ class AddBasic extends PureComponent<AddBasicProps, any> {
   }
 
   render() {
-    const { type, value, formItemLayout, form } = this.props;
+    const { type, value, formItemLayout, form, onNodeSearch, onResourceSearch } = this.props;
     const { getFieldDecorator, getFieldsError } = form;
     const { visible } = this.state;
     const {
@@ -118,8 +118,9 @@ class AddBasic extends PureComponent<AddBasicProps, any> {
                 required>
                 {getFieldDecorator('scheduler', {
                   initialValue: scheduler,
+                  rules: [],
                 })(
-                  <SchedulerInput />
+                  <SchedulerInput {...{ onNodeSearch, onResourceSearch }} />
                 )}
               </FormInputItem>
               <FormItem
@@ -184,7 +185,7 @@ class AddBasic extends PureComponent<AddBasicProps, any> {
               <Description term="资源调度">
                 {{ none: "自动调度", resource: "指定资源池", node: "指定私有主机" }[scheduler.type || 'none']}
                 {scheduler.type === 'resource' ? `(${scheduler.resource})` :
-                  scheduler.type === 'node' ? `($){scheduler.hostname})` : ''}
+                  scheduler.type === 'node' ? `(${scheduler.hostname})` : ''}
               </Description>
             </Fragment>
           ) : (

@@ -3,19 +3,20 @@ import { PureComponent } from 'react';
 import { Form } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { FormInputItem } from '@/components/global/forminput'
-import BasicForm from './add-basic';
-import PortsForm from './add-ports';
-import ContainersForm from './add-containers';
+import BasicForm, { AddBasicProps } from './add-basic';
+import PortsForm, { AddPortsProps } from './add-ports';
+import ContainersForm, { AddContainersProps } from './add-containers';
 import { createAppRequest } from '@/services/app';
-import styles from './style/index.less';
 
 
-export interface AddAppFormProps extends FormComponentProps {
+export interface AddAppFormProps extends FormComponentProps, AddBasicProps, AddPortsProps, AddContainersProps {
   data?: createAppRequest;
   type?: 'create' | 'update' | 'edit';
 }
 
-@(Form.create({ name: 'app' }) as any)
+@(Form.create({
+  name: 'app',
+}) as any)
 class AddAppForm extends PureComponent<AddAppFormProps, any> {
   static readonly defaultProps = {
     form: {},
@@ -23,7 +24,7 @@ class AddAppForm extends PureComponent<AddAppFormProps, any> {
     type: 'create',
   };
   render() {
-    const { type, data, form } = this.props;
+    const { type, data, form, onNodeSearch, onResourceSearch, onImageSearch, onImageTagSearch, onSecretSearch } = this.props;
     const { getFieldDecorator, getFieldValue } = form;
     const basic = getFieldValue('basic') || {};
     return (
@@ -33,7 +34,7 @@ class AddAppForm extends PureComponent<AddAppFormProps, any> {
             initialValue: data,
             rules: [],
           })(
-            <BasicForm type={type} />
+            <BasicForm type={type} {...{ onNodeSearch, onResourceSearch }} />
           )}
         </FormInputItem>
         <FormInputItem>
@@ -44,22 +45,14 @@ class AddAppForm extends PureComponent<AddAppFormProps, any> {
             <PortsForm type={type} />
           )}
         </FormInputItem>
-        <FormInputItem>
-          {getFieldDecorator('containers', {
-            initialValue: data!.containers || [{}, {}],
-            rules: [],
-          })(
-            <ContainersForm type={type} />
-          )}
-        </FormInputItem>
-        {/* {basic.name && <FormInputItem>
+        {!basic.name && <FormInputItem>
           {getFieldDecorator('containers', {
             initialValue: data!.containers || [{}],
             rules: [],
           })(
-            <ContainersForm type={type} />
+            <ContainersForm type={type} {...{ onImageSearch, onImageTagSearch, onSecretSearch }} />
           )}
-        </FormInputItem>} */}
+        </FormInputItem>}
       </Form>
     )
   }

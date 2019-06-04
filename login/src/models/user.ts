@@ -10,6 +10,8 @@ export default {
 	state: {
 		init: false,
 		profile: undefined,
+		namespace: undefined,
+		workspace_id: undefined,
 		domain: [],
 	},
 
@@ -63,6 +65,8 @@ export default {
 					payload: {
 						init: true,
 						profile: data,
+						namespace: data.current === 'default' ? undefined : data.current,
+						workspace_id: data.workspace.id,
 					}
 				})
 			}

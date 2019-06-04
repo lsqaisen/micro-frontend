@@ -45,7 +45,7 @@ export default {
       }
     },
     *get({ payload }: AnyAction, { call, put, select }: EffectsCommandMap) {
-      const namespace = yield select(({ user: { profile: { current } } }: any) => current === 'default' ? undefined : current);
+      const namespace = yield select(({ user: { namespace } }: any) => namespace);
       const { data, err } = yield call(api.getStack, { namespace, ...(payload || {}) });
       if (!!err) {
         message.error(err, 5);
@@ -60,7 +60,8 @@ export default {
       }
     },
     *create({ payload }: AnyAction, { put, call, select }: EffectsCommandMap) {
-      const namespace = yield select(({ user: { profile: { current } } }: any) => current === 'default' ? undefined : current);
+      const namespace = yield select(({ user: { namespace } }: any) => namespace);
+      console.log(yield select(_ => _.user))
       const { err } = yield call(api.createStack, { namespace, ...payload });
       if (!!err) {
         message.error(err, 5);
@@ -71,7 +72,7 @@ export default {
       }
     },
     *[`delete`]({ payload }: AnyAction, { put, call, select }: EffectsCommandMap) {
-      const namespace = yield select(({ user: { profile: { current } } }: any) => current === 'default' ? undefined : current);
+      const namespace = yield select(({ user: { namespace } }: any) => namespace);
       const { err } = yield call(api.deleteStack, { namespace, name: payload });
       if (!!err) {
         message.error(err, 5);

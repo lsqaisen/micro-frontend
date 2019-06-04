@@ -9,12 +9,12 @@ import request from '@/utils/request';
  */
 
 interface getStackRequest {
-  namespace: string;
+  namespace?: string;
   page?: number;
   itemsPerPage?: number;
 }
 
-function getStack({ namespace, page = 1, itemsPerPage = 1000000 }: getStackRequest) {
+function getStack({ namespace = "default", page = 1, itemsPerPage = 1000000 }: getStackRequest) {
   return request(`/service/stack/api/stack?namespace=${namespace}&page=${page}&itemsPerPage=${itemsPerPage}`);
 }
 
@@ -28,16 +28,16 @@ function getStack({ namespace, page = 1, itemsPerPage = 1000000 }: getStackReque
  */
 
 interface createStackRequest {
-  namespace: string;
+  namespace?: string;
   name: string;
   ippool?: string;
   desc?: string;
 }
 
-function createStack(data: createStackRequest) {
+function createStack({ name, namespace = "default", ippool, desc }: createStackRequest) {
   return request(`/service/stack/api/stack`, {
     method: 'post',
-    body: data,
+    body: { name, namespace, ippool, desc },
   })
 }
 

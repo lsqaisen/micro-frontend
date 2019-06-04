@@ -1,14 +1,14 @@
 import { PureComponent } from 'react';
-import { Form, Drawer, Button, PageHeader, Collapse, Icon, List } from 'antd';
+import { List, Button } from 'antd';
 import FormInput, { FormInputProps, FormInputItem } from '@/components/global/forminput';
 import { Container } from '@/services/app';
-import ContainerInput from './add-container';
+import ContainerInput, { AddContainerProps } from './add-container';
 
 interface KeyContainer extends Container {
   key: string;
 }
 
-export interface AddContainersProps extends FormInputProps<KeyContainer[]> {
+export interface AddContainersProps extends AddContainerProps {
   type?: 'create' | 'update' | 'edit';
   formItemLayout?: any;
 }
@@ -17,7 +17,6 @@ let uuid = 0;
 
 @(FormInput({
   name: 'containers',
-
   onValuesChange: ({ value: __value, onChange }: any, changeValues: any) => {
     const { type, value }: any = changeValues.action || {};
     switch (type) {
@@ -37,7 +36,7 @@ let uuid = 0;
     }
   }
 }) as any)
-class AddContainers extends PureComponent<AddContainersProps, any> {
+class AddContainers extends PureComponent<FormInputProps<KeyContainer[]> & AddContainersProps, any> {
   static readonly defaultProps = {
     form: {},
     type: 'create',
@@ -108,14 +107,12 @@ class AddContainers extends PureComponent<AddContainersProps, any> {
   }
 
   render() {
-    const { type, value, form } = this.props;
-    const { getFieldsError, getFieldDecorator, getFieldValue } = form;
+    const { type, value, form, onImageSearch, onImageTagSearch, onSecretSearch } = this.props;
+    const { getFieldDecorator, getFieldValue } = form;
     const { keys: initialValue } = this.state;
-    const errors = Object.values(getFieldsError() || {}).filter(v => !!v).map(error => (error || []).join(',')).join(';');
     getFieldDecorator('keys', { initialValue });
     getFieldDecorator('action', { initialValue: { type: '', value: null } });
     const keys = getFieldValue('keys');
-    console.log(errors, 34234234, getFieldsError())
     return (
       <List
         itemLayout="vertical"
@@ -126,10 +123,11 @@ class AddContainers extends PureComponent<AddContainersProps, any> {
               initialValue: value![index],
               rules: []
             })(
-              <ContainerInput />
+              <ContainerInput {...{ onImageSearch, onImageTagSearch, onSecretSearch }} />
             )}
           </FormInputItem>
         )}
+        footer={<Button style={{ width: "100%" }} type="dashed" onClick={this.add}>添加应用</Button>}
       />
     )
   }

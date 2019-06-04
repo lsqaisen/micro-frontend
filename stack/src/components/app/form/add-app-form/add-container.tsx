@@ -2,9 +2,10 @@ import { PureComponent } from 'react';
 import { Form, Drawer, Button, PageHeader, Collapse, Icon, Input, Switch } from 'antd';
 import FormInput, { FormInputProps, FormInputItem } from '@/components/global/forminput';
 import { Container } from '@/services/app';
-import ImageInput from '../input/container-input/image-input';
+import ImageInput, { ImageSearchHandles } from '../input/container-input/image-input';
 import EvnsInput from '../input/container-input/evns-input';
 import ConfigMountsInput from '../input/container-input/config-mounts-input';
+import { SecretSearchHandles } from '../input/container-input/secret-mounts-input/secret-mount-input';
 import SecretMountsInput from '../input/container-input/secret-mounts-input';
 import HostMountsInput from '../input/container-input/host-mounts-input';
 import VolumesInput from '../input/container-input/volumes-input';
@@ -14,7 +15,7 @@ import styles from './style/index.less';
 
 const FormItem = Form.Item;
 
-export interface AddContainerProps extends FormInputProps<Container> {
+export interface AddContainerProps extends ImageSearchHandles, SecretSearchHandles {
   type?: 'create' | 'update' | 'edit';
   formItemLayout?: any;
 }
@@ -22,7 +23,7 @@ export interface AddContainerProps extends FormInputProps<Container> {
 @(FormInput({
   name: 'container',
 }) as any)
-class AddContainer extends PureComponent<AddContainerProps, any> {
+class AddContainer extends PureComponent<FormInputProps<Container> & AddContainerProps, any> {
   static readonly defaultProps = {
     form: {},
     type: 'create',
@@ -53,11 +54,10 @@ class AddContainer extends PureComponent<AddContainerProps, any> {
   }
 
   render() {
-    const { type, value, formItemLayout, form } = this.props;
+    const { type, value, formItemLayout, form, onImageSearch, onImageTagSearch, onSecretSearch } = this.props;
     const { getFieldsError, getFieldDecorator } = form;
     const { visible } = this.state;
     const errors = Object.values(getFieldsError() || {}).filter(v => !!v).map(error => (error || []).join(',')).join(';');
-    console.log(value)
     return (
       <FormInputItem
         className={`box ${styles.container}`}
@@ -96,7 +96,7 @@ class AddContainer extends PureComponent<AddContainerProps, any> {
                 initialValue: value!.image,
                 rules: []
               })(
-                <ImageInput />
+                <ImageInput  {...{ onImageSearch, onImageTagSearch }} />
               )}
             </FormInputItem>
             <FormItem
@@ -156,7 +156,7 @@ class AddContainer extends PureComponent<AddContainerProps, any> {
                 initialValue: value!.secretMounts || [],
                 rules: []
               })(
-                <SecretMountsInput />
+                <SecretMountsInput {...{ onSecretSearch }} />
               )}
             </FormInputItem>
             <FormInputItem

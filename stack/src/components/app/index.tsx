@@ -28,6 +28,7 @@ class List extends PureComponent<ListProps, any> {
     const { name, desc, routes, children } = this.props;
     return (
       <PageHeader
+        style={{ minHeight: '100%' }}
         title={name}
         subTitle={desc}
         breadcrumb={{

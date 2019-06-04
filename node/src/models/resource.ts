@@ -10,7 +10,7 @@ export default {
   effects: {
     *get({ payload }: AnyAction, { call, put, select }: EffectsCommandMap) {
       const { cluster } = payload;
-      const namespace = yield select(({ user: { profile: { current } } }: any) => current === 'default' ? undefined : current);
+      const namespace = yield select(({ user: { namespace } }: any) => namespace);
       const { data, err } = yield call(api.getResource, { namespace, ...payload });
       if (!!err) {
         message.error(err, 5)
@@ -28,7 +28,7 @@ export default {
     },
     *add({ payload }: AnyAction, { put, call, select }: EffectsCommandMap) {
       const { clusterName, ...request } = payload;
-      const namespace = yield select(({ user: { profile: { current } } }: any) => current === 'default' ? undefined : current);
+      const namespace = yield select(({ user: { namespace } }: any) => namespace);
       const { err } = yield call(api.createResource, { namespace, ...request });
       if (!!err) {
         message.error(err, 5);
@@ -43,7 +43,7 @@ export default {
     },
     *[`delete`]({ payload }: AnyAction, { put, call, select }: EffectsCommandMap) {
       const { clusterName, ...request } = payload;
-      const namespace = yield select(({ user: { profile: { current } } }: any) => current === 'default' ? undefined : current);
+      const namespace = yield select(({ user: { namespace } }: any) => namespace);
       const { err } = yield call(api.deleteResource, { namespace, ...request });
       if (!!err) {
         message.error(err, 5);
@@ -57,7 +57,7 @@ export default {
       }
     },
     *join({ payload }: AnyAction, { call, select }: EffectsCommandMap) {
-      const namespace = yield select(({ user: { profile: { current } } }: any) => current === 'default' ? undefined : current);
+      const namespace = yield select(({ user: { namespace } }: any) => namespace);
       const { err } = yield call(api.joinResource, { namespace, ...payload });
       if (!!err) {
         message.error(err, 5);
@@ -67,7 +67,7 @@ export default {
       return err;
     },
     *remove({ payload }: AnyAction, { call, select }: EffectsCommandMap) {
-      const namespace = yield select(({ user: { profile: { current } } }: any) => current === 'default' ? undefined : current);
+      const namespace = yield select(({ user: { namespace } }: any) => namespace);
       const { err } = yield call(api.removeResource, { namespace, ...payload });
       if (!!err) {
         message.error(err, 5);

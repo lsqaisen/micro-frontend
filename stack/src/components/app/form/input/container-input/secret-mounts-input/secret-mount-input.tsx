@@ -3,11 +3,16 @@ import { Form, Row, Col, Select, Input } from 'antd';
 import FormInput, { FormInputProps } from '@/components/global/forminput';
 import SearchSelect from '@/components/global/search-select';
 import { Mount } from '@/services/app';
+import { getSecretsRequest } from '@/services/secret';
 
 const Option = Select.Option;
 const FormItem = Form.Item;
 
-export type SecretMountInputProps = FormInputProps<Mount>
+export interface SecretSearchHandles {
+  onSecretSearch: (search: getSecretsRequest) => any;
+}
+
+export interface SecretMountInputProps extends FormInputProps<Mount>, SecretSearchHandles { }
 
 @(FormInput({ name: 'port' }) as any)
 class SecretMountInput extends PureComponent<SecretMountInputProps, any> {
@@ -15,10 +20,15 @@ class SecretMountInput extends PureComponent<SecretMountInputProps, any> {
     form: {} as any,
   }
 
+  state = {
+    keys: [],
+  }
+
   render() {
-    const { value, form } = this.props;
+    const { value, form, onSecretSearch } = this.props;
     const { name, key, mountPath, path } = value!;
     const { getFieldDecorator } = form;
+    const { keys } = this.state;
     return (
       <Row gutter={8}>
         <Col span={5}>
@@ -29,15 +39,24 @@ class SecretMountInput extends PureComponent<SecretMountInputProps, any> {
             })(
               <SearchSelect
                 placeholder="证书名称"
-                style={{ width: '100%' }}
-                onSearch={() => {
+                onChange={(value: any) => {
+                  this.setState({ keys: Object.values(JSON.parse(value))[0] });
+                  form.setFieldsValue({ name: Object.keys(JSON.parse(value))[0] });
+                }}
+                onSearch={(params: any = {}) => {
+                  const { page = 1, itemsPerPage = 10 }: any = params;
+                  let request: getSecretsRequest = { page, itemsPerPage };
                   return new Promise(async (resolve, reject) => {
+                    let { data, total }: any = await onSecretSearch!(request);
                     resolve({
-                      data: [{
-                        key: '34345',
-                        label: '345345345'
-                      }],
-                      params: undefined,
+                      data: data.map((secret: any) => ({
+                        key: JSON.stringify({ [`${secret.name}`]: secret.keys }),
+                        label: `${secret.name}`
+                      })),
+                      params: total <= itemsPerPage * page ? null : {
+                        page: page + 1,
+                        itemsPerPage,
+                      }
                     })
                   })
                 }}
@@ -52,7 +71,9 @@ class SecretMountInput extends PureComponent<SecretMountInputProps, any> {
               rules: [{ required: true, message: "必须选择" }],
             })(
               <Select placeholder="证书选项">
-                <Option key="test">test</Option>
+                {keys.map(v => (
+                  <Option key={v}>{v}</Option>
+                ))}
               </Select>
             )}
           </FormItem>

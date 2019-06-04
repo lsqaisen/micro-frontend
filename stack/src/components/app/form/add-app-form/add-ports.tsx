@@ -4,12 +4,12 @@ import FormInput, { FormInputProps, FormInputItem } from '@/components/global/fo
 import { Port } from '@/services/app';
 import PortsInput from '../input/ports-input';
 
-export interface AddPortsProps extends FormInputProps<Port[]> {
+export interface AddPortsProps {
   type?: 'create' | 'update' | 'edit';
 }
 
 @(FormInput({ name: 'ports' }) as any)
-class AddPorts extends PureComponent<AddPortsProps, any> {
+class AddPorts extends PureComponent<FormInputProps<Port[]> & AddPortsProps, any> {
   static readonly defaultProps = {
     form: {},
     type: 'create',

@@ -1,10 +1,10 @@
 import { PureComponent, Fragment } from 'react';
 import formInput, { FormInputProps } from '@/components/global/forminput';
 import { Mount } from '@/services/app';
-import SecretMountInput from './secret-mount-input';
+import SecretMountInput, { SecretSearchHandles } from './secret-mount-input';
 import InputBasic from '../input-basic';
 
-export interface AddSecretMountsProps extends FormInputProps<Mount[]> {
+export interface AddSecretMountsProps extends FormInputProps<Mount[]>, SecretSearchHandles {
   type?: 'create' | 'update' | 'edit';
 }
 
@@ -28,9 +28,10 @@ export default class extends PureComponent<AddSecretMountsProps, any>{
         <a key="add" onClick={onClick}>添加证书挂载卷</a>
       </Fragment>
     )
+    const { onSecretSearch, ...props } = this.props;
     return (
       <InputBasic<Mount>
-        {...this.props}
+        {...props}
         width={582}
         title="证书挂载卷"
         name="secretMounts"
@@ -46,6 +47,7 @@ export default class extends PureComponent<AddSecretMountsProps, any>{
           transform: (key, value) => value,
         }}
         input={SecretMountInput}
+        inputProps={{ onSecretSearch }}
         action={<Action />}
       />
     )

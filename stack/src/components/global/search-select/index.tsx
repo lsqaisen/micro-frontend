@@ -19,6 +19,7 @@ export interface SearchSelectProps extends SelectProps {
 }
 
 interface SearchSelectState {
+	init: boolean,
 	error?: string,
 	loading: boolean,
 	end: boolean,
@@ -32,6 +33,7 @@ class SearchSelect extends PureComponent<SearchSelectProps, SearchSelectState> {
 	}
 
 	state: SearchSelectState = {
+		init: false,
 		error: '',
 		loading: false,
 		end: false,
@@ -86,28 +88,31 @@ class SearchSelect extends PureComponent<SearchSelectProps, SearchSelectState> {
 		}
 	}
 
-	componentDidMount() {
-		this.load();
-	}
 
 	render() {
 		const { onSearch, ...props } = this.props;
-		const { error, loading, end, data } = this.state;
+		const { init, error, loading, end, data } = this.state;
 		return (
 			<Select
 				{...props}
+				onFocus={() => {
+					if (!init) this.load();
+				}}
 				notFoundContent={error ? <p>
-					<span style={{ color: 'red' }}>{error}</span><br />
+					< span style={{ color: 'red' }
+					}> {error}</span > <br />
 					<a onClick={this.load}>重新加载</a>
-				</p> :
+				</p > :
 					'暂无数据'}
 			>
 				{this.getOptions(data)}
-				{!loading && !end ? <Option disabled key="$nextsearch">
-					<a onClick={this.load}>更多...</a>
-				</Option> : []}
+				{
+					!loading && !end ? <Option disabled key="$nextsearch">
+						<a onClick={this.load}>更多...</a>
+					</Option> : []
+				}
 				{loading ? <Option disabled key="$loading"><Spin size="small" /></Option> : []}
-			</Select>
+			</Select >
 		)
 	}
 }

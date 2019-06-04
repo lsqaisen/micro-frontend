@@ -1,119 +1,56 @@
 import { PureComponent, Fragment } from 'react';
-import { Form, Drawer, Button, Row, Col, List, Typography } from 'antd';
-import FormInput, { FormInputProps, FormInputItem } from '@/components/global/forminput';
-import ArrayInput from '@/components/global/forminput/array-input';
+import formInput, { FormInputProps } from '@/components/global/forminput';
 import { Mount } from '@/services/app';
-import MountInput from './config-mount-input';
-import styles from '../style/index.less';
+import ConfigMountInput from './config-mount-input';
+import InputBasic from '../input-basic';
+import { ConfigSearchHandles } from '../select-configfile';
 
 export interface AddConfigMountsProps extends FormInputProps<Mount[]> {
   type?: 'create' | 'update' | 'edit';
 }
 
-const Grid = ({ style, data = {} as Mount }: any) => (
-  <Row gutter={8} style={style}>
-    <Col span={5}><Typography.Text >{data.name || '配置名称'}</Typography.Text></Col>
-    <Col span={5}><Typography.Text >{data.key || '配置项'}</Typography.Text></Col>
-    <Col span={7} offset={1}><Typography.Text >{data.mountPath || '挂载路径'}</Typography.Text></Col>
-    <Col span={5} offset={1}><Typography.Text >{data.path || '指定挂载名称'}</Typography.Text></Col>
-  </Row>
-)
-
-@(FormInput({
+@(formInput({
   name: 'configMounts',
   onValuesChange: ({ onChange }, _, allValues) => {
     onChange(allValues.configMounts)
   }
 }) as any)
-class AddConfigMounts extends PureComponent<AddConfigMountsProps, any> {
+export default class extends PureComponent<AddConfigMountsProps & ConfigSearchHandles, any>{
   static readonly defaultProps = {
     form: {},
-    type: 'create',
     value: [],
+    type: 'create',
     onChange: () => null,
   };
 
-  state = {
-    visible: false,
-  }
-
-  _onClose = (e: any) => {
-    if (!!e) e.preventDefault();
-    (this.props.form as any).validateFields(async (error: any, values: any) => {
-      if (!error) {
-        this.setState({
-          visible: false,
-        })
-      }
-    })
-  }
-
   render() {
-    const { type, value, form } = this.props;
-    const { getFieldsError, getFieldDecorator } = form;
-    const { visible } = this.state;
-    const errors = Object.values(getFieldsError() || {}).filter(v => !!v).map(error => (error || []).join(',')).join(';');
+    const { ...props } = this.props;
+    const Action = ({ onClick }: any) => (
+      <Fragment>
+        <a onClick={onClick}>添加配置项</a>
+      </Fragment>
+    )
     return (
-      <FormInputItem
-        required
-        validateStatus={errors ? 'error' : 'success'}
-        help={errors}
-      >
-        <List
-          className={styles.box}
-          locale={{
-            emptyText: null
-          }}
-          header={(
-            <Fragment>
-              <a key="add" onClick={(e) => {
-                e.preventDefault();
-                this.setState({ visible: true });
-              }}>添加配置挂载</a>
-              {(value! || []).length > 0 && <div style={{ marginTop: 8, padding: 8, backgroundColor: '#F7F7F7' }}>
-                <Grid />
-              </div>}
-            </Fragment>
-          )}
-          footer={(
-            <Drawer
-              title="端口映射"
-              width={482}
-              placement="right"
-              onClose={this._onClose}
-              visible={visible}
-            >
-              <Form>
-                <FormInputItem>
-                  {getFieldDecorator('configMounts', {
-                    initialValue: value! || [],
-                    rules: [],
-                  })(
-                    <ArrayInput<MountInput>
-                      input={MountInput}
-                      btnText="添加环境变量"
-                      header={<Grid />}
-                    />
-                  )}
-                </FormInputItem>
-              </Form>
-              <div className={"node-actions"} >
-                <Button onClick={() => { this.setState({ visible: false }) }} style={{ marginRight: 8 }}> 取消 </Button>
-                <Button onClick={this._onClose} type="primary"> 确认 </Button>
-              </div>
-            </Drawer>
-          )}
-
-          dataSource={value! || []}
-          renderItem={(mount: Mount) => (
-            <List.Item>
-              <Grid style={{ width: `calc(100% + 8px)` }} data={mount} />
-            </List.Item>
-          )}
-        />
-      </FormInputItem>
+      <InputBasic<Mount>
+        {...props}
+        width={582}
+        selectType="config"
+        title="配置选项"
+        name="configMounts"
+        btnText="添加配置项"
+        grid={{
+          title: { key: '配置选项', name: '配置名称', mountPath: '挂载路径', path: '文件名称' },
+          grid: {
+            name: { span: 5 },
+            key: { span: 5 },
+            mountPath: { span: 7, offset: 1 },
+            path: { span: 5, offset: 1 }
+          },
+          transform: (key, value) => value,
+        }}
+        input={ConfigMountInput}
+        action={<Action />}
+      />
     )
   }
 }
-
-export default AddConfigMounts;

@@ -1,16 +1,18 @@
-import * as React from 'react';
-import { PureComponent } from 'react';
-import { Button, List } from 'antd';
+import { PureComponent, cloneElement, createElement } from 'react';
+import { Button, List, Row, Col } from 'antd';
 import FormInput, { FormInputProps, FormInputItem } from './';
 import styles from './style/index.less';
 
 export interface ArrayInputProps<T> extends FormInputProps<T> {
   allList?: T,
   input?: React.ComponentClass<any, any> | React.FunctionComponentElement<any> | (() => React.ReactElement);
+  load?: React.ComponentClass<any, any> | React.FunctionComponentElement<any> | (() => React.ReactElement);
   header?: React.ReactNode;
   btn?: any;
   btnText: string;
   inputProps?: { [key: string]: any };
+  loadProps?: { [key: string]: any };
+  actionTypes: ('load' | 'add')[];
 }
 
 let uuid = 0;
@@ -40,6 +42,8 @@ export default class <T> extends PureComponent<ArrayInputProps<T[]>, any> {
     value: [],
     form: {},
     inputProps: {},
+    loadProps: {},
+    actionTypes: ['add'],
     onChange: () => null,
   }
 
@@ -88,6 +92,20 @@ export default class <T> extends PureComponent<ArrayInputProps<T[]>, any> {
     })
   }
 
+
+  load = (data: any[]) => {
+    const { form: { getFieldValue, setFieldsValue } } = this.props;
+    let keys = getFieldValue('keys');
+    let load = data.forEach(() => keys = keys.concat(++uuid));
+    setFieldsValue({
+      keys,
+      action: {
+        type: 'add',
+        value: data,
+      }
+    });
+  }
+
   getValues = () => {
     const { form: { getFieldsValue } } = this.props;
     let value = getFieldsValue() || {};
@@ -104,7 +122,7 @@ export default class <T> extends PureComponent<ArrayInputProps<T[]>, any> {
   }
 
   render() {
-    const { input, inputProps, btn, btnText, header, allList, value, form: { getFieldDecorator, getFieldValue }, } = this.props;
+    const { actionTypes, input, load, inputProps, loadProps, btn, btnText, header, allList, value, form: { getFieldDecorator, getFieldValue }, } = this.props;
     const { keys: initialValue } = this.state;
     getFieldDecorator('keys', { initialValue });
     getFieldDecorator('action', { initialValue: { type: '', value: null } });
@@ -114,25 +132,35 @@ export default class <T> extends PureComponent<ArrayInputProps<T[]>, any> {
         bordered={false}
         className={styles[`array-input`]}
         header={header}
-        footer={btn ? (
-          React.cloneElement(btn as any, {
-            onClick: this.add,
-          })
-        ) : (
-            <Button style={{ width: "100%" }} type="dashed" onClick={this.add}>{btnText}</Button>
-          )}
+        footer={
+          btn ? (
+            cloneElement(btn as any, {
+              onClick: this.add,
+            })
+          ) : (
+              <Row gutter={8} style={{ display: "flex" }}>
+                <Col style={{ flex: 1 }}>
+                  {actionTypes.includes('add') && <Button style={{ width: "100%" }} type="dashed" onClick={this.add}>{btnText}</Button>}
+                </Col>
+                <Col style={{ flex: 1 }}>
+                  {actionTypes.includes('load') && createElement(load as any, {
+                    ...loadProps,
+                    onChange: this.load
+                  })}
+                </Col>
+              </Row>
+            )
+        }
         dataSource={keys}
         renderItem={(key: any, index: number) => (
-          <List.Item actions={[
-            <Button size="small" onClick={() => this.remove(key)} style={{ marginBottom: 24 }} shape="circle" type="ghost" icon="minus" />
-          ]}>
+          <List.Item actions={[<Button size="small" onClick={() => this.remove(key)} style={{ marginBottom: 24 }} shape="circle" type="ghost" icon="minus" />]}>
             <div style={{ width: 'calc(100% - 48px)' }}>
               <FormInputItem required>
                 {getFieldDecorator(`env_${key}`, {
                   initialValue: value![index],
                   rules: [],
                 })(
-                  React.createElement(input as any, {
+                  createElement(input as any, {
                     ...inputProps,
                     allList: allList!.filter((v, i) => i !== index),
                     onChange: (v: T) => this.change(index, v)

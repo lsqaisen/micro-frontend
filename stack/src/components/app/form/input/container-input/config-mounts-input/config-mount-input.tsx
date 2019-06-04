@@ -12,11 +12,7 @@ export type PortInputProps = FormInputProps<Mount>
 class PortInput extends PureComponent<PortInputProps, any> {
   static readonly defaultProps = {
     form: {} as any,
-    value: {
-      protocol: 'TCP',
-      servicePort: undefined,
-      containerPort: undefined,
-    } as any,
+    value: {} as any,
   }
 
   render() {
@@ -24,14 +20,13 @@ class PortInput extends PureComponent<PortInputProps, any> {
     const { name, key, mountPath, path } = value!;
     const { getFieldDecorator } = form;
     return (
-
       <Row gutter={8}>
         <Col span="5">
           <FormItem>
             {getFieldDecorator('name', {
               initialValue: name,
             })(
-              <Input readOnly placeholder="配置名称" />
+              <Input disabled placeholder="配置名称" />
             )}
           </FormItem>
         </Col>
@@ -40,7 +35,7 @@ class PortInput extends PureComponent<PortInputProps, any> {
             {getFieldDecorator('key', {
               initialValue: key,
             })(
-              <Input readOnly placeholder="配置选项" />
+              <Input disabled placeholder="配置选项" />
             )}
           </FormItem>
         </Col>

@@ -15,10 +15,11 @@ import AddApp from '@/components/app/add-app';
     (props: any) => props.app.images,
     (props: any) => props.app.imagetags,
     (props: any) => props.app.secrets,
+    (props: any) => props.app.configmap,
     (_: any, { stackName }: any) => stackName,
     (props: any) => props.loading.effects[`app/get`],
   ],
-  (init, data, nodes, resources, images, imagetags, secrets, stackName, loading) => ({ init, data, nodes, resources, images, imagetags, secrets, stackName, loading })
+  (init, data, nodes, resources, images, imagetags, secrets, configmap, stackName, loading) => ({ init, data, nodes, resources, images, imagetags, secrets, configmap, stackName, loading })
 ))
 export default class extends PureComponent<any, any> {
   get = () => {
@@ -38,6 +39,9 @@ export default class extends PureComponent<any, any> {
   }
   getSecrets = (search: any) => {
     return this.props.dispatch({ type: 'app/secrets', payload: search });
+  }
+  getConfigMap = (search: any) => {
+    return this.props.dispatch({ type: 'app/configmap', payload: search });
   }
   create = (data: any) => {
     return this.props.dispatch({
@@ -120,9 +124,10 @@ export default class extends PureComponent<any, any> {
               }}
               onCfgfileSearch={(search: any) => {
                 return new Promise(async (resolve) => {
-                  await this.getImageTags(search).then(() => {
-                    const { imagetags } = this.props;
-                    resolve(imagetags);
+                  await this.getConfigMap(search).then(() => {
+                    const { configmap } = this.props;
+                    console.log(configmap)
+                    resolve(configmap);
                   });
                 })
               }}

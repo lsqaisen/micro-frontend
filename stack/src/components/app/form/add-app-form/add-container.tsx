@@ -4,6 +4,7 @@ import FormInput, { FormInputProps, FormInputItem } from '@/components/global/fo
 import { Container } from '@/services/app';
 import ImageInput, { ImageSearchHandles } from '../input/container-input/image-input';
 import EvnsInput from '../input/container-input/evns-input';
+import { ConfigSearchHandles } from '../input/container-input/select-configfile';
 import ConfigMountsInput from '../input/container-input/config-mounts-input';
 import { SecretSearchHandles } from '../input/container-input/secret-mounts-input/secret-mount-input';
 import SecretMountsInput from '../input/container-input/secret-mounts-input';
@@ -15,7 +16,7 @@ import styles from './style/index.less';
 
 const FormItem = Form.Item;
 
-export interface AddContainerProps extends ImageSearchHandles, SecretSearchHandles {
+export interface AddContainerProps extends ImageSearchHandles, SecretSearchHandles, ConfigSearchHandles {
   type?: 'create' | 'update' | 'edit';
   formItemLayout?: any;
 }
@@ -34,7 +35,7 @@ class AddContainer extends PureComponent<FormInputProps<Container> & AddContaine
   };
 
   state = {
-    visible: false,
+    visible: true,
   }
 
   _onClose = (e: any) => {
@@ -54,7 +55,7 @@ class AddContainer extends PureComponent<FormInputProps<Container> & AddContaine
   }
 
   render() {
-    const { type, value, formItemLayout, form, onImageSearch, onImageTagSearch, onSecretSearch } = this.props;
+    const { type, value, formItemLayout, form, onImageSearch, onImageTagSearch, onSecretSearch, onCfgfileSearch } = this.props;
     const { getFieldsError, getFieldDecorator } = form;
     const { visible } = this.state;
     const errors = Object.values(getFieldsError() || {}).filter(v => !!v).map(error => (error || []).join(',')).join(';');
@@ -134,20 +135,20 @@ class AddContainer extends PureComponent<FormInputProps<Container> & AddContaine
                 initialValue: value!.envs || [],
                 rules: []
               })(
-                <EvnsInput />
+                <EvnsInput {...{ onCfgfileSearch }} />
               )}
             </FormInputItem>
-            {/* <FormInputItem
-          {...formItemLayout}
-          label="配置挂载"
-        >
-          {getFieldDecorator('cfgFileMounts', {
-            initialValue: value!.cfgFileMounts || [],
-            rules: []
-          })(
-            <ConfigMountsInput />
-          )}
-        </FormInputItem> */}
+            <FormInputItem
+              {...formItemLayout}
+              label="配置挂载"
+            >
+              {getFieldDecorator('cfgFileMounts', {
+                initialValue: value!.cfgFileMounts || [],
+                rules: []
+              })(
+                <ConfigMountsInput {...{ onCfgfileSearch }} />
+              )}
+            </FormInputItem>
             <FormInputItem
               {...formItemLayout}
               label="证书挂载"

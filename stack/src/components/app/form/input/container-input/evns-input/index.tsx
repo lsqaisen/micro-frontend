@@ -4,6 +4,7 @@ import formInput, { FormInputProps } from '@/components/global/forminput';
 import { Env } from '@/services/app';
 import EnvInput from './env-input';
 import InputBasic from '../input-basic';
+import { ConfigSearchHandles } from '../select-configfile';
 
 export interface AddEvnsProps extends FormInputProps<Env[]> {
   type?: 'create' | 'update' | 'edit';
@@ -15,7 +16,7 @@ export interface AddEvnsProps extends FormInputProps<Env[]> {
     onChange(allValues.envs)
   }
 }) as any)
-export default class extends PureComponent<AddEvnsProps, any>{
+export default class extends PureComponent<AddEvnsProps & ConfigSearchHandles, any>{
   static readonly defaultProps = {
     form: {},
     value: [],
@@ -24,24 +25,17 @@ export default class extends PureComponent<AddEvnsProps, any>{
   };
 
   render() {
-    const { value } = this.props;
     const Action = ({ onClick }: any) => (
       <Fragment>
-        <a key="add" onClick={onClick}>编辑</a>
-        {(value! || []).length <= 0 && <Fragment>
-          <Divider type="vertical" />
-          <a key="load" onClick={(e) => {
-            e.preventDefault();
-            this.setState({ visible: true });
-          }}>读取配置</a>
-        </Fragment>}
+        <a key="add" onClick={onClick}>编辑环境变量</a>
       </Fragment>
     )
     return (
       <InputBasic<Env>
         {...this.props}
+        selectType="env"
         title="环境变量"
-        name="envs" 
+        name="envs"
         btnText="添加环境变量"
         grid={{
           title: { name: '变量名', value: '值' },

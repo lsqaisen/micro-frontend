@@ -4,6 +4,7 @@ import { Form, Drawer, Button, Row, Col, List, Typography, Divider } from 'antd'
 import { ColProps } from 'antd/lib/col'
 import { FormInputProps, FormInputItem } from '@/components/global/forminput';
 import ArrayInput from '@/components/global/forminput/array-input';
+import SelectConfigFile from './select-configfile';
 import styles from './style/index.less';
 
 export interface InputBasicGrid {
@@ -17,6 +18,7 @@ export interface InputBasicGrid {
 }
 
 export interface InputBasicProps<T> extends FormInputProps<T> {
+  selectType?: 'env' | 'config';
   title: string;
   name: string;
   btnText: string;
@@ -25,6 +27,7 @@ export interface InputBasicProps<T> extends FormInputProps<T> {
   grid: InputBasicGrid;
   action: React.ReactNode;
   inputProps?: { [key: string]: any };
+  onCfgfileSearch?: (search: any) => any;
 }
 
 const Grid = ({ data, grid, style, isContent }: { data?: { [key: string]: any }, grid: InputBasicGrid, style?: React.CSSProperties; isContent?: boolean }) => (
@@ -62,7 +65,7 @@ class InputBasic<T> extends PureComponent<InputBasicProps<T[]>, any> {
   }
 
   render() {
-    const { title, name, width, btnText, input, inputProps, grid, action, value, form } = this.props;
+    const { title, name, width, btnText, input, inputProps, grid, action, value, form, selectType, onCfgfileSearch } = this.props;
     const { getFieldError, getFieldDecorator } = form;
     const { visible } = this.state;
     const errors = Object.values(getFieldError(name) || []).filter(v => !!v).join(',');
@@ -105,11 +108,14 @@ class InputBasic<T> extends PureComponent<InputBasicProps<T[]>, any> {
                     rules: [],
                   })(
                     <ArrayInput<T>
+                      actionTypes={selectType === 'config' ? ['load'] : selectType === "env" ? ['load', 'add'] : ['load']}
                       allList={value || []}
                       input={input}
                       inputProps={inputProps}
                       btnText={btnText}
                       header={<Grid grid={grid} />}
+                      load={selectType === 'config' || selectType === "env" ? SelectConfigFile : undefined}
+                      loadProps={{ type: selectType, onCfgfileSearch, }}
                     />
                   )}
                 </FormInputItem>
@@ -117,10 +123,12 @@ class InputBasic<T> extends PureComponent<InputBasicProps<T[]>, any> {
               <div className={"node-actions"} >
                 <Button onClick={this._onClose} type="primary"> 确认 </Button>
               </div>
-            </Drawer>
-          )}
+            </Drawer >
+          )
+          }
 
-          dataSource={(value || [])}
+          dataSource={(value || [])
+          }
           renderItem={(data: T) => (
             <List.Item>
               <Grid
@@ -132,7 +140,7 @@ class InputBasic<T> extends PureComponent<InputBasicProps<T[]>, any> {
             </List.Item>
           )}
         />
-      </FormInputItem>
+      </FormInputItem >
     )
   }
 }

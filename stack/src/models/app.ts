@@ -6,6 +6,7 @@ import resource from '@/services/resource';
 import node from '@/services/node';
 import registry from '@/services/registry';
 import secret from '@/services/secret';
+import configfile from '@/services/configfile';
 import services from '@/services';
 
 export default {
@@ -17,6 +18,7 @@ export default {
     images: {},
     imagetags: [],
     secrets: {},
+    configmap: {},
     data: {
       total: 0,
       data: [],
@@ -174,6 +176,23 @@ export default {
             secrets: {
               data: data.secrets || [],
               total: (data.listMeta || {}).totalItems || (data.secrets || []).length
+            }
+          }
+        });
+      }
+    },
+    *configmap({ payload = {} }: AnyAction, { put, call, select }: EffectsCommandMap) {
+      const namespace = yield select(({ user: { namespace } }: any) => namespace);
+      const { data, err } = yield call(configfile.getConfigMap, { namespace, ...payload });
+      if (!!err) {
+        message.error(err, 5);
+      } else {
+        yield put({
+          type: 'save',
+          payload: {
+            configmap: {
+              data: data.configFiles || [],
+              total: (data.listMeta || {}).totalItems || (data.configFiles || []).length
             }
           }
         });

@@ -107,7 +107,7 @@ class AddContainers extends PureComponent<FormInputProps<KeyContainer[]> & AddCo
   }
 
   render() {
-    const { type, value, form, onImageSearch, onImageTagSearch, onSecretSearch } = this.props;
+    const { type, value, form, onImageSearch, onImageTagSearch, onSecretSearch, onCfgfileSearch } = this.props;
     const { getFieldDecorator, getFieldValue } = form;
     const { keys: initialValue } = this.state;
     getFieldDecorator('keys', { initialValue });
@@ -123,7 +123,7 @@ class AddContainers extends PureComponent<FormInputProps<KeyContainer[]> & AddCo
               initialValue: value![index],
               rules: []
             })(
-              <ContainerInput {...{ onImageSearch, onImageTagSearch, onSecretSearch }} />
+              <ContainerInput {...{ onImageSearch, onImageTagSearch, onSecretSearch, onCfgfileSearch }} />
             )}
           </FormInputItem>
         )}

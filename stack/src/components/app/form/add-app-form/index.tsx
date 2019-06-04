@@ -24,7 +24,7 @@ class AddAppForm extends PureComponent<AddAppFormProps, any> {
     type: 'create',
   };
   render() {
-    const { type, data, form, onNodeSearch, onResourceSearch, onImageSearch, onImageTagSearch, onSecretSearch } = this.props;
+    const { type, data, form, onNodeSearch, onResourceSearch, onImageSearch, onImageTagSearch, onSecretSearch, onCfgfileSearch } = this.props;
     const { getFieldDecorator, getFieldValue } = form;
     const basic = getFieldValue('basic') || {};
     return (
@@ -50,7 +50,7 @@ class AddAppForm extends PureComponent<AddAppFormProps, any> {
             initialValue: data!.containers || [{}],
             rules: [],
           })(
-            <ContainersForm type={type} {...{ onImageSearch, onImageTagSearch, onSecretSearch }} />
+            <ContainersForm type={type} {...{ onImageSearch, onImageTagSearch, onCfgfileSearch, onSecretSearch, }} />
           )}
         </FormInputItem>}
       </Form>

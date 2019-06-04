@@ -16,11 +16,11 @@ class AddApp extends PureComponent<AddAppProps, any> {
 
   state = {
     loading: false,
-    visible: false,
+    visible: true,
   }
 
   render() {
-    const { btn, onSubmit, onNodeSearch, onResourceSearch, onImageSearch, onImageTagSearch, onSecretSearch } = this.props;
+    const { btn, onSubmit, onNodeSearch, onResourceSearch, onImageSearch, onImageTagSearch, onSecretSearch, onCfgfileSearch } = this.props;
     const { loading, visible } = this.state;
     return (
       <div>
@@ -39,7 +39,7 @@ class AddApp extends PureComponent<AddAppProps, any> {
         >
           <AddAppForm
             ref="addapp"
-            {...{ onNodeSearch, onResourceSearch, onImageSearch, onImageTagSearch, onSecretSearch }}
+            {...{ onNodeSearch, onResourceSearch, onImageSearch, onImageTagSearch, onSecretSearch, onCfgfileSearch }}
           />
           <div className={"node-actions"} >
             <Button onClick={() => { this.setState({ visible: false }) }} style={{ marginRight: 8 }}> 取消 </Button>

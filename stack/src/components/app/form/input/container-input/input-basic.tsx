@@ -108,14 +108,14 @@ class InputBasic<T> extends PureComponent<InputBasicProps<T[]>, any> {
                     rules: [],
                   })(
                     <ArrayInput<T>
-                      actionTypes={selectType === 'config' ? ['load'] : selectType === "env" ? ['load', 'add'] : ['load']}
-                      allList={value || []}
+                      actionTypes={selectType === 'config' ? ['load'] : selectType === "env" ? ['load', 'add'] : ['add']}
+                      others={value || []}
                       input={input}
                       inputProps={inputProps}
                       btnText={btnText}
                       header={<Grid grid={grid} />}
                       load={selectType === 'config' || selectType === "env" ? SelectConfigFile : undefined}
-                      loadProps={{ type: selectType, onCfgfileSearch, }}
+                      loadProps={selectType === 'config' || selectType === "env" ? { type: selectType, onCfgfileSearch, } : undefined}
                     />
                   )}
                 </FormInputItem>

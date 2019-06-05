@@ -3,11 +3,10 @@ import { PureComponent } from 'react';
 import { Form } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { FormInputItem } from '@/components/global/forminput'
-import BasicForm, { AddBasicProps } from './add-basic';
-import PortsForm, { AddPortsProps } from './add-ports';
-import ContainersForm, { AddContainersProps } from './add-containers';
+import BasicForm, { AddBasicProps } from './basic';
+import PortsForm, { AddPortsProps } from './ports';
+import ContainersForm, { AddContainersProps } from './containers';
 import { createAppRequest } from '@/services/app';
-
 
 export interface AddAppFormProps extends FormComponentProps, AddBasicProps, AddPortsProps, AddContainersProps {
   data?: createAppRequest;
@@ -20,11 +19,14 @@ export interface AddAppFormProps extends FormComponentProps, AddBasicProps, AddP
 class AddAppForm extends PureComponent<AddAppFormProps, any> {
   static readonly defaultProps = {
     form: {},
-    data: {} as createAppRequest,
+    data: {},
     type: 'create',
   };
   render() {
-    const { type, data, form, onNodeSearch, onResourceSearch, onImageSearch, onImageTagSearch, onSecretSearch, onCfgfileSearch } = this.props;
+    const {
+      type, data, form,
+      onNodeSearch, onResourceSearch, onImageSearch, onImageTagSearch, onSecretSearch, onCfgfileSearch, onPvcPoolSearch, onPvcSearch
+    } = this.props;
     const { getFieldDecorator, getFieldValue } = form;
     const basic = getFieldValue('basic') || {};
     return (
@@ -45,14 +47,23 @@ class AddAppForm extends PureComponent<AddAppFormProps, any> {
             <PortsForm type={type} />
           )}
         </FormInputItem>
-        {!basic.name && <FormInputItem>
+        {basic.name && <FormInputItem>
           {getFieldDecorator('containers', {
             initialValue: data!.containers || [{}],
             rules: [],
           })(
-            <ContainersForm type={type} {...{ onImageSearch, onImageTagSearch, onCfgfileSearch, onSecretSearch, }} />
+            <ContainersForm {...{ type, stateful: basic.stateful || 'none', onImageSearch, onImageTagSearch, onCfgfileSearch, onSecretSearch, onPvcPoolSearch, onPvcSearch }} />
           )}
         </FormInputItem>}
+
+        {/* {basic.name && <FormInputItem>
+          {getFieldDecorator('percent', {
+            initialValue: containers,
+            rules: [],
+          })(
+            <Percent {...{ containers: containers }} />
+          )}
+        </FormInputItem>} */}
       </Form>
     )
   }

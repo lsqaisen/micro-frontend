@@ -5,6 +5,7 @@ declare module 'mife/bin/api';
 declare module 'rc-animate';
 declare module 'inputmask';
 declare module 'lodash.debounce';
+declare module 'react-time-format'
 
 
 interface Window {

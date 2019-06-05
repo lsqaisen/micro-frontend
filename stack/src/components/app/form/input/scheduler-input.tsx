@@ -31,7 +31,6 @@ class SchedulerInput extends PureComponent<SchedulerInputProps, any> {
     const { value, form, onChange, onResourceSearch, onNodeSearch } = this.props;
     const { type, tenant, resource, hostname } = value as Scheduler;
     const { getFieldDecorator } = form;
-    console.log(hostname)
     return (
       <Row>
         <Col style={{ float: 'left', width: '140px' }}>

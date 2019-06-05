@@ -1,5 +1,5 @@
 import { PureComponent } from 'react';
-import { Form, Drawer, Button, PageHeader, Collapse, Icon, Input, Switch } from 'antd';
+import { Form, Drawer, Button, PageHeader, Collapse, Icon, Input, Switch, Row, Col } from 'antd';
 import FormInput, { FormInputProps, FormInputItem } from '@/components/global/forminput';
 import { Container } from '@/services/app';
 import ImageInput, { ImageSearchHandles } from '../input/container-input/image-input';
@@ -9,6 +9,7 @@ import ConfigMountsInput from '../input/container-input/config-mounts-input';
 import { SecretSearchHandles } from '../input/container-input/secret-mounts-input/secret-mount-input';
 import SecretMountsInput from '../input/container-input/secret-mounts-input';
 import HostMountsInput from '../input/container-input/host-mounts-input';
+import { VolumeSearchHandles } from '../input/container-input/volumes-input/volume-input';
 import VolumesInput from '../input/container-input/volumes-input';
 import HealthCheckInput from '../input/container-input/healthcheck-input';
 import Description from '../description';
@@ -16,9 +17,12 @@ import styles from './style/index.less';
 
 const FormItem = Form.Item;
 
-export interface AddContainerProps extends ImageSearchHandles, SecretSearchHandles, ConfigSearchHandles {
+export interface AddContainerProps extends ImageSearchHandles, SecretSearchHandles, ConfigSearchHandles, VolumeSearchHandles {
+  stateful?: "none" | "share" | "exclusive";
   type?: 'create' | 'update' | 'edit';
+  canDelete?: boolean;
   formItemLayout?: any;
+  onDelete?: () => void;
 }
 
 @(FormInput({
@@ -35,7 +39,7 @@ class AddContainer extends PureComponent<FormInputProps<Container> & AddContaine
   };
 
   state = {
-    visible: true,
+    visible: false,
   }
 
   _onClose = (e: any) => {
@@ -55,7 +59,10 @@ class AddContainer extends PureComponent<FormInputProps<Container> & AddContaine
   }
 
   render() {
-    const { type, value, formItemLayout, form, onImageSearch, onImageTagSearch, onSecretSearch, onCfgfileSearch } = this.props;
+    const {
+      type, stateful, canDelete, value, formItemLayout, form, onDelete,
+      onImageSearch, onImageTagSearch, onSecretSearch, onCfgfileSearch, onPvcPoolSearch, onPvcSearch
+    } = this.props;
     const { getFieldsError, getFieldDecorator } = form;
     const { visible } = this.state;
     const errors = Object.values(getFieldsError() || {}).filter(v => !!v).map(error => (error || []).join(',')).join(';');
@@ -171,7 +178,7 @@ class AddContainer extends PureComponent<FormInputProps<Container> & AddContaine
                 <HostMountsInput />
               )}
             </FormInputItem>
-            <FormInputItem
+            {stateful !== 'none' && <FormInputItem
               {...formItemLayout}
               label="网络挂载卷"
             >
@@ -179,9 +186,9 @@ class AddContainer extends PureComponent<FormInputProps<Container> & AddContaine
                 initialValue: value!.volumes || [],
                 rules: []
               })(
-                <VolumesInput />
+                <VolumesInput {...{ stateful, onPvcPoolSearch, onPvcSearch }} />
               )}
-            </FormInputItem>
+            </FormInputItem>}
             <FormInputItem>
               {getFieldDecorator('healthCheck', {
                 initialValue: value!.healthCheck || {},
@@ -212,10 +219,16 @@ class AddContainer extends PureComponent<FormInputProps<Container> & AddContaine
           </Collapse.Panel>
         </Collapse>
         <div style={{ paddingBottom: 16 }}>
-          <Button style={{ width: '100%' }} type="dashed" onClick={() => {
-            this.setState({ visible: true });
-          }}>编辑</Button>
-
+          <Row gutter={8}>
+            <Col span={canDelete ? 16 : 24}>
+              <Button style={{ width: '100%' }} type="dashed" onClick={() => {
+                this.setState({ visible: true });
+              }}>编辑</Button>
+            </Col>
+            {canDelete && <Col span={8}>
+              <Button style={{ width: '100%' }} type="danger" ghost onClick={onDelete}>删除</Button>
+            </Col>}
+          </Row>
         </div>
       </FormInputItem>
     )

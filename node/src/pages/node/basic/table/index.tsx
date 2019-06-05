@@ -54,9 +54,7 @@ class Table extends PureComponent<any, any> {
       }
     })
   }
-  selectNode = (node: any, visible: boolean) => {
-    this.setState({ manageResourceVisible: visible, currentNode: node })
-  }
+  
   UNSAFE_componentWillReceiveProps({ clusterName, resourceName }: any) {
     if (resourceName !== resourceName && !!resourceName) {
       let data: getNodesRequest = { cluster: clusterName, resource: resourceName };
@@ -100,7 +98,7 @@ class Table extends PureComponent<any, any> {
           node={node}
           actions={(
             <Actions
-              {...{ clusterName, resourceName, selectNode: this.selectNode }}
+              {...{ clusterName, resourceName }}
               onUpdate={this.getCurrent}
             />
           )}

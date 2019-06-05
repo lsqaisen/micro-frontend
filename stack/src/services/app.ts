@@ -7,12 +7,12 @@ import request from '@/utils/request';
  * @param {number} itemsPerPage 每页条
  */
 interface getAppsRequest {
-  namespace: string;
+  namespace?: string;
   page?: number;
   itemsPerPage?: number;
 }
 
-function getApps({ namespace, page = 1, itemsPerPage = 100 }: getAppsRequest) {
+function getApps({ namespace = "default", page = 1, itemsPerPage = 100 }: getAppsRequest) {
   return request(`/service/stack/api/app?namespace=${namespace}&itemsPerPage=${itemsPerPage}&page=${page}`);
 }
 
@@ -21,6 +21,7 @@ function getApps({ namespace, page = 1, itemsPerPage = 100 }: getAppsRequest) {
  */
 interface Basic {
   namespace: string;
+  stack: string;
   name: string;
   desc: string;
   stateful: "none" | "share" | "exclusive";
@@ -126,13 +127,35 @@ interface createAppRequest extends Basic, Pay {
   containers: Container[];
 }
 
-function createApp(data: createAppRequest) {
+function createApp({ namespace = "default", ...data }: createAppRequest) {
   return request(`/service/stack/api/app`, {
     method: 'post',
-    body: data,
+    body: { namespace, ...data },
   });
 }
 
+
+/**
+ * 删除服务
+ * @param {string} type app | appext 
+ * @param {string} namespace 工作空间 
+ * @param {string} name 服务名称
+ * @param {string} stack 应用名称
+ */
+
+interface deleteAppRequest {
+  type?: 'app' | 'appext';
+  namespace?: string;
+  name: string;
+  stack: string;
+}
+
+function deleteApp({ type = 'app', namespace = "default", name, stack }: deleteAppRequest) {
+  return request(`/service/stack/api/${type === 'app' ? 'app/del' : 'appext/delete'}`, {
+    method: 'post',
+    body: { namespace, name, stack },
+  });
+}
 
 export {
   getAppsRequest,
@@ -146,9 +169,11 @@ export {
   HostMount,
   Container,
   createAppRequest,
+  deleteAppRequest,
 }
 
 export default {
   getApps,
   createApp,
+  deleteApp,
 }

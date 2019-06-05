@@ -32,7 +32,7 @@ export default (options?: FormCreateOption<any>) => <T extends Object = {}>(Wrap
     changeValidator = (rules: any[]) => {
       rules.push({
         validator: (rule: any, value: any, callback: any) => {
-          !!this.props.form.validateFields && this.props.form.validateFields((error: any, _: any) => {
+          !!this.props.form.validateFieldsAndScroll && this.props.form.validateFieldsAndScroll((error: any, _: any) => {
             if (error) {
               let errors = Object.values(error).
                 map(({ errors }: any) => {

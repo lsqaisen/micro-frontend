@@ -1,5 +1,5 @@
 import { PureComponent, Fragment, cloneElement } from 'react';
-import { Drawer, Table, Button, Icon } from 'antd';
+import { Form, Drawer, Table, Button } from 'antd';
 import SearchSelect from '@/components/global/search-select';
 import { getConfigMapRequest } from '@/services/configfile';
 
@@ -90,31 +90,41 @@ class SelectConfigFile extends PureComponent<SelectConfigFileProps, any> {
 
         >
           <div style={{ padding: 16 }}>
-            <SearchSelect
-              style={{ maxWidth: '100%', width: 280 }}
-              placeholder="选择配置选项"
-              onSearch={(params: any = {}) => {
-                const { page = 1, itemsPerPage = 10 }: any = params;
-                let request: getConfigMapRequest = { page, itemsPerPage };
-                return new Promise(async (resolve, reject) => {
-                  let { data, total }: any = await onCfgfileSearch!(request);
-                  resolve({
-                    data: data.map((config: any) => ({
-                      key: JSON.stringify({ [`${config.name}`]: config.formatData }),
-                      label: `${config.name}`
-                    })),
-                    params: total <= itemsPerPage * page ? null : {
-                      page: page + 1,
-                      itemsPerPage,
-                    }
+            <Form.Item
+              required
+              style={{ margin: 0 }}
+              {...{
+                labelCol: { xs: 24, md: 5 },
+                wrapperCol: { xs: 24, md: 19 },
+              }}
+              label="配置选项"
+            >
+              <SearchSelect
+                style={{ maxWidth: '100%', width: 280 }}
+                placeholder="选择配置选项"
+                onSearch={(params: any = {}) => {
+                  const { page = 1, itemsPerPage = 10 }: any = params;
+                  let request: getConfigMapRequest = { page, itemsPerPage };
+                  return new Promise(async (resolve, reject) => {
+                    let { data, total }: any = await onCfgfileSearch!(request);
+                    resolve({
+                      data: data.map((config: any) => ({
+                        key: JSON.stringify({ [`${config.name}`]: config.formatData }),
+                        label: `${config.name}`
+                      })),
+                      params: total <= itemsPerPage * page ? null : {
+                        page: page + 1,
+                        itemsPerPage,
+                      }
+                    })
                   })
-                })
-              }}
-              onChange={(jsonData: any) => {
-                let data = JSON.parse(jsonData);
-                this.setState({ name: Object.keys(data)[0], data: Object.values(data)[0] })
-              }}
-            />
+                }}
+                onChange={(jsonData: any) => {
+                  let data = JSON.parse(jsonData);
+                  this.setState({ name: Object.keys(data)[0], data: Object.values(data)[0] })
+                }}
+              />
+            </Form.Item>
           </div>
           <Table
             rowSelection={rowSelection}

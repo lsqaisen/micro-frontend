@@ -2,7 +2,7 @@ import * as React from 'react';
 import { PureComponent } from 'react';
 import formInput, { FormInputProps } from '@/components/global/forminput';
 import { Volume } from '@/services/app';
-import VolumeInput from './volume-input';
+import VolumeInput, { VolumeSearchHandles } from './volume-input';
 import InputBasic from '../input-basic';
 
 export interface AddVolumeInputsProps extends FormInputProps<Volume[]> {
@@ -16,7 +16,7 @@ export interface AddVolumeInputsProps extends FormInputProps<Volume[]> {
     onChange(allValues.volumes)
   }
 }) as any)
-export default class extends PureComponent<AddVolumeInputsProps, any>{
+export default class extends PureComponent<AddVolumeInputsProps & VolumeSearchHandles, any>{
   static readonly defaultProps = {
     form: {},
     value: [],
@@ -26,14 +26,13 @@ export default class extends PureComponent<AddVolumeInputsProps, any>{
   };
 
   render() {
-    const { stateful } = this.props;
+    const { stateful, onPvcPoolSearch, onPvcSearch, ...props } = this.props;
     const Action = ({ onClick }: any) => (
       <a key="add" onClick={onClick}>添加网络挂载卷</a>
     )
     return (
       <InputBasic<Volume>
-        {...this.props}
-        inputProps={{ stateful }}
+        {...props}
         title="网络挂载卷"
         name="volumes"
         btnText="添加网络挂载卷"
@@ -60,6 +59,7 @@ export default class extends PureComponent<AddVolumeInputsProps, any>{
           },
         }}
         input={VolumeInput}
+        inputProps={{ stateful, onPvcPoolSearch, onPvcSearch }}
         action={<Action />}
       />
     )

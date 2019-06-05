@@ -1,10 +1,12 @@
 import { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import { Menu, Icon, Dropdown } from 'antd';
+import { Menu, Icon, Dropdown, Button } from 'antd';
 import { createSelector } from 'reselect';
 import Loading from '@/components/global/loading';
 import Table from '@/components/app/table';
 import AddApp from '@/components/app/add-app';
+import { createAppRequest } from '@/services/app';
+import Actions from './actions';
 
 @connect(createSelector(
   [
@@ -16,10 +18,14 @@ import AddApp from '@/components/app/add-app';
     (props: any) => props.app.imagetags,
     (props: any) => props.app.secrets,
     (props: any) => props.app.configmap,
+    (props: any) => props.app.poollist,
+    (props: any) => props.app.pvclist,
     (_: any, { stackName }: any) => stackName,
     (props: any) => props.loading.effects[`app/get`],
   ],
-  (init, data, nodes, resources, images, imagetags, secrets, configmap, stackName, loading) => ({ init, data, nodes, resources, images, imagetags, secrets, configmap, stackName, loading })
+  (init, data, nodes, resources, images, imagetags, secrets, configmap, poollist, pvclist, stackName, loading) => ({
+    init, data, nodes, resources, images, imagetags, secrets, configmap, poollist, pvclist, stackName, loading
+  })
 ))
 export default class extends PureComponent<any, any> {
   get = () => {
@@ -43,17 +49,23 @@ export default class extends PureComponent<any, any> {
   getConfigMap = (search: any) => {
     return this.props.dispatch({ type: 'app/configmap', payload: search });
   }
-  create = (data: any) => {
+  getPoolList = () => {
+    return this.props.dispatch({ type: 'app/poollist' });
+  }
+  getPvcList = () => {
+    return this.props.dispatch({ type: 'app/pvclist' });
+  }
+  create = (data: createAppRequest) => {
     return this.props.dispatch({
-      type: 'stack/create',
-      payload: data,
+      type: 'app/create',
+      payload: { ...data, stack: this.props.stackName },
     })
   }
   componentDidMount() {
     this.get()
   }
   render() {
-    const { init, data, loading } = this.props;
+    const { init, data, stackName, loading } = this.props;
     if (!init) return <Loading />;
     return (
       <div style={{
@@ -64,7 +76,11 @@ export default class extends PureComponent<any, any> {
       }}>
         <header style={{ overflow: 'hidden', marginBottom: 16 }}>
           <div className="fr">
+            <Button style={{ marginLeft: 16 }} type="ghost" loading={loading} onClick={this.get} >刷新</Button>
+          </div>
+          <div className="fr">
             <AddApp
+              form={{} as any}
               btn={(
                 <Dropdown.Button
                   type="primary"
@@ -131,29 +147,35 @@ export default class extends PureComponent<any, any> {
                   });
                 })
               }}
-              onPvcPoolSearch={(search: any) => {
+              onPvcPoolSearch={() => {
                 return new Promise(async (resolve) => {
-                  await this.getImageTags(search).then(() => {
-                    const { imagetags } = this.props;
-                    resolve(imagetags);
+                  await this.getPoolList().then(() => {
+                    const { poollist } = this.props;
+                    resolve(poollist);
                   });
                 })
               }}
-              onPvcSearch={(search: any) => {
+              onPvcSearch={() => {
                 return new Promise(async (resolve) => {
-                  await this.getImageTags(search).then(() => {
-                    const { imagetags } = this.props;
-                    resolve(imagetags);
+                  await this.getPvcList().then(() => {
+                    const { pvclist } = this.props;
+                    resolve(pvclist);
                   });
                 })
               }}
+              onSubmit={this.create}
             />
           </div>
         </header>
         <Table
           loading={loading}
           list={data}
-          actions={() => <div />}
+          actions={(
+            <Actions
+              {...{ stackName, dispatch: this.props.dispatch }}
+              onUpdate={this.get}
+            />
+          )}
         />
       </div >
     )

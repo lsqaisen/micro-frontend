@@ -6,7 +6,7 @@ import { HostMount } from '@/services/app';
 const FormItem = Form.Item;
 
 export interface HostMountInputProps extends FormInputProps<HostMount> {
-  allList: HostMount[];
+  others: HostMount[];
 }
 
 class ReadOnlyRadio extends PureComponent<any, any> {
@@ -25,8 +25,17 @@ class HostMountInput extends PureComponent<HostMountInputProps, any> {
     list: [],
   }
 
+  UNSAFE_componentWillReceiveProps({ value, others, form }: HostMountInputProps) {
+    if (!!value!.mountPath &&
+      this.props.value!.mountPath === value!.mountPath &&
+      form.getFieldError('mountPath') &&
+      others.every(mount => mount.mountPath !== value!.mountPath)) {
+      form.setFields({ mountPath: { value: value!.mountPath, errors: undefined } })
+    }
+  }
+
   render() {
-    const { allList, value, form } = this.props;
+    const { others, value, form } = this.props;
     const { readOnly, mountPath } = value!;
     const { getFieldDecorator } = form;
     return (
@@ -39,7 +48,7 @@ class HostMountInput extends PureComponent<HostMountInputProps, any> {
                 required: true, message: '挂载路径不能为空'
               }, {
                 validator: (_, value, callback) => {
-                  if (allList.some(mount => !!value && mount.mountPath === value)) {
+                  if (others.some(mount => !!value && mount.mountPath === value)) {
                     callback('存在相同的挂载路径')
                   }
                   callback()

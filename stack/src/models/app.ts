@@ -7,6 +7,7 @@ import node from '@/services/node';
 import registry from '@/services/registry';
 import secret from '@/services/secret';
 import configfile from '@/services/configfile';
+import storage from '@/services/storage';
 import services from '@/services';
 
 export default {
@@ -19,6 +20,8 @@ export default {
     imagetags: [],
     secrets: {},
     configmap: {},
+    poollist: [],
+    pvclist: [],
     data: {
       total: 0,
       data: [],
@@ -46,30 +49,30 @@ export default {
     },
     *create({ payload }: AnyAction, { put, call, select }: EffectsCommandMap) {
       const namespace = yield select(({ user: { namespace } }: any) => namespace);
-      const { err } = yield call(api.createStack, { namespace, ...payload });
+      const { err } = yield call(api.createApp, { namespace, ...payload });
       if (!!err) {
         message.error(err, 5);
         return err;
       } else {
-        message.success('添加应用栈成功', 5);
+        message.success('创建服务成功', 5);
         yield put({ type: 'get' })
       }
     },
     *[`delete`]({ payload }: AnyAction, { put, call, select }: EffectsCommandMap) {
       const namespace = yield select(({ user: { namespace } }: any) => namespace);
-      const { err } = yield call(api.deleteStack, { namespace, name: payload });
+      const { err } = yield call(api.deleteApp, { namespace, ...payload });
       if (!!err) {
         message.error(err, 5);
         return err;
       } else {
-        message.success('删除应用栈成功', 5);
+        message.info('正在删除服务，请稍后刷新', 5);
         yield put({ type: 'get' })
+
       }
     },
     *nodes({ payload = {} }: AnyAction, { put, call, select }: EffectsCommandMap) {
       const namespace = yield select(({ user: { namespace } }: any) => namespace);
       const { data, err } = yield call(node.getNodes, { namespace, ...payload });
-      console.log(data, err, 111)
       if (!!err) {
         message.error(err, 5);
       } else {
@@ -194,6 +197,33 @@ export default {
               data: data.configFiles || [],
               total: (data.listMeta || {}).totalItems || (data.configFiles || []).length
             }
+          }
+        });
+      }
+    },
+    *poollist(_: AnyAction, { put, call, select }: EffectsCommandMap) {
+      const { data, err } = yield call(storage.getPoolList);
+      if (!!err) {
+        message.error(err, 5);
+      } else {
+        yield put({
+          type: 'save',
+          payload: {
+            poollist: data || [],
+          }
+        });
+      }
+    },
+    *pvclist({ payload = '' }: AnyAction, { put, call, select }: EffectsCommandMap) {
+      const namespace = yield select(({ user: { namespace } }: any) => namespace);
+      const { data, err } = yield call(storage.getPvcList, { namespace, name: payload });
+      if (!!err) {
+        message.error(err, 5);
+      } else {
+        yield put({
+          type: 'save',
+          payload: {
+            pvclist: (data || {}).items || []
           }
         });
       }

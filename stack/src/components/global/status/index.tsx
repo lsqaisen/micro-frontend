@@ -3,15 +3,15 @@ import EllipsisTooltip from '@/components/global/ellipsis-tooltip';
 import styles from './style/index.less';
 
 export interface StatusInfo {
-  error: string[],
-  success: string[],
-  warning: string[],
-  info: string[],
+  error: string[];
+  success: string[];
+  warning: string[];
+  info: string[];
 }
 
 export interface StatusProps {
   style?: React.CSSProperties;
-  info: StatusInfo;
+  info?: StatusInfo;
   status: string;
   text: string;
 }
@@ -46,15 +46,6 @@ const Status = ({ style, status, text, info = defaultProps }: StatusProps) => {
       </Tooltip>
     </div>
   )
-}
-
-Status.defaultProps = {
-  info: {
-    error: ['error'],
-    success: ['running'],
-    warning: [''],
-    info: ['pending'],
-  }
 }
 
 export default Status;

@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { PureComponent } from 'react';
 import { connect } from 'dva';
+import Link from 'umi/link';
 import { createSelector } from 'reselect';
-import { LocaleProvider } from 'antd';
+import { LocaleProvider, Menu } from 'antd';
 import Media from 'react-media';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import { sub, unsub } from 'mife/bin/api';
@@ -46,8 +47,16 @@ export default class extends PureComponent<any, any> {
                 level={0}
                 state='centent'
                 matches={!matches}
-                width={0}
-                sider={null}>
+                width={256}
+                sider={(
+                  <Menu>
+                    <Menu.Item key="stack"><Link to="/stack">应用栈</Link></Menu.Item>
+                    <Menu.Item key="balance"><Link to="/balance">负载均衡</Link></Menu.Item>
+                    <Menu.Item key="config"><Link to="/config">配置管理</Link></Menu.Item>
+                    <Menu.Item key="secret"><Link to="/secret">证书挂载</Link></Menu.Item>
+                    <Menu.Item key="topology"><Link to="/topology">拓扑图</Link></Menu.Item>
+                  </Menu>
+                )}>
                 {children}
               </Layout>
             </LocaleProvider>

@@ -7,13 +7,16 @@ import { Volume } from '@/services/app';
 const Option = Select.Option;
 const FormItem = Form.Item;
 
-export interface VolumeChildInputProps<T> extends FormInputProps<T> {
+export interface VolumeSearchHandles {
+  onPvcPoolSearch: () => any;
+  onPvcSearch: () => any;
+}
+
+export interface VolumeChildInputProps<T> extends FormInputProps<T>, VolumeSearchHandles {
   stateful: "none" | "share" | "exclusive";
 }
 
-export interface VolumeInputProps extends VolumeChildInputProps<Volume> {
-
-}
+export interface VolumeInputProps extends VolumeChildInputProps<Volume> { }
 
 class ReadOnlyRadio extends PureComponent<any, any> {
   render() {
@@ -32,7 +35,7 @@ class VolumeChildInput<T> extends PureComponent<VolumeChildInputProps<T>, any> {
     onChange: () => null,
   }
   render() {
-    const { stateful, value, form } = this.props;
+    const { stateful, value, form, onPvcPoolSearch, onPvcSearch } = this.props;
     const { readOnly, mountPath, claimName, pvcpool } = value! as any;
     const { getFieldDecorator } = form;
     return (
@@ -45,17 +48,38 @@ class VolumeChildInput<T> extends PureComponent<VolumeChildInputProps<T>, any> {
             })(
               <SearchSelect
                 placeholder={stateful === "share" ? "数据卷" : "数据卷组"}
-                style={{ width: '100%' }}
-                onSearch={() => {
-                  return new Promise(async (resolve, reject) => {
-                    resolve({
-                      data: [{
-                        key: '34345',
-                        label: '345345345'
-                      }],
-                      params: undefined,
+                onSearch={(params: any = {}) => {
+                  if (stateful === 'share') {
+                    return new Promise(async (resolve, reject) => {
+                      let response: any[] = await onPvcSearch!();
+                      resolve({
+                        data: response.filter((pvc: any) => !pvc.metadata.labels.tag)
+                          .map((pvc: any) => ({
+                            key: `${JSON.stringify({
+                              name: pvc.metadata.name,
+                              readOnly: pvc.spec.accessModes.indexOf("ReadOnlyMany") !== -1,
+                            })}`,
+                            label: `${pvc.metadata.name}${pvc.usedby.count > 0 ? `(被使用)` : ''}`,
+                          })),
+                        params: null
+                      })
                     })
-                  })
+                  } else {
+                    return new Promise(async (resolve, reject) => {
+                      let response: any[] = await onPvcPoolSearch!();
+                      resolve({
+                        data: response.map(pvcpool => ({
+                          disabled: pvcpool.Used,
+                          key: `${JSON.stringify({
+                            name: pvcpool.label,
+                            readOnly: pvcpool.AccessModes === "ReadOnlyMany"
+                          })}`,
+                          label: `${pvcpool.label}${pvcpool.Used ? `(被使用)` : ''}`
+                        })),
+                        params: null
+                      })
+                    })
+                  }
                 }}
               />
             )}
@@ -97,7 +121,7 @@ class VolumeInput extends PureComponent<VolumeInputProps, any> {
   }
 
   render() {
-    const { stateful, value, form } = this.props;
+    const { stateful, value, form, onPvcPoolSearch, onPvcSearch } = this.props;
     const { persistentVolumeClaim, volumeClaimTemplate } = value! || {} as Volume;
     const { getFieldDecorator } = form;
     if (stateful === 'share') {
@@ -107,7 +131,7 @@ class VolumeInput extends PureComponent<VolumeInputProps, any> {
             initialValue: persistentVolumeClaim,
             rules: [],
           })(
-            <VolumeChildInput stateful={stateful} />
+            <VolumeChildInput {...{ stateful, onPvcPoolSearch, onPvcSearch }} />
           )}
         </FormInputItem>
       )
@@ -118,7 +142,7 @@ class VolumeInput extends PureComponent<VolumeInputProps, any> {
             initialValue: volumeClaimTemplate,
             rules: [],
           })(
-            <VolumeChildInput stateful={stateful} />
+            <VolumeChildInput {...{ stateful, onPvcPoolSearch, onPvcSearch }} />
           )}
         </FormInputItem>
       )

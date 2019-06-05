@@ -4,7 +4,7 @@ import FormInput, { FormInputProps, FormInputItem } from './';
 import styles from './style/index.less';
 
 export interface ArrayInputProps<T> extends FormInputProps<T> {
-  allList?: T,
+  others?: T,
   input?: React.ComponentClass<any, any> | React.FunctionComponentElement<any> | (() => React.ReactElement);
   load?: React.ComponentClass<any, any> | React.FunctionComponentElement<any> | (() => React.ReactElement);
   header?: React.ReactNode;
@@ -122,7 +122,7 @@ export default class <T> extends PureComponent<ArrayInputProps<T[]>, any> {
   }
 
   render() {
-    const { actionTypes, input, load, inputProps, loadProps, btn, btnText, header, allList, value, form: { getFieldDecorator, getFieldValue }, } = this.props;
+    const { actionTypes, input, load, inputProps, loadProps, btn, btnText, header, others, value, form: { getFieldDecorator, getFieldValue }, } = this.props;
     const { keys: initialValue } = this.state;
     getFieldDecorator('keys', { initialValue });
     getFieldDecorator('action', { initialValue: { type: '', value: null } });
@@ -139,15 +139,15 @@ export default class <T> extends PureComponent<ArrayInputProps<T[]>, any> {
             })
           ) : (
               <Row gutter={8} style={{ display: "flex" }}>
-                <Col style={{ flex: 1 }}>
-                  {actionTypes.includes('add') && <Button style={{ width: "100%" }} type="dashed" onClick={this.add}>{btnText}</Button>}
-                </Col>
-                <Col style={{ flex: 1 }}>
-                  {actionTypes.includes('load') && createElement(load as any, {
+                {actionTypes.includes('add') && <Col style={{ flex: 1 }}>
+                  <Button style={{ width: "100%" }} type="dashed" onClick={this.add}>{btnText}</Button>
+                </Col>}
+                {actionTypes.includes('load') && load && <Col style={{ flex: 1 }}>
+                  {createElement(load as any, {
                     ...loadProps,
                     onChange: this.load
                   })}
-                </Col>
+                </Col>}
               </Row>
             )
         }
@@ -162,7 +162,7 @@ export default class <T> extends PureComponent<ArrayInputProps<T[]>, any> {
                 })(
                   createElement(input as any, {
                     ...inputProps,
-                    allList: allList!.filter((v, i) => i !== index),
+                    others: others!.filter((v, i) => i !== index),
                     onChange: (v: T) => this.change(index, v)
                   })
                 )}

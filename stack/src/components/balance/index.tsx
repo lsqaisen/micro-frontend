@@ -16,6 +16,25 @@ interface hostIPS {
 interface Service extends createAppRequest {
   key: number;
   type: string;
+  resources?: string[];
+  tenantResources?: string[];
+  hostIPS: hostIPS[];
+  tenant: string;
+  PodsCount: number;
+  cpuLimits: number;
+  cpuLimitsPercent: number;
+  cpuPercent: number;
+  cpuRequests: number;
+  cpuRequestsPercent: number;
+  cpuTotal: number;
+  memLimits: number;
+  memLimitsPercent: number;
+  memPercent: number;
+  memRequests: number;
+  memRequestsPercent: number;
+  memTotal: number;
+  netPercent: number;
+  status: string;
 }
 
 interface ListTableData {

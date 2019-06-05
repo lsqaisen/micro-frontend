@@ -1,12 +1,12 @@
 import { PureComponent, cloneElement } from 'react';
 import { Icon, Button, Drawer } from 'antd';
 import AddAppForm, { AddAppFormProps } from './form/add-app-form/';
-import { createStackRequest } from '@/services/stack';
+import { createAppRequest } from '@/services/app';
 import styles from './style/index.less';
 
 export interface AddAppProps extends AddAppFormProps {
   btn?: React.ReactNode;
-  onSubmit?: (value: createStackRequest) => any;
+  onSubmit?: (value: createAppRequest) => any;
 }
 
 class AddApp extends PureComponent<AddAppProps, any> {
@@ -16,11 +16,11 @@ class AddApp extends PureComponent<AddAppProps, any> {
 
   state = {
     loading: false,
-    visible: true,
+    visible: false,
   }
 
   render() {
-    const { btn, onSubmit, onNodeSearch, onResourceSearch, onImageSearch, onImageTagSearch, onSecretSearch, onCfgfileSearch } = this.props;
+    const { btn, onSubmit, onNodeSearch, onResourceSearch, onImageSearch, onImageTagSearch, onSecretSearch, onCfgfileSearch, onPvcPoolSearch, onPvcSearch } = this.props;
     const { loading, visible } = this.state;
     return (
       <div>
@@ -30,6 +30,8 @@ class AddApp extends PureComponent<AddAppProps, any> {
             <Icon type="plus" /> 添加应用栈
         </Button>}
         <Drawer
+          maskClosable={false}
+          destroyOnClose
           bodyStyle={{ padding: 0, height: `calc(100% - 108px)` }}
           title="添加服务"
           width={482}
@@ -39,15 +41,14 @@ class AddApp extends PureComponent<AddAppProps, any> {
         >
           <AddAppForm
             ref="addapp"
-            {...{ onNodeSearch, onResourceSearch, onImageSearch, onImageTagSearch, onSecretSearch, onCfgfileSearch }}
+            {...{ onNodeSearch, onResourceSearch, onImageSearch, onImageTagSearch, onSecretSearch, onCfgfileSearch, onPvcPoolSearch, onPvcSearch }}
           />
           <div className={"node-actions"} >
             <Button onClick={() => { this.setState({ visible: false }) }} style={{ marginRight: 8 }}> 取消 </Button>
             <Button loading={loading} onClick={() => {
               (this.refs.addapp as any).validateFieldsAndScroll(async (error: any, values: any) => {
-                console.log(values)
                 if (!error) {
-                  const data: createStackRequest = { ...values.basic, containers: values.containers, service: values.service };
+                  const data: createAppRequest = { ...values.basic, containers: values.containers, service: values.service };
                   this.setState({ loading: true })
                   if (await onSubmit!(data)) {
                     this.setState({ loading: false })

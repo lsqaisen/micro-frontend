@@ -1,7 +1,7 @@
 import { PureComponent } from 'react';
 import { Button } from 'antd';
 import { connect } from 'dva';
-import { Link } from 'dva/router';
+import Link from 'umi/link';
 
 @connect()
 class Dashboard extends PureComponent<any, any> {

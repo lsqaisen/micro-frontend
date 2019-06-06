@@ -1,7 +1,7 @@
 import { PureComponent } from 'react';
 import { Form, Row, Col, InputNumber } from 'antd';
 import FormInput, { FormInputProps } from '@/components/global/forminput';
-import { Container } from '@/services/app';
+import { Container } from '@/services/apps';
 
 const FormItem = Form.Item;
 

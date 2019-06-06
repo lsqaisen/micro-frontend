@@ -1,7 +1,7 @@
 import { PureComponent, Fragment } from 'react';
 import { Form, Drawer, Button, Switch, Empty, PageHeader, Typography, Divider } from 'antd';
 import FormInput, { FormInputProps, FormInputItem } from '@/components/global/forminput';
-import { HealthCheck } from '@/services/app';
+import { HealthCheck } from '@/services/apps';
 import HealthcheckInput from './healthcheck-input';
 import Description from '../../../description';
 import styles from '../style/index.less';

@@ -1,5 +1,5 @@
 import { List } from 'antd';
-import { Link } from 'dva/router';
+import Link from 'umi/link';
 import Action from './item/action';
 import Progress from './progress';
 import styles from './style/plugins.less';

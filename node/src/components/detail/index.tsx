@@ -1,7 +1,7 @@
 import { PureComponent, Fragment, Children } from 'react';
 import { Tag, Tabs, Button, PageHeader, Row, Col, Statistic, Typography, Breadcrumb } from 'antd';
 import router from 'umi/router';
-import { Link } from 'dva/router';
+import Link from 'umi/link';
 import Description from './description';
 import Pods from './pods';
 import styles from './style/index.less';

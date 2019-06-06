@@ -2,7 +2,7 @@ import { PureComponent } from 'react';
 import { Form, Row, Col, Select, Radio, Input } from 'antd';
 import FormInput, { FormInputProps, FormInputItem } from '@/components/global/forminput';
 import SearchSelect from '@/components/global/search-select';
-import { Volume } from '@/services/app';
+import { Volume } from '@/services/apps';
 
 const Option = Select.Option;
 const FormItem = Form.Item;

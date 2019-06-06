@@ -1,6 +1,6 @@
 import { PureComponent, Fragment } from 'react';
 import formInput, { FormInputProps } from '@/components/global/forminput';
-import { HostMount } from '@/services/app';
+import { HostMount } from '@/services/apps';
 import HostMountInput from './host-mount-input';
 import InputBasic from '../input-basic';
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { PureComponent } from 'react';
 import formInput, { FormInputProps } from '@/components/global/forminput';
-import { Volume } from '@/services/app';
+import { Volume } from '@/services/apps';
 import VolumeInput, { VolumeSearchHandles } from './volume-input';
 import InputBasic from '../input-basic';
 

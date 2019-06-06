@@ -1,6 +1,6 @@
 import { PureComponent, Fragment } from 'react';
 import formInput, { FormInputProps } from '@/components/global/forminput';
-import { Mount } from '@/services/app';
+import { Mount } from '@/services/apps';
 import SecretMountInput, { SecretSearchHandles } from './secret-mount-input';
 import InputBasic from '../input-basic';
 

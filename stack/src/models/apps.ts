@@ -1,7 +1,7 @@
 import { EffectsCommandMap } from 'dva';
 import { AnyAction } from 'redux';
 import { message } from 'antd';
-import api from '@/services/app';
+import api from '@/services/apps';
 import resource from '@/services/resource';
 import node from '@/services/node';
 import registry from '@/services/registry';
@@ -11,7 +11,7 @@ import storage from '@/services/storage';
 import services from '@/services';
 
 export default {
-  namespace: 'app',
+  namespace: 'apps',
   state: {
     init: false,
     nodes: {},

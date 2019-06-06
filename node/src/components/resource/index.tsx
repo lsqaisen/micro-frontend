@@ -1,7 +1,7 @@
 import { PureComponent } from 'react';
 import { Tabs, Modal, PageHeader } from 'antd';
 import router from 'umi/router';
-import { Link } from 'dva/router';
+import Link from 'umi/link';
 import AddResource from './add-resource';
 import { createResourceRequest } from '@/services/resource';
 import styles from './style/index.less';

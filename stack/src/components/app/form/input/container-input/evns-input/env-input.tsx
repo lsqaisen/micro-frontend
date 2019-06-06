@@ -1,7 +1,7 @@
 import { PureComponent } from 'react';
 import { Form, Row, Col, Select, Input } from 'antd';
 import FormInput, { FormInputProps } from '@/components/global/forminput';
-import { Env } from '@/services/app';
+import { Env } from '@/services/apps';
 
 const Option = Select.Option;
 const FormItem = Form.Item;

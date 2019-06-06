@@ -1,7 +1,7 @@
 import { PureComponent, Fragment } from 'react';
 import { Form, Radio, InputNumber } from 'antd';
 import FormInput, { FormInputProps, FormInputItem } from '@/components/global/forminput';
-import { HealthCheck } from '@/services/app';
+import { HealthCheck } from '@/services/apps';
 import TcpInput from './tcp-input';
 import HttpInput from './http-input';
 import ExecInput from './exec-input';

@@ -4,7 +4,7 @@ import FormInput, { FormInputProps, FormInputItem } from '@/components/global/fo
 import SchedulerInput, { SchedulerSearchHandles } from '../input/scheduler-input';
 import CpuMemInput from '../input/cpu-mem-input';
 import Description from '../description';
-import { Basic } from '@/services/app';
+import { Basic } from '@/services/apps';
 
 const RadioGroup = Radio.Group;
 const TextArea = Input.TextArea;

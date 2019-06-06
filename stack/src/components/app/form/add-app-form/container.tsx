@@ -1,7 +1,7 @@
 import { PureComponent } from 'react';
 import { Form, Drawer, Button, PageHeader, Collapse, Icon, Input, Switch, Row, Col } from 'antd';
 import FormInput, { FormInputProps, FormInputItem } from '@/components/global/forminput';
-import { Container } from '@/services/app';
+import { Container } from '@/services/apps';
 import ImageInput, { ImageSearchHandles } from '../input/container-input/image-input';
 import EvnsInput from '../input/container-input/evns-input';
 import { ConfigSearchHandles } from '../input/container-input/select-configfile';

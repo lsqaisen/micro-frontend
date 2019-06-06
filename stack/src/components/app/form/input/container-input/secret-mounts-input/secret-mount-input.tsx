@@ -2,7 +2,7 @@ import { PureComponent } from 'react';
 import { Form, Row, Col, Select, Input } from 'antd';
 import FormInput, { FormInputProps } from '@/components/global/forminput';
 import SearchSelect from '@/components/global/search-select';
-import { Mount } from '@/services/app';
+import { Mount } from '@/services/apps';
 import { getSecretsRequest } from '@/services/secret';
 
 const Option = Select.Option;

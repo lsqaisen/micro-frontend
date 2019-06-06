@@ -1,7 +1,7 @@
 import { PureComponent, Fragment } from 'react';
 import { Divider } from 'antd';
 import formInput, { FormInputProps } from '@/components/global/forminput';
-import { Env } from '@/services/app';
+import { Env } from '@/services/apps';
 import EnvInput from './env-input';
 import InputBasic from '../input-basic';
 import { ConfigSearchHandles } from '../select-configfile';

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { PureComponent, Fragment } from 'react';
 import { Divider, Icon } from 'antd';
 import { ColumnProps } from 'antd/lib/table';
-import { Link } from 'dva/router';
+import Link from 'umi/link';
 import Table from '@/components/global/table';
 import Chart from './chart';
 import EllipsisTooltip from '@/components/global/ellipsis-tooltip';

@@ -1,7 +1,7 @@
 import { PureComponent, cloneElement } from 'react';
 import { Icon, Button, Drawer } from 'antd';
 import AddAppForm, { AddAppFormProps } from './form/add-app-form/';
-import { createAppRequest } from '@/services/app';
+import { createAppRequest } from '@/services/apps';
 import styles from './style/index.less';
 
 export interface AddAppProps extends AddAppFormProps {

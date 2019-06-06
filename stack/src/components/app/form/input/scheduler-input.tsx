@@ -2,7 +2,7 @@ import { PureComponent } from 'react';
 import { Form, Row, Col, Radio, Input } from 'antd';
 import FormInput, { FormInputProps } from '@/components/global/forminput';
 import SearchSelect from '@/components/global/search-select';
-import { Scheduler } from '@/services/app';
+import { Scheduler } from '@/services/apps';
 import { getResourceRequest } from '@/services/resource';
 import { getNodesRequest } from '@/services/node';
 

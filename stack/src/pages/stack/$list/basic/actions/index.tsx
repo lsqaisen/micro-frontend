@@ -23,7 +23,7 @@ export default ({ app, stackName, children, dispatch, onSelect, onUpdate }: any)
             deleteCallback={onUpdate}
             onDelete={(name) => {
               return dispatch({
-                type: 'app/delete',
+                type: 'apps/delete',
                 payload: { name, stack: stackName }
               })
             }}

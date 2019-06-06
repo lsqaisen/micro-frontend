@@ -6,7 +6,7 @@ import { FormInputItem } from '@/components/global/forminput'
 import BasicForm, { AddBasicProps } from './basic';
 import PortsForm, { AddPortsProps } from './ports';
 import ContainersForm, { AddContainersProps } from './containers';
-import { createAppRequest } from '@/services/app';
+import { createAppRequest } from '@/services/apps';
 
 export interface AddAppFormProps extends FormComponentProps, AddBasicProps, AddPortsProps, AddContainersProps {
   data?: createAppRequest;

@@ -1,7 +1,7 @@
 import { PureComponent } from 'react';
 import { Form, Drawer, Button, PageHeader, Empty, Row, Col, List, Typography } from 'antd';
 import FormInput, { FormInputProps, FormInputItem } from '@/components/global/forminput';
-import { Port } from '@/services/app';
+import { Port } from '@/services/apps';
 import PortsInput from '../input/ports-input';
 
 export interface AddPortsProps {

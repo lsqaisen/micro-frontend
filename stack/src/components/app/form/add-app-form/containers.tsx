@@ -1,7 +1,7 @@
 import { PureComponent, Fragment } from 'react';
 import { List, Button, Row, Col, Typography, PageHeader } from 'antd';
 import FormInput, { FormInputProps, FormInputItem } from '@/components/global/forminput';
-import { Container } from '@/services/app';
+import { Container } from '@/services/apps';
 import ContainerInput, { AddContainerProps } from './container';
 import PercentInput from '../input/container-input/percent-input';
 

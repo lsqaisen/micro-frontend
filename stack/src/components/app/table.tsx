@@ -2,12 +2,12 @@ import * as React from 'react';
 import { PureComponent, Fragment } from 'react';
 import { Icon } from 'antd';
 import { ColumnProps } from 'antd/lib/table';
-import { Link } from 'dva/router';
+import Link from 'umi/link';
 import Time from 'react-time-format';
 import Table from '@/components/global/table';
 import EllipsisTooltip from '@/components/global/ellipsis-tooltip';
 import Status from '@/components/global/status';
-import { createAppRequest } from '@/services/app';
+import { createAppRequest } from '@/services/apps';
 
 interface hostIPS {
   address?: string;
@@ -48,7 +48,7 @@ class List extends PureComponent<ListProps, any> {
       render: (t, r, i) => {
         return (
           <EllipsisTooltip title={t}>
-            <Link to={location.hash.replace(/^#.*(\?.*)$/, `/list/${t}$1`)}>{t}</Link>
+            <Link to={r.type !== 'service' ? `/stack/detail/ex/${t}` : `/stack/detail/${t}`}>{t}</Link>
           </EllipsisTooltip>
         )
       },

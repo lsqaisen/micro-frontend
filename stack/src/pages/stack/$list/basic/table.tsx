@@ -5,23 +5,23 @@ import { createSelector } from 'reselect';
 import Loading from '@/components/global/loading';
 import Table from '@/components/app/table';
 import AddApp from '@/components/app/add-app';
-import { createAppRequest } from '@/services/app';
+import { createAppRequest } from '@/services/apps';
 import Actions from './actions';
 
 @connect(createSelector(
   [
-    (props: any) => props.app.init,
-    (props: any) => props.app.data,
-    (props: any) => props.app.nodes,
-    (props: any) => props.app.resources,
-    (props: any) => props.app.images,
-    (props: any) => props.app.imagetags,
-    (props: any) => props.app.secrets,
-    (props: any) => props.app.configmap,
-    (props: any) => props.app.poollist,
-    (props: any) => props.app.pvclist,
+    (props: any) => props.apps.init,
+    (props: any) => props.apps.data,
+    (props: any) => props.apps.nodes,
+    (props: any) => props.apps.resources,
+    (props: any) => props.apps.images,
+    (props: any) => props.apps.imagetags,
+    (props: any) => props.apps.secrets,
+    (props: any) => props.apps.configmap,
+    (props: any) => props.apps.poollist,
+    (props: any) => props.apps.pvclist,
     (_: any, { stackName }: any) => stackName,
-    (props: any) => props.loading.effects[`app/get`],
+    (props: any) => props.loading.effects[`apps/get`],
   ],
   (init, data, nodes, resources, images, imagetags, secrets, configmap, poollist, pvclist, stackName, loading) => ({
     init, data, nodes, resources, images, imagetags, secrets, configmap, poollist, pvclist, stackName, loading
@@ -29,35 +29,35 @@ import Actions from './actions';
 ))
 export default class extends PureComponent<any, any> {
   get = () => {
-    return this.props.dispatch({ type: 'app/get' });
+    return this.props.dispatch({ type: 'apps/get' });
   }
   getNodes = (search: any) => {
-    return this.props.dispatch({ type: 'app/nodes', payload: search });
+    return this.props.dispatch({ type: 'apps/nodes', payload: search });
   }
   getResources = (search: any) => {
-    return this.props.dispatch({ type: 'app/resources', payload: search });
+    return this.props.dispatch({ type: 'apps/resources', payload: search });
   }
   getImages = (search: any) => {
-    return this.props.dispatch({ type: 'app/images', payload: search });
+    return this.props.dispatch({ type: 'apps/images', payload: search });
   }
   getImageTags = (search: any) => {
-    return this.props.dispatch({ type: 'app/imagetags', payload: search });
+    return this.props.dispatch({ type: 'apps/imagetags', payload: search });
   }
   getSecrets = (search: any) => {
-    return this.props.dispatch({ type: 'app/secrets', payload: search });
+    return this.props.dispatch({ type: 'apps/secrets', payload: search });
   }
   getConfigMap = (search: any) => {
-    return this.props.dispatch({ type: 'app/configmap', payload: search });
+    return this.props.dispatch({ type: 'apps/configmap', payload: search });
   }
   getPoolList = () => {
-    return this.props.dispatch({ type: 'app/poollist' });
+    return this.props.dispatch({ type: 'apps/poollist' });
   }
   getPvcList = () => {
-    return this.props.dispatch({ type: 'app/pvclist' });
+    return this.props.dispatch({ type: 'apps/pvclist' });
   }
   create = (data: createAppRequest) => {
     return this.props.dispatch({
-      type: 'app/create',
+      type: 'apps/create',
       payload: { ...data, stack: this.props.stackName },
     })
   }

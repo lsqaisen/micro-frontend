@@ -1,17 +1,20 @@
 {
   "name": "auth",
   "scripts": {
-    "start": "umi dev",
-    "build": "umi build"
+    "start": "MOCK=none umi dev",
+    "mock": "umi dev",
+    "build": "umi build",
+    "u": "mife-cli library"
   },
   "devDependencies": {
     "mife": "^0.0.2",
-    "umi": "^2.4.4",
+    "umi": "^2.7.3",
     "umi-plugin-react": "^1.4.2"
   },
   "dependencies": {
     "@antv/data-set": "^0.10.2",
     "@antv/g2": "^3.5.3",
+    "antd": "^3.19.3",
     "inputmask": "^4.0.8",
     "rc-queue-anim": "^1.6.12",
     "react-lifecycles-compat": "^3.0.4",

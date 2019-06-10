@@ -1,3 +1,46 @@
 .user_box {
-  text-align: center;
+  background-color: transparent;
+
+  :global {
+    .ant-page-header-title-view {
+      width: 100%;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .ant-page-header-content-view {
+      padding: 0 !important;
+    }
+
+    .ant-page-header-footer {
+      padding: 8px 8px;
+    }
+  }
+
+  .avatar_box {
+    padding: 8px 16px;
+    position: relative;
+    float: left;
+    width: 100%;
+    margin-top: 8px;
+    transition: all .6s;
+    cursor: pointer;
+
+    .right_icon {
+      position: absolute;
+      right: 16px;
+      top: ~'calc(50% - 8px)';
+    }
+
+    &:hover {
+      background-color: @sider-background-color;
+    }
+  }
+
+  .namespace {
+    float: left;
+    width: 100%;
+    padding: 8px 16px;
+  }
+
 }

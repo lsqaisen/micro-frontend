@@ -8,7 +8,7 @@
   },
   "devDependencies": {
     "mife": "^0.0.2",
-    "umi": "^2.4.4",
+    "umi": "^2.7.3",
     "umi-plugin-react": "^1.4.2"
   },
   "dependencies": {

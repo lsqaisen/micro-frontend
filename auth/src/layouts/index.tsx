@@ -37,7 +37,8 @@ export default class extends PureComponent<any, any> {
     });
   }
   render() {
-    const { profile, init, location, children } = this.props;
+    const { version, profile, init, location, children } = this.props;
+    console.log(profile)
     if (!init) return null;
     else if (!profile) {
       return children
@@ -53,12 +54,17 @@ export default class extends PureComponent<any, any> {
                 width={256}
                 sider={(
                   <React.Fragment>
-                    <Logo
-                      iconSrc={`/static/oem${process.env.NODE_ENV === "development" ? process.env.OEM_NAME : ''}/icon.png`}
-                      logoSrc={`/static/oem${process.env.NODE_ENV === "development" ? process.env.OEM_NAME : ''}/logo.png`}
+                    {/* <section style={{ height: 48, margin: 8 }}>
+                      <Logo
+                        iconSrc={`/static/oem${process.env.NODE_ENV === "development" ? process.env.OEM_NAME : ''}/icon.png`}
+                        logoSrc={`/static/oem${process.env.NODE_ENV === "development" ? process.env.OEM_NAME : ''}/logo.png`}
+                      />
+                    </section> */}
+                    <SiderUser
+                      name={profile.username}
+                      admin={profile.userType === 1}
                     />
-                    <SiderUser />
-                    <Menu
+                    {/* <Menu
                       width={240}
                       selectedKeys={[location.pathname]}
                       data={[{
@@ -74,10 +80,11 @@ export default class extends PureComponent<any, any> {
                         key: '/auth/log',
                         component: <Link to="/auth/log">审计日志</Link>
                       }]}
-                    />
+                    /> */}
+                    <div style={{ lineHeight: '32px', textAlign: 'center', borderTop: '1px solid #f8f8f8' }}>{version} build {process.env.VERSION}</div>
                   </React.Fragment>
                 )}>
-                {children}
+                {/* {children} */}
               </Layout>
             </LocaleProvider>
           )}

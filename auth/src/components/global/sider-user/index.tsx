@@ -35,6 +35,15 @@ export default class extends PureComponent<UserProps, UserState> {
     const { name, trial, admin, guestName, children } = this.props;
     const { color } = this.state;
     return (
+      <div className="box" style={{ padding: 8 }}>
+        <Avatar style={{ backgroundColor: color }} icon="user" />
+        <Typography.Text style={{ marginLeft: 8, verticalAlign: 'middle' }} strong>
+          <Tag style={{ padding: '0 5px' }} color={admin ? "red" : "#286cff"}>{admin ? '管理员' : '平台用户'}</Tag>
+          <Typography.Text>{name}</Typography.Text>
+        </Typography.Text>
+      </div>
+    )
+    return (
       <section
         className={styles.user_box}
       >
@@ -53,7 +62,7 @@ export default class extends PureComponent<UserProps, UserState> {
         >
           <div>
             <Avatar style={{ backgroundColor: color }} icon="user" />
-            <Typography.Text style={{marginLeft: 8, verticalAlign: 'middle' }} strong>
+            <Typography.Text style={{ marginLeft: 8, verticalAlign: 'middle' }} strong>
               <Tag style={{ padding: '0 5px' }} color={admin ? "red" : "#286cff"}>{admin ? '管理员' : '平台用户'}</Tag>
               <Typography.Text>{name}</Typography.Text>
             </Typography.Text>

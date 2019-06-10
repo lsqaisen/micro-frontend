@@ -9,6 +9,7 @@ export interface LayoutProps extends SiderProps {
   empty?: any;
   className?: string;
   sider: string | React.ReactNode;
+  header: string | React.ReactNode;
 }
 
 export default class extends React.PureComponent<LayoutProps, any> {
@@ -26,14 +27,14 @@ export default class extends React.PureComponent<LayoutProps, any> {
     })
   }
   getCentent = () => {
-    const { level, state, matches, width, empty, sider, className, children, } = this.props;
+    const { level, state, matches, width, empty, sider, header, className, children, } = this.props;
     switch (state) {
       case 'initially':
       case 'centent':
         return (
           <React.Fragment>
             {state === "initially" && <Loading key="loading" />}
-            <Layout key="layout" className={styles.layout} style={{ display: state === "centent" ? "flex" : "none'" }}>
+            <Layout className={styles.layout} style={{ display: state === "centent" ? "flex" : "none'" }}>
               {sider && <Sider
                 level={level}
                 matches={matches}
@@ -44,6 +45,9 @@ export default class extends React.PureComponent<LayoutProps, any> {
                 {sider}
               </Sider>}
               <Layout.Content className={className} style={{ position: 'relative', minHeight: "100vh" }}>
+                <Layout.Header className={styles.header}>
+                  {header}
+                </Layout.Header>
                 {children}
               </Layout.Content>
             </Layout>

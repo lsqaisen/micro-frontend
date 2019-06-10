@@ -52,6 +52,12 @@ export default class extends PureComponent<any, any> {
                 state='centent'
                 matches={!matches}
                 width={256}
+                header={(
+                  <SiderUser
+                    name={profile.username}
+                    admin={profile.userType === 1}
+                  />
+                )}
                 sider={(
                   <React.Fragment>
                     <section style={{ height: 64, padding: 8 }}>

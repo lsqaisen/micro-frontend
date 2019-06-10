@@ -3,7 +3,7 @@ import { PureComponent } from 'react';
 import { connect } from 'dva';
 import Link from 'umi/link';
 import { createSelector } from 'reselect';
-import { LocaleProvider } from 'antd';
+import { LocaleProvider, Divider } from 'antd';
 import Media from 'react-media';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import { sub, unsub } from 'mife/bin/api';
@@ -54,37 +54,44 @@ export default class extends PureComponent<any, any> {
                 width={256}
                 sider={(
                   <React.Fragment>
-                    {/* <section style={{ height: 48, margin: 8 }}>
+                    <section style={{ height: 64, padding: 8 }}>
                       <Logo
                         iconSrc={`/static/oem${process.env.NODE_ENV === "development" ? process.env.OEM_NAME : ''}/icon.png`}
                         logoSrc={`/static/oem${process.env.NODE_ENV === "development" ? process.env.OEM_NAME : ''}/logo.png`}
                       />
-                    </section> */}
+                    </section>
+                    <Divider style={{ margin: 0, marginBottom: 0 }} />
                     <SiderUser
                       name={profile.username}
                       admin={profile.userType === 1}
                     />
-                    {/* <Menu
-                      width={240}
-                      selectedKeys={[location.pathname]}
-                      data={[{
-                        type: 'item',
-                        key: '/auth/user',
-                        component: <Link to="/auth/user">用户列表</Link>
-                      }, {
-                        type: 'item',
-                        key: '/auth/config',
-                        component: <Link to="/auth/config">系统设置</Link>
-                      }, {
-                        type: 'item',
-                        key: '/auth/log',
-                        component: <Link to="/auth/log">审计日志</Link>
-                      }]}
-                    /> */}
+                    <div style={{ minHeight: 'calc(100% - 180px)' }}>
+                      <Menu
+                        width={240}
+                        selectedKeys={[location.pathname]}
+                        data={[{
+                          type: 'item',
+                          key: '/dashboard',
+                          component: <Link to="/dashboard">Dashboard</Link>
+                        }, {
+                          type: 'item',
+                          key: '/auth/user',
+                          component: <Link to="/auth/user">用户列表</Link>
+                        }, {
+                          type: 'item',
+                          key: '/auth/config',
+                          component: <Link to="/auth/config">系统设置</Link>
+                        }, {
+                          type: 'item',
+                          key: '/auth/log',
+                          component: <Link to="/auth/log">审计日志</Link>
+                        }]}
+                      />
+                    </div>
                     <div style={{ lineHeight: '32px', textAlign: 'center', borderTop: '1px solid #f8f8f8' }}>{version} build {process.env.VERSION}</div>
                   </React.Fragment>
                 )}>
-                {/* {children} */}
+                {children}
               </Layout>
             </LocaleProvider>
           )}

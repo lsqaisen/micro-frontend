@@ -1,5 +1,6 @@
 import { PureComponent, Fragment } from 'react';
-import { PageHeader, Avatar, Tag, Icon, Typography, Dropdown, Menu, Popover, Descriptions } from 'antd';
+import { PageHeader, Avatar, Tag, Icon, Typography, Dropdown, Menu, Divider, Popover, Descriptions } from 'antd';
+import GMenu from '@/components/global/menu';
 import styles from './style/user.less';
 
 const colorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'];
@@ -51,7 +52,8 @@ export default class extends PureComponent<UserProps, UserState> {
           )}
         >
           <div>
-            <Typography.Text style={{ verticalAlign: 'middle' }} strong>
+            <Avatar style={{ backgroundColor: color }} icon="user" />
+            <Typography.Text style={{marginLeft: 8, verticalAlign: 'middle' }} strong>
               <Tag style={{ padding: '0 5px' }} color={admin ? "red" : "#286cff"}>{admin ? '管理员' : '平台用户'}</Tag>
               <Typography.Text>{name}</Typography.Text>
             </Typography.Text>
@@ -60,6 +62,25 @@ export default class extends PureComponent<UserProps, UserState> {
             <Icon type="right" />
           </div>
         </Popover>
+        {/* <GMenu
+          width={240}
+          selectedKeys={[]}
+          data={[{
+            type: 'subitem',
+            key: 'usersub',
+            component: (
+              <Typography.Text style={{ verticalAlign: 'middle' }} strong>
+                <Tag style={{ padding: '0 5px' }} color={admin ? "red" : "#286cff"}>{admin ? '管理员' : '平台用户'}</Tag>
+                <Typography.Text>{name}</Typography.Text>
+              </Typography.Text>
+            ),
+            childs: [{
+              type: 'item',
+              key: '1',
+              component: <a>用户列表</a>
+            }]
+          }]}
+        /> */}
 
         <Descriptions className={styles.namespace}>
           <Descriptions.Item label="工作空间">

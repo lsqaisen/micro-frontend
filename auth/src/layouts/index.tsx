@@ -71,7 +71,7 @@ export default class extends PureComponent<any, any> {
                       name={profile.username}
                       admin={profile.userType === 1}
                     />
-                    <div style={{ height: 'calc(100% - 180px)' }}>
+                    <div style={{ height: 'calc(100% - 212px)' }}>
                       <Menu
                         width={246}
                         selectedKeys={[location.pathname]}

@@ -22,13 +22,16 @@
 
   .namespace {
     width: 100%;
-    padding-left: 28px;
+    padding-left: 4px;
 
     :global {
       .ant-descriptions-item {
         padding: 0;
         line-height: 40px;
         height: 40px;
+        .ant-descriptions-item-content {
+          width: ~'calc(100% - 72px)';
+        }
       }
     }
   }

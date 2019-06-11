@@ -60,18 +60,16 @@ export default class extends PureComponent<UserProps, UserState> {
                     <Menu.Item>
                       <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
                         1st menu item
-              </a>
+                      </a>
                     </Menu.Item>
                   </Menu>
                 )}>
-                  <div style={{ display: "inline-block", width: 'calc(100% - 86px)' }}>
-                    <a className="ant-dropdown-link" href="#">
-                      <Typography.Text style={{ color: 'inherit', width: 'calc(100% - 14px)' }} ellipsis>
-                        xxxxxxxxxxxxxxxxx
-                      </Typography.Text>
-                      <Icon style={{ display: "inline-block" }} type="down" />
-                    </a>
-                  </div>
+                  <a className="ant-dropdown-link" href="#">
+                    <Typography.Text style={{ float: "left", color: 'inherit', width: 'calc(100% - 14px)' }} ellipsis>
+                      xxxxxxxxxxxxxxxxx 
+                    </Typography.Text>
+                    <Icon style={{ display: "inline-block" }} type="down" />
+                  </a>
                 </Dropdown>
               </Descriptions.Item>
             </Descriptions>

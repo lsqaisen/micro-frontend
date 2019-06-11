@@ -1,7 +1,8 @@
 import { PureComponent, Fragment } from 'react';
 import { PageHeader, Avatar, Tag, Icon, Typography, Dropdown, Menu, Divider, Popover, Descriptions } from 'antd';
 import GMenu from '@/components/global/menu';
-import styles from './style/user.less';
+import Logo from '@/components/global/logo';
+import styles from './style/index.less';
 
 const colorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'];
 type colorType = (typeof colorList)[number];
@@ -35,13 +36,90 @@ export default class extends PureComponent<UserProps, UserState> {
     const { name, trial, admin, guestName, children } = this.props;
     const { color } = this.state;
     return (
-      <div className="box" style={{ padding: 8 }}>
-        <Avatar style={{ backgroundColor: color }} icon="user" />
-        <Typography.Text style={{ marginLeft: 8, verticalAlign: 'middle' }} strong>
-          <Tag style={{ padding: '0 5px' }} color={admin ? "red" : "#286cff"}>{admin ? '管理员' : '平台用户'}</Tag>
-          <Typography.Text>{name}</Typography.Text>
-        </Typography.Text>
+      <div className={`${styles.box}`}>
+        <Menu selectedKeys={[]}>
+          <Menu.SubMenu title={(
+            <Fragment>
+              <Avatar className={styles.avatar} style={{ backgroundColor: color }} icon="user" />
+              <Typography.Text style={{ marginLeft: 8, verticalAlign: 'middle' }} strong>
+                <Tag style={{ padding: '0 5px' }} color={admin ? "red" : "#286cff"}>{admin ? '管理员' : '平台用户'}</Tag>
+                <Typography.Text>{name}</Typography.Text>
+              </Typography.Text>
+            </Fragment>
+          )}>
+            <Menu.Item>
+              xsdfasdfasdfasdfasdfasdfasfdasdf
+            </Menu.Item>
+          </Menu.SubMenu>
+          <Menu.Divider />
+          <Menu.Item>
+            <Descriptions className={styles.namespace}>
+              <Descriptions.Item label="工作空间">
+                <Dropdown placement="bottomRight" overlay={(
+                  <Menu>
+                    <Menu.Item>
+                      <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
+                        1st menu item
+              </a>
+                    </Menu.Item>
+                  </Menu>
+                )}>
+                  <div style={{ display: "inline-block", width: 'calc(100% - 86px)' }}>
+                    <a className="ant-dropdown-link" href="#">
+                      <Typography.Text style={{ color: 'inherit', width: 'calc(100% - 14px)' }} ellipsis>
+                        xxxxxxxxxxxxxxxxx
+                      </Typography.Text>
+                      <Icon style={{ display: "inline-block" }} type="down" />
+                    </a>
+                  </div>
+                </Dropdown>
+              </Descriptions.Item>
+            </Descriptions>
+          </Menu.Item>
+        </Menu>
       </div>
+    )
+    return (
+      <Menu
+        className={`box ${styles.user_box}`}
+        style={{ padding: 0, borderRadius: 0 }}
+        mode="inline"
+        selectedKeys={[]}
+      >
+        <Menu.SubMenu title={(
+          <Fragment>
+            <Avatar className={styles.avatar} style={{ backgroundColor: color }} icon="user" />
+            <Typography.Text style={{ marginLeft: 8, verticalAlign: 'middle' }} strong>
+              <Tag style={{ padding: '0 5px' }} color={admin ? "red" : "#286cff"}>{admin ? '管理员' : '平台用户'}</Tag>
+              <Typography.Text>{name}</Typography.Text>
+            </Typography.Text>
+          </Fragment>
+        )}>
+          <Menu.Divider />
+          <Menu.Item>
+            x
+          </Menu.Item>
+        </Menu.SubMenu>
+        <Menu.Item>
+          <Descriptions className={styles.namespace}>
+            <Descriptions.Item label="工作空间">
+              <Dropdown overlay={(
+                <Menu>
+                  <Menu.Item>
+                    <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
+                      1st menu item
+              </a>
+                  </Menu.Item>
+                </Menu>
+              )}>
+                <a className="ant-dropdown-link" href="#">
+                  Hover me <Icon type="down" />
+                </a>
+              </Dropdown>
+            </Descriptions.Item>
+          </Descriptions>
+        </Menu.Item>
+      </Menu>
     )
     return (
       <section

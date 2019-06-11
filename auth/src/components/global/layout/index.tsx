@@ -9,7 +9,7 @@ export interface LayoutProps extends SiderProps {
   empty?: any;
   className?: string;
   sider: string | React.ReactNode;
-  header: string | React.ReactNode;
+  header?: string | React.ReactNode;
 }
 
 export default class extends React.PureComponent<LayoutProps, any> {

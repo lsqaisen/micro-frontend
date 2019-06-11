@@ -1,5 +1,6 @@
 .menu_box {
   width: 210px;
+  height: 100%;
   overflow-x: hidden;
   flex: 1;
   padding-bottom: 6px;
@@ -24,6 +25,26 @@
   :global {
     .ant-menu {
       background-color: transparent;
+
+      .icon {
+        font-size: 16px !important;
+        display: inline-block;
+        font-style: normal;
+        vertical-align: baseline;
+        text-align: center;
+        text-transform: none;
+        line-height: 1;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        min-width: 16px;
+        margin-right: 8px;
+        transition: font-size .15s cubic-bezier(.215, .61, .355, 1), margin .3s cubic-bezier(.645, .045, .355, 1);
+      }
+
+      .name {
+        transition: opacity .3s cubic-bezier(.645, .045, .355, 1), width .3s cubic-bezier(.645, .045, .355, 1);
+        opacity: 1;
+      }
 
       .ant-menu-item {
         padding-left: 28px !important;
@@ -67,8 +88,9 @@
     }
 
     .ant-menu-item-group-title {
-      padding-left: 32px !important;
-      color: #8C92A2;
+      padding-left: 28px !important;
+      color: @heading-color;
+      font-weight: bold;
     }
 
     .ant-menu-item-group {

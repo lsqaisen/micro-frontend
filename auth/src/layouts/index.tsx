@@ -51,7 +51,7 @@ export default class extends PureComponent<any, any> {
                 level={0}
                 state='centent'
                 matches={!matches}
-                width={256}
+                width={246}
                 header={(
                   <SiderUser
                     name={profile.username}
@@ -71,26 +71,129 @@ export default class extends PureComponent<any, any> {
                       name={profile.username}
                       admin={profile.userType === 1}
                     />
-                    <div style={{ minHeight: 'calc(100% - 180px)' }}>
+                    <div style={{ height: 'calc(100% - 180px)' }}>
                       <Menu
-                        width={240}
+                        width={246}
                         selectedKeys={[location.pathname]}
                         data={[{
-                          type: 'item',
-                          key: '/dashboard',
-                          component: <Link to="/dashboard">Dashboard</Link>
+                          type: 'group',
+                          key: '0',
+                          component: '控制台',
+                          childs: [{
+                            type: 'item',
+                            key: '/dashboard',
+                            component: <Link to="/dashboard">概览</Link>
+                          }]
                         }, {
-                          type: 'item',
-                          key: '/auth/user',
-                          component: <Link to="/auth/user">用户列表</Link>
-                        }, {
-                          type: 'item',
-                          key: '/auth/config',
-                          component: <Link to="/auth/config">系统设置</Link>
-                        }, {
-                          type: 'item',
-                          key: '/auth/log',
-                          component: <Link to="/auth/log">审计日志</Link>
+                          type: 'group',
+                          key: '1',
+                          component: '资源与数据',
+                          childs: [{
+                            type: 'item',
+                            key: '/auth/user',
+                            component: <Link to="/auth/user">
+                              <i className='icon iconfont icon-auth' />
+                              <span className="name">应用栈</span>
+                            </Link>
+                          }, {
+                            type: 'item',
+                            key: '/auth/config',
+                            component: <Link to="/auth/config">系统设置</Link>
+                          }, {
+                            type: 'item',
+                            key: '/auth/log',
+                            component: <Link to="/auth/log">审计日志</Link>
+                          }, {
+                            type: 'item',
+                            key: '/auth/user',
+                            component: <Link to="/auth/user">
+                              <i className='icon iconfont icon-auth' />
+                              <span className="name">应用栈</span>
+                            </Link>
+                          }, {
+                            type: 'item',
+                            key: '/auth/config',
+                            component: <Link to="/auth/config">系统设置</Link>
+                          }, {
+                            type: 'item',
+                            key: '/auth/log',
+                            component: <Link to="/auth/log">审计日志</Link>
+                          }, {
+                            type: 'item',
+                            key: '/auth/user',
+                            component: <Link to="/auth/user">
+                              <i className='icon iconfont icon-auth' />
+                              <span className="name">应用栈</span>
+                            </Link>
+                          }, {
+                            type: 'item',
+                            key: '/auth/config',
+                            component: <Link to="/auth/config">系统设置</Link>
+                          }, {
+                            type: 'item',
+                            key: '/auth/log',
+                            component: <Link to="/auth/log">审计日志</Link>
+                          }, {
+                            type: 'item',
+                            key: '/auth/user',
+                            component: <Link to="/auth/user">
+                              <i className='icon iconfont icon-auth' />
+                              <span className="name">应用栈</span>
+                            </Link>
+                          }, {
+                            type: 'item',
+                            key: '/auth/config',
+                            component: <Link to="/auth/config">系统设置</Link>
+                          }, {
+                            type: 'item',
+                            key: '/auth/log',
+                            component: <Link to="/auth/log">审计日志</Link>
+                          }, {
+                            type: 'item',
+                            key: '/auth/user',
+                            component: <Link to="/auth/user">
+                              <i className='icon iconfont icon-auth' />
+                              <span className="name">应用栈</span>
+                            </Link>
+                          }, {
+                            type: 'item',
+                            key: '/auth/config',
+                            component: <Link to="/auth/config">系统设置</Link>
+                          }, {
+                            type: 'item',
+                            key: '/auth/log',
+                            component: <Link to="/auth/log">审计日志</Link>
+                          }, {
+                            type: 'item',
+                            key: '/auth/user',
+                            component: <Link to="/auth/user">
+                              <i className='icon iconfont icon-auth' />
+                              <span className="name">应用栈</span>
+                            </Link>
+                          }, {
+                            type: 'item',
+                            key: '/auth/config',
+                            component: <Link to="/auth/config">系统设置</Link>
+                          }, {
+                            type: 'item',
+                            key: '/auth/log',
+                            component: <Link to="/auth/log">审计日志</Link>
+                          }, {
+                            type: 'item',
+                            key: '/auth/user',
+                            component: <Link to="/auth/user">
+                              <i className='icon iconfont icon-auth' />
+                              <span className="name">应用栈</span>
+                            </Link>
+                          }, {
+                            type: 'item',
+                            key: '/auth/config',
+                            component: <Link to="/auth/config">系统设置</Link>
+                          }, {
+                            type: 'item',
+                            key: '/auth/log',
+                            component: <Link to="/auth/log">审计日志</Link>
+                          }]
                         }]}
                       />
                     </div>

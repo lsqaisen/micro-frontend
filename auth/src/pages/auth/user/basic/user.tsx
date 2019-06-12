@@ -4,6 +4,8 @@ import { createSelector } from 'reselect';
 import { Menu, Icon, Dropdown, Button } from 'antd';
 import Loading from '@/components/global/loading';
 import Table from '@/components/user/table';
+import AddUser from '@/components/user/add-user';
+import Actions from './actions';
 
 @connect(createSelector(
   [
@@ -16,6 +18,9 @@ import Table from '@/components/user/table';
 export default class extends PureComponent<any, any> {
   get = () => {
     return this.props.dispatch({ type: 'authuser/get' });
+  }
+  create = () => {
+    return this.props.dispatch({ type: 'authuser/create' });
   }
   componentDidMount() {
     this.get()
@@ -31,12 +36,13 @@ export default class extends PureComponent<any, any> {
             <Button style={{ marginLeft: 16 }} type="ghost" loading={loading} onClick={this.get} >刷新</Button>
           </div>
           <div className="fr">
+            <AddUser onSubmit={this.create}/>
           </div>
         </header>
         <Table
           loading={loading}
           data={data}
-          actions={null}
+          actions={<Actions group_id={group_id} />}
         />
       </div>
     )

@@ -1,15 +1,28 @@
 import * as React from 'react';
 import { PureComponent, Fragment } from 'react';
-import { Divider, Icon } from 'antd';
+import { Icon } from 'antd';
 import { ColumnProps } from 'antd/lib/table';
-import Link from 'umi/link';
 import Table from '@/components/global/table';
 import EllipsisTooltip from '@/components/global/ellipsis-tooltip';
 
+enum UserType { "空间用户" = 1, "系统用户", "外部用户" }
 
 interface IUser {
   key: number;
-  name: string;
+  comment: ""
+  creation_time: string;
+  deleted: number;
+  domain: string;
+  email: string;
+  is_builtin: boolean;
+  is_first: number;
+  password: string;
+  realname: string;
+  reset_uuid: string;
+  type: number;
+  update_time: string;
+  user_id: number;
+  username: string;
 }
 
 interface UserTableData {
@@ -33,48 +46,97 @@ class User extends PureComponent<UserProps, any> {
     {
       title: '帐号',
       dataIndex: 'username',
-      key: 'username',
-      width: '10%',
+      width: 126,
+      onCell: () => ({
+        style: {
+          whiteSpace: 'nowrap',
+          maxWidth: 96,
+        }
+      }),
+      render: (t, r, i) => {
+        return (
+          <EllipsisTooltip title={t}>{t}</EllipsisTooltip>
+        )
+      },
     },
     {
       title: 'Email',
       dataIndex: 'email',
-      key: 'email',
-      width: '20%',
+      width: 136,
+      onCell: () => ({
+        style: {
+          whiteSpace: 'nowrap',
+          maxWidth: 136,
+        }
+      }),
+      render: (t, r, i) => {
+        return (
+          <EllipsisTooltip title={t}>{t}</EllipsisTooltip>
+        )
+      },
     },
     {
       title: '用户类型',
       dataIndex: 'type',
-      key: 'type',
-      width: '10%',
-      render: t => {
-        switch (t) {
-          case 0:
-            return '空间用户';
-          case 1:
-            return '系统用户';
-          case 2:
-            return '空间用户';
-          case 3:
-            return '外部用户';
+      width: 86,
+      onCell: () => ({
+        style: {
+          whiteSpace: 'nowrap',
+          maxWidth: 86,
         }
-      },
+      }),
+      render: (t, r, i) => (UserType[t]),
     },
     {
       title: '真实姓名',
       dataIndex: 'realname',
-      key: 'realname',
-      width: '10%',
+      width: 136,
+      onCell: () => ({
+        style: {
+          whiteSpace: 'nowrap',
+          maxWidth: 136,
+        }
+      }),
+      render: (t, r, i) => {
+        return (
+          <EllipsisTooltip title={t}>{t}</EllipsisTooltip>
+        )
+      },
     },
     {
       title: '备注',
       dataIndex: 'comment',
-      key: 'comment',
-      width: '15%',
-      render: t => {
-        return t == '' ? '--' : t;
+      width: 126,
+      onCell: () => ({
+        style: {
+          whiteSpace: 'nowrap',
+          maxWidth: 136,
+        }
+      }),
+      render: (t, r, i) => <EllipsisTooltip title={t || '--'}>{t || '--'}</EllipsisTooltip>,
+    }, {
+      title: '操作',
+      dataIndex: '',
+      fixed: 'right',
+      width: 72,
+      className: "tc",
+      onCell: () => {
+        return {
+          style: {
+            minWidth: 72,
+          }
+        }
       },
-    },
+      render: (_, r, i) => React.cloneElement(this.props.actions as any, {
+        user: r,
+        onSelect: () => { this.setState({ visible: true, selectUserIndex: i }) },
+        children: (
+          <a className="ant-dropdown-link" href="#" onClick={(e) => e.preventDefault()}>
+            操作 <Icon type="down" />
+          </a>
+        )
+      }),
+    }
   ];
   render() {
     const { loading, data, actions, children, ...props } = this.props;
@@ -84,14 +146,14 @@ class User extends PureComponent<UserProps, any> {
       <Fragment>
         <Table<IUser>
           {...props}
-          pagination={{ total }}
+          pagination={{ total: Number(total) }}
           loading={loading}
           columns={this.columns}
-          dataSource={list!.map((v: IUser) => ({ key: v.name, ...v }))}
+          dataSource={list!.map((v: IUser) => ({ key: v.user_id, ...v }))}
         />
         {children && React.cloneElement(children as any, {
           visible,
-          node: list![selectUserIndex] || {},
+          user: list![selectUserIndex] || {},
           onClose: () => { this.setState({ selectUserIndex: 0, visible: false }) },
         })}
       </Fragment>

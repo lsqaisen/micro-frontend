@@ -36,6 +36,21 @@ export default {
         });
       }
     },
+    *[`delete`]({ payload }: AnyAction, { put, call, select }: EffectsCommandMap) {
+      const { userType, projects, current } = yield select(({ user: { profile } }: any) => profile);
+      let project_id = 0;
+      if (userType !== 1) {
+        project_id = (projects || []).filter((v: any) => v.name == current)[0].id;
+      }
+      const { err } = yield call(api.deleteUser, { admin: userType === 1, project_id, ...payload });
+      if (!!err) {
+        message.error(err, 5);
+        return err;
+      } else {
+        message.success('删除用户成功', 5);
+        yield put({ type: 'get' })
+      }
+    },
   },
   reducers: {
     save(state: any, { payload }: any) {

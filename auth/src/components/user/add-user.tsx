@@ -4,7 +4,7 @@ import AddGroupForm, { GroupFromProps } from './form/add-group-form';
 import { addGroupRequest } from '@/services/group';
 import styles from './style/index.less';
 
-export interface AddGroupProps extends GroupFromProps {
+export interface AddGroupProps {
   btn?: React.ReactNode;
   onSubmit?: (value: addGroupRequest) => void
 }
@@ -20,7 +20,7 @@ class AddGroup extends PureComponent<AddGroupProps, any> {
   }
 
   render() {
-    const { namespace, admin, privilege, btn, onSubmit } = this.props;
+    const { btn, onSubmit } = this.props;
     const { loading, visible } = this.state;
     return (
       <div className={styles.add_group}>
@@ -37,7 +37,7 @@ class AddGroup extends PureComponent<AddGroupProps, any> {
           onClose={() => { this.setState({ visible: false }) }}
           visible={visible}
         >
-          <AddGroupForm ref="addgroup" {...{ namespace, admin, privilege }} />
+          <AddGroupForm ref="addgroup" />
           <div className={"node-actions"} >
             <Button onClick={() => { this.setState({ visible: false }) }} style={{ marginRight: 8 }}> 取消 </Button>
             <Button loading={loading} onClick={() => {

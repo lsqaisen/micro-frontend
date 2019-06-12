@@ -28,7 +28,18 @@ export default class extends PureComponent<any, any> {
       };
     return (
       <UserBox {...{ desc, name }} >
-        <User group_id={group_id} />
+        {group_id === "*" ? (
+          <User className="box" group_id={group_id} />
+        ) : (
+            <Tabs className="box">
+              <Tabs.TabPane tab="用户列表" key="1">
+                <User group_id={group_id} />
+              </Tabs.TabPane>
+              <Tabs.TabPane tab="权限列表" key="2">
+
+              </Tabs.TabPane>
+            </Tabs>
+          )}
       </UserBox>
     )
   }

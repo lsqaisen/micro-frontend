@@ -18,12 +18,12 @@ export default {
   effects: {
     *get(_: AnyAction, { call, put, select }: EffectsCommandMap) {
       const { userType, projects, current } = yield select(({ user: { profile } }: any) => profile);
-      console.log( userType, projects, current )
       let project_id = 0;
       if (userType !== 1) {
         project_id = (projects || []).filter((v: any) => v.name == current)[0].id;
       }
       const { data, err } = yield call(api.getUsers, { project_id, admin: userType === 1 });
+      console.log(data, 232)
       if (!!err) {
         message.error(err, 5);
       } else {

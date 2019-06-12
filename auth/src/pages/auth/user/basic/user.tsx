@@ -21,15 +21,11 @@ export default class extends PureComponent<any, any> {
     this.get()
   }
   render() {
-    const { init, data, group_id, loading } = this.props;
+    const { init, data, group_id, className, loading } = this.props;
+    console.log(data)
     if (!init) return <Loading />;
     return (
-      <div style={{
-        backgroundColor: "#fff",
-        padding: 16,
-        borderRadius: '8px',
-        boxShadow: `0 2px 8px rgba(0, 0, 0, 0.09)`,
-      }}>
+      <div className={className}>
         <header style={{ overflow: 'hidden', marginBottom: 16 }}>
           <div className="fr">
             <Button style={{ marginLeft: 16 }} type="ghost" loading={loading} onClick={this.get} >刷新</Button>
@@ -37,6 +33,11 @@ export default class extends PureComponent<any, any> {
           <div className="fr">
           </div>
         </header>
+        <Table
+          loading={loading}
+          data={data}
+          actions={null}
+        />
       </div>
     )
   }

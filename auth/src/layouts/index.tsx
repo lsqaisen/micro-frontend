@@ -3,7 +3,7 @@ import { PureComponent } from 'react';
 import { connect } from 'dva';
 import Link from 'umi/link';
 import { createSelector } from 'reselect';
-import { LocaleProvider, Divider } from 'antd';
+import { LocaleProvider, Divider, message } from 'antd';
 import Media from 'react-media';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import { sub, unsub } from 'mife/bin/api';
@@ -32,13 +32,12 @@ export default class extends PureComponent<any, any> {
     }
   }
   componentDidMount() {
-    sub(`/lib/login/login.js?${process.env.VERSION}`, 'login', () => {
+    sub(`/lib/login/login.js?${new Date().getTime()}`, 'login', () => {
       this.setState({ init: true })
     });
   }
   render() {
     const { version, profile, init, location, children } = this.props;
-    console.log(profile)
     if (!init) return null;
     else if (!profile) {
       return children
@@ -52,19 +51,10 @@ export default class extends PureComponent<any, any> {
                 state='centent'
                 matches={!matches}
                 width={246}
-                header={(
-                  <SiderUser
-                    name={profile.username}
-                    admin={profile.userType === 1}
-                  />
-                )}
                 sider={(
-                  <React.Fragment>
+                  <div>
                     <section style={{ height: 64, padding: 8 }}>
-                      <Logo
-                        iconSrc={`/static/oem${process.env.NODE_ENV === "development" ? process.env.OEM_NAME : ''}/icon.png`}
-                        logoSrc={`/static/oem${process.env.NODE_ENV === "development" ? process.env.OEM_NAME : ''}/logo.png`}
-                      />
+                      <Logo iconSrc={`/static/oem/icon.png`} logoSrc={`/static/oem/logo.png`} />
                     </section>
                     <Divider style={{ margin: 0, marginBottom: 0 }} />
                     <SiderUser
@@ -73,7 +63,7 @@ export default class extends PureComponent<any, any> {
                     />
                     <div style={{ height: 'calc(100% - 212px)' }}>
                       <Menu
-                        width={246}
+                        width={230}
                         selectedKeys={[location.pathname]}
                         data={[{
                           type: 'group',
@@ -103,102 +93,12 @@ export default class extends PureComponent<any, any> {
                             type: 'item',
                             key: '/auth/log',
                             component: <Link to="/auth/log">审计日志</Link>
-                          }, {
-                            type: 'item',
-                            key: '/auth/user',
-                            component: <Link to="/auth/user">
-                              <i className='icon iconfont icon-auth' />
-                              <span className="name">应用栈</span>
-                            </Link>
-                          }, {
-                            type: 'item',
-                            key: '/auth/config',
-                            component: <Link to="/auth/config">系统设置</Link>
-                          }, {
-                            type: 'item',
-                            key: '/auth/log',
-                            component: <Link to="/auth/log">审计日志</Link>
-                          }, {
-                            type: 'item',
-                            key: '/auth/user',
-                            component: <Link to="/auth/user">
-                              <i className='icon iconfont icon-auth' />
-                              <span className="name">应用栈</span>
-                            </Link>
-                          }, {
-                            type: 'item',
-                            key: '/auth/config',
-                            component: <Link to="/auth/config">系统设置</Link>
-                          }, {
-                            type: 'item',
-                            key: '/auth/log',
-                            component: <Link to="/auth/log">审计日志</Link>
-                          }, {
-                            type: 'item',
-                            key: '/auth/user',
-                            component: <Link to="/auth/user">
-                              <i className='icon iconfont icon-auth' />
-                              <span className="name">应用栈</span>
-                            </Link>
-                          }, {
-                            type: 'item',
-                            key: '/auth/config',
-                            component: <Link to="/auth/config">系统设置</Link>
-                          }, {
-                            type: 'item',
-                            key: '/auth/log',
-                            component: <Link to="/auth/log">审计日志</Link>
-                          }, {
-                            type: 'item',
-                            key: '/auth/user',
-                            component: <Link to="/auth/user">
-                              <i className='icon iconfont icon-auth' />
-                              <span className="name">应用栈</span>
-                            </Link>
-                          }, {
-                            type: 'item',
-                            key: '/auth/config',
-                            component: <Link to="/auth/config">系统设置</Link>
-                          }, {
-                            type: 'item',
-                            key: '/auth/log',
-                            component: <Link to="/auth/log">审计日志</Link>
-                          }, {
-                            type: 'item',
-                            key: '/auth/user',
-                            component: <Link to="/auth/user">
-                              <i className='icon iconfont icon-auth' />
-                              <span className="name">应用栈</span>
-                            </Link>
-                          }, {
-                            type: 'item',
-                            key: '/auth/config',
-                            component: <Link to="/auth/config">系统设置</Link>
-                          }, {
-                            type: 'item',
-                            key: '/auth/log',
-                            component: <Link to="/auth/log">审计日志</Link>
-                          }, {
-                            type: 'item',
-                            key: '/auth/user',
-                            component: <Link to="/auth/user">
-                              <i className='icon iconfont icon-auth' />
-                              <span className="name">应用栈</span>
-                            </Link>
-                          }, {
-                            type: 'item',
-                            key: '/auth/config',
-                            component: <Link to="/auth/config">系统设置</Link>
-                          }, {
-                            type: 'item',
-                            key: '/auth/log',
-                            component: <Link to="/auth/log">审计日志</Link>
                           }]
                         }]}
                       />
                     </div>
                     <div style={{ lineHeight: '32px', textAlign: 'center', borderTop: '1px solid #f8f8f8' }}>{version} build {process.env.VERSION}</div>
-                  </React.Fragment>
+                  </div>
                 )}>
                 {children}
               </Layout>

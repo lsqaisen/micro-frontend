@@ -15,7 +15,7 @@ class Dashboard extends (PureComponent || Component)<any, any> {
     return (
       <div>
         <Button onClick={this.logout}>logout</Button>
-        <Link to="/auth">go {`auth`}</Link>
+        <Link to="/auth/user">go {`auth`}</Link>
       </div>
     )
   }

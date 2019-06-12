@@ -25,23 +25,28 @@ class Sider extends React.PureComponent<SiderProps, any> {
 
   updateSiderDrawer = (props: SiderProps) => {
     const { matches, level, realWidth, children } = props;
+    if (!children) return;
     if (!matches) {
       ReactDOM.unmountComponentAtNode(document.getElementById("media-siders"))
     } else {
-      create({ sider: children, realWidth }, level);
+      create(Object.assign({}, { sider: children, realWidth }), level);
     }
   }
 
   componentDidMount() {
-    this.updateSiderDrawer(this.props)
+    this.updateSiderDrawer(this.props);
   }
 
-  UNSAFE_componentWillReceiveProps(props: SiderProps) {
-    this.updateSiderDrawer(props);
+  UNSAFE_componentWillReceiveProps({ children, ...props }: SiderProps) {
+    const { children: _children, ..._props } = this.props;
+    if (JSON.stringify(_props) !== JSON.stringify(props)) {
+      this.updateSiderDrawer({ children, ...props });
+    }
   }
 
   render() {
     const { level, state, matches, width, children } = this.props;
+    if (!children) return null;
     return (
       <React.Fragment>
         {!matches ? <Layout.Sider

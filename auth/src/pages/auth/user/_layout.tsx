@@ -9,30 +9,31 @@ import Layout from '@/components/global/layout';
 
 export default connect(createSelector(
   [
-    (props: any) => props.stack,
-    (props: any) => props.stack,
-    (props: any) => props.stack,
+    (props: any) => props.user.namespace,
+    (props: any) => props.user.profile.userType === 1,
+    (props: any) => props.group.data,
+    (props: any) => props.group.active,
+    (props: any) => props.group.init,
     (_: any, state: any) => {
-      console.log(_, state)
       const { location: { query: { group } } } = state;
       return group;
     },
   ],
-  (data, active, init, groupName) => ({ data, active, init, groupName })
+  (namespace, admin, data, active, init, group_id) => ({ namespace, admin, data, active, init, group_id })
 ))(class extends React.PureComponent<any, any> {
   get = () => {
-    return this.props.dispatch({ type: 'stack/get' });
+    return this.props.dispatch({ type: 'group/get' });
   }
   create = (data: any) => {
     return this.props.dispatch({
-      type: 'stack/create',
+      type: 'group/create',
       payload: data,
     })
   }
-  delete = (name: any) => {
+  delete = (group_id: any) => {
     return this.props.dispatch({
-      type: 'stack/delete',
-      payload: name,
+      type: 'group/delete',
+      payload: group_id,
     })
   }
   UNSAFE_componentWillReceiveProps({ active, init }: any) {
@@ -47,7 +48,7 @@ export default connect(createSelector(
     }
   }
   render() {
-    const { data, groupName, active, init, children } = this.props;
+    const { namespace, admin, data, group_id, active, init, children } = this.props;
     return (
       <Media query="(min-width: 599px)">
         {(matches) => (
@@ -58,7 +59,9 @@ export default connect(createSelector(
             matches={!matches}
             state={active === undefined || !init ? 'initially' : active === false ? 'empty' : 'centent'}
             sider={<Group
-              groupName={groupName}
+              namespace={namespace}
+              admin={admin}
+              group_id={group_id}
               data={data}
               onAdd={this.create}
               onDelete={this.delete}
@@ -73,7 +76,9 @@ export default connect(createSelector(
               </div>
             )}
           >
-            {init ? children : null}
+            {init ? React.cloneElement(children as any, {
+              group_id,
+            }) : null}
           </Layout>
         )}
       </Media>

@@ -66,10 +66,17 @@ export default {
       .prepend(".ts");
   },
   proxy: {
+    //models
     "/lib/login": {
       "target": "http://localhost:5000",
       "changeOrigin": true,
       "pathRewrite": { "^/lib/login": "" }
+    },
+    //oem
+    "/static/oem": {
+      "target": "http://localhost:5000/",
+      "changeOrigin": true,
+      "pathRewrite": { "^/static/oem": "/static/oem/kubeup" }
     },
     // api
     "/api": {

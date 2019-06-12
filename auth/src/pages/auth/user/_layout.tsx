@@ -9,16 +9,17 @@ import Layout from '@/components/global/layout';
 
 export default connect(createSelector(
   [
+    (props: any) => props.user.namespace,
+    (props: any) => props.user.profile.userType === 1,
     (props: any) => props.group.data,
     (props: any) => props.group.active,
     (props: any) => props.group.init,
     (_: any, state: any) => {
-      console.log(state)
       const { location: { query: { group } } } = state;
       return group;
     },
   ],
-  (data, active, init, group_id) => ({ data, active, init, group_id })
+  (namespace, admin, data, active, init, group_id) => ({ namespace, admin, data, active, init, group_id })
 ))(class extends React.PureComponent<any, any> {
   get = () => {
     return this.props.dispatch({ type: 'group/get' });
@@ -47,7 +48,7 @@ export default connect(createSelector(
     }
   }
   render() {
-    const { data, group_id, active, init, children } = this.props;
+    const { namespace, admin, data, group_id, active, init, children } = this.props;
     return (
       <Media query="(min-width: 599px)">
         {(matches) => (
@@ -58,6 +59,8 @@ export default connect(createSelector(
             matches={!matches}
             state={active === undefined || !init ? 'initially' : active === false ? 'empty' : 'centent'}
             sider={<Group
+              namespace={namespace}
+              admin={admin}
               group_id={group_id}
               data={data}
               onAdd={this.create}
@@ -73,7 +76,9 @@ export default connect(createSelector(
               </div>
             )}
           >
-            {init ? children : null}
+            {init ? React.cloneElement(children as any, {
+              group_id,
+            }) : null}
           </Layout>
         )}
       </Media>

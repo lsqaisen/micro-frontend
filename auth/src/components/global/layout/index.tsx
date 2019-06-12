@@ -35,7 +35,7 @@ export default class extends React.PureComponent<LayoutProps, any> {
           <React.Fragment>
             {state === "initially" && <Loading key="loading" />}
             <Layout className={styles.layout} style={{ display: state === "centent" ? "flex" : "none'" }}>
-              {sider && <Sider
+              <Sider
                 level={level}
                 matches={matches}
                 state={state}
@@ -43,7 +43,7 @@ export default class extends React.PureComponent<LayoutProps, any> {
                 realWidth={width}
               >
                 {sider}
-              </Sider>}
+              </Sider>
               <Layout.Content className={className} style={{ position: 'relative', minHeight: "100vh" }}>
                 <Layout.Header className={styles.header}>
                   {header}

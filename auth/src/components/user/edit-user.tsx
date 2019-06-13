@@ -1,53 +1,54 @@
 import { PureComponent, cloneElement } from 'react';
 import { Icon, Button, Drawer } from 'antd';
-import AddGroupForm, { GroupFromProps } from './form/add-group-form';
-import { addGroupRequest } from '@/services/group';
+import EditUserForm from './form/user-form';
+import { addUserRequest } from '@/services/user';
 import styles from './style/index.less';
 
-export interface AddGroupProps extends GroupFromProps {
+export interface EditUserProps {
+  visible?: boolean;
   btn?: React.ReactNode;
-  onSubmit?: (value: addGroupRequest) => void
+  onClose?: () => void;
+  onSubmit?: (value: addUserRequest) => void
 }
 
-class AddGroup extends PureComponent<AddGroupProps, any> {
+class EditUser extends PureComponent<EditUserProps, any> {
   static readonly defaultProps = {
     onSubmit: () => null
   };
 
   state = {
     loading: false,
-    visible: false,
   }
 
   render() {
-    const { namespace, admin, privilege, btn, onSubmit } = this.props;
-    const { loading, visible } = this.state;
+    const { visible, btn, onClose, onSubmit } = this.props;
+    const { loading } = this.state;
     return (
-      <div className={styles.add_group}>
+      <div>
         {btn ? cloneElement(btn as any, {
           onClick: () => { this.setState({ visible: true }) }
         }) : <Button className={styles.btn} type="primary" onClick={() => { this.setState({ visible: true }) }}>
-            添加权限组 <Icon type="plus" />
+            添加用户 <Icon type="plus" />
           </Button>}
         <Drawer
           maskClosable={false}
-          title="添加用户权限组"
+          title="添加用户"
           width={482}
-          placement="left"
-          onClose={() => { this.setState({ visible: false }) }}
+          placement="right"
+          onClose={onClose}
           visible={visible}
         >
-          <AddGroupForm ref="addgroup" {...{ namespace, admin, privilege }} />
+          <EditUserForm edit ref="edituser" />
           <div className={"drawer-bottom-actions"} >
-            <Button onClick={() => { this.setState({ visible: false }) }} style={{ marginRight: 8 }}> 取消 </Button>
+            <Button onClick={onClose} style={{ marginRight: 8 }}> 取消 </Button>
             <Button loading={loading} onClick={() => {
-              (this.refs.addgroup as any).validateFields(async (error: any, values: addGroupRequest) => {
+              (this.refs.edituser as any).validateFields(async (error: any, values: addUserRequest) => {
                 if (!error) {
                   this.setState({ loading: true })
                   if ((await onSubmit!(values)) as any) {
                     this.setState({ loading: false })
                   } else {
-                    this.setState({ visible: false, loading: false })
+                    onClose!()
                   }
                 }
               })
@@ -59,4 +60,4 @@ class AddGroup extends PureComponent<AddGroupProps, any> {
   }
 }
 
-export default AddGroup;
+export default EditUser;

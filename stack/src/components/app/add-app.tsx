@@ -27,7 +27,7 @@ class AddApp extends PureComponent<AddAppProps, any> {
         {btn ? cloneElement(btn as any, {
           onClick: () => { this.setState({ visible: true }) }
         }) : <Button className={styles.btn} type="primary" onClick={() => { this.setState({ visible: true }) }}>
-            <Icon type="plus" /> 添加应用栈
+            添加应用栈 <Icon type="plus" />
         </Button>}
         <Drawer
           maskClosable={false}
@@ -43,7 +43,7 @@ class AddApp extends PureComponent<AddAppProps, any> {
             ref="addapp"
             {...{ onNodeSearch, onResourceSearch, onImageSearch, onImageTagSearch, onSecretSearch, onCfgfileSearch, onPvcPoolSearch, onPvcSearch }}
           />
-          <div className={"node-actions"} >
+          <div className={"drawer-bottom-actions"} >
             <Button onClick={() => { this.setState({ visible: false }) }} style={{ marginRight: 8 }}> 取消 </Button>
             <Button loading={loading} onClick={() => {
               (this.refs.addapp as any).validateFieldsAndScroll(async (error: any, values: any) => {

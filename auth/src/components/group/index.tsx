@@ -22,7 +22,6 @@ class Group extends PureComponent<GroupProps, any> {
     data: []
   }
   setGroup = (group_id?: string) => {
-    console.log(group_id)
     router.push(`/auth/user?group=${group_id}`);
   }
   UNSAFE_componentWillReceiveProps({ data, group_id }: GroupProps) {

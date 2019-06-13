@@ -24,7 +24,7 @@ class AddResource extends PureComponent<AddResourceProps, any> {
     return (
       <Fragment>
         {!btn ? <Button ghost type="primary" onClick={() => { this.setState({ visible: true }) }}>
-          <Icon type="plus" /> 添加资源池
+          添加资源池 <Icon type="plus" />
         </Button> :
           cloneElement(btn as any, { onClick: () => { this.setState({ visible: true }) } })}
         <Drawer
@@ -35,7 +35,7 @@ class AddResource extends PureComponent<AddResourceProps, any> {
           visible={visible}
         >
           <AddResourceForm ref="addresource" />
-          <div className="node-actions" >
+          <div className="drawer-bottom-actions" >
             <Button onClick={() => { this.setState({ visible: false }) }} style={{ marginRight: 8 }}> 取消 </Button>
             <Button loading={loading} onClick={() => {
               (this.refs.addresource as any).validateFields(async (error: any, values: createResourceRequest) => {

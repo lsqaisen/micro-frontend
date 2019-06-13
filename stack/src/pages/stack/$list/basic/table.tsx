@@ -88,14 +88,14 @@ export default class extends PureComponent<any, any> {
                   overlay={(
                     <Menu onClick={() => { }}>
                       <Menu.Item key="1">
-                        <Icon type="plus" /> 外部服务
+                        外部服务 <Icon type="plus" />
                     </Menu.Item>
                       <Menu.Item key="2">
                         <Icon type="vertical-align-bottom" /> 导出服务
                     </Menu.Item>
                     </Menu>
                   )}>
-                  <Icon type="plus" /> 添加服务
+                  添加服务 <Icon type="plus" />
               </Dropdown.Button>
               )}
               onNodeSearch={(search: any) => {

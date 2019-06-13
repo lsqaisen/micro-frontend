@@ -15,7 +15,7 @@ export default {
   subscriptions: {
     setup({ dispatch, history }: any, done: any) {
       history.listen(({ pathname, search }: any) => {
-        if (pathname === '/stack' && !search) {
+        if (['/auth/user', '/auth/config', '/auth/log'].includes(pathname) && !search) {
           dispatch({ type: 'active' })
           dispatch({
             type: 'save',

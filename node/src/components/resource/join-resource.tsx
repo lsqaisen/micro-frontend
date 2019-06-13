@@ -19,7 +19,7 @@ class JoinResource extends PureComponent<JoinResourceProps, any> {
     return (
       <Fragment>
         <Button type="primary" onClick={() => { this.setState({ visible: true }) }}>
-          <Icon type="plus" /> 添加节点
+          添加节点 <Icon type="plus" />
         </Button>
         <Drawer
           title="添加节点"
@@ -34,7 +34,7 @@ class JoinResource extends PureComponent<JoinResourceProps, any> {
             ref="joinresource"
             {...joinResourceFormProps}
           />
-          <div className="node-actions" >
+          <div className="drawer-bottom-actions" >
             <Button onClick={() => { this.setState({ visible: false }) }} style={{ marginRight: 8 }}> 取消 </Button>
             <Button loading={loading} onClick={() => {
               (this.refs.joinresource as any).validateFields(async (error: any, values: joinResourceRequest) => {

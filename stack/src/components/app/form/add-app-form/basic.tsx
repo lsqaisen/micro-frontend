@@ -168,7 +168,7 @@ class AddBasic extends PureComponent<FormInputProps<Basic> & AddBasicProps, any>
                 )}
               </FormItem>
             </Form>
-            <div className={"node-actions"} >
+            <div className={"drawer-bottom-actions"} >
               <Button onClick={() => { this.setState({ visible: false }) }} style={{ marginRight: 8 }}> 取消 </Button>
               <Button onClick={this._onClose} type="primary"> 确认 </Button>
             </div>

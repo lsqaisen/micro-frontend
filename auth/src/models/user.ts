@@ -36,6 +36,17 @@ export default {
         });
       }
     },
+    *create({ payload }: AnyAction, { put, call, select }: EffectsCommandMap) {
+      const { namespace, profile } = yield select(({ user: { namespace, profile } }: any) => ({ namespace, profile }));
+      const { err } = yield call(api.addUser, { admin: profile.userType === 1, project: namespace, ...payload });
+      if (!!err) {
+        message.error(err, 5);
+        return err;
+      } else {
+        message.success('添加用户成功', 5);
+        yield put({ type: 'get' })
+      }
+    },
     *[`delete`]({ payload }: AnyAction, { put, call, select }: EffectsCommandMap) {
       const { userType, projects, current } = yield select(({ user: { profile } }: any) => profile);
       let project_id = 0;

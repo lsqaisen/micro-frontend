@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Menu, Popover } from 'antd';
+import { Menu, Dropdown } from 'antd';
 import DeleteNode from '@/components/node/delete-node';
 import ModifyStatus from '@/components/node/modify-status';
 import RemoveNode from '@/components/resource/remove-node';
@@ -8,8 +8,8 @@ import styles from './style/index.less';
 export default ({ node, resourceName, children, dispatch, onSelect, onUpdate }: any) => {
   const allocatable = node.status.indexOf('SchedulingDisabled') !== -1 ? true : false;
   return (
-    <Popover
-      trigger="click"
+    <Dropdown
+      trigger={["click"]}
       overlayClassName={styles.actions}
       placement="bottomRight"
       content={(
@@ -60,6 +60,6 @@ export default ({ node, resourceName, children, dispatch, onSelect, onUpdate }: 
       )}
     >
       {children}
-    </Popover>
+    </Dropdown>
   )
 }

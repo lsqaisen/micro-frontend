@@ -27,7 +27,7 @@ class AddStack extends PureComponent<AddStackProps, any> {
         {btn ? cloneElement(btn as any, {
           onClick: () => { this.setState({ visible: true }) }
         }) : <Button className={styles.btn} type="primary" onClick={() => { this.setState({ visible: true }) }}>
-            <Icon type="plus" /> 添加应用栈
+            添加应用栈 <Icon type="plus" />
         </Button>}
         <Drawer
           title="添加集群"
@@ -37,7 +37,7 @@ class AddStack extends PureComponent<AddStackProps, any> {
           visible={visible}
         >
           <AddStackForm ref="addstack" />
-          <div className={"node-actions"} >
+          <div className={"drawer-bottom-actions"} >
             <Button onClick={() => { this.setState({ visible: false }) }} style={{ marginRight: 8 }}> 取消 </Button>
             <Button loading={loading} onClick={() => {
               (this.refs.addstack as any).validateFields(async (error: any, values: createStackRequest) => {

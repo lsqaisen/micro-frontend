@@ -116,7 +116,7 @@ class AddHealthCheck extends PureComponent<AddHealthCheckProps, any> {
               )}
             </FormInputItem>}
           </Form>
-          <div className={"node-actions"} >
+          <div className={"drawer-bottom-actions"} >
             <Button onClick={() => {
               this.setState({ visible: false }, resetFields);
             }} style={{ marginRight: 8 }}> 取消 </Button>

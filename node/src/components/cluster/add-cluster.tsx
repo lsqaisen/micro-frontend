@@ -24,7 +24,7 @@ class AddCluster extends PureComponent<AddClusterProps, any> {
     return (
       <div className={styles.add_cluster} >
         <Button className={styles.btn} type="primary" onClick={() => { this.setState({ visible: true }) }}>
-          <Icon type="plus" /> 添加集群
+          添加集群 <Icon type="plus" />
         </Button>
         <Drawer
           title="添加集群"
@@ -34,7 +34,7 @@ class AddCluster extends PureComponent<AddClusterProps, any> {
           visible={visible}
         >
           <AddClusterForm ref="addcluster" />
-          <div className={"node-actions"} >
+          <div className={"drawer-bottom-actions"} >
             <Button onClick={() => { this.setState({ visible: false }) }} style={{ marginRight: 8 }}> 取消 </Button>
             <Button loading={loading} onClick={() => {
               (this.refs.addcluster as any).validateFields(async (error: any, values: addClusterRequest) => {

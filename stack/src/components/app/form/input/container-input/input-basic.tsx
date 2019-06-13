@@ -120,7 +120,7 @@ class InputBasic<T> extends PureComponent<InputBasicProps<T[]>, any> {
                   )}
                 </FormInputItem>
               </Form>
-              <div className={"node-actions"} >
+              <div className={"drawer-bottom-actions"} >
                 <Button onClick={this._onClose} type="primary"> 确认 </Button>
               </div>
             </Drawer >

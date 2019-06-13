@@ -131,7 +131,7 @@ class SelectConfigFile extends PureComponent<SelectConfigFileProps, any> {
             columns={SelectConfigFile.columns}
             dataSource={data}
           />
-          <div className={"node-actions"} >
+          <div className={"drawer-bottom-actions"} >
             <Button onClick={() => { this.setState({ visible: false }) }} style={{ marginRight: 8 }}> 取消 </Button>
             <Button disabled={selectedRowKeys.length <= 0} onClick={this._onClose} type="primary"> 确认 </Button>
           </div>

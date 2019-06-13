@@ -35,7 +35,7 @@ class AddNode extends PureComponent<AddNodeProps, any> {
           visible={visible}
         >
           <AddNodeForm ref="addnode" />
-          <div className={"node-actions"} >
+          <div className={"drawer-bottom-actions"} >
             <Button onClick={() => { this.setState({ visible: false }) }} style={{ marginRight: 8 }}> 取消 </Button>
             <Button loading={loading} onClick={() => {
               (this.refs.addnode as any).validateFields(async (error: any, values: installRequest) => {

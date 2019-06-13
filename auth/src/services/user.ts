@@ -32,12 +32,35 @@ function deleteUser({ admin, project_id, user_id, group_id }: deleteUserRequest)
   });
 }
 
+interface addUserRequest {
+  admin: boolean;
+  type?: number;
+  email: string;
+  realname: string;
+  username: string;
+  comment: string;
+  project: string;
+  password: string;
+}
+
+function addUser({ admin, type = 1, project, ...data }: addUserRequest) {
+  if (!admin) type = 2;
+  let url = admin ? `/service/auth/api/users` : `/service/auth/api/users?project=${project}`;
+  return request(url, {
+    method: 'post',
+    body: { ...data, type }
+  });
+}
+
+
 export {
   deleteUserRequest,
   getUsersRequest,
+  addUserRequest,
 }
 
 export default {
   getUsers,
   deleteUser,
+  addUser,
 }

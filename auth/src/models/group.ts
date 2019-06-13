@@ -12,24 +12,6 @@ export default {
     data: [],
   },
 
-  subscriptions: {
-    setup({ dispatch, history }: any, done: any) {
-      history.listen(({ pathname, search }: any) => {
-        if (['/auth/user', '/auth/config', '/auth/log'].includes(pathname) && !search) {
-          dispatch({ type: 'active' })
-          dispatch({
-            type: 'save',
-            payload: {
-              init: false
-            }
-          });
-        }
-      });
-      dispatch({ type: 'active' })
-      done();
-    },
-  },
-
   effects: {
     *active(_: AnyAction, { call, put }: EffectsCommandMap) {
       const { data, err } = yield call(services.getPluginStatus, 'auth');
@@ -44,7 +26,7 @@ export default {
         });
       }
     },
-    *get({ payload }: AnyAction, { call, put, select }: EffectsCommandMap) {
+    *get(_: AnyAction, { call, put, select }: EffectsCommandMap) {
       const { userType, projects, current } = yield select(({ user: { profile } }: any) => profile);
       let project_id = 0;
       if (userType != 1) {

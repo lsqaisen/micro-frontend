@@ -12,17 +12,30 @@ export default connect(createSelector(
     (props: any) => props.user.namespace,
     (props: any) => props.user.profile.userType === 1,
     (props: any) => props.group.data,
-    (props: any) => props.group.active,
     (props: any) => props.group.init,
+    (props: any) => props.privilege.data,
+    (props: any) => {
+      console.log(1111, (props.authuser.data["*"] || {}).list || []);
+      return (props.authuser.data["*"] || {}).list || []
+    },
     (_: any, state: any) => {
       const { location: { query: { group } } } = state;
       return group;
     },
   ],
-  (namespace, admin, data, active, init, group_id) => ({ namespace, admin, data, active, init, group_id })
+  (namespace, admin, data, init, privilege, users, group_id) => ({ namespace, admin, data, init, privilege, users, group_id })
 ))(class extends React.PureComponent<any, any> {
   get = () => {
     return this.props.dispatch({ type: 'group/get' });
+  }
+  getPrivilege = () => {
+    return this.props.dispatch({ type: 'privilege/get' });
+  }
+  getUser = () => {
+    return this.props.dispatch({
+      type: 'authuser/get',
+      payload: { group_id: '*' }
+    });
   }
   create = (data: any) => {
     return this.props.dispatch({
@@ -36,19 +49,12 @@ export default connect(createSelector(
       payload: group_id,
     })
   }
-  UNSAFE_componentWillReceiveProps({ active, init }: any) {
-    if (active === undefined || !init) {
-      if (!!active) this.get();
-    }
-  }
   componentDidMount() {
-    const { active, init } = this.props;
-    if (active === undefined || !init) {
-      if (!!active) this.get();
-    }
+    this.getPrivilege();
+    this.get();
   }
   render() {
-    const { namespace, admin, data, group_id, active, init, children } = this.props;
+    const { namespace, privilege, admin, data, group_id, init, children } = this.props;
     return (
       <Media query="(min-width: 599px)">
         {(matches) => (
@@ -57,24 +63,25 @@ export default connect(createSelector(
             level={1}
             width={226}
             matches={!matches}
-            state={active === undefined || !init ? 'initially' : active === false ? 'empty' : 'centent'}
+            state={!init ? 'initially' : 'centent'}
             sider={<Group
+              privilege={privilege}
               namespace={namespace}
               admin={admin}
               group_id={group_id}
               data={data}
               onAdd={this.create}
               onDelete={this.delete}
+              onUserSearch={() => {
+                return new Promise(async (resolve) => {
+                  this.getUser().then(() => {
+                    const { users } = this.props;
+                    console.log(users)
+                    resolve(users);
+                  });
+                })
+              }}
             />}
-            empty={(
-              <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-                <Empty
-                  style={{ float: 'left', position: 'absolute', left: 'calc(50% - 61px)', top: 'calc(50% - 74px)' }}
-                  description="插件还未激活" >
-                  <Button type="primary">立即激活</Button>
-                </Empty>
-              </div>
-            )}
           >
             {init ? React.cloneElement(children as any, {
               group_id,

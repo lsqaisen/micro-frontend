@@ -7,13 +7,20 @@ interface getUsersRequest {
   username?: string;
   page?: number;
   page_size?: number;
+  group_id?: string | number;
 }
-function getUsers({ project_id, admin, username = "", page = 1, page_size = 100000 }: getUsersRequest) {
-  let url = admin ?
-    `/service/auth/api/users?username=${username}&page=${page}&page_size=${page_size}` :
-    `/service/auth/api/projects/${project_id}/members?username=${username}&page=${page}&page_size=${page_size}`;
-  return request(url);
+
+function getUsers({ group_id, project_id, admin, username = "", page = 1, page_size = 100000 }: getUsersRequest) {
+  if (!!group_id && group_id !== "*") {
+    return request(`/service/auth/api/groups/${group_id}/detail`);
+  } else {
+    let url = admin ?
+      `/service/auth/api/users?username=${username}&page=${page}&page_size=${page_size}` :
+      `/service/auth/api/projects/${project_id}/members?username=${username}&page=${page}&page_size=${page_size}`;
+    return request(url);
+  }
 }
+
 
 interface deleteUserRequest {
   admin: boolean;

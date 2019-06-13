@@ -1,7 +1,9 @@
 import { PureComponent } from 'react';
-import { Form, Input, Select, TreeSelect } from 'antd';
+import { Form, Input, TreeSelect, Typography } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import SearchSelect from '@/components/global/search-select';
+import { transition } from '@/components/privilege/table';
+import { getUsersRequest } from '@/services/user';
 
 const FormItem = Form.Item;
 
@@ -10,17 +12,19 @@ export interface GroupFromProps {
   namespace: string;
   privilege: any[];
   formItemLayout?: any;
+  onUserSearch?: () => any;
 }
 
 @(Form.create() as any)
-class AddGroupForm extends PureComponent<FormComponentProps & GroupFromProps & any, any> {
+class AddGroupForm extends PureComponent<FormComponentProps & GroupFromProps, any> {
   static readonly defaultProps = {
-    from: {},
+    form: {},
     formItemLayout: {
       labelCol: { xs: 24, md: 5 },
       wrapperCol: { xs: 24, md: 19 },
     },
     admin: false,
+    onUserSearch: () => null,
   };
   checkName = (rule: any, value: any, callback: any) => {
     if (!!value) {
@@ -38,10 +42,10 @@ class AddGroupForm extends PureComponent<FormComponentProps & GroupFromProps & a
   }
 
   render() {
-    const { admin, namespace, privilege, formItemLayout, form } = this.props;
+    const { admin, namespace, privilege, formItemLayout, form, onUserSearch } = this.props;
     const { getFieldDecorator } = form;
     const tProps = {
-      treeData: privilege,
+      treeData: transition(privilege) as any,
       treeCheckable: true,
       showCheckedStrategy: TreeSelect.SHOW_PARENT,
       searchPlaceholder: '请选择角色权限',
@@ -84,6 +88,25 @@ class AddGroupForm extends PureComponent<FormComponentProps & GroupFromProps & a
             initialValue: []
           })(
             <SearchSelect
+              mode="tags"
+              placeholder="选择成员"
+              onSearch={(params: any = {}) => {
+                return new Promise(async (resolve, reject) => {
+                  let response: any[] = await onUserSearch!();
+                  resolve({
+                    data: response.map((v: any) => ({
+                      key: `${v.user_id}`,
+                      label: (
+                        <Typography>
+                          <Typography.Text>{v.username}</Typography.Text>
+                          <Typography.Text type="secondary">{`<${v.email}>`}</Typography.Text>
+                        </Typography>
+                      )
+                    })),
+                    params: null
+                  })
+                })
+              }}
             />
           )}
         </FormItem>

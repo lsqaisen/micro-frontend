@@ -2,9 +2,9 @@ import { PureComponent, cloneElement } from 'react';
 import { Icon, Button, Drawer } from 'antd';
 import AddUserForm from './form/user-form';
 import { addUserRequest } from '@/services/user';
-import styles from './style/index.less';
 
 export interface AddUserProps {
+  admin?: boolean;
   btn?: React.ReactNode;
   onSubmit?: (value: addUserRequest) => void
 }
@@ -20,13 +20,13 @@ class AddUser extends PureComponent<AddUserProps, any> {
   }
 
   render() {
-    const { btn, onSubmit } = this.props;
+    const { admin, btn, onSubmit } = this.props;
     const { loading, visible } = this.state;
     return (
       <div>
         {btn ? cloneElement(btn as any, {
           onClick: () => { this.setState({ visible: true }) }
-        }) : <Button className={styles.btn} type="primary" onClick={() => { this.setState({ visible: true }) }}>
+        }) : <Button type="primary" onClick={() => { this.setState({ visible: true }) }}>
             添加用户 <Icon type="plus" />
           </Button>}
         <Drawer
@@ -37,7 +37,7 @@ class AddUser extends PureComponent<AddUserProps, any> {
           onClose={() => { this.setState({ visible: false }) }}
           visible={visible}
         >
-          <AddUserForm ref="adduser" />
+          <AddUserForm admin={admin} ref="adduser" />
           <div className={"drawer-bottom-actions"} >
             <Button onClick={() => { this.setState({ visible: false }) }} style={{ marginRight: 8 }}> 取消 </Button>
             <Button loading={loading} onClick={() => {

@@ -1,13 +1,21 @@
 import request from '@/utils/request';
 
-function getGroup(project_id: string | number) {
-  return request(`/service/auth/api/groups?project_id=${project_id}`);
+interface getPrivilegesRequest {
+  admin?: boolean;
+  project_id: string | number;
+}
+
+function getPrivileges({ admin, project_id }: getPrivilegesRequest) {
+  let url = admin ?
+    `/service/auth/api/joint-privileges` :
+    `/service/auth/api/joint-privileges?project_id=${project_id}`;
+  return request(url);
 }
 
 interface addGroupRequest {
   name: string;
   project: string; // * | namespace
-  users?: number[];
+  users?: string[];
   description?: string;
   privileges: number[];
 }
@@ -42,11 +50,9 @@ function removeUserLeaveGroup({ user_id, group_id }) {
 
 
 export {
-  addGroupRequest,
+  getPrivilegesRequest,
 }
 
 export default {
-  getGroup,
-  addGroup,
-  deleteGroup,
+  getPrivileges
 }

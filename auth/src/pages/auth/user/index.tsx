@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import { createSelector } from 'reselect';
 import { Tabs } from 'antd';
 import User from './basic/user';
+import Privilege from './basic/privilege';
 import UserBox from '@/components/user';
 
 @connect(createSelector(
@@ -36,7 +37,7 @@ export default class extends PureComponent<any, any> {
                 <User group_id={group_id} />
               </Tabs.TabPane>
               <Tabs.TabPane tab="权限列表" key="2">
-
+                <Privilege group_id={group_id} />
               </Tabs.TabPane>
             </Tabs>
           )}

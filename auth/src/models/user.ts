@@ -9,29 +9,31 @@ export default {
   state: {
     active: undefined,
     init: false,
-    data: [],
+    data: {},
   },
 
   subscriptions: {
   },
 
   effects: {
-    *get(_: AnyAction, { call, put, select }: EffectsCommandMap) {
+    *get({ payload }: AnyAction, { call, put, select }: EffectsCommandMap) {
       const { userType, projects, current } = yield select(({ user: { profile } }: any) => profile);
       let project_id = 0;
       if (userType !== 1) {
         project_id = (projects || []).filter((v: any) => v.name == current)[0].id;
       }
-      const { data, err } = yield call(api.getUsers, { project_id, admin: userType === 1 });
-      console.log(data, 232)
+      const { data, err } = yield call(api.getUsers, { project_id, admin: userType === 1, ...payload });
       if (!!err) {
         message.error(err, 5);
       } else {
+        const { group_id } = payload;
         yield put({
           type: 'save',
           payload: {
             init: true,
-            data: data || [],
+            data: {
+              [group_id]: data || {},
+            }
           }
         });
       }

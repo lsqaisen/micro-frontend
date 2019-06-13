@@ -5,8 +5,8 @@ import { addUserRequest } from '@/services/user';
 import styles from './style/index.less';
 
 export interface EditUserProps {
+  user?: any;
   visible?: boolean;
-  btn?: React.ReactNode;
   onClose?: () => void;
   onSubmit?: (value: addUserRequest) => void
 }
@@ -21,41 +21,34 @@ class EditUser extends PureComponent<EditUserProps, any> {
   }
 
   render() {
-    const { visible, btn, onClose, onSubmit } = this.props;
+    const { visible, user, onClose, onSubmit } = this.props;
     const { loading } = this.state;
     return (
-      <div>
-        {btn ? cloneElement(btn as any, {
-          onClick: () => { this.setState({ visible: true }) }
-        }) : <Button className={styles.btn} type="primary" onClick={() => { this.setState({ visible: true }) }}>
-            添加用户 <Icon type="plus" />
-          </Button>}
-        <Drawer
-          maskClosable={false}
-          title="添加用户"
-          width={482}
-          placement="right"
-          onClose={onClose}
-          visible={visible}
-        >
-          <EditUserForm edit ref="edituser" />
-          <div className={"drawer-bottom-actions"} >
-            <Button onClick={onClose} style={{ marginRight: 8 }}> 取消 </Button>
-            <Button loading={loading} onClick={() => {
-              (this.refs.edituser as any).validateFields(async (error: any, values: addUserRequest) => {
-                if (!error) {
-                  this.setState({ loading: true })
-                  if ((await onSubmit!(values)) as any) {
-                    this.setState({ loading: false })
-                  } else {
-                    onClose!()
-                  }
+      <Drawer
+        maskClosable={false}
+        title="添加用户"
+        width={482}
+        placement="right"
+        onClose={onClose}
+        visible={visible}
+      >
+        <EditUserForm edit user={user} ref="edituser" />
+        <div className={"drawer-bottom-actions"} >
+          <Button onClick={onClose} style={{ marginRight: 8 }}> 取消 </Button>
+          <Button loading={loading} onClick={() => {
+            (this.refs.edituser as any).validateFields(async (error: any, values: addUserRequest) => {
+              if (!error) {
+                this.setState({ loading: true })
+                if ((await onSubmit!(values)) as any) {
+                  this.setState({ loading: false })
+                } else {
+                  onClose!()
                 }
-              })
-            }} type="primary"> 提交 </Button>
-          </div>
-        </Drawer>
-      </div>
+              }
+            })
+          }} type="primary"> 提交 </Button>
+        </div>
+      </Drawer>
     )
   }
 }

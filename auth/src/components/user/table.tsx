@@ -39,7 +39,7 @@ export type UserProps = {
 
 class User extends PureComponent<UserProps, any> {
   state = {
-    selectUserIndex: 0,
+    selectIndex: 0,
     visible: false,
   }
   columns: ColumnProps<IUser>[] = [
@@ -129,7 +129,7 @@ class User extends PureComponent<UserProps, any> {
       },
       render: (_, r, i) => React.cloneElement(this.props.actions as any, {
         user: r,
-        onSelect: () => { this.setState({ visible: true, selectUserIndex: i }) },
+        onSelect: () => { this.setState({ visible: true, selectIndex: i }) },
         children: (
           <a className="ant-dropdown-link" href="#" onClick={(e) => e.preventDefault()}>
             操作 <Icon type="down" />
@@ -140,7 +140,7 @@ class User extends PureComponent<UserProps, any> {
   ];
   render() {
     const { loading, data, actions, children, ...props } = this.props;
-    const { selectUserIndex, visible } = this.state;
+    const { selectIndex, visible } = this.state;
     const { list, total } = data;
     return (
       <Fragment>
@@ -153,8 +153,8 @@ class User extends PureComponent<UserProps, any> {
         />
         {children && React.cloneElement(children as any, {
           visible,
-          user: list![selectUserIndex] || {},
-          onClose: () => { this.setState({ selectUserIndex: 0, visible: false }) },
+          user: list![selectIndex] || {},
+          onClose: () => { this.setState({ selectIndex: 0, visible: false }) },
         })}
       </Fragment>
     )

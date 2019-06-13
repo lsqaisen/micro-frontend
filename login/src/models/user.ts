@@ -9,9 +9,11 @@ export default {
 	namespace: 'user',
 	state: {
 		init: false,
-		profile: undefined,
+		admin: undefined,
 		namespace: undefined,
 		workspace_id: undefined,
+		project_id: undefined,
+		profile: undefined,
 		domain: [],
 	},
 
@@ -64,9 +66,11 @@ export default {
 					type: 'save',
 					payload: {
 						init: true,
+						admin: data.userType === 1,
 						profile: data,
-						namespace: data.current === 'default' ? undefined : data.current,
+						namespace: data.current === 'default' ? 'system' : data.current,
 						workspace_id: data.workspace.id,
+						project_id: data.userType === 1 ? 0 : (data.projects || []).filter((v: any) => v.name == data.current)[0].id,
 					}
 				})
 			}

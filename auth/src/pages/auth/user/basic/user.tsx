@@ -10,15 +10,31 @@ import Actions from './actions';
 
 @connect(createSelector(
   [
+    (props: any) => props.user.profile.userType === 1,
     (props: any) => props.authuser.init,
-    (props: any) => props.authuser.data,
+    (props: any, { group_id }: any) => {
+      if (group_id === "*") {
+        return props.authuser.data[group_id] || { list: [], total: 0 };
+      } else {
+        const { group = {}, privileges = [], users = [] } = props.authuser.data[group_id] || {};
+        return {
+          group,
+          privileges,
+          total: users.length,
+          list: users,
+        };
+      }
+    },
     (props: any) => props.loading.effects[`authuser/get`],
   ],
-  (init, data, loading) => ({ init, data, loading })
+  (admin, init, data, loading) => ({ admin, init, data, loading })
 ))
 export default class extends PureComponent<any, any> {
   get = () => {
-    return this.props.dispatch({ type: 'authuser/get' });
+    return this.props.dispatch({
+      type: 'authuser/get',
+      payload: { group_id: this.props.group_id }
+    });
   }
   create = () => {
     return this.props.dispatch({ type: 'authuser/create' });
@@ -27,7 +43,7 @@ export default class extends PureComponent<any, any> {
     this.get()
   }
   render() {
-    const { init, data, group_id, className, loading } = this.props;
+    const { admin, init, data, group_id, className, loading } = this.props;
     if (!init) return <Loading />;
     return (
       <div className={className}>
@@ -36,7 +52,7 @@ export default class extends PureComponent<any, any> {
             <Button style={{ marginLeft: 16 }} type="ghost" loading={loading} onClick={this.get} >刷新</Button>
           </div>
           <div className="fr">
-            <AddUser onSubmit={this.create} />
+            <AddUser admin={admin} onSubmit={this.create} />
           </div>
         </header>
         <Table

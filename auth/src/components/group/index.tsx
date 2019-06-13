@@ -1,14 +1,8 @@
 import { PureComponent, Fragment } from 'react';
-import { Menu, Icon, Modal } from 'antd';
+import { Icon, Modal } from 'antd';
 import router from 'umi/router';
-import QueueAnim from 'rc-queue-anim';
-import ScrollBar from 'react-perfect-scrollbar';
 import CreateGroup, { AddGroupProps } from './add-group';
-// import { addGroupRequest } from '@/services/stack';
 import GMenu from '@/components/global/menu';
-import styles from './style/index.less';
-
-const { ItemGroup } = Menu;
 
 export interface GroupProps extends AddGroupProps {
   data: any[];
@@ -42,11 +36,11 @@ class Group extends PureComponent<GroupProps, any> {
     }
   }
   render() {
-    const { group_id, data, namespace, admin, privilege, onAdd, onDelete } = this.props;
+    const { group_id, data, namespace, admin, privilege, onAdd, onDelete, onUserSearch } = this.props;
     return (
       <Fragment>
-        <CreateGroup  {...{ namespace, admin, privilege }} onSubmit={onAdd!} />
-        <div style={{height: 'calc(100% - 80px)'}}>
+        <CreateGroup  {...{ namespace, admin, privilege, onUserSearch }} onSubmit={onAdd!} />
+        <div style={{ height: 'calc(100% - 80px)' }}>
           <GMenu
             selectedKeys={[`${group_id}`]}
             onClick={(e: any) => this.setGroup(e.key)}
@@ -67,8 +61,8 @@ class Group extends PureComponent<GroupProps, any> {
                 type: 'item',
                 key: `${v.group_id}`,
                 component: <Fragment>
-                  {v.name}
-                  <a
+                  {(v.name.split(":") || []).slice(1).join(':')}
+                  {!v.is_builtin && <a
                     href="#"
                     style={{ position: 'absolute', top: 0, right: 0 }}
                     onClick={(e) => {
@@ -93,7 +87,7 @@ class Group extends PureComponent<GroupProps, any> {
                       })
                     }}>
                     <Icon type="close" />
-                  </a>
+                  </a>}
                 </Fragment>
               }))
             }]}

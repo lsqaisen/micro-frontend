@@ -8,7 +8,8 @@ const OptGroup = Select.OptGroup;
 
 interface optionType {
 	key: string;
-	label: string;
+	value?: any;
+	label: any;
 	disabled?: boolean;
 	children?: optionType[]
 }
@@ -54,7 +55,7 @@ class SearchSelect extends PureComponent<SearchSelectProps, SearchSelectState> {
 					)
 				} else {
 					return (
-						<Option disabled={option.disabled} key={option.key} value={option.key}>{option.label}</Option>
+						<Option disabled={option.disabled} key={option.key} value={option.value || option.key}>{option.label}</Option>
 					)
 				}
 			});

@@ -52,7 +52,7 @@ export default class extends PureComponent<any, any> {
                 matches={!matches}
                 width={246}
                 sider={(
-                  <div>
+                  <div style={{ height: '100%' }}>
                     <section style={{ height: 64, padding: 8 }}>
                       <Logo iconSrc={`/static/oem/icon.png`} logoSrc={`/static/oem/logo.png`} />
                     </section>
@@ -63,7 +63,6 @@ export default class extends PureComponent<any, any> {
                     />
                     <div style={{ height: 'calc(100% - 212px)' }}>
                       <Menu
-                        width={230}
                         selectedKeys={[location.pathname]}
                         data={[{
                           type: 'group',
@@ -86,7 +85,7 @@ export default class extends PureComponent<any, any> {
                             key: '/auth/user',
                             component: <Link to="/auth/user">
                               <i className='icon iconfont icon-auth' />
-                              <span className="name">应用栈</span>
+                              <span className="name">用户管理</span>
                             </Link>
                           }, {
                             type: 'item',

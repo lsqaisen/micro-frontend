@@ -1,5 +1,5 @@
 import { PureComponent, Fragment } from 'react';
-import { Icon, Modal } from 'antd';
+import { Icon, Modal, Tooltip } from 'antd';
 import router from 'umi/router';
 import CreateGroup, { AddGroupProps } from './add-group';
 import GMenu from '@/components/global/menu';
@@ -62,32 +62,36 @@ class Group extends PureComponent<GroupProps, any> {
                 key: `${v.group_id}`,
                 component: <Fragment>
                   {(v.name.split(":") || []).slice(1).join(':')}
-                  {!v.is_builtin && <a
-                    href="#"
-                    style={{ position: 'absolute', top: 0, right: 0 }}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      Modal.confirm({
-                        title: `确认是否需要删除用户权限组${v.name}?`,
-                        content: v.description,
-                        okText: '确认',
-                        okType: 'danger',
-                        cancelText: '取消',
-                        onOk() {
-                          return new Promise(async (resolve, reject) => {
-                            const error: any = await onDelete!(v.group_id);
-                            if (!error) {
-                              resolve()
-                            } else {
-                              reject(error)
-                            }
+                  {!v.is_builtin && (
+                    <Tooltip title="删除">
+                      <a
+                        href="#"
+                        style={{ position: 'absolute', top: 0, right: 0 }}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          Modal.confirm({
+                            title: `确认是否需要删除用户权限组${v.name}?`,
+                            content: v.description,
+                            okText: '确认',
+                            okType: 'danger',
+                            cancelText: '取消',
+                            onOk() {
+                              return new Promise(async (resolve, reject) => {
+                                const error: any = await onDelete!(v.group_id);
+                                if (!error) {
+                                  resolve()
+                                } else {
+                                  reject(error)
+                                }
+                              })
+                            },
                           })
-                        },
-                      })
-                    }}>
-                    <Icon type="close" />
-                  </a>}
+                        }}>
+                        <Icon type="close" />
+                      </a>
+                    </Tooltip>
+                  )}
                 </Fragment>
               }))
             }]}

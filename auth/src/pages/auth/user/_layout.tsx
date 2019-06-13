@@ -14,10 +14,7 @@ export default connect(createSelector(
     (props: any) => props.group.data,
     (props: any) => props.group.init,
     (props: any) => props.privilege.data,
-    (props: any) => {
-      console.log(1111, (props.authuser.data["*"] || {}).list || []);
-      return (props.authuser.data["*"] || {}).list || []
-    },
+    (props: any) => (props.authuser.data["*"] || {}).list || [],
     (_: any, state: any) => {
       const { location: { query: { group } } } = state;
       return group;
@@ -76,7 +73,6 @@ export default connect(createSelector(
                 return new Promise(async (resolve) => {
                   this.getUser().then(() => {
                     const { users } = this.props;
-                    console.log(users)
                     resolve(users);
                   });
                 })

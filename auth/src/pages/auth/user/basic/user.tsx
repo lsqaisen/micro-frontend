@@ -30,14 +30,19 @@ import Actions from './actions';
   (admin, init, data, loading) => ({ admin, init, data, loading })
 ))
 export default class extends PureComponent<any, any> {
-  get = () => {
+  get = (group_id?: string) => {
     return this.props.dispatch({
       type: 'authuser/get',
-      payload: { group_id: this.props.group_id }
+      payload: { group_id: group_id || this.props.group_id }
     });
   }
   create = () => {
     return this.props.dispatch({ type: 'authuser/create' });
+  }
+  UNSAFE_componentWillReceiveProps({ group_id }: any) {
+    if (this.props.group_id !== group_id) {
+      this.get(group_id)
+    }
   }
   componentDidMount() {
     this.get()
@@ -49,7 +54,7 @@ export default class extends PureComponent<any, any> {
       <div className={className}>
         <header style={{ overflow: 'hidden', marginBottom: 16 }}>
           <div className="fr">
-            <Button style={{ marginLeft: 16 }} type="ghost" loading={loading} onClick={this.get} >刷新</Button>
+            <Button style={{ marginLeft: 16 }} type="ghost" loading={loading} onClick={() => this.get()} >刷新</Button>
           </div>
           <div className="fr">
             <AddUser admin={admin} onSubmit={this.create} />

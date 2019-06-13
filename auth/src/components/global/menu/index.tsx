@@ -21,7 +21,7 @@ export interface GMenuProps extends MenuProps {
 
 class GMenu extends PureComponent<GMenuProps, any> {
   static readonly defaultProps: GMenuProps = {
-    width: 210,
+    width: '100%',
     data: []
   }
   getComponent = (data: ItemData[]) => {

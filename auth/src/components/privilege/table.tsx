@@ -28,13 +28,16 @@ export interface PrivilegeTableProps {
   loading: boolean;
   privileges: PrivilegeData[];
   data: PrivilegeData[];
+  remove_privileges: string[];
+  add_privileges: string[];
+  onChange: (remove_privileges: string[], add_privileges: string[]) => void;
 }
 
 function renderTreeNodes(data: TreeData[]) {
   return data.map((item) => {
     if (!!item.children) {
       return (
-        <TreeNode title={item.title} key={item.key} dataRef={item}>
+        <TreeNode title={item.title} key={`${item.key}`} dataRef={item}>
           {renderTreeNodes(item.children)}
         </TreeNode>
       );
@@ -89,14 +92,15 @@ export function transition(data: PrivilegeData[]) {
 class PriTree extends PureComponent<PrivilegeTableProps, any> {
   state = {
     treeData: [],
-    remove_privileges: [] as string[],
     autoExpandParent: true,
   }
 
   onCheck = (checkedKeys: string[]) => {
-    this.setState({
-      remove_privileges: this.props.data.filter(v => checkedKeys.indexOf(`${v.joint_id}`) == -1).map(v => `${v.joint_id}`)
-    })
+    this.props.onChange(this.props.privileges
+      .filter(v => checkedKeys.indexOf(`${v.joint_id}`) == -1)
+      .map(v => `${v.joint_id}`), checkedKeys
+        .filter(v => !!Number(v))
+        .filter(v => this.props.privileges.every(_v => `${v}` !== `${_v.joint_id}`)))
   }
 
   UNSAFE_componentWillReceiveProps({ data }: PrivilegeTableProps) {
@@ -110,20 +114,24 @@ class PriTree extends PureComponent<PrivilegeTableProps, any> {
   }
 
   render() {
-    const { privileges, loading } = this.props;
-    const { treeData, autoExpandParent, remove_privileges } = this.state;
-
-    return <Spin spinning={loading}>
-      <Tree
-        multiple
-        checkable
-        autoExpandParent={autoExpandParent}
-        checkedKeys={privileges.filter(v => remove_privileges.indexOf(`${v.joint_id}`) == -1).concat(privileges).map(v => `${v.joint_id}`)}
-        onCheck={this.onCheck as any}
-      >
-        {renderTreeNodes(treeData)}
-      </Tree>
-    </Spin>
+    const { privileges, remove_privileges, add_privileges, loading } = this.props;
+    const { treeData, autoExpandParent } = this.state;
+    return (
+      <Spin spinning={loading}>
+        <Tree
+          multiple
+          checkable
+          autoExpandParent={autoExpandParent}
+          checkedKeys={privileges
+            .filter(v => remove_privileges.indexOf(`${v.joint_id}`) == -1)
+            .map(v => `${v.joint_id}`)
+            .concat(add_privileges)}
+          onCheck={this.onCheck as any}
+        >
+          {renderTreeNodes(treeData)}
+        </Tree>
+      </Spin>
+    )
   }
 }
 

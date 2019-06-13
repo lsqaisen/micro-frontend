@@ -12,47 +12,29 @@ function getPrivileges({ admin, project_id }: getPrivilegesRequest) {
   return request(url);
 }
 
-interface addGroupRequest {
-  name: string;
-  project: string; // * | namespace
-  users?: string[];
-  description?: string;
-  privileges: number[];
+interface updatePrivilegesRequest {
+  group_id: number;
+  privileges?: number[];
+  remove_privileges?: number[];
 }
 
-function addGroup(data: addGroupRequest) {
+function updatePrivileges({ group_id, privileges = [], remove_privileges = [] }: updatePrivilegesRequest) {
   return request(`/service/auth/api/groups`, {
-    method: 'post',
-    body: data
-  });
-}
-
-function deleteGroup(group_id: string | number) {
-  return request(`/service/auth/api/groups/${group_id}`, {
-    method: 'delete',
-  });
-}
-
-function addUserToGroup({ user_id, group_id }) {
-  return request(`/service/auth/api/groups/${Number(group_id)}/users`, {
-    method: "post",
+    method: 'put',
     body: {
-      user_id
+      group_id,
+      privileges,
+      remove_privileges
     }
   });
 }
 
-function removeUserLeaveGroup({ user_id, group_id }) {
-  return request(`/service/auth/api/groups/${group_id}/users/${user_id}`, {
-    method: "delete"
-  });
-}
-
-
 export {
   getPrivilegesRequest,
+  updatePrivilegesRequest,
 }
 
 export default {
-  getPrivileges
+  getPrivileges,
+  updatePrivileges
 }

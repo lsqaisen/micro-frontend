@@ -17,6 +17,12 @@ import UserBox from '@/components/user';
   (data, group_id) => ({ data, group_id })
 ))
 export default class extends PureComponent<any, any> {
+  get = () => {
+    return this.props.dispatch({ type: 'privilege/get' });
+  }
+  componentDidMount() {
+    this.get()
+  }
   render() {
     const { data, group_id } = this.props;
     let group = data.find((v: any) => `${v.group_id}` === group_id) || {};
@@ -32,8 +38,8 @@ export default class extends PureComponent<any, any> {
         {group_id === "*" ? (
           <User className="box" group_id={group_id} />
         ) : (
-            <Tabs className="box">
-              <Tabs.TabPane tab="用户列表" key="1">
+            <Tabs className="box" >
+              <Tabs.TabPane tab="用户列表" key="1" forceRender>
                 <User group_id={group_id} />
               </Tabs.TabPane>
               <Tabs.TabPane tab="权限列表" key="2">

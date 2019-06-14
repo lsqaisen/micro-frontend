@@ -25,16 +25,19 @@ function deleteGroup(group_id: string | number) {
   });
 }
 
-function addUserToGroup({ user_id, group_id }) {
-  return request(`/service/auth/api/groups/${Number(group_id)}/users`, {
+interface actionUserRequest {
+  user_id: number;
+  group_id: string | number;
+}
+
+function addUser({ user_id, group_id }: actionUserRequest) {
+  return request(`/service/auth/api/groups/${group_id}/users`, {
     method: "post",
-    body: {
-      user_id
-    }
+    body: { user_id: Number(user_id) }
   });
 }
 
-function removeUserLeaveGroup({ user_id, group_id }) {
+function removeUser({ user_id, group_id }: actionUserRequest) {
   return request(`/service/auth/api/groups/${group_id}/users/${user_id}`, {
     method: "delete"
   });
@@ -43,10 +46,13 @@ function removeUserLeaveGroup({ user_id, group_id }) {
 
 export {
   addGroupRequest,
+  actionUserRequest,
 }
 
 export default {
   getGroup,
   addGroup,
   deleteGroup,
+  addUser,
+  removeUser,
 }

@@ -2,7 +2,7 @@ import { PureComponent } from 'react';
 import { Form, Input, Select } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { WrappedFormUtils } from 'antd/lib/form/Form';
-import { addUserRequest } from '@/services/user';
+import { editUserRequest } from '@/services/user';
 
 const Option = Select.Option;
 const FormItem = Form.Item;
@@ -10,7 +10,7 @@ const FormItem = Form.Item;
 export interface UserFromProps extends FormComponentProps {
   admin?: boolean;
   edit?: boolean;
-  user?: addUserRequest;
+  user?: editUserRequest;
   formItemLayout?: any;
 }
 
@@ -23,7 +23,7 @@ class UserForm extends PureComponent<UserFromProps, any> {
       wrapperCol: { xs: 24, md: 19 },
     },
     edit: false,
-    user: new Object(null) as addUserRequest,
+    user: new Object(null) as editUserRequest,
   };
 
   checkPassRule(value: any, callback: any, name: any, t: any) {
@@ -87,16 +87,27 @@ class UserForm extends PureComponent<UserFromProps, any> {
   render() {
     const { admin, edit, user, formItemLayout, form } = this.props;
     const { getFieldDecorator, getFieldValue } = form;
-    console.log(this.props)
     return (
       <Form>
+        {edit && <FormItem
+          style={{ display: 'none' }}
+          {...formItemLayout}
+          label="用户类型"
+        >
+          {getFieldDecorator('user_id', {
+            initialValue: user!.user_id,
+          })(
+            <Input />
+          )}
+        </FormItem>}
         {!edit && admin && <FormItem
           {...formItemLayout}
           label="用户类型"
         >
           {getFieldDecorator('type', {
             rules: [
-              { required: true, message: '必须选择用户类型' },]
+              { required: true, message: '必须选择用户类型' },
+            ]
           })(
             <Select placeholder="请选择用户类型">
               <Option value="1">系统用户</Option>
@@ -134,7 +145,7 @@ class UserForm extends PureComponent<UserFromProps, any> {
             }, {
               max: 20, message: '输入字符不能超过20个'
             }, {
-              pattern: /[^A-Za-z\d\_]/g, message: '不能输入_大小写字母和数字之外的字符'
+              pattern: /[A-Za-z\d\_]/g, message: "由大小写字母数字和字符'_'组成"
             }],
           })(
             <Input placeholder='请输入用户名' disabled={edit} />

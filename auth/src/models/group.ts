@@ -5,7 +5,7 @@ import api from '@/services/group';
 import services from '@/services';
 
 export default {
-  namespace: 'group',
+  namespace: `${MODEL}_group`,
   state: {
     active: undefined,
     init: false,
@@ -64,6 +64,26 @@ export default {
         return err;
       } else {
         message.success('删除用户权限组成功', 5);
+        yield put({ type: 'get' })
+      }
+    },
+    *adduser({ payload }: AnyAction, { put, call }: EffectsCommandMap) {
+      const { err } = yield call(api.addUser, payload);
+      if (!!err) {
+        message.error(err, 5);
+        return err;
+      } else {
+        message.success('用户加入成功', 5);
+        yield put({ type: 'get' })
+      }
+    },
+    *removeuser({ payload }: AnyAction, { put, call }: EffectsCommandMap) {
+      const { err } = yield call(api.removeUser, payload);
+      if (!!err) {
+        message.error(err, 5);
+        return err;
+      } else {
+        message.success('移除用户成功', 5);
         yield put({ type: 'get' })
       }
     },

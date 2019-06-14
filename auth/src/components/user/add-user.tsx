@@ -30,6 +30,7 @@ class AddUser extends PureComponent<AddUserProps, any> {
             添加用户 <Icon type="plus" />
           </Button>}
         <Drawer
+          destroyOnClose
           maskClosable={false}
           title="添加用户"
           width={482}

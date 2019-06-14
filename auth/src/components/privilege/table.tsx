@@ -114,7 +114,7 @@ class PriTree extends PureComponent<PrivilegeTableProps, any> {
   }
 
   render() {
-    const { privileges, remove_privileges, add_privileges, loading } = this.props;
+    const { data, privileges, remove_privileges, add_privileges, loading } = this.props;
     const { treeData, autoExpandParent } = this.state;
     return (
       <Spin spinning={loading}>

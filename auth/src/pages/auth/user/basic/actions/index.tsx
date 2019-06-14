@@ -19,7 +19,7 @@ export default ({ user, group_id, children, dispatch, onSelect, onUpdate }: any)
             deleteCallback={onUpdate}
             onDelete={() => {
               return dispatch({
-                type: 'user/delete',
+                type: `${MODEL}_user/delete`,
                 payload: { user_id: user.user_id, group_id }
               })
             }}

@@ -5,7 +5,7 @@ declare module 'mife/bin/api';
 declare module 'rc-animate';
 declare module 'inputmask';
 declare module 'lodash.debounce';
-
+declare function MODEL(namspace: string): string;
 
 interface Window {
   mife_menus?: object;
@@ -14,5 +14,4 @@ interface Window {
     [key: string]: any;
   };
 }
-
 declare var window: Window;

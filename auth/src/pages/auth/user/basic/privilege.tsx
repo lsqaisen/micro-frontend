@@ -8,11 +8,11 @@ import { updatePrivilegesRequest } from '@/services/privilege';
 
 @connect(createSelector(
   [
-    (props: any) => props.privilege.init,
-    (props: any) => props.privilege.data,
-    (props: any, { group_id }: any) => props.authuser.data[group_id] || {},
-    (props: any) => props.loading.effects[`privilege/get`] ||  props.loading.effects[`authuser/get`],
-    (props: any) => props.loading.effects[`privilege/update`],
+    ({ [`${MODEL}_privilege`]: privilege }: any) => privilege.init,
+    ({ [`${MODEL}_privilege`]: privilege }: any) => privilege.data,
+    ({ [`${MODEL}_user`]: user }: any, { group_id }: any) => user.data[group_id] || {},
+    (props: any) => props.loading.effects[`${MODEL}_privilege/get`] || props.loading.effects[`${MODEL}_user/get`],
+    (props: any) => props.loading.effects[`${MODEL}_privilege/update`],
   ],
   (init, data, { privileges = [] }, loading, updating) => ({ init, data, privileges, loading, updating })
 ))
@@ -22,17 +22,29 @@ export default class extends PureComponent<any, any> {
     remove: [],
   }
   get = () => {
-    return this.props.dispatch({ type: 'privilege/get' });
+    return this.props.dispatch({ type: `${MODEL}_privilege/get` });
+  }
+  getUser = () => {
+    return this.props.dispatch({
+      type: `${MODEL}_user/get`,
+      payload: { group_id: this.props.group_id }
+    });
   }
   update = () => {
     const data: updatePrivilegesRequest = {
-      group_id: this.props.group_id,
+      group_id: Number(this.props.group_id),
       privileges: (this.props.privileges || []).map((v: any) => v.joint_id).concat(this.state.add.map(v => Number(v))),
       remove_privileges: this.state.remove.map(v => Number(v))
     }
     return this.props.dispatch({
-      type: 'privilege/update',
+      type: `${MODEL}_privilege/update`,
       payload: data
+    }).then(async (err: any) => {
+      if (!err) {
+        await this.getUser().then((error: any) => {
+          if (!err) this.setState({ add: [], remove: [] });
+        })
+      };
     });
   }
 

@@ -6,12 +6,12 @@ import Loading from '@/components/global/loading';
 
 export default connect(createSelector(
   [
-    ({ group }: any) => group.active,
+    ({ [`${MODEL}_group`]: group }: any) => group.active,
   ],
   (active) => ({ active })
 ), createSelector(
   [
-    (dispatch: any) => () => dispatch({ type: 'group/active' }),
+    (dispatch: any) => () => dispatch({ type: `${MODEL}_group/active` }),
   ],
   (getActive) => ({ getActive })
 ))(class extends React.PureComponent<any, any> {

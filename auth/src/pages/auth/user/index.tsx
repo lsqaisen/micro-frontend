@@ -8,20 +8,19 @@ import UserBox from '@/components/user';
 
 @connect(createSelector(
   [
-    (props: any) => props.group.data,
-    (_: any, state: any) => {
-      const { location: { query: { group } } } = state;
-      return group;
-    },
+    ({ [`${MODEL}_group`]: group }: any) => group.data,
+    (_: any, { location: { query: { group } } }: any) => group,
   ],
   (data, group_id) => ({ data, group_id })
+), createSelector(
+  [
+    (dispatch: any) => () => dispatch({ type: `${MODEL}_privilege/get` }),
+  ],
+  (getPrivileges) => ({ getPrivileges })
 ))
 export default class extends PureComponent<any, any> {
-  get = () => {
-    return this.props.dispatch({ type: 'privilege/get' });
-  }
   componentDidMount() {
-    this.get()
+    this.props.getPrivileges()
   }
   render() {
     const { data, group_id } = this.props;

@@ -2,17 +2,13 @@ import { EffectsCommandMap } from 'dva';
 import { AnyAction } from 'redux';
 import { message } from 'antd';
 import api from '@/services/privilege';
-import services from '@/services';
 
 export default {
-	namespace: 'privilege',
+	namespace: `${MODEL}_privilege`,
 	state: {
 		active: undefined,
 		init: false,
 		data: [],
-	},
-
-	subscriptions: {
 	},
 
 	effects: {
@@ -42,7 +38,6 @@ export default {
 				return err;
 			} else {
 				message.success('权限更新成功', 5);
-				yield put({ type: 'get' })
 			}
 		},
 	},

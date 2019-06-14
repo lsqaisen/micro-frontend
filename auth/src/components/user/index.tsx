@@ -1,11 +1,7 @@
 import * as React from 'react';
-import { PureComponent, Fragment } from 'react';
-import { PageHeader, Icon } from 'antd';
-import { ColumnProps } from 'antd/lib/table';
+import { PureComponent } from 'react';
+import { PageHeader } from 'antd';
 import Link from 'umi/link';
-import Table from '@/components/global/table';
-import EllipsisTooltip from '@/components/global/ellipsis-tooltip';
-
 
 export type UserProps = {
   name: string,

@@ -11,10 +11,10 @@ export default connect(createSelector(
   [
     (props: any) => props.user.namespace,
     (props: any) => props.user.profile.userType === 1,
-    (props: any) => props.group.data,
-    (props: any) => props.group.init,
-    (props: any) => props.privilege.data,
-    (props: any) => (props.authuser.data["*"] || {}).list || [],
+    ({ [`${MODEL}_group`]: group }: any) => group.data,
+    ({ [`${MODEL}_group`]: group }: any) => group.init,
+    ({ [`${MODEL}_privilege`]: privilege }: any) => privilege.data,
+    ({ [`${MODEL}_user`]: user }: any) => (user.data["*"] || {}).list || [],
     (_: any, state: any) => {
       const { location: { query: { group } } } = state;
       return group;
@@ -23,26 +23,26 @@ export default connect(createSelector(
   (namespace, admin, data, init, privilege, users, group_id) => ({ namespace, admin, data, init, privilege, users, group_id })
 ))(class extends React.PureComponent<any, any> {
   get = () => {
-    return this.props.dispatch({ type: 'group/get' });
+    return this.props.dispatch({ type: `${MODEL}_group/get` });
   }
   getPrivilege = () => {
-    return this.props.dispatch({ type: 'privilege/get' });
+    return this.props.dispatch({ type: `${MODEL}_privilege/get` });
   }
   getUser = () => {
     return this.props.dispatch({
-      type: 'authuser/get',
+      type: `${MODEL}_user/get`,
       payload: { group_id: '*' }
     });
   }
   create = (data: any) => {
     return this.props.dispatch({
-      type: 'group/create',
+      type: `${MODEL}_group/create`,
       payload: data,
     })
   }
   delete = (group_id: any) => {
     return this.props.dispatch({
-      type: 'group/delete',
+      type: `${MODEL}_group/delete`,
       payload: group_id,
     })
   }
@@ -79,9 +79,7 @@ export default connect(createSelector(
               }}
             />}
           >
-            {init ? React.cloneElement(children as any, {
-              group_id,
-            }) : null}
+            {init ? children : null}
           </Layout>
         )}
       </Media>

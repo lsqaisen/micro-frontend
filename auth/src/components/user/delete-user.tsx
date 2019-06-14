@@ -12,8 +12,8 @@ export interface DeleteProps {
 export default ({ btn, name, onDelete, deleteCallback, ...props }: DeleteProps) => {
   function onClick() {
     Modal.confirm({
-      title: `服务${name}`,
-      content: `是否删除服务${name}?`,
+      title: `用户${name}`,
+      content: `是否删除用户${name}?`,
       okText: '是',
       okType: 'danger',
       cancelText: '否',

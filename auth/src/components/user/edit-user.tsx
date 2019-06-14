@@ -25,6 +25,7 @@ class EditUser extends PureComponent<EditUserProps, any> {
     const { loading } = this.state;
     return (
       <Drawer
+        destroyOnClose
         maskClosable={false}
         title="添加用户"
         width={482}

@@ -1,5 +1,9 @@
 const { NODE_ENV } = process.env;
 
+function model_namespace(namespace) {
+  return `auth_${namespace}`
+}
+
 export default {
   history: 'hash',
   plugins: [
@@ -38,6 +42,8 @@ export default {
     '@': './src/components/'
   },
   define: {
+    'MODEL': 'auth',
+    "process.env.MODEL": 'auth',
     "process.env.OEM_NAME": '/kubeup',
     "process.env.VERSION": new Date().getTime(),
   },

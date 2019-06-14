@@ -12,6 +12,7 @@ class Dashboard extends (PureComponent || Component)<any, any> {
     })
   }
   render() {
+    console.log(this.props)
     return (
       <div>
         <Button onClick={this.logout}>logout</Button>

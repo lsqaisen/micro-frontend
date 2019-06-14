@@ -2,6 +2,7 @@ import * as React from 'react';
 import { PureComponent } from 'react';
 import { PageHeader } from 'antd';
 import Link from 'umi/link';
+import styles from './style/index.less';
 
 export type UserProps = {
   name: string,
@@ -24,7 +25,8 @@ class User extends PureComponent<UserProps, any> {
     const { name, desc, routes, children } = this.props;
     return (
       <PageHeader
-        style={{ minHeight: '100%' }}
+        className={styles[`user_box`]}
+        style={{ minHeight: '100vh' }}
         title={name}
         subTitle={desc}
         breadcrumb={{

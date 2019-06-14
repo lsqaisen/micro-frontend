@@ -15,12 +15,14 @@ import UserBox from '@/components/user';
 ), createSelector(
   [
     (dispatch: any) => () => dispatch({ type: `${MODEL}_privilege/get` }),
+    (dispatch: any) => () => dispatch({ type: `${MODEL}_user/get`, payload: { group_id: "*" } }),
   ],
-  (getPrivileges) => ({ getPrivileges })
+  (getPrivileges, getUsers) => ({ getPrivileges, getUsers })
 ))
 export default class extends PureComponent<any, any> {
   componentDidMount() {
-    this.props.getPrivileges()
+    this.props.getPrivileges();
+    this.props.getUsers();
   }
   render() {
     const { data, group_id } = this.props;

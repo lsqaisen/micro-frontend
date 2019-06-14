@@ -7,6 +7,7 @@ import styles from './style/index.less';
 
 export interface LayoutProps extends SiderProps {
   empty?: any;
+  state: 'initially' | 'centent' | 'empty';
   className?: string;
   sider: string | React.ReactNode;
   header?: string | React.ReactNode;
@@ -19,6 +20,7 @@ export default class extends React.PureComponent<LayoutProps, any> {
     width: 210,
   }
   state = {
+    init: false,
     open: false,
   }
   changeOpen = () => {
@@ -38,8 +40,8 @@ export default class extends React.PureComponent<LayoutProps, any> {
               <Sider
                 level={level}
                 matches={matches}
-                state={state}
-                width={state === "centent" ? matches ? 0 : width : '100%'}
+                loading={state === "initially" || !this.state.init}
+                width={state === "centent" && this.state.init ? matches ? 0 : width : '100%'}
                 realWidth={width}
               >
                 {sider}
@@ -57,6 +59,16 @@ export default class extends React.PureComponent<LayoutProps, any> {
         return empty || <Empty key="empty" />;
       default:
         return <Loading key="loading" />;
+    }
+  }
+  UNSAFE_componentWillReceiveProps({ state }: LayoutProps) {
+    if (state === "centent") {
+      setTimeout(() => { this.setState({ init: true }) }, 450)
+    }
+  }
+  componentDidMount() {
+    if (this.props.state === "centent") {
+      setTimeout(() => { this.setState({ init: true }) }, 450)
     }
   }
   render() {

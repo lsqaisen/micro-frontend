@@ -82,17 +82,15 @@ export default class extends PureComponent<any, any> {
       return err;
     });
   }
-  UNSAFE_componentWillReceiveProps(props: any) {
-    Object.entries(props).map(([key, value]: any) => {
-      // console.log(key, JSON.stringify(value) === JSON.stringify(this.props[key]))
-    })
-    // if (this.props.group_id !== group_id) {
-    //   this.get(group_id)
-    // }
+  UNSAFE_componentWillReceiveProps({ group_id }: any) {
+    if (this.props.group_id !== group_id && group_id !== "*") {
+      this.get(group_id)
+    }
   }
   componentDidMount() {
-    this.get()
-    this.get("*")
+    if (this.props.group_id !== "*") {
+      this.get()
+    }
   }
   render() {
     const { admin, init, data, users, group_id, className, dispatch, loading } = this.props;

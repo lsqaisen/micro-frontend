@@ -9,7 +9,7 @@ import styles from './style/index.less';
 export interface SiderProps {
   children?: any;
   level: number;
-  loading: boolean;
+  loading?: boolean;
   matches: boolean;
   realWidth?: number | string;
   width?: number | string;

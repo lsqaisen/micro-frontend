@@ -1,42 +1,34 @@
 import { PureComponent } from 'react';
 import { connect } from 'dva';
 import { createSelector } from 'reselect';
-import { Row, Col } from 'antd';
+import { Row, Col, PageHeader } from 'antd';
 import Loading from '@/components/global/loading';
-// import Smtp from './smtp';
-// import Ldap from './ldap';
+import Config from '@/components/config';
+import Smtp from './basic/smtp';
+import Ldap from './basic/ldap';
 
-@connect(createSelector(
+@connect(undefined, createSelector(
 	[
-		(props: any) => props.auth.config,
-		(props: any) => !!props.loading.effects[`auth/config`],
+		(dispatch: any) => () => dispatch({ type: `${MODEL}_config/get` }),
 	],
-	(config, loading) => ({ config, loading }),
+	(getConfig) => ({ getConfig })
 ))
 export default class extends PureComponent<any, any> {
-	state = {
-		init: false
-	}
-	config = async () => {
-		const { dispatch } = this.props;
-		return dispatch({ type: 'auth/config' })
-			.then(() => this.setState({ init: true }));
-	}
 	componentDidMount() {
-		this.config();
+		this.props.getConfig();
 	}
 	render() {
-		const { config: { data: { email = {}, ldap = {} }, err = null } } = this.props;
-		const { init } = this.state;
 		return (
-			<Row>
-				<Col xxl={12} span={24}>
-					{/* <Smtp data={email} update={this.config} /> */}
-				</Col>
-				<Col xxl={12} span={24}>
-					{/* <Ldap data={ldap} update={this.config} /> */}
-				</Col>
-			</Row>
+			<Config>
+				<Row gutter={24} className="box">
+					<Col xl={12} md={24}>
+						<Smtp />
+					</Col>
+					<Col xl={12} md={24}>
+						<Ldap />
+					</Col>
+				</Row>
+			</Config>
 		)
 	}
 }

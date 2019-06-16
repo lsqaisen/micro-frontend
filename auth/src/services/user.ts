@@ -75,7 +75,6 @@ function editUser({ admin, type = 1, project, user_id, ...data }: editUserReques
   });
 }
 
-
 export {
   deleteUserRequest,
   getUsersRequest,

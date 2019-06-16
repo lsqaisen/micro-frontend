@@ -93,8 +93,8 @@ export default class extends PureComponent<any, any> {
                             component: <Link to="/auth/config">系统设置</Link>
                           }, {
                             type: 'item',
-                            key: '/auth/log',
-                            component: <Link to="/auth/log">审计日志</Link>
+                            key: '/auth/audit',
+                            component: <Link to="/auth/audit">审计日志</Link>
                           }]
                         }]}
                       />

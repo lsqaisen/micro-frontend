@@ -20,7 +20,7 @@ export default class extends PureComponent<any, any> {
 	render() {
 		return (
 			<Config>
-				<Row gutter={24} className="box">
+				<Row className="box">
 					<Col xl={12} md={24}>
 						<Smtp />
 					</Col>

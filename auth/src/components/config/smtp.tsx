@@ -56,7 +56,6 @@ class Smtp extends PureComponent<SmtpProps, any> {
 					{email.email_enable ? set ? <span style={{ color: '#2B73F8' }}>(已设置)</span> : <span style={{ color: '#f5222d' }}>(尚未设置)</span> : null}
 				</h3>
 				<SmtpForm
-					loading={loading}
 					email={email}
 					test={test}
 					submit={submit}

@@ -57,7 +57,6 @@ function testSmtp(data: any, onSend: (data: any) => any) {
 
 
 export interface SmtpFromProps extends FormComponentProps {
-  loading?: boolean;
   email: { [key: string]: any };
   formItemLayout?: any;
   test: () => any;
@@ -77,6 +76,10 @@ class SmtpForm extends PureComponent<SmtpFromProps, any> {
     submit: () => null,
   };
 
+  state = {
+    loading: false,
+  }
+
   reset = () => {
     this.setState({ disabled: false, loading: false, })
     const { form: { resetFields } } = this.props;
@@ -95,15 +98,14 @@ class SmtpForm extends PureComponent<SmtpFromProps, any> {
 
   submit = () => {
     const { submit, form: { validateFields } } = this.props;
-    validateFields(async (error, value) => {
+    validateFields(async (error, values) => {
       if (!error) {
-        this.setState({ disabled: true, loading: true, });
-        try {
-          await submit({ ...value });
-          this.reset();
-        } catch (error) {
-          this.setState({ disabled: false, loading: false, })
-        }
+        this.setState({ loading: true })
+        // if ((await submit!(values)) as any) {
+        // } else {
+        // }
+        await submit!(values)
+        this.setState({ loading: false })
       }
     })
   }
@@ -115,7 +117,8 @@ class SmtpForm extends PureComponent<SmtpFromProps, any> {
   }
 
   render() {
-    const { email, formItemLayout, loading, form } = this.props;
+    const { email, formItemLayout, form } = this.props;
+    const { loading } = this.state;
     const { email_enable, email_host, email_port, email_ssl, email_username, email_password, email_from } = email;
     const { getFieldDecorator, setFieldsValue, getFieldsValue } = form;
     const _data = getFieldsValue() || {};

@@ -6,14 +6,13 @@ export interface SmtpProps {
 	loading: boolean;
 	setting?: boolean;
 	ldap: { [key: string]: any };
-	onChange: (flag: boolean) => any;
-	onSubmit: () => any;
+	submit: () => any;
 	changeStatus: (enable: boolean) => any;
 }
 
 class Smtp extends PureComponent<SmtpProps, any> {
 	render() {
-		const { ldap, setting, loading, changeStatus, onSubmit } = this.props;
+		const { ldap, loading, changeStatus, submit } = this.props;
 		const set = Object.keys(ldap).every(key => !!ldap[key]);
 		console.log(ldap)
 		return (
@@ -31,7 +30,7 @@ class Smtp extends PureComponent<SmtpProps, any> {
 						style={{ float: 'left', marginRight: 16 }}
 						checkedChildren="启用"
 						unCheckedChildren="禁用"
-						checked={ldap.email_enable}
+						checked={ldap.ldap_enable}
 						onChange={(v) => {
 							Modal.confirm({
 								title: `是否${v ? '开启' : '关闭'}LDAP？`,

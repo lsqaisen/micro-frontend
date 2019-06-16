@@ -97,13 +97,14 @@ interface getAuditsRequest {
 	query: string;
 }
 
-function getAudits({ page = 1, itemsPerPage = 10, query = "" }: getAuditsRequest) {
-	return request(`/service/auth/api/logs/audit?page=${page}&itemsPerPage=${itemsPerPage}&ftQuery=${query}`);
+function getAudits({ page = 1, itemsPerPage = 10, query = "ftQuery=" }: getAuditsRequest) {
+	return request(`/service/auth/api/logs/audit?page=${page}&itemsPerPage=${itemsPerPage}&${query}`);
 }
 
 export {
 	setSmtpRequest,
 	setLdapRequest,
+	getAuditsRequest,
 }
 
 export default {

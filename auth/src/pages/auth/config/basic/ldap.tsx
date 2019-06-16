@@ -18,14 +18,14 @@ import Ldap from '@/components/config/ldap';
 ))
 export default class extends PureComponent<any, any> {
 	render() {
-		const { ldap = {}, changeStatus } = this.props;
+		const { ldap = {}, loading, changeStatus } = this.props;
 		delete ldap.email_identity;
 		const set = Object.keys(ldap || {}).every(key => !!ldap[key]);
 		return (
 			<Ldap
+				loading={loading}
 				ldap={ldap}
-				onTest={() => { }}
-				onSubmit={() => { }}
+				submit={() => { }}
 				changeStatus={changeStatus}
 			/>
 		)

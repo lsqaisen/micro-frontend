@@ -2,7 +2,6 @@ import { EffectsCommandMap } from 'dva';
 import { AnyAction } from 'redux';
 import { message } from 'antd';
 import api from '@/services/config';
-import services from '@/services';
 
 export default {
 	namespace: `${MODEL}_config`,

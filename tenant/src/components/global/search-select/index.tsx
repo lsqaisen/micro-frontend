@@ -20,11 +20,12 @@ export interface SearchSelectProps extends SelectProps {
 }
 
 interface SearchSelectState {
-	error?: string,
-	loading: boolean,
-	end: boolean,
-	data: optionType[],
-	nextParams?: any,
+	init?: boolean;
+	error?: string;
+	loading: boolean;
+	end: boolean;
+	data: optionType[];
+	nextParams?: any;
 }
 
 class SearchSelect extends PureComponent<SearchSelectProps, SearchSelectState> {
@@ -33,6 +34,7 @@ class SearchSelect extends PureComponent<SearchSelectProps, SearchSelectState> {
 	}
 
 	state: SearchSelectState = {
+		init: false,
 		error: '',
 		loading: false,
 		end: false,
@@ -70,13 +72,14 @@ class SearchSelect extends PureComponent<SearchSelectProps, SearchSelectState> {
 		try {
 			let { data, params } = await onSearch!(nextParams);
 			this.setState({
+				init: true,
 				loading: false,
 				nextParams: params,
 				data: _data.concat(data || []),
 				end: !params
 			});
 		} catch (error) {
-			this.setState({ error, loading: false })
+			this.setState({ error, loading: false, init: true, })
 		}
 	}
 
@@ -87,16 +90,13 @@ class SearchSelect extends PureComponent<SearchSelectProps, SearchSelectState> {
 		}
 	}
 
-	componentDidMount() {
-		this.load();
-	}
-
 	render() {
 		const { onSearch, ...props } = this.props;
 		const { error, loading, end, data } = this.state;
 		return (
 			<Select
 				{...props}
+				onFocus={this.load}
 				notFoundContent={error ? <p>
 					<span style={{ color: 'red' }}>{error}</span><br />
 					<a onClick={this.load}>重新加载</a>

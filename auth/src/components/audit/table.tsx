@@ -5,8 +5,6 @@ import Time from 'react-time-format';
 import Table from '@/components/global/table';
 import EllipsisTooltip from '@/components/global/ellipsis-tooltip';
 
-enum AuditType { "空间用户" = 1, "系统用户", "外部用户" }
-
 interface IAudit {
 	key: number;
 	createTime: string;

@@ -1,7 +1,7 @@
 const menus = {
   admin: [{
     key: "list",
-    name: "所有空间",
+    name: "空间列表",
     path: "/list"
   }, {
     key: "default",

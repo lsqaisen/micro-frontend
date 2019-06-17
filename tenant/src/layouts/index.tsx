@@ -40,7 +40,6 @@ export default class extends PureComponent<any, any> {
   }
   render() {
     const { version, admin, profile, init, location, children } = this.props;
-    console.log(admin)
     if (!init) return null;
     else if (!profile) {
       return children
@@ -84,9 +83,9 @@ export default class extends PureComponent<any, any> {
                             component: '配置与运维',
                             childs: menus[admin ? `admin` : `user`].map(menu => ({
                               type: 'item',
-                              key: `${MODEL}${menu.path}`,
-                              component: <Link to={`${MODEL}${menu.path}`}>
-                                <i className='icon iconfont icon-auth' />
+                              key: `/${MODEL}${menu.path}`,
+                              component: <Link to={`/${MODEL}${menu.path}`}>
+                                <i className={`icon iconfont icon-tenant`} />
                                 <span className="name">{menu.name}</span>
                               </Link>
                             }))

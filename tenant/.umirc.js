@@ -38,7 +38,7 @@ export default {
     '@': './src/components/'
   },
   define: {
-    'MODEL': 'auth',
+    'MODEL': 'tenant',
     "process.env.OEM_NAME": '/kubeup',
     "process.env.VERSION": new Date().getTime(),
   },

@@ -4,13 +4,13 @@ import { PageHeader } from 'antd';
 import Link from 'umi/link';
 import styles from './style/index.less';
 
-export type UserProps = {
-  name: string,
+export type BreadcrumbProps = {
+  name?: string,
   desc?: string,
   routes?: any[];
 }
 
-class User extends PureComponent<UserProps, any> {
+class Breadcrumb extends PureComponent<BreadcrumbProps, any> {
   static readonly defaultProps = {
     routes: [{
       path: '/dashboard',
@@ -25,15 +25,12 @@ class User extends PureComponent<UserProps, any> {
     const { name, desc, routes, children } = this.props;
     return (
       <PageHeader
-        className={styles[`user_box`]}
+        className={styles[`breadcrumb`]}
         style={{ minHeight: '100vh' }}
         title={name}
         subTitle={desc}
         breadcrumb={{
-          routes: routes!.concat(name ? [{
-            path: `/stack/${name}`,
-            breadcrumbName: name,
-          }] : []),
+          routes,
           itemRender(route, _, routes) {
             const last = routes.indexOf(route) === routes.length - 1;
             return last ? <span>{route.breadcrumbName}</span> : <Link to={route.path}>{route.breadcrumbName}</Link>;
@@ -46,4 +43,4 @@ class User extends PureComponent<UserProps, any> {
   }
 }
 
-export default User;
+export default Breadcrumb;

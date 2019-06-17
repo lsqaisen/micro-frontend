@@ -50,10 +50,29 @@ function editTenant(data: editTenantRequest) {
   });
 }
 
+function getOverSold(namespace?: string) {
+  const url = !!namespace ?
+    `/service/tenant/api/quota/overset?namespace=${namespace === 'system' ? 'default' : namespace}` :
+    `/service/tenant/api/quota/overset`;
+  return request(url);
+}
+
+interface setOVerSoldRequest {
+  namespace?: string;
+  over_set: number | string;
+}
+
+function setOverSold({ namespace, over_set }: setOVerSoldRequest) {
+  return request(`/service/tenant/api/quota/overset?over_set=${over_set}${namespace ? `&namespace=${namespace}` : ''}`, {
+    method: 'post',
+  });
+}
+
 export {
   getTenantsRequest,
   createTenantRequest,
   editTenantRequest,
+  setOVerSoldRequest,
 }
 
 export default {
@@ -61,4 +80,6 @@ export default {
   createTenant,
   deleteTenant,
   editTenant,
+  getOverSold,
+  setOverSold,
 }

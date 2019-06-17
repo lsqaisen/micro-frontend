@@ -15,8 +15,9 @@ interface optionType {
 }
 
 export interface SearchSelectProps extends SelectProps {
-	data?: optionType[],
-	asyncSearch?: (param: any) => void
+	initFirst?: boolean;
+	data?: optionType[];
+	asyncSearch?: (param: any) => void;
 }
 
 interface SearchSelectState {
@@ -30,6 +31,7 @@ interface SearchSelectState {
 
 class SearchSelect extends PureComponent<SearchSelectProps, SearchSelectState> {
 	static readonly defaultProps = {
+		initFirst: false,
 		data: []
 	}
 
@@ -89,14 +91,16 @@ class SearchSelect extends PureComponent<SearchSelectProps, SearchSelectState> {
 			this.setState({ data: data! })
 		}
 	}
-
+	componentDidMount() {
+		this.props.initFirst && this.load();
+	}
 	render() {
 		const { onSearch, ...props } = this.props;
-		const { error, loading, end, data } = this.state;
+		const { init, error, loading, end, data } = this.state;
 		return (
 			<Select
 				{...props}
-				onFocus={this.load}
+				onFocus={() => !init && this.load()}
 				notFoundContent={error ? <p>
 					<span style={{ color: 'red' }}>{error}</span><br />
 					<a onClick={this.load}>重新加载</a>

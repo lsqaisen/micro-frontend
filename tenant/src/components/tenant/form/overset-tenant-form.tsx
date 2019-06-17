@@ -15,10 +15,9 @@ class OverSetForm extends PureComponent<FormComponentProps & OverSetFormProps, a
 	static readonly defaultProps = {
 		form: {},
 		formItemLayout: {
-			labelCol: { xs: 24, md: 5 },
-			wrapperCol: { xs: 24, md: 19 },
+			labelCol: { span: 0 },
+			wrapperCol: { span: 24 },
 		},
-		over_set: '0.25',
 	};
 
 	render() {
@@ -33,9 +32,9 @@ class OverSetForm extends PureComponent<FormComponentProps & OverSetFormProps, a
 			<Form>
 				<FormItem
 					{...formItemLayout}
-					label="资源优先级">
+				>
 					{getFieldDecorator('over_set', {
-						initialValue: `${over_set}` || null,
+						initialValue: `${over_set || ''}` || undefined,
 						rules: [{ required: true, message: '必须指定资源优先级' }],
 					})(
 						<RadioGroup>

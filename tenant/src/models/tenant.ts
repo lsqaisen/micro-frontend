@@ -11,6 +11,7 @@ export default {
     active: undefined,
     init: false,
     data: { list: [], total: 0 },
+    oversold: {},
   },
 
   effects: {
@@ -100,10 +101,46 @@ export default {
         return { data, err };
       }
     },
+    *getoversold({ payload }: AnyAction, { call, put, select }: EffectsCommandMap) {
+      const { data, err } = yield call(api.getOverSold, payload);
+      if (!!err) {
+        message.error(err, 5);
+      } else {
+        yield put({
+          type: 'update',
+          payload: {
+            oversold: {
+              [payload]: (data || {}).over_set || undefined,
+            },
+          }
+        });
+      }
+    },
+    *setoversold({ payload }: AnyAction, { call, select }: EffectsCommandMap) {
+      const { namespace, profile } = yield select(({ user: { namespace, profile } }: any) => ({ namespace, profile }));
+      const { data, err } = yield call(user.addUser, { admin: profile.userType === 1, project: namespace, ...payload });
+      if (!!err) {
+        message.error(err, 5);
+        return { data, err };
+      } else {
+        message.success('添加用户成功', 5);
+        return { data, err };
+      }
+    },
   },
   reducers: {
     save(state: any, { payload }: any) {
       return { ...state, ...payload }
+    },
+    update(state: any, { payload }: any) {
+      let _update = { ...state };
+      Object.entries(payload).map(([key, value]: any) => {
+        _update = Object.assign(_update, { [key]: { ...state[key], ...value } })
+      })
+      return {
+        ...state,
+        ..._update,
+      }
     },
   },
 }

@@ -27,7 +27,6 @@ class ActionTable<T> extends PureComponent<ActionTableProps<T>, any> {
   render() {
     const { loading, dataSource, actionText, actionType, actions, columns, children, ...props } = this.props;
     const { selectIndex, visibles } = this.state;
-    console.log(visibles)
     return (
       <Fragment>
         <Table<T>

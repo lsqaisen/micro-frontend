@@ -1,11 +1,14 @@
 import { PureComponent } from 'react';
-import { Button, Modal } from 'antd';
-import OverSetForm from './form/user-form';
+import {  Modal } from 'antd';
+import OverSetForm, { OverSetFormProps } from './form/overset-tenant-form';
 
-export interface OverSetProps {
+export interface OverSetProps extends OverSetFormProps {
+  oversold?: any;
+  data?: any;
   visible?: boolean;
   submit?: (value: any) => void;
   onClose?: () => void;
+  getOverSold: (name: string) => void;
 }
 
 class OverSet extends PureComponent<OverSetProps, any> {
@@ -16,13 +19,24 @@ class OverSet extends PureComponent<OverSetProps, any> {
   state = {
     loading: false,
   }
+  UNSAFE_componentWillReceiveProps({ data, oversold }: OverSetProps) {
+    if (!!data.name && this.props.data.name !== data.name) {
+      this.props.getOverSold(data.name);
+    }
+  }
+
+  componentDidMount() {
+    const { data, getOverSold } = this.props;
+    data.name && getOverSold(data.name);
+  }
 
   render() {
-    const { visible, submit, onClose } = this.props;
+    const { visible, data, oversold, submit, onClose } = this.props;
     const { loading } = this.state;
-    console.log(visible)
+    const over_set = oversold[data.name];
     return (
       <Modal
+        maskClosable={false}
         title="资源优先级"
         visible={visible}
         confirmLoading={loading}
@@ -42,7 +56,7 @@ class OverSet extends PureComponent<OverSetProps, any> {
           })
         }}
       >
-        <OverSetForm ref="overset" />
+        <OverSetForm ref="overset" over_set={over_set} />
       </Modal>
     )
   }

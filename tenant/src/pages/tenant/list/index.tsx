@@ -8,6 +8,7 @@ import AddTenant from '@/components/tenant/add-tenant';
 import Overset from '@/components/tenant/overset-tenant';
 import EidtTenant from '@/components/tenant/edit-tenant';
 import SetTenantOwenr from '@/components/tenant/set-tenant-owner';
+import SetTenantQuota from '@/components/tenant/set-tenant-quota';
 import Actions from './basic/actions';
 
 
@@ -96,6 +97,7 @@ export default class extends PureComponent<any, any> {
                 })
               }}
             />
+            <SetTenantQuota key="quota"/>
           </Table>
         </section>
       </Breadcrumb>

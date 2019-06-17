@@ -1,6 +1,6 @@
 import { PureComponent } from 'react';
 import { Button, Drawer } from 'antd';
-import SetOwnerForm from './form/set-tenant-owner-form';
+import SetQuotaForm from './form/set-tenant-quota-form'
 
 export interface AddUserProps {
   visible?: boolean;
@@ -23,19 +23,20 @@ class AddUser extends PureComponent<AddUserProps, any> {
     const { loading } = this.state;
     return (
       <Drawer
+        bodyStyle={{ padding: 0, height: `calc(100% - 108px)` }}
         destroyOnClose
         maskClosable={false}
-        title="设置管理员"
+        title="设置默认配额"
         width={482}
         placement="right"
         onClose={onClose}
         visible={visible}
       >
-        <SetOwnerForm data={data} ref="settenantowenr" />
+        <SetQuotaForm data={data} ref="setquotaform" />
         <div className={"drawer-bottom-actions"} >
           <Button onClick={() => { this.setState({ visible: false }) }} style={{ marginRight: 8 }}> 取消 </Button>
           <Button loading={loading} onClick={() => {
-            (this.refs.settenantowenr as any).validateFields(async (error: any, values: any) => {
+            (this.refs.setquotaform as any).validateFields(async (error: any, values: any) => {
               if (!error) {
                 this.setState({ loading: true })
                 if ((await onSubmit!(values)) as any) {

@@ -5,9 +5,9 @@ import { Button } from 'antd';
 import Breadcrumb from '@/components/global/breadcrumb';
 import Table from '@/components/tenant/table';
 import AddTenant from '@/components/tenant/add-tenant';
-import Overset from '@/components/tenant/overset-tenant';
-import EidtTenant from '@/components/tenant/edit-tenant';
-import SetTenantOwenr from '@/components/tenant/set-tenant-owner';
+import Overset from './basic/actions/over-set';
+import EidtTenant from './basic/actions/edit-tenant';
+import SetTenantOwenr from './basic/actions/set-tenant-owenr';
 import SetTenantQuota from '@/components/tenant/set-tenant-quota';
 import Actions from './basic/actions';
 
@@ -16,7 +16,7 @@ import Actions from './basic/actions';
   [
     ({ [`${MODEL}_tenant`]: tenant }: any) => tenant.data,
     ({ [`${MODEL}_tenant`]: tenant }: any) => (tenant.users || {}).list || [],
-    ({ [`${MODEL}_tenant`]: tenant }: any) => tenant.oversold,
+    ({ [`${MODEL}_quota`]: quota }: any) => quota.oversold,
     props => !!props.loading.effects[`${MODEL}_tenant/get`],
   ],
   (data, users, oversold, loading) => ({ data, users, oversold, loading })
@@ -24,10 +24,13 @@ import Actions from './basic/actions';
   [
     (dispatch: any) => (data: any) => dispatch({ type: `${MODEL}_tenant/get`, payload: data }),
     (dispatch: any) => (data: any) => dispatch({ type: `${MODEL}_tenant/create`, payload: data }),
-    (dispatch: any) => (namespace?: string) => dispatch({ type: `${MODEL}_tenant/getoversold`, payload: namespace }),
+    (dispatch: any) => (data: any) => dispatch({ type: `${MODEL}_tenant/edit`, payload: data }),
+    (dispatch: any) => (namespace?: string) => dispatch({ type: `${MODEL}_quota/getoverset`, payload: namespace }),
+    (dispatch: any) => (over_set?: string) => dispatch({ type: `${MODEL}_quota/setoversold`, payload: over_set }),
     (dispatch: any) => () => dispatch({ type: `${MODEL}_tenant/getusers`, payload: { group_id: "*" } }),
+    (dispatch: any) => (data: any) => dispatch({ type: `${MODEL}_tenant/setadmin`, payload: data }),
   ],
-  (getTenants, createTenant, getOverSold, getUsers) => ({ getTenants, createTenant, getOverSold, getUsers })
+  (getTenants, createTenant, editTenant, getOverset, setOverset, getUsers, setAdmin) => ({ getTenants, createTenant, editTenant, getOverset, setOverset, getUsers, setAdmin })
 ))
 export default class extends PureComponent<any, any> {
   static readonly defaultProps = {
@@ -48,7 +51,7 @@ export default class extends PureComponent<any, any> {
   }
 
   render() {
-    const { data, routes, oversold, loading, getTenants, createTenant, getOverSold, getUsers } = this.props;
+    const { data, routes, oversold, loading, getTenants, createTenant, editTenant, getOverset, setOverset, getUsers, setAdmin } = this.props;
     const { page, page_size } = this.state;
     return (
       <Breadcrumb
@@ -84,20 +87,10 @@ export default class extends PureComponent<any, any> {
             data={data}
             actions={<Actions update={() => getTenants({ page, page_size })} />}
           >
-            <Overset key="overset" oversold={oversold} getOverSold={getOverSold} />
-            <EidtTenant key="edit" />
-            <SetTenantOwenr
-              key="owenr"
-              userSearch={() => {
-                return new Promise(async (resolve) => {
-                  getUsers().then(() => {
-                    const { users } = this.props;
-                    resolve(users.filter((user: any) => user.type !== 1));
-                  });
-                })
-              }}
-            />
-            <SetTenantQuota key="quota"/>
+            <Overset key="overset" />
+            <EidtTenant key="edit" update={() => getTenants({ page, page_size })} />
+            <SetTenantOwenr key="owenr" />
+            <SetTenantQuota key="quota" />
           </Table>
         </section>
       </Breadcrumb>

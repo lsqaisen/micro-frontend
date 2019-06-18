@@ -3,6 +3,7 @@ import { AnyAction } from 'redux';
 import { message } from 'antd';
 import api from '@/services/tenant';
 import user from '@/services/user';
+import quota from '@/services/quota';
 import services from '@/services';
 
 export default {
@@ -11,7 +12,6 @@ export default {
     active: undefined,
     init: false,
     data: { list: [], total: 0 },
-    oversold: {},
   },
 
   effects: {
@@ -62,14 +62,13 @@ export default {
         message.success('删除工作空间成功', 5);
       }
     },
-    *edit({ payload }: AnyAction, { put, call }: EffectsCommandMap) {
+    *edit({ payload }: AnyAction, { call }: EffectsCommandMap) {
       const { err } = yield call(api.editTenant, payload);
       if (!!err) {
         message.error(err, 5);
         return err;
       } else {
-        message.success('移除用户成功', 5);
-        yield put({ type: 'get' })
+        message.success('修改成功', 5);
       }
     },
     *getusers({ payload }: AnyAction, { call, put, select }: EffectsCommandMap) {
@@ -101,30 +100,13 @@ export default {
         return { data, err };
       }
     },
-    *getoversold({ payload }: AnyAction, { call, put, select }: EffectsCommandMap) {
-      const { data, err } = yield call(api.getOverSold, payload);
+    *setadmin({ payload }: AnyAction, { call }: EffectsCommandMap) {
+      const { err } = yield call(api.setAdmin, payload);
       if (!!err) {
         message.error(err, 5);
+        return err;
       } else {
-        yield put({
-          type: 'update',
-          payload: {
-            oversold: {
-              [payload]: (data || {}).over_set || undefined,
-            },
-          }
-        });
-      }
-    },
-    *setoversold({ payload }: AnyAction, { call, select }: EffectsCommandMap) {
-      const { namespace, profile } = yield select(({ user: { namespace, profile } }: any) => ({ namespace, profile }));
-      const { data, err } = yield call(user.addUser, { admin: profile.userType === 1, project: namespace, ...payload });
-      if (!!err) {
-        message.error(err, 5);
-        return { data, err };
-      } else {
-        message.success('添加用户成功', 5);
-        return { data, err };
+        message.success('修管理员成功', 5);
       }
     },
   },

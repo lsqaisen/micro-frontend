@@ -59,6 +59,12 @@ export default {
 					type: 'save',
 					payload: {
 						init: true,
+						admin: undefined,
+						namespace: undefined,
+						workspace_id: undefined,
+						project_id: undefined,
+						profile: undefined,
+						domain: [],
 					}
 				})
 			} else {

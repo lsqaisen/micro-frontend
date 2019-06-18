@@ -23,7 +23,6 @@ class EdutTenantForm extends PureComponent<FormComponentProps & EdutTenantFormPr
 	render() {
 		const { data, formItemLayout, form } = this.props;
 		const { getFieldDecorator } = form;
-		console.log(data)
 		return (
 			<Form >
 				<FormItem

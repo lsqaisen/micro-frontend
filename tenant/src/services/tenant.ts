@@ -50,29 +50,24 @@ function editTenant(data: editTenantRequest) {
   });
 }
 
-function getOverSold(namespace?: string) {
-  const url = !!namespace ?
-    `/service/tenant/api/quota/overset?namespace=${namespace === 'system' ? 'default' : namespace}` :
-    `/service/tenant/api/quota/overset`;
-  return request(url);
+interface setAdminRequest {
+  project_id: number;
+  owner_id: number;
 }
 
-interface setOVerSoldRequest {
-  namespace?: string;
-  over_set: number | string;
-}
-
-function setOverSold({ namespace, over_set }: setOVerSoldRequest) {
-  return request(`/service/tenant/api/quota/overset?over_set=${over_set}${namespace ? `&namespace=${namespace}` : ''}`, {
-    method: 'post',
+function setAdmin({ project_id, owner_id }: setAdminRequest) {
+  return request(`/service/auth/api/projects/${project_id}`, {
+    method: 'put',
+    body: { owner_id }
   });
 }
+
 
 export {
   getTenantsRequest,
   createTenantRequest,
   editTenantRequest,
-  setOVerSoldRequest,
+  setAdminRequest,
 }
 
 export default {
@@ -80,6 +75,5 @@ export default {
   createTenant,
   deleteTenant,
   editTenant,
-  getOverSold,
-  setOverSold,
+  setAdmin,
 }

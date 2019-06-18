@@ -74,7 +74,7 @@ class ActionTable<T> extends PureComponent<ActionTableProps<T>, any> {
             data: dataSource![selectIndex] || {},
             onClose: () => {
               const visibles = this.state.visibles;
-              this.setState({ visibles: Object.assign({}, visibles, { [action.key]: false }), selectIndex: 0 })
+              this.setState({ visibles: Object.assign({}, visibles, { [action.key]: false }), selectIndex: -1 })
             },
           })
         }

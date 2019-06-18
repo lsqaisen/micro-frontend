@@ -5,13 +5,14 @@ import EditForm from './form/edit-tenant-form';
 export interface AddUserProps {
   visible?: boolean;
   data?: any;
-  onSubmit?: (value: any) => void;
+  submit?: (value: any) => void;
   onClose?: () => void;
 }
 
 class AddUser extends PureComponent<AddUserProps, any> {
   static readonly defaultProps = {
-    onSubmit: () => null
+    submit: () => null,
+    onClose: () => null,
   };
 
   state = {
@@ -19,7 +20,7 @@ class AddUser extends PureComponent<AddUserProps, any> {
   }
 
   render() {
-    const { visible, data, onClose, onSubmit } = this.props;
+    const { visible, data, submit, onClose } = this.props;
     const { loading } = this.state;
     return (
       <Drawer
@@ -33,16 +34,16 @@ class AddUser extends PureComponent<AddUserProps, any> {
       >
         <EditForm data={data} ref="edittenant" />
         <div className={"drawer-bottom-actions"} >
-          <Button onClick={() => { this.setState({ visible: false }) }} style={{ marginRight: 8 }}> 取消 </Button>
+          <Button onClick={onClose} style={{ marginRight: 8 }}> 取消 </Button>
           <Button loading={loading} onClick={() => {
             (this.refs.edittenant as any).validateFields(async (error: any, values: any) => {
               if (!error) {
                 this.setState({ loading: true })
-                if ((await onSubmit!(values)) as any) {
-                  this.setState({ loading: false })
+                if ((await submit!({ ...data, ...values })) as any) {
                 } else {
-                  this.setState({ visible: false, loading: false })
+                  onClose!();
                 }
+                this.setState({ loading: false })
               }
             })
           }} type="primary"> 提交 </Button>

@@ -1,5 +1,5 @@
 import { PureComponent } from 'react';
-import {  Modal } from 'antd';
+import { Modal } from 'antd';
 import OverSetForm, { OverSetFormProps } from './form/overset-tenant-form';
 
 export interface OverSetProps extends OverSetFormProps {
@@ -8,34 +8,37 @@ export interface OverSetProps extends OverSetFormProps {
   visible?: boolean;
   submit?: (value: any) => void;
   onClose?: () => void;
-  getOverSold: (name: string) => void;
+  getOverset?: (name: string) => void;
 }
 
 class OverSet extends PureComponent<OverSetProps, any> {
   static readonly defaultProps = {
-    submit: () => null
+    submit: () => null,
+    onClose: () => null,
+    getOverset: () => null,
   };
 
   state = {
     loading: false,
   }
-  UNSAFE_componentWillReceiveProps({ data, oversold }: OverSetProps) {
+  UNSAFE_componentWillReceiveProps({ data }: OverSetProps) {
     if (!!data.name && this.props.data.name !== data.name) {
-      this.props.getOverSold(data.name);
+      this.props.getOverset!(data.name);
     }
   }
 
   componentDidMount() {
-    const { data, getOverSold } = this.props;
-    data.name && getOverSold(data.name);
+    const { data, getOverset } = this.props;
+    data.name && getOverset!(data.name);
   }
 
   render() {
-    const { visible, data, oversold, submit, onClose } = this.props;
+    const { visible, data, oversold, submit, getOverset, onClose } = this.props;
     const { loading } = this.state;
     const over_set = oversold[data.name];
     return (
       <Modal
+        destroyOnClose
         maskClosable={false}
         title="资源优先级"
         visible={visible}
@@ -47,11 +50,13 @@ class OverSet extends PureComponent<OverSetProps, any> {
           (this.refs.overset as any).validateFields(async (error: any, values: any) => {
             if (!error) {
               this.setState({ loading: true })
-              if ((await submit!(values)) as any) {
-                this.setState({ loading: false })
+              if ((await submit!({ namespace: data.name, ...values })) as any) {
+
               } else {
-                this.setState({ visible: false, loading: false })
+                onClose!()
+                getOverset!(data.name)
               }
+              this.setState({ loading: false })
             }
           })
         }}

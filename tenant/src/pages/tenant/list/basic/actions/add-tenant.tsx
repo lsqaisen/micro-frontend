@@ -1,6 +1,6 @@
 import { connect } from 'dva';
 import { createSelector } from 'reselect';
-import SetTenantOwenr from '@/components/tenant/set-tenant-owner';
+import AddTenant from '@/components/tenant/add-tenant';
 
 export default connect(
   createSelector(
@@ -10,15 +10,15 @@ export default connect(
     (users) => ({ users })
   ), createSelector(
     [
-      (dispatch: any) => (data: any) => dispatch({ type: `${MODEL}_tenant/setadmin`, payload: data }),
+      (dispatch: any) => (data: any) => dispatch({ type: `${MODEL}_tenant/create`, payload: data }),
       (dispatch: any) => () => dispatch({ type: `${MODEL}_tenant/getusers`, payload: { group_id: "*" } }),
     ],
-    (setAdmin, getUsers) => ({ setAdmin, getUsers })
+    (createTenant, getUsers) => ({ createTenant, getUsers })
   )
-)(({ users, update = () => null, setAdmin, getUsers, ...props }: any) => (
-  <SetTenantOwenr
+)(({ users, update = () => null, createTenant, getUsers, ...props }: any) => (
+  <AddTenant
     {...props}
-    submit={(data) => setAdmin(data).then((error: any) => !error && update())}
+    submit={(v) => createTenant(v).then((err: any) => !err && update())}
     userSearch={() => {
       return new Promise(async (resolve) => {
         getUsers().then(() => {

@@ -1,17 +1,17 @@
 import { PureComponent } from 'react';
 import { Button, Drawer } from 'antd';
-import SetOwnerForm, { SetTenantOwnerProps } from './form/set-tenant-owner-form';
+import SetOwnerForm, { SetTenantOwnerFormProps } from './form/set-tenant-owner-form';
 
-export interface AddUserProps extends SetTenantOwnerProps {
+export interface SetTenantOwnerProps extends SetTenantOwnerFormProps {
   visible?: boolean;
   data?: any;
-  onSubmit?: (value: any) => void;
+  submit?: (value: any) => void;
   onClose?: () => void;
 }
 
-class AddUser extends PureComponent<AddUserProps, any> {
+class SetTenantOwner extends PureComponent<SetTenantOwnerProps, any> {
   static readonly defaultProps = {
-    onSubmit: () => null
+    submit: () => null
   };
 
   state = {
@@ -19,7 +19,7 @@ class AddUser extends PureComponent<AddUserProps, any> {
   }
 
   render() {
-    const { visible, data, onClose, onSubmit, userSearch } = this.props;
+    const { visible, data, onClose, submit, userSearch } = this.props;
     const { loading } = this.state;
     return (
       <Drawer
@@ -33,16 +33,17 @@ class AddUser extends PureComponent<AddUserProps, any> {
       >
         <SetOwnerForm data={data} ref="settenantowenr" userSearch={userSearch} />
         <div className={"drawer-bottom-actions"} >
-          <Button onClick={() => { this.setState({ visible: false }) }} style={{ marginRight: 8 }}> 取消 </Button>
+          <Button onClick={onClose} style={{ marginRight: 8 }}> 取消 </Button>
           <Button loading={loading} onClick={() => {
             (this.refs.settenantowenr as any).validateFields(async (error: any, values: any) => {
               if (!error) {
+                values.owner_id = Number(values.owner_id);
                 this.setState({ loading: true })
-                if ((await onSubmit!(values)) as any) {
-                  this.setState({ loading: false })
+                if ((await submit!(values)) as any) {
                 } else {
-                  this.setState({ visible: false, loading: false })
+                  onClose!()
                 }
+                this.setState({ loading: false })
               }
             })
           }} type="primary"> 提交 </Button>
@@ -52,4 +53,4 @@ class AddUser extends PureComponent<AddUserProps, any> {
   }
 }
 
-export default AddUser;
+export default SetTenantOwner;

@@ -5,14 +5,14 @@ import SearchSelect from '@/components/global/search-select';
 
 const FormItem = Form.Item;
 
-export interface SetTenantOwnerProps {
+export interface SetTenantOwnerFormProps {
 	data?: any;
 	formItemLayout?: any;
 	userSearch?: () => any;
 }
 
 @(Form.create() as any)
-class SetTenantOwner extends PureComponent<FormComponentProps & SetTenantOwnerProps, any> {
+class SetTenantOwner extends PureComponent<FormComponentProps & SetTenantOwnerFormProps, any> {
 	static readonly defaultProps = {
 		form: {},
 		formItemLayout: {
@@ -24,7 +24,6 @@ class SetTenantOwner extends PureComponent<FormComponentProps & SetTenantOwnerPr
 	render() {
 		const { data, formItemLayout, form, userSearch } = this.props;
 		const { getFieldDecorator } = form;
-		console.log(data)
 		return (
 			<Form >
 				<FormItem
@@ -32,11 +31,18 @@ class SetTenantOwner extends PureComponent<FormComponentProps & SetTenantOwnerPr
 					label="名称">
 					<Input placeholder='请输入空间名称' disabled value={data.name} />
 				</FormItem>
+				<FormItem style={{ display: 'none' }} {...formItemLayout}>
+					{getFieldDecorator('project_id', {
+						initialValue: data.project_id,
+					})(
+						<Input disabled />
+					)}
+				</FormItem>
 				<FormItem
 					{...formItemLayout}
 					label="管理员">
 					{getFieldDecorator('owner_id', {
-						initialValue: String(data.owner_id),
+						initialValue: `${data.owner_id}`,
 						rules: [{ required: true, message: '必须给空间设置管理员!' }],
 					})(
 						<SearchSelect
@@ -46,7 +52,6 @@ class SetTenantOwner extends PureComponent<FormComponentProps & SetTenantOwnerPr
 							onSearch={(params: any = {}) => {
 								return new Promise(async (resolve) => {
 									let response: any[] = await userSearch!();
-									console.log(response)
 									resolve({
 										data: response.map((v: any) => ({
 											key: `${v.user_id}`,

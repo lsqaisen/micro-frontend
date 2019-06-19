@@ -20,7 +20,7 @@ class ActionTable<T> extends PureComponent<ActionTableProps<T>, any> {
     actionText: '操作',
   }
   state = {
-    selectIndex: 0,
+    selectIndex: -1,
     visibles: {} as { [key: string]: boolean },
   }
 

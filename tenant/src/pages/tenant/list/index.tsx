@@ -4,11 +4,11 @@ import { createSelector } from 'reselect';
 import { Button } from 'antd';
 import Breadcrumb from '@/components/global/breadcrumb';
 import Table from '@/components/tenant/table';
-import AddTenant from '@/components/tenant/add-tenant';
+import AddTenant from './basic/actions/add-tenant';
 import Overset from './basic/actions/over-set';
 import EidtTenant from './basic/actions/edit-tenant';
 import SetTenantOwenr from './basic/actions/set-tenant-owenr';
-import SetTenantQuota from '@/components/tenant/set-tenant-quota';
+import SetTenantQuota from './basic/actions/set-tenant-quota';
 import Actions from './basic/actions';
 
 
@@ -24,13 +24,9 @@ import Actions from './basic/actions';
   [
     (dispatch: any) => (data: any) => dispatch({ type: `${MODEL}_tenant/get`, payload: data }),
     (dispatch: any) => (data: any) => dispatch({ type: `${MODEL}_tenant/create`, payload: data }),
-    (dispatch: any) => (data: any) => dispatch({ type: `${MODEL}_tenant/edit`, payload: data }),
-    (dispatch: any) => (namespace?: string) => dispatch({ type: `${MODEL}_quota/getoverset`, payload: namespace }),
-    (dispatch: any) => (over_set?: string) => dispatch({ type: `${MODEL}_quota/setoversold`, payload: over_set }),
     (dispatch: any) => () => dispatch({ type: `${MODEL}_tenant/getusers`, payload: { group_id: "*" } }),
-    (dispatch: any) => (data: any) => dispatch({ type: `${MODEL}_tenant/setadmin`, payload: data }),
   ],
-  (getTenants, createTenant, editTenant, getOverset, setOverset, getUsers, setAdmin) => ({ getTenants, createTenant, editTenant, getOverset, setOverset, getUsers, setAdmin })
+  (getTenants, createTenant, getUsers) => ({ getTenants, createTenant, getUsers })
 ))
 export default class extends PureComponent<any, any> {
   static readonly defaultProps = {
@@ -45,14 +41,17 @@ export default class extends PureComponent<any, any> {
     page_size: 10,
   };
 
-  componentDidMount() {
+  get = () => {
     const { page, page_size } = this.state;
-    this.props.getTenants({ page, page_size });
+    this.props.getTenants({ page, page_size })
+  };
+
+  componentDidMount() {
+    this.get()
   }
 
   render() {
-    const { data, routes, oversold, loading, getTenants, createTenant, editTenant, getOverset, setOverset, getUsers, setAdmin } = this.props;
-    const { page, page_size } = this.state;
+    const { data, routes, loading } = this.props;
     return (
       <Breadcrumb
         name="空间列表"
@@ -64,33 +63,21 @@ export default class extends PureComponent<any, any> {
         <section className="box">
           <header style={{ overflow: 'hidden' }}>
             <div className="fr">
-              <Button style={{ marginLeft: 16 }} type="ghost" loading={loading} onClick={() => getTenants({ page, page_size })} >刷新</Button>
+              <Button style={{ marginLeft: 16 }} type="ghost" loading={loading} onClick={this.get} >刷新</Button>
             </div>
             <div className="fr">
-              <AddTenant
-                submit={(v) => createTenant(v).then((err: any) => {
-                  if (!err) getTenants({ page, page_size });
-                })}
-                userSearch={() => {
-                  return new Promise(async (resolve) => {
-                    getUsers().then(() => {
-                      const { users } = this.props;
-                      resolve(users.filter((user: any) => user.type !== 1));
-                    });
-                  })
-                }}
-              />
+              <AddTenant update={this.get} />
             </div>
           </header>
           <Table
             loading={loading}
             data={data}
-            actions={<Actions update={() => getTenants({ page, page_size })} />}
+            actions={<Actions update={this.get} />}
           >
             <Overset key="overset" />
-            <EidtTenant key="edit" update={() => getTenants({ page, page_size })} />
-            <SetTenantOwenr key="owenr" />
-            <SetTenantQuota key="quota" />
+            <EidtTenant key="edit" update={this.get} />
+            <SetTenantOwenr key="owenr" update={this.get} />
+            <SetTenantQuota key="quota" update={this.get} />
           </Table>
         </section>
       </Breadcrumb>

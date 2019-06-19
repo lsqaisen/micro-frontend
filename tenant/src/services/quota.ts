@@ -37,7 +37,6 @@ function getDefaultQuota() {
   return request(`/service/tenant/api/quota/default`);
 }
 
-
 function setDefaultQuota({ bandwidth = '1', ...data }: Quota) {
   return request(`/service/tenant/api/quota/default`, {
     method: 'post',

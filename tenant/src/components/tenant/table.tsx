@@ -38,11 +38,11 @@ class Tenant extends PureComponent<TenantProps, any> {
   columns: ColumnProps<ITenant>[] = [{
     title: '工作空间',
     dataIndex: 'name',
-    width: 136,
+    width: 186,
     onCell: () => ({
       style: {
         whiteSpace: 'nowrap',
-        maxWidth: 136,
+        maxWidth: 156,
         minWidth: 82,
       }
     }),
@@ -54,11 +54,10 @@ class Tenant extends PureComponent<TenantProps, any> {
   }, {
     title: '工作空间备注',
     dataIndex: 'description',
-    width: 156,
     onCell: () => ({
       style: {
         whiteSpace: 'nowrap',
-        maxWidth: 156,
+        maxWidth: 186,
         minWidth: 116,
       }
     }),

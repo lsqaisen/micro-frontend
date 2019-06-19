@@ -139,7 +139,7 @@ class SetQuotaForm extends PureComponent<FormComponentProps & SetQuotaFormProps,
 						/>
 					)}
 				</FormItem>
-				{true ? <FormItem
+				{false ? <FormItem
 					{...formItemLayout}
 					label="资源优先级">
 					{getFieldDecorator('over_set')(

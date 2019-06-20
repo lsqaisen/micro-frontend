@@ -15,9 +15,10 @@ export interface SetQuotaFormProps {
 @(Form.create() as any)
 class SetQuotaForm extends PureComponent<FormComponentProps & SetQuotaFormProps, any> {
 	static readonly defaultProps = {
+		data: {},
 		form: {},
 		formItemLayout: {
-			labelCol: { xs: 24, md:7 },
+			labelCol: { xs: 24, md: 7 },
 			wrapperCol: { xs: 24, md: 17 },
 		},
 	};

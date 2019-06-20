@@ -6,35 +6,22 @@ import api from '@/services/quota';
 export default {
   namespace: `${MODEL}_quota`,
   state: {
-    config: {},
     quotas: {},
-    oversold: {},
+    oversets: {},
   },
 
   effects: {
-    *get({ payload }: AnyAction, { call, put }: EffectsCommandMap) {
-      const { data, err } = yield call(api.getQuota, payload);
-      if (!!err) {
-        // message.error(err, 5);
-      } else {
-        yield put({
-          type: 'save',
-          payload: {
-            config: data || {},
-          }
-        });
-      }
-    },
     *getquota({ payload }: AnyAction, { call, put }: EffectsCommandMap) {
       const { data, err } = yield call(api.getQuota, payload);
       if (!!err) {
         // message.error(err, 5);
       } else {
+        const namespace = payload || 'default';
         yield put({
           type: 'update',
           payload: {
             quotas: {
-              [payload]: data || {},
+              [namespace]: data || {},
             },
           }
         });
@@ -58,18 +45,19 @@ export default {
       if (!!err) {
         message.error(err, 5);
       } else {
+        const namespace = payload || 'default';
         yield put({
           type: 'update',
           payload: {
-            oversold: {
-              [payload]: (data || {}).over_set || undefined,
+            oversets: {
+              [namespace]: (data || {}).over_set || undefined,
             },
           }
         });
       }
     },
-    *setoversold({ payload }: AnyAction, { call }: EffectsCommandMap) {
-      const { err } = yield call(api.setOverset, payload);
+    *setoverset({ payload }: AnyAction, { call }: EffectsCommandMap) {
+      const { err } = yield call(api.setOverset, payload.over_set, payload.namespace);
       if (!!err) {
         message.error(err, 5);
         return err;

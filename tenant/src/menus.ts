@@ -1,38 +1,20 @@
-const menus = {
+export default {
   admin: [{
     key: "list",
-    name: "空间列表",
-    path: "/list"
+    name: "空间管理",
+    path: "/list",
   }, {
-    key: "default",
+    key: "config",
     name: "默认配额",
-    path: "/default"
+    path: "/config",
   }, {
-    key: "charging",
-    name: "计费定价",
-    path: "/charging"
-  }, {
-    key: "qrcharge",
-    name: "确认充值",
-    path: "/qrcharge"
-  }, {
-    key: "bill",
-    name: "账单",
-    path: "/bill"
-  }, {
-    key: "set",
-    name: "账户设置",
-    path: "/set"
+    key: "charge",
+    name: "计费管理",
+    path: "/charge",
   }],
   user: [{
-    key: "bill",
-    name: "账单",
-    path: "/bill"
-  }, {
-    key: "qrcharge",
-    name: "确认充值",
-    path: "/qrcharge"
+    key: "charge",
+    name: "计费管理",
+    path: "/charge",
   }]
 }
-
-export default menus;

@@ -6,11 +6,25 @@ import api from '@/services/quota';
 export default {
   namespace: `${MODEL}_quota`,
   state: {
+    config: {},
     quotas: {},
     oversold: {},
   },
 
   effects: {
+    *get({ payload }: AnyAction, { call, put }: EffectsCommandMap) {
+      const { data, err } = yield call(api.getQuota, payload);
+      if (!!err) {
+        // message.error(err, 5);
+      } else {
+        yield put({
+          type: 'save',
+          payload: {
+            config: data || {},
+          }
+        });
+      }
+    },
     *getquota({ payload }: AnyAction, { call, put }: EffectsCommandMap) {
       const { data, err } = yield call(api.getQuota, payload);
       if (!!err) {

@@ -1,4 +1,4 @@
-const { NODE_ENV } = process.env;
+const { MIFE_TYPE } = process.env;
 
 export default {
   history: 'hash',
@@ -22,7 +22,7 @@ export default {
       },
     }],
     ['mife', {
-      type: NODE_ENV === "development" ? 'portal' : 'plugin',
+      type: MIFE_TYPE,
       dynamicImport: true,
       publicPath: '/lib/',
       externals: {

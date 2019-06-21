@@ -1,8 +1,7 @@
 import { PureComponent } from 'react';
 import { connect } from 'dva';
 import { createSelector } from 'reselect';
-import { Row, Col, PageHeader } from 'antd';
-import Loading from '@/components/global/loading';
+import { Row, Col } from 'antd';
 import Config from '@/components/config';
 import Quota from './basic/quota';
 import Overset from './basic/overset';

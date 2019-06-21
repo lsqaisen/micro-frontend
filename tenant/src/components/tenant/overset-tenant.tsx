@@ -3,7 +3,6 @@ import { Modal } from 'antd';
 import OverSetForm, { OverSetFormProps } from './form/overset-tenant-form';
 
 export interface OverSetProps extends OverSetFormProps {
-  oversold?: any;
   data?: any;
   visible?: boolean;
   submit?: (value: any) => void;
@@ -33,9 +32,9 @@ class OverSet extends PureComponent<OverSetProps, any> {
   }
 
   render() {
-    const { visible, data, oversold, submit, getOverset, onClose } = this.props;
+    const { visible, data, over_set, submit, getOverset, onClose } = this.props;
     const { loading } = this.state;
-    const over_set = oversold[data.name];
+    console.log(1)
     return (
       <Modal
         destroyOnClose

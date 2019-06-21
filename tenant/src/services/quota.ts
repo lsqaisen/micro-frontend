@@ -1,17 +1,25 @@
 import request from '@/utils/request';
 
 interface Quota {
+  namespace?: string;
   bandwidth: string;
+  disk: string;
+  podCpu: string;
+  podMem: string;
+  podNum: string;
+  totalVolumeCap: string;
+  volumeCap: string;
+  volumeNum: string;
 }
 
 function getQuota(namespace: string) {
-  return request(`/service/tenant/api/quota?namespace=${namespace}`);
+  return request(`/service/tenant/api/quota${namespace ? `?namespace=${namespace}` : '/default'}`);
 }
 
-function setQuota(data: Quota) {
-  return request(`/service/tenant/api/quota`, {
+function setQuota({ namespace, bandwidth = '1', ...data }: Quota) {
+  return request(`/service/tenant/api/quota${namespace ? '' : '/default'}`, {
     method: 'post',
-    body: data,
+    body: { namespace, bandwidth, ...data },
   });
 }
 
@@ -22,12 +30,7 @@ function getOverset(namespace?: string) {
   return request(url);
 }
 
-interface setOVerSoldRequest {
-  namespace?: string;
-  over_set: number | string;
-}
-
-function setOverset({ namespace, over_set }: setOVerSoldRequest) {
+function setOverset(over_set: string, namespace?: string) {
   return request(`/service/tenant/api/quota/overset?over_set=${over_set}${namespace ? `&namespace=${namespace}` : ''}`, {
     method: 'post',
   });
@@ -40,7 +43,7 @@ function getDefaultQuota() {
 function setDefaultQuota({ bandwidth = '1', ...data }: Quota) {
   return request(`/service/tenant/api/quota/default`, {
     method: 'post',
-    body: { ...data, bandwidth }
+    body: { bandwidth, ...data }
   });
 }
 
@@ -53,7 +56,6 @@ function resetDefaultQuota() {
 
 export {
   Quota,
-  setOVerSoldRequest
 }
 
 export default {

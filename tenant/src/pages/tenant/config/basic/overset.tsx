@@ -6,27 +6,27 @@ import Overset from '@/components/config/overset';
 
 @connect(createSelector(
 	[
-		({ [`${MODEL}_config`]: config }: any) => config.ldap,
-		(props: any) => !!props.loading.effects[`${MODEL}_config/get`],
+		({ [`${MODEL}_quota`]: quota }: any) => quota.oversets.default,
+		(props: any) => !!props.loading.effects[`${MODEL}_quota/getoverset`],
 	],
-	(ldap, loading) => ({ ldap, loading }),
+	(over_set, loading) => ({ over_set, loading }),
 ), createSelector(
 	[
-		(dispatch: any) => (email_enable: boolean) => dispatch({ type: `${MODEL}_config/setOversetStatus`, payload: email_enable }),
+		(dispatch: any) => () => dispatch({ type: `${MODEL}_quota/getoverset` }),
 	],
-	(changeStatus) => ({ changeStatus })
+	(getOverset) => ({ getOverset })
 ))
 export default class extends PureComponent<any, any> {
+	componentDidMount() {
+		this.props.getOverset()
+	}
 	render() {
-		const { ldap = {}, loading, changeStatus } = this.props;
-		delete ldap.email_identity;
-		const set = Object.keys(ldap || {}).every(key => !!ldap[key]);
+		const { over_set, loading, changeStatus } = this.props;
 		return (
 			<Overset
 				loading={loading}
-				ldap={ldap}
+				over_set={over_set}
 				submit={() => { }}
-				changeStatus={changeStatus}
 			/>
 		)
 	}

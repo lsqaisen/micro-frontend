@@ -5,25 +5,26 @@ import Quota from '@/components/config/quota';
 
 @connect(createSelector(
 	[
-		({ [`${MODEL}_config`]: config }: any) => config.email,
-		(props: any) => !!props.loading.effects[`${MODEL}_config/get`],
+		({ [`${MODEL}_quota`]: quota }: any) => quota.config,
+		(props: any) => !!props.loading.effects[`${MODEL}_quota/get`],
 	],
-	(email, loading) => ({ email, loading }),
+	(quota, loading) => ({ quota, loading }),
 ), createSelector(
 	[
-		(dispatch: any) => (email_enable: boolean) => dispatch({ type: `${MODEL}_config/setQuotaStatus`, payload: email_enable }),
-		(dispatch: any) => (data: any) => dispatch({ type: `${MODEL}_config/testsmtp`, payload: data }),
-		(dispatch: any) => (data: any) => dispatch({ type: `${MODEL}_config/setsmtp`, payload: data }),
+		(dispatch: any) => () => dispatch({ type: `${MODEL}_quota/get` }),
 	],
-	(changeStatus, test, set) => ({ changeStatus, test, set })
+	(getQuota) => ({ getQuota })
 ))
 export default class extends PureComponent<any, any> {
+	componentDidMount() {
+		this.props.getQuota()
+	}
 	render() {
-		const { email = {}, loading, set, test, changeStatus } = this.props;
+		const { quota, loading, set, test, changeStatus } = this.props;
 		return (
 			<Quota
 				loading={loading}
-				email={email}
+				quota={quota}
 				submit={set}
 				changeStatus={changeStatus}
 				test={test}

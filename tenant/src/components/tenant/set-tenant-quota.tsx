@@ -1,5 +1,5 @@
 import { PureComponent } from 'react';
-import { Button, Drawer } from 'antd';
+import { Button, Drawer, Typography } from 'antd';
 import SetQuotaForm from './form/set-tenant-quota-form'
 
 export interface SetTenantQuotaProps {
@@ -36,13 +36,13 @@ class SetTenantQuota extends PureComponent<SetTenantQuotaProps, any> {
   render() {
     const { visible, quotas, data, onClose, submit } = this.props;
     const { loading } = this.state;
-    const quota = quotas[data.name] || {};
+    const quota = quotas[data.name];
     return (
       <Drawer
         bodyStyle={{ padding: 0, height: `calc(100% - 108px)` }}
         destroyOnClose
         maskClosable={false}
-        title="设置默认配额"
+        title={<Typography.Text>设置默认配额{!quota && <Typography.Text style={{color: 'red'}}>(未配置)</Typography.Text>}</Typography.Text>}
         width={482}
         placement="right"
         onClose={onClose}

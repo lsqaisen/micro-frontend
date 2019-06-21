@@ -16,10 +16,10 @@ import Actions from './basic/actions';
   [
     ({ [`${MODEL}_tenant`]: tenant }: any) => tenant.data,
     ({ [`${MODEL}_tenant`]: tenant }: any) => (tenant.users || {}).list || [],
-    ({ [`${MODEL}_quota`]: quota }: any) => quota.oversold,
+    ({ [`${MODEL}_quota`]: quota }: any) => quota.overset,
     props => !!props.loading.effects[`${MODEL}_tenant/get`],
   ],
-  (data, users, oversold, loading) => ({ data, users, oversold, loading })
+  (data, users, overset, loading) => ({ data, users, overset, loading })
 ), createSelector(
   [
     (dispatch: any) => (data: any) => dispatch({ type: `${MODEL}_tenant/get`, payload: data }),

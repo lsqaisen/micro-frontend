@@ -5,20 +5,26 @@ import Overset, { OverSetProps } from '@/components/tenant/overset-tenant';
 export default connect(
   createSelector(
     [
-      ({ [`${MODEL}_quota`]: quota }: any) => quota.oversold,
+      ({ [`${MODEL}_quota`]: quota }: any, { data }: any) => {
+        if (!!data.name) {
+          return Object.assign({}, quota.oversets[data.name] || {})
+        } else {
+          return undefined
+        }
+      },
     ],
-    (oversold) => ({ oversold })
+    (overset) => ({ overset })
   ), createSelector(
     [
       (dispatch: any) => (namespace?: string) => dispatch({ type: `${MODEL}_quota/getoverset`, payload: namespace }),
-      (dispatch: any) => (over_set?: string) => dispatch({ type: `${MODEL}_quota/setoversold`, payload: over_set }),
+      (dispatch: any) => (over_set?: string) => dispatch({ type: `${MODEL}_quota/setoverset`, payload: over_set }),
     ],
     (getOverset, setOverset) => ({ getOverset, setOverset })
   )
-)(({ oversold, getOverset, setOverset, ...props }: any) => (
+)(({ overset, getOverset, setOverset, ...props }: any) => (
   <Overset
     {...props}
-    oversold={oversold}
+    over_set={overset}
     getOverset={getOverset}
     submit={setOverset}
   />

@@ -4,11 +4,9 @@
     "start": "MOCK=none umi dev",
     "start:mock": "umi dev",
     "build": "umi build",
-    "lib": "cross-env MIFE_TYPE=none && umi build",
-    "u": "mife-cli library"
+    "udg": "mife-cli library"
   },
   "devDependencies": {
-    "cross-env": "^5.2.0",
     "mife": "^0.0.5",
     "umi": "^2.4.4",
     "umi-plugin-react": "^1.4.2"

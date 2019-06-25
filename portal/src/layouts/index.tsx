@@ -39,7 +39,7 @@ export default class extends PureComponent<any, any> {
     });
   }
   render() {
-    console.log(this.props)
+    console.log(window.web_type)
     const { version, admin, profile, init, location, children } = this.props;
     if (!init) return null;
     else if (!profile) {

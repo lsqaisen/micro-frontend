@@ -9,6 +9,7 @@ declare module 'lodash.debounce';
 
 interface Window {
   mife_menus?: object;
+  web_type: string;
   Number: any;
   sider_drawers: {
     [key: string]: any;

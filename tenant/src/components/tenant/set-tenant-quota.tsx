@@ -42,13 +42,13 @@ class SetTenantQuota extends PureComponent<SetTenantQuotaProps, any> {
         bodyStyle={{ padding: 0, height: `calc(100% - 108px)` }}
         destroyOnClose
         maskClosable={false}
-        title={<Typography.Text>设置默认配额{!quota && <Typography.Text style={{color: 'red'}}>(未配置)</Typography.Text>}</Typography.Text>}
+        title={<Typography.Text>设置默认配额{!quota && <Typography.Text style={{ color: 'red' }}>(未配置)</Typography.Text>}</Typography.Text>}
         width={482}
         placement="right"
         onClose={onClose}
         visible={visible}
       >
-        <SetQuotaForm data={quota} ref="setquotaform" />
+        <SetQuotaForm data={quota} ref="setquotaform"  {...{ ['data-__meta']: { rules: [] } }} />
         <div className={"drawer-bottom-actions"} >
           <Button onClick={onClose} style={{ marginRight: 8 }}> 取消 </Button>
           <Button loading={loading} onClick={() => {

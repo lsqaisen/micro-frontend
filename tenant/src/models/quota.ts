@@ -40,6 +40,16 @@ export default {
         });
       }
     },
+    *resetquota(_: AnyAction, { call, put }: EffectsCommandMap) {
+      const { err } = yield call(api.resetQuota);
+      if (!!err) {
+        message.error(err, 5);
+        return err;
+      } else {
+        message.success('重置配额成功', 5);
+        yield put({ type: 'getquota' });
+      }
+    },
     *getoverset({ payload }: AnyAction, { call, put }: EffectsCommandMap) {
       const { data, err } = yield call(api.getOverset, payload);
       if (!!err) {

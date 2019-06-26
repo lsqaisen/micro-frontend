@@ -1,5 +1,5 @@
 import { PureComponent } from 'react';
-import { Form, Row, Col, Input, TreeSelect, Typography } from 'antd';
+import { Form, Row, Col, Input, Typography } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import SearchSelect from '@/components/global/search-select';
 import CreateUser from '../add-user';

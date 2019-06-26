@@ -1,19 +1,18 @@
 import { PureComponent } from 'react';
-import { Modal, Switch } from 'antd';
-import SetQuotaForm from '../tenant/form/set-tenant-quota-form';
+import SetQuotaForm from './form/set-quota-form';
 
 export interface SmtpProps {
 	loading: boolean;
 	setting?: boolean;
 	quota: { [key: string]: any };
-	test: () => any;
+	reset: () => any;
 	submit: () => any;
-	changeStatus: (enable: boolean) => any;
 }
 
 class Smtp extends PureComponent<SmtpProps, any> {
 	render() {
-		const { quota, loading, test, submit, changeStatus } = this.props;
+		const { quota, loading, reset, submit } = this.props;
+		delete quota.disk;
 		const set = Object.keys(quota).every(key => !!quota[key]);
 		return (
 			<div>
@@ -28,7 +27,13 @@ class Smtp extends PureComponent<SmtpProps, any> {
 					<span style={{ float: 'left', marginRight: 16 }}>资源默认配额</span>
 					{set ? <span style={{ color: '#2B73F8' }}>(已设置)</span> : <span style={{ color: '#f5222d' }}>(尚未设置)</span>}
 				</h3>
-				<SetQuotaForm data={quota} ref="setquotaform" />
+				<SetQuotaForm
+					loading={loading}
+					set={set}
+					data={quota}
+					submit={submit}
+					reset={reset}
+				/>
 			</div>
 		);
 	}

@@ -34,7 +34,6 @@ class OverSet extends PureComponent<OverSetProps, any> {
   render() {
     const { visible, data, over_set, submit, getOverset, onClose } = this.props;
     const { loading } = this.state;
-    console.log(1)
     return (
       <Modal
         destroyOnClose

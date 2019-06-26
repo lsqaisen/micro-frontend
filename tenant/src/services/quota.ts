@@ -17,9 +17,11 @@ function getQuota(namespace: string) {
 }
 
 function setQuota({ namespace, bandwidth = '1', ...data }: Quota) {
+  let body: any = { bandwidth, ...data };
+  namespace && (body.namespace = namespace);
   return request(`/service/tenant/api/quota${namespace ? '' : '/default'}`, {
     method: 'post',
-    body: { namespace, bandwidth, ...data },
+    body,
   });
 }
 
@@ -36,18 +38,7 @@ function setOverset(over_set: string, namespace?: string) {
   });
 }
 
-function getDefaultQuota() {
-  return request(`/service/tenant/api/quota/default`);
-}
-
-function setDefaultQuota({ bandwidth = '1', ...data }: Quota) {
-  return request(`/service/tenant/api/quota/default`, {
-    method: 'post',
-    body: { bandwidth, ...data }
-  });
-}
-
-function resetDefaultQuota() {
+function resetQuota() {
   return request(`/service/tenant/api/quota/default`, {
     method: 'delete'
   });
@@ -63,7 +54,5 @@ export default {
   setQuota,
   getOverset,
   setOverset,
-  getDefaultQuota,
-  setDefaultQuota,
-  resetDefaultQuota,
+  resetQuota,
 }

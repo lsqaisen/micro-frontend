@@ -1,10 +1,9 @@
 import { PureComponent } from 'react';
-import { Form, Input, InputNumber, Radio } from 'antd';
+import { Form, InputNumber } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
-import SearchSelect from '@/components/global/search-select';
+import FormInput, { FormInputProps } from '@/components/global/forminput';
 
 const FormItem = Form.Item;
-const RadioGroup = Radio.Group;
 
 export interface SetQuotaFormProps {
 	data?: any;
@@ -12,7 +11,11 @@ export interface SetQuotaFormProps {
 	userSearch?: () => any;
 }
 
-@(Form.create() as any)
+@(FormInput({
+	onValuesChange: ({ onChange = () => null }: any, _: any, allValues: any) => {
+		onChange(allValues)
+	}
+}) as any)
 class SetQuotaForm extends PureComponent<FormComponentProps & SetQuotaFormProps, any> {
 	static readonly defaultProps = {
 		data: {},
@@ -26,13 +29,8 @@ class SetQuotaForm extends PureComponent<FormComponentProps & SetQuotaFormProps,
 	render() {
 		const { data, formItemLayout, form } = this.props;
 		const { getFieldDecorator } = form;
-		const style = {
-			lineHeight: '26px',
-			padding: `8px 0`,
-			whiteSpace: `pre-line`,
-		} as any;
 		return (
-			<Form style={{ padding: 24, height: "100%", overflow: "auto" }}>
+			<Form style={{ height: "100%", overflow: "auto" }}>
 				<FormItem
 					{...formItemLayout}
 					label="单Pod CPU核数">
@@ -140,18 +138,6 @@ class SetQuotaForm extends PureComponent<FormComponentProps & SetQuotaFormProps,
 						/>
 					)}
 				</FormItem>
-				{false ? <FormItem
-					{...formItemLayout}
-					label="资源优先级">
-					{getFieldDecorator('over_set')(
-						<RadioGroup>
-							<Radio style={style} value={`0.25`}>低：按照申请资源的25%分配，绝大部分资源都可以与其他租户共享，适用于不重要业务，核心业务慎用；</Radio>
-							<Radio style={style} value={`0.5`}>中：按照申请资源的50%分配，空闲资源可以与其他租户共享，充分利用资源；</Radio>
-							<Radio style={style} value={`0.75`}>高：按照申请资源的75%分配，空闲资源可以少量与其他租户共享；</Radio>
-							<Radio style={style} value={`1`}>重要：按照申请资源的100%分配，空闲资源不与其他租户共享，适用于资源密集型业务；</Radio>
-						</RadioGroup>
-					)}
-				</FormItem> : ''}
 			</Form>
 		)
 	}

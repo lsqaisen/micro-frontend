@@ -71,10 +71,15 @@ export default {
       "changeOrigin": true,
       "pathRewrite": { "^/lib/login": "" }
     },
-    "/lib/node": {
+    "/lib/dashboard": {
+      "target": "http://localhost:49489",
+      "changeOrigin": true,
+      "pathRewrite": { "^/lib/dashboard": "" }
+    },
+    "/lib/tenant": {
       "target": "http://localhost:5001",
       "changeOrigin": true,
-      "pathRewrite": { "^/lib/node": "" }
+      "pathRewrite": { "^/lib/tenant": "" }
     },
     //oem
     "/static/oem": {

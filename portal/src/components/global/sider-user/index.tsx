@@ -1,7 +1,5 @@
 import { PureComponent, Fragment } from 'react';
-import { PageHeader, Avatar, Tag, Icon, Typography, Dropdown, Menu, Divider, Popover, Descriptions } from 'antd';
-import GMenu from '@/components/global/menu';
-import Logo from '@/components/global/logo';
+import { Avatar, Tag, Icon, Typography, Dropdown, Menu, Descriptions } from 'antd';
 import styles from './style/index.less';
 
 const colorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'];
@@ -12,6 +10,7 @@ type UserProps = {
   guestName: string;
   trial: boolean;
   admin: boolean;
+  logout: (e: any) => void;
 }
 
 type UserState = {
@@ -33,7 +32,7 @@ export default class extends PureComponent<UserProps, UserState> {
     }
   }
   render() {
-    const { name, trial, admin, guestName, children } = this.props;
+    const { name, trial, admin, guestName, logout, children } = this.props;
     const { color } = this.state;
     return (
       <div className={`${styles.box}`}>
@@ -47,8 +46,8 @@ export default class extends PureComponent<UserProps, UserState> {
               </Typography.Text>
             </Fragment>
           )}>
-            <Menu.Item>
-              xsdfasdfasdfasdfasdfasdfasfdasdf
+            <Menu.Item onClick={logout}>
+              <Icon type="logout" /> 登出
             </Menu.Item>
           </Menu.SubMenu>
           <Menu.Divider />

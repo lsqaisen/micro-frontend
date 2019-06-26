@@ -1,15 +1,17 @@
 {
   "name": "dashboard",
   "scripts": {
-    "start": "umi dev",
-    "build": "umi build"
+    "start": "MOCK=none umi dev",
+    "mock": "umi dev",
+    "build": "umi build",
+    "u": "mife-cli library"
   },
   "devDependencies": {
-    "mife": "^0.0.1",
-    "umi": "^2.4.4",
+    "mife": "^0.0.5",
+    "umi": "^2.7.3",
     "umi-plugin-react": "^1.4.2"
   },
   "dependencies": {
-    "react-lifecycles-compat": "^3.0.4"
+    "antd": "^3.19.3"
   }
 }

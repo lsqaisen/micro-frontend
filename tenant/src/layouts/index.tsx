@@ -3,7 +3,7 @@ import { PureComponent } from 'react';
 import { connect } from 'dva';
 import Link from 'umi/link';
 import { createSelector } from 'reselect';
-import { LocaleProvider, Divider, message, Modal } from 'antd';
+import { LocaleProvider, Divider } from 'antd';
 import Media from 'react-media';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import { sub, unsub } from 'mife/bin/api';
@@ -81,7 +81,7 @@ export default class extends PureComponent<any, any> {
                             type: 'group',
                             key: '1',
                             component: '配置与运维',
-                            childs: menus[admin ? `admin` : `user`].map(menu => ({
+                            childs: menus.childs.map(menu => ({
                               type: 'item',
                               key: `/${MODEL}${menu.path}`,
                               component: <Link to={`/${MODEL}${menu.path}`}>

@@ -46,17 +46,24 @@ export default class extends PureComponent<any, any> {
     }
   }
   componentDidMount() {
-    sub(`/lib/login/login.js?${new Date().getTime()}`, 'login', () => {
-      this.setState({ init: true })
-    });
-    sub(`/lib/dashboard/dashboard.js?${new Date().getTime()}`, 'dashboard', () => {
-      console.info('load dashoard success')
-      this.updateMenus(window.mife_menus!.dashboard)
-    });
-    sub(`/lib/tenant/tenant.js?${new Date().getTime()}`, 'tenant', () => {
-      console.info('load tenant success', window.mife_menus)
-      this.updateMenus(window.mife_menus!.tenant)
-    });
+    if (window.web_type === 'plugin') { }
+    else {
+      sub(`/lib/login/login.js?${new Date().getTime()}`, 'login', () => {
+        this.setState({ init: true })
+      });
+      sub(`/lib/dashboard/dashboard.js?${new Date().getTime()}`, 'dashboard', () => {
+        console.info('load dashoard success')
+        this.updateMenus(window.mife_menus!.dashboard)
+      });
+      sub(`/lib/tenant/tenant.js?${new Date().getTime()}`, 'tenant', () => {
+        console.info('load tenant success', window.mife_menus)
+        this.updateMenus(window.mife_menus!.tenant)
+      });
+      sub(`/lib/auth/auth.js?${new Date().getTime()}`, 'auth', () => {
+        console.info('load tenant success', window.mife_menus)
+        this.updateMenus(window.mife_menus!.auth)
+      });
+    }
   }
   render() {
     const { version, admin, profile, init, menu, location, children } = this.props;

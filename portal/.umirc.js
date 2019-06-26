@@ -22,7 +22,7 @@ export default {
       },
     }],
     ['mife', {
-      type: NODE_ENV === "development" ? 'portal' : 'plugin',
+      type: 'portal',
       dynamicImport: true,
       publicPath: '/lib/',
       externals: {
@@ -72,7 +72,7 @@ export default {
       "pathRewrite": { "^/lib/login": "" }
     },
     "/lib/dashboard": {
-      "target": "http://localhost:49489",
+      "target": "http://localhost:5002",
       "changeOrigin": true,
       "pathRewrite": { "^/lib/dashboard": "" }
     },
@@ -80,6 +80,11 @@ export default {
       "target": "http://localhost:5001",
       "changeOrigin": true,
       "pathRewrite": { "^/lib/tenant": "" }
+    },
+    "/lib/auth": {
+      "target": "http://localhost:5003",
+      "changeOrigin": true,
+      "pathRewrite": { "^/lib/auth": "" }
     },
     //oem
     "/static/oem": {

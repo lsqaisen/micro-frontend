@@ -1,7 +1,10 @@
 const { NODE_ENV } = process.env;
 
 export default {
+  base: '/v2/ui/',
   history: 'hash',
+  publicPath: '/static/dist/',
+  outputPath: '/static/dist/',
   plugins: [
     ['umi-plugin-react', {
       dva: true,
@@ -33,7 +36,7 @@ export default {
     }],
   ],
   hash: true,
-  copy: [{ from: './src/public/oem', to: './static/oem', toType: 'dir' },],
+  // copy: [{ from: './src/public/oem', to: './bin/oem', toType: 'dir' },],
   alias: {
     '@': './src/components/'
   },
@@ -66,10 +69,10 @@ export default {
       .prepend(".ts");
   },
   proxy: {
-    "/lib/login": {
+    "/static/lib/login": {
       "target": "http://localhost:5000",
       "changeOrigin": true,
-      "pathRewrite": { "^/lib/login": "" }
+      "pathRewrite": { "^/static/lib/login": "" }
     },
     "/lib/dashboard": {
       "target": "http://localhost:5002",
@@ -81,10 +84,10 @@ export default {
       "changeOrigin": true,
       "pathRewrite": { "^/lib/tenant": "" }
     },
-    "/lib/auth": {
+    "/static/lib/auth/": {
       "target": "http://localhost:5003",
       "changeOrigin": true,
-      "pathRewrite": { "^/lib/auth": "" }
+      "pathRewrite": { "^/static/lib/auth/": "" }
     },
     //oem
     "/static/oem": {

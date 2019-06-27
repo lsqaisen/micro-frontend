@@ -24,7 +24,7 @@ export default {
     ['mife', {
       type: NODE_ENV === "development" ? 'portal' : 'plugin',
       dynamicImport: true,
-      publicPath: '/lib/',
+      publicPath: '/static/lib/',
       externals: {
         'react': 'window.React',
         'react-dom': 'window.ReactDOM',

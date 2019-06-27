@@ -3,5 +3,6 @@
 **/.umi-production
 .DS_Store
 /dist
+*/static
 package-lock.json
 .vscode/

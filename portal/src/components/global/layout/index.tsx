@@ -47,9 +47,6 @@ export default class extends React.PureComponent<LayoutProps, any> {
                 {sider}
               </Sider>
               <Layout.Content className={className} style={{ position: 'relative', minHeight: "100vh" }}>
-                <Layout.Header className={styles.header}>
-                  {header}
-                </Layout.Header>
                 {children}
               </Layout.Content>
             </Layout>

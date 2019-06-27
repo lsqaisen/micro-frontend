@@ -51,19 +51,20 @@ export default class extends PureComponent<any, any> {
     }
   }
   componentDidMount() {
-    sub(`/lib/login/login.js?${new Date().getTime()}`, 'login', () => {
+    sub(`/static/lib/login/login.js?${process.env.VERSION}`, 'login', () => {
       this.setState({ init: true })
     });
-    sub(`/lib/dashboard/dashboard.js?${new Date().getTime()}`, 'dashboard', () => {
+    sub(`/static/lib/dashboard/dashboard.js?${process.env.VERSION}`, 'dashboard', () => {
       this.updateMenus(window.mife_menus!.dashboard)
     });
-    if (window.web_type === 'plugin') { }
-    else {
+    if (window.web_type === 'plugin') {
+
+    } else {
       this.getPlugins().then((error: any) => {
         if (!error) {
           const { menu: { plugins } } = this.props;
           plugins.forEach(({ spec: { id } }: any) => {
-            sub(`/lib/${id}/${id}.js?${new Date().getTime()}`, id, () => {
+            sub(`/static/lib/${id}/${id}.js?${process.env.VERSION}`, id, () => {
               this.updateMenus(window.mife_menus![id])
             });
           })

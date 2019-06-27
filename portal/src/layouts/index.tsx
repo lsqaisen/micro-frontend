@@ -28,6 +28,11 @@ export default class extends PureComponent<any, any> {
   state = {
     init: false,
   }
+  getPlugins = () => {
+    return this.props.dispatch({
+      type: 'menu/getPlugins',
+    })
+  }
   logout = () => {
     return this.props.dispatch({
       type: 'user/logout'
@@ -35,7 +40,7 @@ export default class extends PureComponent<any, any> {
   }
   updateMenus = (menu: any) => {
     return this.props.dispatch({
-      type: 'menu/update',
+      type: 'menu/updateMenus',
       payload: menu,
     })
   }
@@ -46,23 +51,24 @@ export default class extends PureComponent<any, any> {
     }
   }
   componentDidMount() {
+    sub(`/lib/login/login.js?${new Date().getTime()}`, 'login', () => {
+      this.setState({ init: true })
+    });
+    sub(`/lib/dashboard/dashboard.js?${new Date().getTime()}`, 'dashboard', () => {
+      this.updateMenus(window.mife_menus!.dashboard)
+    });
     if (window.web_type === 'plugin') { }
     else {
-      sub(`/lib/login/login.js?${new Date().getTime()}`, 'login', () => {
-        this.setState({ init: true })
-      });
-      sub(`/lib/dashboard/dashboard.js?${new Date().getTime()}`, 'dashboard', () => {
-        console.info('load dashoard success')
-        this.updateMenus(window.mife_menus!.dashboard)
-      });
-      sub(`/lib/tenant/tenant.js?${new Date().getTime()}`, 'tenant', () => {
-        console.info('load tenant success', window.mife_menus)
-        this.updateMenus(window.mife_menus!.tenant)
-      });
-      sub(`/lib/auth/auth.js?${new Date().getTime()}`, 'auth', () => {
-        console.info('load tenant success', window.mife_menus)
-        this.updateMenus(window.mife_menus!.auth)
-      });
+      this.getPlugins().then((error: any) => {
+        if (!error) {
+          const { menu: { plugins } } = this.props;
+          plugins.forEach(({ spec: { id } }: any) => {
+            sub(`/lib/${id}/${id}.js?${new Date().getTime()}`, id, () => {
+              this.updateMenus(window.mife_menus![id])
+            });
+          })
+        }
+      })
     }
   }
   render() {
@@ -95,7 +101,7 @@ export default class extends PureComponent<any, any> {
                     <div style={{ height: 'calc(100% - 212px)' }}>
                       <Menu
                         selectedKeys={[location.pathname]}
-                        data={menu.filter((v: any) => !!v.childs && v.childs.length > 0).map(({ key, name, childs }: any) => ({
+                        data={menu.menus.filter((v: any) => !!v.childs && v.childs.length > 0).map(({ key, name, childs }: any) => ({
                           key,
                           type: 'group',
                           component: name,

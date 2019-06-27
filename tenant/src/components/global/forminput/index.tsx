@@ -68,5 +68,5 @@ export default (options?: FormCreateOption<any>) => <T extends Object = {}>(Wrap
       onChange && onChange(allValues as T);
     },
     ...(options || {}),
-  })(FormInput);
+  })(FormInput as any);
 };

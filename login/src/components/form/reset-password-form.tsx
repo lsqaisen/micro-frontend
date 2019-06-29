@@ -3,7 +3,7 @@ import { Form, Modal, Input, Icon, Button } from 'antd';
 import { FormComponentProps } from 'antd/lib/form'
 import { polyfill } from 'react-lifecycles-compat';
 import QueueAnim from 'rc-queue-anim';
-import Logo from '../logo';
+import Logo from '@/components/global/logo';
 import EmailInput from '../input/email-input';
 import { EmailInputProps } from '../input/email-input';
 import { checkPassword } from './checks';
@@ -63,7 +63,10 @@ class ResetPassword extends PureComponent<ResetPasswordProps & FormComponentProp
       >
         <Form key="reset" onSubmit={this._onSubmit}>
           <header className={styles.logo}>
-            <Logo />
+            <Logo
+              iconSrc={`/static/bin/oem${process.env.NODE_ENV === "development" ? process.env.OEM_NAME : ''}/icon.png`}
+              logoSrc={`/static/bin/oem${process.env.NODE_ENV === "development" ? process.env.OEM_NAME : ''}/logo.png`}
+            />
           </header>
           <FormItem>
             {getFieldDecorator('email', {

@@ -7,7 +7,7 @@
     "u": "mife-cli library"
   },
   "devDependencies": {
-    "mife": "^0.0.5",
+    "mife": "^0.0.7",
     "umi": "^2.4.4",
     "umi-plugin-react": "^1.4.2"
   },

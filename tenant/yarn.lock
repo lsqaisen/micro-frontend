@@ -8094,10 +8094,10 @@ micromatch@^3.1.10, micromatch@^3.1.4, micromatch@^3.1.8:
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
 
-mife@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/mife/-/mife-0.0.5.tgz#be08c803fc2a36b22699db6c885975beb1389124"
-  integrity sha512-aeK2HYktAIX8Iol8MCRqlOrLhuWOpDM6mUgxA/X9dxmFJTEcT6LQmuGcdGvvOpEpESpXXg07ygl6F+ZL0GnvWA==
+mife@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/mife/-/mife-0.0.7.tgz#233addba7d269a072da2ddfb09c40cdcd0194fef"
+  integrity sha512-pMTAD2ery51w0LLta2pOboSFDJfasGUkBNLRfYRvjfGapuX0oUylkGqaCNopKTpukFaqitw7MqA8IbagUmuFFQ==
   dependencies:
     copy-webpack-plugin "^4.6.0"
     scriptjs "^2.5.9"

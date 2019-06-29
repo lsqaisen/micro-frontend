@@ -25,7 +25,7 @@ export default class extends PureComponent<any, any> {
     }
   }
   componentDidMount() {
-    sub(`/lib/login/login.js?${process.env.VERSION}`, 'login', () => {
+    sub(`/service/login/lib/login/login.js?${process.env.VERSION}`, 'login', () => {
       this.setState({ init: true })
     });
   }

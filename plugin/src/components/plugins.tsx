@@ -23,6 +23,15 @@ function getImg(id: string) {
 export default ({ plugins, onActive, onDel }: ItemProps) => {
   return (
     <List
+      grid={{ 
+        gutter: 16,
+        xs: 24,
+        sm: 24,
+        md: 24,
+        lg: 24,
+        xl: 12,
+        xxl: 12,
+       }}
       className={styles.plugins}
       itemLayout="horizontal"
       dataSource={plugins}

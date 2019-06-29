@@ -6,6 +6,7 @@ import QueueAnim from 'rc-queue-anim';
 import Item from '@/components/item';
 import Plugins from '@/components/plugins';
 import Loading from '@/components/global/loading';
+import Breadcrumb from '@/components/global/breadcrumb';
 
 @connect(createSelector(
   [
@@ -44,34 +45,22 @@ class Plugin extends PureComponent<any, any> {
     const { init } = this.state;
     if (!init) return <Loading />
     return (
-      <QueueAnim type="alpha">
-        <Plugins
-          key="plugins"
-          plugins={plugins}
-          onActive={async (id: string) => await this.active(id)}
-          onDel={async (id: string) => await this.del(id)}
-        />
-      </QueueAnim>
-      // <QueueAnim
-      //   type="bottom"
-      //   component={Row}
-      //   componentProps={{
-      //     gutter: 24,
-      //     type: "flex",
-      //     justify: "space-between",
-      //     align: "top"
-      //   }}
-      // >
-      //   {plugins.map((plguin: any) => (
-      //     <Col key={plguin.spec.id} md={12} xl={8} style={{ padding: '12px' }}>
-      //       <Item
-      //         plugin={plguin}
-      //         onActive={async () => await this.active(plguin.spec.id)}
-      //         onDel={async () => await this.del(plguin.spec.id)}
-      //       />
-      //     </Col>
-      //   ))}
-      // </QueueAnim>
+      <Breadcrumb routes={[{
+        path: '/dashboard',
+        breadcrumbName: '总览',
+      }, {
+        path: '/plugin',
+        breadcrumbName: '插件列表',
+      }]}>
+        <QueueAnim type="alpha">
+          <Plugins
+            key="plugins"
+            plugins={plugins}
+            onActive={async (id: string) => await this.active(id)}
+            onDel={async (id: string) => await this.del(id)}
+          />
+        </QueueAnim>
+      </Breadcrumb>
     )
   }
 }

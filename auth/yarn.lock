@@ -8110,10 +8110,10 @@ micromatch@^3.1.10, micromatch@^3.1.4, micromatch@^3.1.8:
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
 
-mife@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.npm.taobao.org/mife/download/mife-0.0.6.tgz#141fe9ea001429530620d9d3baa044217e5687c5"
-  integrity sha1-FB/p6gAUKVMGINnTuqBEIX5Wh8U=
+mife@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/mife/-/mife-0.0.7.tgz#233addba7d269a072da2ddfb09c40cdcd0194fef"
+  integrity sha512-pMTAD2ery51w0LLta2pOboSFDJfasGUkBNLRfYRvjfGapuX0oUylkGqaCNopKTpukFaqitw7MqA8IbagUmuFFQ==
   dependencies:
     copy-webpack-plugin "^4.6.0"
     scriptjs "^2.5.9"

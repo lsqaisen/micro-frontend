@@ -3,9 +3,8 @@ import { Form, Input, Icon, Button, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form'
 import { polyfill } from 'react-lifecycles-compat';
 import QueueAnim from 'rc-queue-anim';
-import Logo from '../logo';
+import Logo from '@/components/global/logo';
 import NameInput from '../input/name-input';
-import { NameInputProps } from '../input/name-input';
 import { checkPassword } from './checks';
 import { LoginRequest, ModifyPasswordRequest } from '@/services/user';
 import styles from './style/index.less';
@@ -89,7 +88,10 @@ class LoginForm extends PureComponent<LoginFormProps & FormComponentProps, any> 
       >
         <Form key="login" onSubmit={this._onSubmit}>
           <header className={styles.logo}>
-            <Logo />
+            <Logo
+              iconSrc={`/static/bin/oem${process.env.NODE_ENV === "development" ? process.env.OEM_NAME : ''}/icon.png`}
+              logoSrc={`/static/bin/oem${process.env.NODE_ENV === "development" ? process.env.OEM_NAME : ''}/logo.png`}
+            />
           </header>
           <FormItem>
             {getFieldDecorator('username', {
@@ -184,5 +186,4 @@ class LoginForm extends PureComponent<LoginFormProps & FormComponentProps, any> 
 
 polyfill(LoginForm);
 
-
-export default Form.create<LoginFormProps>()(LoginForm);
+export default Form.create<any>()(LoginForm);

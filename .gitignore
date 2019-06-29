@@ -4,5 +4,6 @@
 .DS_Store
 /dist
 */static
+*/lib
 package-lock.json
 .vscode/

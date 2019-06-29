@@ -2,6 +2,8 @@ const { NODE_ENV } = process.env;
 
 export default {
   history: 'hash',
+  publicPath: '/static/dist/',
+  outputPath: '/lib/',
   plugins: [
     ['umi-plugin-react', {
       dva: true,
@@ -24,7 +26,7 @@ export default {
     ['mife', {
       type: NODE_ENV === "development" ? 'portal' : 'plugin',
       dynamicImport: true,
-      publicPath: '/lib/',
+      publicPath: '/service/tenant/lib/',
       externals: {
         'react': 'window.React',
         'react-dom': 'window.ReactDOM',
@@ -33,7 +35,6 @@ export default {
     }],
   ],
   hash: true,
-  copy: [{ from: './src/public/oem', to: './static/oem', toType: 'dir' },],
   alias: {
     '@': './src/components/'
   },
@@ -68,10 +69,10 @@ export default {
   },
   proxy: {
     //models
-    "/lib/login": {
+    "/service/login/lib/login": {
       "target": "http://localhost:5000",
       "changeOrigin": true,
-      "pathRewrite": { "^/lib/login": "" }
+      "pathRewrite": { "^/service/login/lib/login": "" }
     },
     //oem
     "/static/oem": {

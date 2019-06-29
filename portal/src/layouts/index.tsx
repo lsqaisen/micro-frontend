@@ -51,10 +51,14 @@ export default class extends PureComponent<any, any> {
     }
   }
   componentDidMount() {
-    sub(`/static/lib/login/login.js?${process.env.VERSION}`, 'login', () => {
+    sub(`/service/login/lib/login/login.js?${process.env.VERSION}`, 'login', () => {
       this.setState({ init: true })
     });
-    sub(`/static/lib/dashboard/dashboard.js?${process.env.VERSION}`, 'dashboard', () => {
+    sub(`/service/plugin/lib/plugin/plugin.js?${process.env.VERSION}`, 'plugin', () => {
+      this.setState({ init: true })
+      this.updateMenus(window.mife_menus!.plugin)
+    });
+    sub(`/service/dashboard/lib/dashboard/dashboard.js?${process.env.VERSION}`, 'dashboard', () => {
       this.updateMenus(window.mife_menus!.dashboard)
     });
     if (window.web_type === 'plugin') {
@@ -64,7 +68,7 @@ export default class extends PureComponent<any, any> {
         if (!error) {
           const { menu: { plugins } } = this.props;
           plugins.forEach(({ spec: { id } }: any) => {
-            sub(`/static/lib/${id}/${id}.js?${process.env.VERSION}`, id, () => {
+            sub(`/service/${id}/lib/${id}/${id}.js?${process.env.VERSION}`, id, () => {
               this.updateMenus(window.mife_menus![id])
             });
           })
@@ -90,7 +94,10 @@ export default class extends PureComponent<any, any> {
                 sider={(
                   <div style={{ height: '100%' }}>
                     <section style={{ height: 64, padding: 8 }}>
-                      <Logo iconSrc={`/static/oem/icon.png`} logoSrc={`/static/oem/logo.png`} />
+                      <Logo
+                        iconSrc={`/static/bin/oem${process.env.NODE_ENV === "development" ? process.env.OEM_NAME : ''}/icon.png`}
+                        logoSrc={`/static/bin/oem${process.env.NODE_ENV === "development" ? process.env.OEM_NAME : ''}/logo.png`}
+                      />
                     </section>
                     <Divider style={{ margin: 0, marginBottom: 0 }} />
                     <SiderUser

@@ -1,7 +1,5 @@
-const { NODE_ENV } = process.env;
-
 export default {
-  base: '/v2/ui/',
+  base: '/ui2/',
   history: 'hash',
   publicPath: '/static/dist/',
   outputPath: '/static/dist/',
@@ -36,12 +34,11 @@ export default {
     }],
   ],
   hash: true,
-  // copy: [{ from: './src/public/oem', to: './bin/oem', toType: 'dir' },],
   alias: {
     '@': './src/components/'
   },
   define: {
-    "process.env.OEM_NAME": NODE_ENV === "development" ? "" : "/kubeup",
+    "process.env.OEM_NAME": "/kubeup",
     "process.env.VERSION": new Date().getTime(),
   },
   theme: {
@@ -52,8 +49,8 @@ export default {
     "error-color": "#ff5242",                                 // 错误色
     "font-size-base": "14px",                                 // 主字号
     "heading-color": "rgba(0, 0, 0, .85)",                    // 标题色
-    "text-color": "rgba(0, 0, 0, .65)",                       // 主文本色
-    "text-color-secondary": "rgba(0, 0, 0, .45)",             // 次文本色
+    "text-color": "#2f2f2f",                       // 主文本色
+    "text-color-secondary": "#888888",                        // 次文本色
     "disabled-color": "rgba(0, 0, 0, .25)",                  // 失效色
     "border-radius-base": "4px",                              // 组件/浮层圆角
     "border-color-base": "#d9d9d9",                           // 边框色
@@ -69,25 +66,30 @@ export default {
       .prepend(".ts");
   },
   proxy: {
-    "/static/lib/login": {
+    "/service/login/lib/login": {
       "target": "http://localhost:5000",
       "changeOrigin": true,
-      "pathRewrite": { "^/static/lib/login": "" }
+      "pathRewrite": { "^/service/login/lib/login": "" }
     },
     "/lib/dashboard": {
       "target": "http://localhost:5002",
       "changeOrigin": true,
       "pathRewrite": { "^/lib/dashboard": "" }
     },
-    "/lib/tenant": {
+    "/service/tenant/lib/tenant": {
       "target": "http://localhost:5001",
       "changeOrigin": true,
-      "pathRewrite": { "^/lib/tenant": "" }
+      "pathRewrite": { "^/service/tenant/lib/tenant": "" }
     },
-    "/static/lib/auth/": {
+    "/service/auth/lib/auth": {
       "target": "http://localhost:5003",
       "changeOrigin": true,
-      "pathRewrite": { "^/static/lib/auth/": "" }
+      "pathRewrite": { "^/service/auth/lib/auth": "" }
+    },
+    "/service/plugin/lib/plugin": {
+      "target": "http://localhost:5004",
+      "changeOrigin": true,
+      "pathRewrite": { "^/service/plugin/lib/plugin": "" }
     },
     //oem
     "/static/oem": {

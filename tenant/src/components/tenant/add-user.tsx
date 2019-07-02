@@ -3,14 +3,15 @@ import { Icon, Button, Drawer } from 'antd';
 import AddUserForm from './form/user-form';
 
 export interface AddUserProps {
-  admin?: boolean;
   btn?: React.ReactNode;
-  onSubmit?: (value: any) => void
+  submit?: (value: any) => any;
+  callback?: (value: any) => void;
 }
 
 class AddUser extends PureComponent<AddUserProps, any> {
   static readonly defaultProps = {
-    onSubmit: () => null
+    submit: () => null,
+    callback: () => null,
   };
 
   state = {
@@ -19,8 +20,9 @@ class AddUser extends PureComponent<AddUserProps, any> {
   }
 
   render() {
-    const { admin, btn, onSubmit } = this.props;
+    const { btn, submit, callback } = this.props;
     const { loading, visible } = this.state;
+    console.log(submit)
     return (
       <Fragment>
         {btn ? cloneElement(btn as any, {
@@ -37,17 +39,19 @@ class AddUser extends PureComponent<AddUserProps, any> {
           onClose={() => { this.setState({ visible: false }) }}
           visible={visible}
         >
-          <AddUserForm admin={admin} ref="adduser" />
+          <AddUserForm ref="adduser" />
           <div className={"drawer-bottom-actions"} >
             <Button onClick={() => { this.setState({ visible: false }) }} style={{ marginRight: 8 }}> 取消 </Button>
             <Button loading={loading} onClick={() => {
               (this.refs.adduser as any).validateFields(async (error: any, values: any) => {
                 if (!error) {
                   this.setState({ loading: true })
-                  if ((await onSubmit!(values)) as any) {
-                    this.setState({ loading: false })
+                  const { data, err } = await submit!(values);
+                  if (err) {
+                    this.setState({ loading: false });
                   } else {
-                    this.setState({ visible: false, loading: false })
+                    callback!(data);
+                    this.setState({ visible: false, loading: false });
                   }
                 }
               })

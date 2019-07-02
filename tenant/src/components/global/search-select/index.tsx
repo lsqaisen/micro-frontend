@@ -101,6 +101,13 @@ class SearchSelect extends PureComponent<SearchSelectProps, SearchSelectState> {
 			<Select
 				{...props}
 				onFocus={() => !init && this.load()}
+				onBlur={() => this.setState({
+					init: false,
+					error: '',
+					loading: false,
+					end: false,
+					data: [],
+				})}
 				notFoundContent={error ? <p>
 					<span style={{ color: 'red' }}>{error}</span><br />
 					<a onClick={this.load}>重新加载</a>

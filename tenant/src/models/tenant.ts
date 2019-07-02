@@ -89,7 +89,7 @@ export default {
         });
       }
     },
-    *createuser({ payload }: AnyAction, { call, select }: EffectsCommandMap) {
+    *createuser({ payload }: AnyAction, { call, select, put }: EffectsCommandMap) {
       const { namespace, profile } = yield select(({ user: { namespace, profile } }: any) => ({ namespace, profile }));
       const { data, err } = yield call(user.addUser, { admin: profile.userType === 1, project: namespace, ...payload });
       if (!!err) {
@@ -97,6 +97,10 @@ export default {
         return { data, err };
       } else {
         message.success('添加用户成功', 5);
+        yield put({
+          type: 'getusers',
+          payload: { group_id: "*" }
+        });
         return { data, err };
       }
     },

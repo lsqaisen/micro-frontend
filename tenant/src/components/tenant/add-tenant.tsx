@@ -19,7 +19,7 @@ class AddTenant extends PureComponent<AddTenantProps, any> {
   }
 
   render() {
-    const { btn, submit, userSearch } = this.props;
+    const { btn, submit, userSearch, createUser } = this.props;
     const { loading, visible } = this.state;
     return (
       <div>
@@ -36,7 +36,7 @@ class AddTenant extends PureComponent<AddTenantProps, any> {
           onClose={() => { this.setState({ visible: false }) }}
           visible={visible}
         >
-          <AddTenantForm ref="createtenant" userSearch={userSearch} />
+          <AddTenantForm ref="createtenant" userSearch={userSearch} createUser={createUser}/>
           <div className={"drawer-bottom-actions"} >
             <Button onClick={() => { this.setState({ visible: false }) }} style={{ marginRight: 8 }}> 取消 </Button>
             <Button loading={loading} onClick={() => {

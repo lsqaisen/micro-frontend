@@ -10,6 +10,7 @@ const TextArea = Input.TextArea;
 export interface TenantFromProps {
   formItemLayout?: any;
   userSearch?: () => any;
+  createUser?: (data: any) => any;
 }
 
 @(Form.create() as any)
@@ -22,11 +23,12 @@ class AddTenantForm extends PureComponent<FormComponentProps & TenantFromProps, 
     },
     admin: false,
     onUserSearch: () => null,
+    createUser: () => null,
   };
 
   render() {
-    const { formItemLayout, form, userSearch } = this.props;
-    const { getFieldDecorator, getFieldValue } = form;
+    const { formItemLayout, form, userSearch, createUser } = this.props;
+    const { getFieldDecorator, getFieldValue, setFieldsValue } = form;
     const owner_id = getFieldValue("owner_id");
     return (
       <Form>
@@ -76,18 +78,8 @@ class AddTenantForm extends PureComponent<FormComponentProps & TenantFromProps, 
             </Col>
             <Col span={9}>
               <CreateUser
-              // data={users}
-              // emailIsExist={emailIsExist}
-              // onSubmit={async (v) => {
-              //   try {
-              //     const user = await createUser(v);
-              //     this.setState({
-              //       users: [user]
-              //     }, () => setFieldsValue({ owner_id: user.key }));
-              //   } catch (err) {
-
-              //   }
-              // }}
+                submit={createUser}
+                callback={(user) => setFieldsValue({ owner_id: `${user.user_id}` })}
               />
             </Col>
           </Row>

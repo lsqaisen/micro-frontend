@@ -7,9 +7,6 @@ const Option = Select.Option;
 const FormItem = Form.Item;
 
 export interface UserFromProps extends FormComponentProps {
-  admin?: boolean;
-  edit?: boolean;
-  user?: any;
   formItemLayout?: any;
 }
 
@@ -21,8 +18,6 @@ class UserForm extends PureComponent<UserFromProps, any> {
       labelCol: { xs: 24, md: 5 },
       wrapperCol: { xs: 24, md: 19 },
     },
-    edit: false,
-    user: new Object(null) as any,
   };
 
   checkPassRule(value: any, callback: any, name: any, t: any) {
@@ -84,44 +79,40 @@ class UserForm extends PureComponent<UserFromProps, any> {
   }
 
   render() {
-    const { admin, edit, user, formItemLayout, form } = this.props;
+    const { formItemLayout, form } = this.props;
     const { getFieldDecorator, getFieldValue } = form;
     return (
       <Form>
-        {edit && <FormItem
+        <FormItem
           style={{ display: 'none' }}
           {...formItemLayout}
           label="用户类型"
         >
-          {getFieldDecorator('user_id', {
-            initialValue: user!.user_id,
-          })(
+          {getFieldDecorator('user_id')(
             <Input />
           )}
-        </FormItem>}
-        {!edit && admin && <FormItem
+        </FormItem>
+        <FormItem
           {...formItemLayout}
           label="用户类型"
         >
           {getFieldDecorator('type', {
+            initialValue: '2',
             rules: [
               { required: true, message: '必须选择用户类型' },
             ]
           })(
-            <Select placeholder="请选择用户类型">
-              <Option value="1">系统用户</Option>
+            <Select disabled placeholder="请选择用户类型">
               <Option value="2">空间用户</Option>
-              <Option value="3">外部用户</Option>
             </Select>
           )}
-        </FormItem>}
+        </FormItem>
         <FormItem
           {...formItemLayout}
           label="Email"
           hasFeedback
         >
           {getFieldDecorator('email', {
-            initialValue: user!.email,
             rules: [
               { required: true, message: 'Email必须填写' },
               { type: 'email', message: 'Email地址不正确' },
@@ -138,7 +129,6 @@ class UserForm extends PureComponent<UserFromProps, any> {
           hasFeedback
         >
           {getFieldDecorator('username', {
-            initialValue: user!.username,
             rules: [{
               required: true, message: '用户名不能为空'
             }, {
@@ -147,10 +137,10 @@ class UserForm extends PureComponent<UserFromProps, any> {
               pattern: /[A-Za-z\d\_]/g, message: "由大小写字母数字和字符'_'组成"
             }],
           })(
-            <Input placeholder='请输入用户名' disabled={edit} />
+            <Input placeholder='请输入用户名' />
           )}
         </FormItem>
-        {!edit && <FormItem
+        <FormItem
           {...formItemLayout}
           label="密码"
           hasFeedback
@@ -170,14 +160,13 @@ class UserForm extends PureComponent<UserFromProps, any> {
           })(
             <Input type="text" name="pass" placeholder='请输入密码' />
           )}
-        </FormItem>}
+        </FormItem>
         <FormItem
           {...formItemLayout}
           label="真实姓名"
           hasFeedback
         >
           {getFieldDecorator('realname', {
-            initialValue: user!.realname,
             validateFirst: true,
             rules: [
               { max: 20, message: '最多20个字符' },
@@ -193,7 +182,6 @@ class UserForm extends PureComponent<UserFromProps, any> {
           hasFeedback
         >
           {getFieldDecorator('comment', {
-            initialValue: user!.comment,
             rules: [{ max: 30, message: '最多30个字符' },]
           })(
             <Input type='textarea' placeholder='请填写备注' />

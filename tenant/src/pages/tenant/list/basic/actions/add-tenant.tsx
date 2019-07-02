@@ -12,10 +12,11 @@ export default connect(
     [
       (dispatch: any) => (data: any) => dispatch({ type: `${MODEL}_tenant/create`, payload: data }),
       (dispatch: any) => () => dispatch({ type: `${MODEL}_tenant/getusers`, payload: { group_id: "*" } }),
+      (dispatch: any) => (data: any) => dispatch({ type: `${MODEL}_tenant/createuser`, payload: data }),
     ],
-    (createTenant, getUsers) => ({ createTenant, getUsers })
+    (createTenant, getUsers, createUser) => ({ createTenant, getUsers, createUser })
   )
-)(({ users, update = () => null, createTenant, getUsers, ...props }: any) => (
+)(({ users, update = () => null, createTenant, getUsers, createUser, ...props }: any) => (
   <AddTenant
     {...props}
     submit={(v) => createTenant(v).then((err: any) => !err && update())}
@@ -26,5 +27,6 @@ export default connect(
         });
       })
     }}
+    createUser={createUser}
   />
 ))

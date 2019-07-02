@@ -18,8 +18,8 @@ class Config extends PureComponent<UserProps, any> {
 			path: '/auth',
 			breadcrumbName: '工作空间',
 		}, {
-			path: '/auth/config',
-			breadcrumbName: '系统设置',
+			path: '/auth/charge',
+			breadcrumbName: '计费管理',
 		}],
 	}
 

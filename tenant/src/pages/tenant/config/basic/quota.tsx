@@ -6,9 +6,10 @@ import Quota from '@/components/config/quota';
 @connect(createSelector(
 	[
 		({ [`${MODEL}_quota`]: quota }: any) => quota.quotas.default || {},
+		(props: any) => !!props.loading.effects[`${MODEL}_quota/getquota`],
 		(props: any) => !!props.loading.effects[`${MODEL}_quota/setquota`],
 	],
-	(quota, loading) => ({ quota, loading }),
+	(quota, loading, setting) => ({ quota, loading, setting }),
 ), createSelector(
 	[
 		(dispatch: any) => () => dispatch({ type: `${MODEL}_quota/getquota` }),
@@ -22,9 +23,10 @@ export default class extends PureComponent<any, any> {
 		this.props.get()
 	}
 	render() {
-		const { quota, loading, set, reset } = this.props;
+		const { quota, loading, setting, set, reset } = this.props;
 		return (
 			<Quota
+				setting={setting}
 				loading={loading}
 				quota={quota}
 				submit={set}

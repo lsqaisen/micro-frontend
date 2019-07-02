@@ -11,7 +11,7 @@ export interface SmtpProps {
 
 class Smtp extends PureComponent<SmtpProps, any> {
 	render() {
-		const { quota, loading, reset, submit } = this.props;
+		const { quota, loading, setting, reset, submit } = this.props;
 		delete quota.disk;
 		const set = Object.keys(quota).every(key => !!quota[key]);
 		return (
@@ -28,6 +28,7 @@ class Smtp extends PureComponent<SmtpProps, any> {
 					{set ? <span style={{ color: '#2B73F8' }}>(已设置)</span> : <span style={{ color: '#f5222d' }}>(尚未设置)</span>}
 				</h3>
 				<SetQuotaForm
+					setting={setting}
 					loading={loading}
 					set={set}
 					data={quota}

@@ -1,18 +1,33 @@
 import { EffectsCommandMap } from 'dva';
 import { AnyAction } from 'redux';
 import { message } from 'antd';
-import api from '@/services/quota';
+import api from '@/services/charge';
 
 export default {
-  namespace: `${MODEL}_quota`,
+  namespace: `${MODEL}_charge`,
   state: {
-    quotas: {},
-    oversets: {},
+    init: false,
+    status: {},
   },
 
   effects: {
-    *getquota({ payload }: AnyAction, { call, put }: EffectsCommandMap) {
-      const { data, err } = yield call(api.getQuota, payload);
+    *status(_: AnyAction, { call, put }: EffectsCommandMap) {
+      const { data, err } = yield call(api.getChargeStatus);
+      if (!!err) {
+        message.error(err, 5);
+      } else {
+        yield put({
+          type: 'save',
+          payload: {
+            init: true,
+            status: data || {}
+          }
+        });
+      }
+    },
+    *get({ payload }: AnyAction, { call, put }: EffectsCommandMap) {
+      const { data, err } = yield call(api.getCharges, payload);
+      console.log(data)
       if (!!err) {
         // message.error(err, 5);
       } else {

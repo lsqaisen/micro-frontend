@@ -74,12 +74,6 @@ export default {
       "changeOrigin": true,
       "pathRewrite": { "^/service/login/lib/login": "" }
     },
-    //oem
-    "/static/oem": {
-      "target": "http://localhost:5000/",
-      "changeOrigin": true,
-      "pathRewrite": { "^/static/oem": "/static/oem/kubeup" }
-    },
     // api
     "/api": {
       "target": "http://192.168.1.181:30000/",

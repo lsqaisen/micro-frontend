@@ -1,12 +1,13 @@
 import { PureComponent, Fragment } from 'react';
-import { Form, Button, message } from 'antd';
+import { Form, Button, Spin } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import SetQuota from '../../tenant/form/set-tenant-quota-form';
-import ResetBtn from '../reset-quota';
+import ResetBtn from './reset-quota';
 
 const FormItem = Form.Item;
 
 export interface SetQuotaFormProps {
+  setting?: boolean;
   loading?: boolean;
   set?: boolean;
   data?: any;
@@ -26,9 +27,12 @@ class SetQuotaForm extends PureComponent<FormComponentProps & SetQuotaFormProps,
     },
   };
 
+  setquota: any = undefined;
+
   reset = () => {
     const { form: { resetFields } } = this.props;
     resetFields();
+    this.setquota.resetFields();
   }
 
   submit = () => {
@@ -42,23 +46,32 @@ class SetQuotaForm extends PureComponent<FormComponentProps & SetQuotaFormProps,
     })
   }
 
+  componentWillReceiveProps({ data }: SetQuotaFormProps) {
+    if (JSON.stringify(this.props.data || {}) !== JSON.stringify(data)) {
+      this.props.form.setFieldsValue({ quota: data });
+      this.setquota.setFieldsValue(data);
+    }
+  }
+
   render() {
-    const { loading, set, data, reset, form: { getFieldsValue, getFieldDecorator, resetFields } } = this.props;
+    const { loading, setting, set, data, reset, form: { getFieldsValue, getFieldDecorator } } = this.props;
     const _data = (getFieldsValue() || {}).quota || {};
     const disabled = Object.keys(_data).every(key => (data || {})[key] === _data[key]);
     return (
       <Fragment>
-        <FormItem style={{ marginBottom: 0 }} help="" validateStatus="success">
-          {getFieldDecorator('quota', {
-            initialValue: data,
-            valuePropName: 'data',
-            rules: [],
-          })(
-            <SetQuota />
-          )}
-        </FormItem>
-        <FormItem wrapperCol={{ span: 12, offset: 4 }}>
-          <Button disabled={disabled} type="primary" style={{ marginRight: 16 }} onClick={this.submit} loading={loading}>提交</Button>
+        <Spin spinning={loading}>
+          <FormItem style={{ marginBottom: 0 }} help="" validateStatus="success">
+            {getFieldDecorator('quota', {
+              initialValue: data,
+              valuePropName: 'data',
+              rules: [],
+            })(
+              <SetQuota wrappedComponentRef={(ref: any) => ref && ref.props && (this.setquota = ref.props.form)} />
+            )}
+          </FormItem>
+        </Spin>
+        <FormItem wrapperCol={{ xs: { span: 24, offset: 0 }, md: { span: 17, offset: 7 } }}>
+          <Button disabled={disabled} type="primary" style={{ marginRight: 16 }} onClick={this.submit} loading={setting}>提交</Button>
           <Button disabled={disabled} style={{ marginRight: 16 }} onClick={this.reset}>重置</Button>
           <ResetBtn
             btn={<Button type="danger" ghost disabled={!set} style={{ marginRight: 16 }} >取消资源限制</Button>}

@@ -19,12 +19,20 @@
 			"es2017",
 			"dom"
 		],
-		"baseUrl": "./src",
+		"baseUrl": "..",
 		"paths": {
-			"@/*": [
-				"*",
-				"/components/*"
-			]
+			"library": [
+				"library/dist/"
+			],
+			"@/components/*": [
+				"vm/src/components/*"
+			],
+			"@/services/*": [
+				"vm/src/services/*"
+			],
+			"@/utils/*": [
+				"vm/src/utils/*"
+			],
 		}
 	},
 	"exclude": [

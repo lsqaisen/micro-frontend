@@ -1,3 +1,5 @@
+import path from 'path';
+
 const { NODE_ENV } = process.env;
 
 export default {
@@ -23,7 +25,7 @@ export default {
         loadingComponent: null,
       },
     }],
-    ['mife', {
+    [path.join(__dirname, '../config/bin/'), {
       type: NODE_ENV === "development" ? 'portal' : 'plugin',
       dynamicImport: true,
       publicPath: '/service/vm/lib/',
@@ -31,13 +33,12 @@ export default {
         'react': 'window.React',
         'react-dom': 'window.ReactDOM',
         'dva': 'window.dva',
+        'antd': 'window.antd',
+        'library': 'window.library',
       },
     }],
   ],
   hash: true,
-  alias: {
-    '@': './src/components/'
-  },
   define: {
     'MODEL': 'vm',
     "process.env.OEM_NAME": '/kubeup',
@@ -59,7 +60,7 @@ export default {
     "box-shadow-base": "0 2px 8px rgba(0, 0, 0, .15)",        // 浮层阴影
     "sider-background-color": "#f2f7fb",                      // 菜单背景颜色
   },
-  chainWebpack(config, { webpack }) {
+  chainWebpack(config) {
     config.resolve.extensions
       .add(".tsx")
       .prepend(".tsx");

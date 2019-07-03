@@ -9,11 +9,11 @@ export default {
   plugins: [
     ['umi-plugin-react', {
       dva: true,
-      antd: {
-        "libraryName": "antd",
-        "libraryDirectory": "es",
-        "style": true // `style: true` 会加载 less 文件
-      },
+      // antd: {
+      //   "libraryName": "antd",
+      //   "libraryDirectory": "es",
+      //   "style": true // `style: true` 会加载 less 文件
+      // },
       routes: {
         exclude: [
           /model/,
@@ -29,16 +29,28 @@ export default {
       type: NODE_ENV === "development" ? 'portal' : 'plugin',
       dynamicImport: true,
       publicPath: '/service/vm/lib/',
-      externals: {
-        'react': 'window.React',
-        'react-dom': 'window.ReactDOM',
-        'dva': 'window.dva',
-        'antd': 'window.antd',
-        'library': 'window.library',
-      },
+      scripts: [
+        'react.js',
+        'react-dom.js',
+        'dva.js',
+        'moment.min.js',
+        'antd.min.js',
+        'index.umd.min.js',
+      ],
+      stylesheets: [
+        'antd.min.css'
+      ]
     }],
   ],
   hash: true,
+  externals: {
+    'react': 'window.React',
+    'react-dom': 'window.ReactDOM',
+    'dva': 'window.dva',
+    'moment': 'window.moment',
+    'antd': 'window.antd',
+    'library': 'window.library',
+  },
   define: {
     'MODEL': 'vm',
     "process.env.OEM_NAME": '/kubeup',

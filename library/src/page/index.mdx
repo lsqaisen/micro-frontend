@@ -3,16 +3,16 @@ name: Page
 route: /
 ---
 
-import { Playground } from 'docz';
-import Page from './';
+import { Playground } from "docz";
+import Page from "./";
 
 # Page Component
 
 <Playground>
   <Page 
-    link={false}
-    name="title"
-    desc="subTitle" 
+    link={<span>{route.breadcrumbName}</span>}
+    title="title"
+    subTitle="subTitle" 
     routes={[{
       path: '/dashboard',
       breadcrumbName: '总览',

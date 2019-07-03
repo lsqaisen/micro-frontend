@@ -1,3 +1,5 @@
+import path from 'path';
+
 const { NODE_ENV } = process.env;
 
 export default {
@@ -7,11 +9,6 @@ export default {
   plugins: [
     ['umi-plugin-react', {
       dva: true,
-      antd: {
-        "libraryName": "antd",
-        "libraryDirectory": "es",
-        "style": true // `style: true` 会加载 less 文件
-      },
       routes: {
         exclude: [
           /model/,
@@ -23,24 +20,32 @@ export default {
         loadingComponent: null,
       },
     }],
-    ['mife', {
+    [path.join(__dirname, '../config/bin/'), {
       type: NODE_ENV === "development" ? 'portal' : 'plugin',
       dynamicImport: true,
       publicPath: '/service/login/lib/',
-      externals: {
-        'react': 'window.React',
-        'react-dom': 'window.ReactDOM',
-        'dva': 'window.dva',
-      },
+      scripts: [
+        'react.js',
+        'react-dom.js',
+        'dva.js',
+        // 'antd-with-locales.min.js',
+        // 'antd.min.js',
+      ],
     }],
   ],
   hash: true,
+  externals: {
+    'react': 'window.React',
+    'react-dom': 'window.ReactDOM',
+    'dva': 'window.dva',
+    'antd': 'window.antd',
+  },
   alias: {
     '@': './src/components/'
   },
   define: {
     'MODEL': 'login',
-    "process.env.OEM_NAME": '/kubeup',
+    "process.env.OEM_NAME": NODE_ENV === "development" ? '/kubeup' : '',
     "process.env.VERSION": new Date().getTime(),
   },
   theme: {
@@ -68,18 +73,6 @@ export default {
       .prepend(".ts");
   },
   proxy: {
-    //models
-    "/lib/login": {
-      "target": "http://localhost:5000",
-      "changeOrigin": true,
-      "pathRewrite": { "^/lib/login": "" }
-    },
-    //oem
-    "/static/bin/oem": {
-      "target": "http://localhost:8000/",
-      "changeOrigin": true,
-      "pathRewrite": { "^/static/bin/oem": "/static/bin/oem/kubeup" }
-    },
     // api
     "/api": {
       "target": "http://192.168.1.181:30000/",

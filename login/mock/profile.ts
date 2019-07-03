@@ -3,7 +3,7 @@ let profile: any = null;
 export default {
   'GET /profile': (req: any, res: any) => {
     setTimeout(() => {
-      res.send(profile);
+      res.send();
     }, 1000)
   },
 

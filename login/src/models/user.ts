@@ -25,7 +25,7 @@ export default {
 					let { data = undefined, err = undefined } = await dispatch({ type: 'get' });
 					if (!!data && !err && (pathname === '/login' || pathname === '/')) {
 						router.push('/dashboard');
-					} else if ((!data || !!err) && pathname !== '/login') {
+					} else if ((!data || Object.values(data).every(v => !v)) && pathname !== '/login') {
 						router.push('/login');
 					}
 				}, 5000, { leading: true, trailing: false }));

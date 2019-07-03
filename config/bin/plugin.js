@@ -99,8 +99,8 @@ window.g_umi.mife.${api.pkg.name} = {
     config.entry(api.pkg.name).add(
       join(api.paths.absTmpDirPath, 'mifrontconfig.js'),
     );
-    // config.optimization
-
+    //externals
+    // config.externals(externals);
     // output
     config.output
       .publicPath(`${publicPath}${api.pkg.name}/`)
@@ -146,7 +146,5 @@ window.g_umi.mife.${api.pkg.name} = {
         }
         return `${api.pkg.name}_${chunk.modules.map(m => path.relative(m.context, m.request)).join("_")}`;
       }]);
-    //externals
-    config.externals(externals);
   });
 }

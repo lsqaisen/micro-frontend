@@ -8,10 +8,7 @@ import Media from 'react-media';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import { sub, unsub } from 'mife/bin/api';
 import withRouter from 'umi/withRouter';
-import Layout from '@/components/global/layout';
-import Menu from '@/components/global/menu';
-import Logo from '@/components/global/logo';
-import SiderUser from '@/components/global/sider-user';
+import { Layout, Menu, Logo, User } from 'library';
 import menus from '@/menus';
 
 @(withRouter as any)
@@ -62,7 +59,7 @@ export default class extends PureComponent<any, any> {
                       />
                     </section>
                     <Divider style={{ margin: 0, marginBottom: 0 }} />
-                    <SiderUser
+                    <User
                       name={profile.username}
                       admin={profile.userType === 1}
                     />
@@ -99,7 +96,7 @@ export default class extends PureComponent<any, any> {
                     <div style={{ lineHeight: '32px', textAlign: 'center', borderTop: '1px solid #f8f8f8' }}>{version} build {process.env.VERSION}</div>
                   </div>
                 )}>
-                {children}
+                {/* {children} */}
               </Layout>
             </LocaleProvider>
           )}

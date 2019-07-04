@@ -20,7 +20,7 @@ export default {
       antd: {
         "libraryName": "antd",
         "libraryDirectory": "dist",
-        "style": true // `style: true` 会加载 less 文件
+        "style": true
       },
       routes: {
         exclude: [
@@ -42,19 +42,21 @@ export default {
         'react-dom.js',
         'dva.js',
         'moment.min.js',
-        'antd.min.js',
+        'antd/antd.min.js',
+        'library/library.min.js',
       ],
-      externals: [{
-        'react': 'window.React',
-        'react-dom': 'window.ReactDOM',
-        'dva': 'window.dva',
-        'moment': 'window.moment',
-        'antd': 'window.antd',
-        ...antdFiles
-      }],
     }],
   ],
   hash: true,
+  externals: {
+    'react': 'window.React',
+    'react-dom': 'window.ReactDOM',
+    'dva': 'window.dva',
+    'moment': 'window.moment',
+    'antd': 'window.antd',
+    'library': 'window.library',
+    ...antdFiles,
+  },
   alias: {
     '@': './src/components/'
   },
@@ -79,7 +81,7 @@ export default {
     "box-shadow-base": "0 2px 8px rgba(0, 0, 0, .15)",        // 浮层阴影
     "sider-background-color": "#f2f7fb",                      // 菜单背景颜色
   },
-  chainWebpack(config, { webpack }) {
+  chainWebpack(config) {
     config.resolve.extensions
       .add(".tsx")
       .prepend(".tsx");

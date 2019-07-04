@@ -15136,10 +15136,10 @@ react-modal@^3.6.1:
     react-lifecycles-compat "^3.0.0"
     warning "^4.0.3"
 
-react-perfect-scrollbar@^1.4.4:
+react-perfect-scrollbar@^1.4.4, react-perfect-scrollbar@^1.5.3:
   version "1.5.3"
-  resolved "https://registry.yarnpkg.com/react-perfect-scrollbar/-/react-perfect-scrollbar-1.5.3.tgz#a8a0051a5f737801d4f73d48af5369724c595787"
-  integrity sha512-2fVqbDJgOb1siCCJozGbv22cAHnh6TI9HFHRpM0lBJTPPM0ajgmsU75mBnI3k0ndryo+JiwUbLKACrurx1BjBw==
+  resolved "https://registry.npm.taobao.org/react-perfect-scrollbar/download/react-perfect-scrollbar-1.5.3.tgz#a8a0051a5f737801d4f73d48af5369724c595787"
+  integrity sha1-qKAFGl9zeAHU9z1Ir1NpckxZV4c=
   dependencies:
     perfect-scrollbar "^1.4.0"
     prop-types "^15.6.1"

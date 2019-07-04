@@ -8317,9 +8317,7 @@
                 position: 'relative',
                 minHeight: "100%"
               }
-            }, React.createElement(_Layout.Header, {
-              className: styles$5.header
-            }, header), children)));
+            }, children)));
 
           case 'empty':
             return empty || React.createElement(_Empty, {

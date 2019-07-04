@@ -45,6 +45,9 @@ export default {
         'antd/antd.min.js',
         'library/library.min.js',
       ],
+      stylesheets: [
+        'antd.min.css',
+      ]
     }],
   ],
   hash: true,

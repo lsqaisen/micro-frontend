@@ -96,7 +96,7 @@ export default class extends PureComponent<any, any> {
                     <div style={{ lineHeight: '32px', textAlign: 'center', borderTop: '1px solid #f8f8f8' }}>{version} build {process.env.VERSION}</div>
                   </div>
                 )}>
-                {/* {children} */}
+                {children}
               </Layout>
             </LocaleProvider>
           )}

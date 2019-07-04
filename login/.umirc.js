@@ -1,6 +1,13 @@
 import path from 'path';
+import fs from 'fs';
 
 const { NODE_ENV } = process.env;
+const antdFiles = JSON.parse(`{${fs.readFileSync(__dirname + '/node_modules/antd/es/index.d.ts')
+  .toString()
+  .split(';')
+  .filter(v => !!v && v != '\n' && v != '\n\r')
+  .map(v => v.replace(/export { default as (.+) } from '\.\/(.+)'/g, '"antd/es/$2":"window.antd.$1"').replace(/ /g, ''))
+  .join(',')}}`);
 
 export default {
   history: 'hash',
@@ -9,6 +16,11 @@ export default {
   plugins: [
     ['umi-plugin-react', {
       dva: true,
+      antd: {
+        "libraryName": "antd",
+        "libraryDirectory": "es",
+        "style": true // `style: true` 会加载 less 文件
+      },
       routes: {
         exclude: [
           /model/,
@@ -28,18 +40,18 @@ export default {
         'react.js',
         'react-dom.js',
         'dva.js',
-        // 'antd-with-locales.min.js',
-        // 'antd.min.js',
+        'antd.min.js',
       ],
+      externals: [{
+        'react': 'window.React',
+        'react-dom': 'window.ReactDOM',
+        'dva': 'window.dva',
+        'antd': 'window.antd',
+        ...antdFiles
+      }],
     }],
   ],
   hash: true,
-  externals: {
-    'react': 'window.React',
-    'react-dom': 'window.ReactDOM',
-    'dva': 'window.dva',
-    'antd': 'window.antd',
-  },
   alias: {
     '@': './src/components/'
   },

@@ -1,6 +1,13 @@
 import path from 'path';
+import fs from 'fs';
 
 const { NODE_ENV } = process.env;
+const antdFiles = JSON.parse(`{${fs.readFileSync(__dirname + '/node_modules/antd/es/index.d.ts')
+  .toString()
+  .split(';')
+  .filter(v => !!v && v != '\n' && v != '\n\r')
+  .map(v => v.replace(/export { default as (.+) } from '\.\/(.+)'/g, '"antd/es/$2":"window.antd.$1"').replace(/ /g, ''))
+  .join(',')}}`);
 
 export default {
   history: 'hash',
@@ -9,11 +16,11 @@ export default {
   plugins: [
     ['umi-plugin-react', {
       dva: true,
-      // antd: {
-      //   "libraryName": "antd",
-      //   "libraryDirectory": "es",
-      //   "style": true // `style: true` 会加载 less 文件
-      // },
+      antd: {
+        "libraryName": "antd",
+        "libraryDirectory": "es",
+        "style": true // `style: true` 会加载 less 文件
+      },
       routes: {
         exclude: [
           /model/,
@@ -25,7 +32,7 @@ export default {
         loadingComponent: null,
       },
     }],
-    [path.join(__dirname, '../config/bin/'), {
+    [path.join(__dirname, '../_config/bin/'), {
       type: NODE_ENV === "development" ? 'portal' : 'plugin',
       dynamicImport: true,
       publicPath: '/service/vm/lib/',
@@ -34,12 +41,9 @@ export default {
         'react-dom.js',
         'dva.js',
         'moment.min.js',
-        'antd.min.js',
-        'index.umd.min.js',
+        'antd/antd.min.js',
+        'library/library.min.js',
       ],
-      stylesheets: [
-        'antd.min.css'
-      ]
     }],
   ],
   hash: true,
@@ -50,6 +54,7 @@ export default {
     'moment': 'window.moment',
     'antd': 'window.antd',
     'library': 'window.library',
+    ...antdFiles,
   },
   define: {
     'MODEL': 'vm',

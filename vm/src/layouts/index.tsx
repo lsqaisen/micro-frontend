@@ -109,18 +109,39 @@
 //   }
 // }
 
-import { Card } from 'antd';
+import { Card, PageHeader } from 'antd';
 import { Page } from 'library';
 import Link from 'umi/link';
-import 'antd/es/card/style';
 
 export default () => (
-
-  <Card>
-    <Page
+  <div>
+    <PageHeader
       title="title"
-      subTitle="subTitle"></Page>
-  </Card>
+      subTitle="subTitle" />
+    <Page
+      link={<Link to="" />}
+      title="title"
+      subTitle="subTitle"
+      routes={[{
+        path: '/dashboard',
+        breadcrumbName: '总览',
+      }, {
+        path: `/subpath`,
+        breadcrumbName: '二级菜单',
+      }]}
+    >
+      <div style={{
+        backgroundColor: '#fff',
+        padding: 16,
+        borderRadius: 8,
+        boxShadow: `0 2px 8px rgba(0, 0, 0, 0.09)`,
+      }}>
+        <Card>
+
+        </Card>
+      </div>
+    </Page>
+  </div>
   // <Page
   //   link={({ route }: any) => <Link to={route.path}>{route.breadcrumbName}</Link>}
   //   title="title"

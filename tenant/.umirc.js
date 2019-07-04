@@ -1,4 +1,14 @@
+import path from 'path';
+import fs from 'fs';
+
 const { NODE_ENV } = process.env;
+const antdFiles = JSON.parse(`{${fs.readFileSync(__dirname + '/node_modules/antd/es/index.d.ts')
+  .toString()
+  .split(';')
+  .filter(v => !!v && v != '\n' && v != '\n\r')
+  .map(v => v.replace(/export { default as (.+) } from '\.\/(.+)'/g, '"antd/es/$2":"window.antd.$1"').replace(/ /g, ''))
+  .join(',')}}`);
+
 
 export default {
   history: 'hash',
@@ -9,7 +19,7 @@ export default {
       dva: true,
       antd: {
         "libraryName": "antd",
-        "libraryDirectory": "es",
+        "libraryDirectory": "dist",
         "style": true // `style: true` 会加载 less 文件
       },
       routes: {
@@ -23,15 +33,25 @@ export default {
         loadingComponent: null,
       },
     }],
-    ['mife', {
+    [path.join(__dirname, '../_config/bin/'), {
       type: NODE_ENV === "development" ? 'portal' : 'plugin',
       dynamicImport: true,
       publicPath: '/service/tenant/lib/',
-      externals: {
+      scripts: [
+        'react.js',
+        'react-dom.js',
+        'dva.js',
+        'moment.min.js',
+        'antd.min.js',
+      ],
+      externals: [{
         'react': 'window.React',
         'react-dom': 'window.ReactDOM',
         'dva': 'window.dva',
-      },
+        'moment': 'window.moment',
+        'antd': 'window.antd',
+        ...antdFiles
+      }],
     }],
   ],
   hash: true,

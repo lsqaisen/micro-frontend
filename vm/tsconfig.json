@@ -22,7 +22,7 @@
 		"baseUrl": "..",
 		"paths": {
 			"library": [
-				"library/dist/"
+				"_library/dist/"
 			],
 			"@/components/*": [
 				"vm/src/components/*"

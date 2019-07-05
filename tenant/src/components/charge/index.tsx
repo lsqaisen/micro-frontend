@@ -2,6 +2,7 @@ import * as React from 'react';
 import { PureComponent } from 'react';
 import { PageHeader } from 'antd';
 import Link from 'umi/link';
+import { Page } from 'library';
 
 export type UserProps = {
 	name?: string,
@@ -26,7 +27,7 @@ class Config extends PureComponent<UserProps, any> {
 	render() {
 		const { name, desc, routes, children } = this.props;
 		return (
-			<PageHeader
+			<Page
 				style={{ minHeight: '100vh' }}
 				title={name}
 				subTitle={desc}
@@ -39,7 +40,7 @@ class Config extends PureComponent<UserProps, any> {
 				}}
 			>
 				{children}
-			</PageHeader>
+			</Page>
 		)
 	}
 }

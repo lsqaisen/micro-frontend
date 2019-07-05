@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { PureComponent } from 'react';
-import { PageHeader } from 'antd';
+import { Page } from 'library';
 import Link from 'umi/link';
 
 export type UserProps = {
@@ -26,20 +26,15 @@ class Config extends PureComponent<UserProps, any> {
 	render() {
 		const { name, desc, routes, children } = this.props;
 		return (
-			<PageHeader
+			<Page
 				style={{ minHeight: '100vh' }}
+				link={<Link to="" />}
 				title={name}
 				subTitle={desc}
-				breadcrumb={{
-					routes,
-					itemRender(route, _, routes) {
-						const last = routes.indexOf(route) === routes.length - 1;
-						return last ? <span>{route.breadcrumbName}</span> : <Link to={route.path}>{route.breadcrumbName}</Link>;
-					}
-				}}
+				routes={routes}
 			>
 				{children}
-			</PageHeader>
+			</Page>
 		)
 	}
 }

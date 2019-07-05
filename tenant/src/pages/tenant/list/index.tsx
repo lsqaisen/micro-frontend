@@ -2,7 +2,7 @@ import { PureComponent } from 'react';
 import { connect } from 'dva';
 import { createSelector } from 'reselect';
 import { Button } from 'antd';
-import Breadcrumb from '@/components/global/breadcrumb';
+import { Page } from 'library';
 import Table from '@/components/tenant/table';
 import AddTenant from './basic/actions/add-tenant';
 import Overset from './basic/actions/over-set';
@@ -10,7 +10,6 @@ import EidtTenant from './basic/actions/edit-tenant';
 import SetTenantOwenr from './basic/actions/set-tenant-owenr';
 import SetTenantQuota from './basic/actions/set-tenant-quota';
 import Actions from './basic/actions';
-
 
 @connect(createSelector(
   [
@@ -53,15 +52,16 @@ export default class extends PureComponent<any, any> {
   render() {
     const { data, routes, loading } = this.props;
     return (
-      <Breadcrumb
-        name="空间列表"
+      <Page
+        style={{ minHeight: '100%' }}
+        title="空间列表"
         routes={routes.concat([{
           path: `/tenant/list`,
           breadcrumbName: '空间列表',
         }])}
       >
         <section className="box">
-          <header style={{ overflow: 'hidden' }}>
+          <header style={{ overflow: 'hidden', marginBottom: 16 }}>
             <div className="fr">
               <Button style={{ marginLeft: 16 }} type="ghost" loading={loading} onClick={this.get} >刷新</Button>
             </div>
@@ -80,7 +80,7 @@ export default class extends PureComponent<any, any> {
             <SetTenantQuota key="quota" update={this.get} />
           </Table>
         </section>
-      </Breadcrumb>
+      </Page>
     )
   }
 }

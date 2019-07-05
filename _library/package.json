@@ -28,7 +28,8 @@
   },
   "dependencies": {
     "@types/react-router": "^5.0.3",
-    "react-perfect-scrollbar": "^1.5.3",
-    "rc-queue-anim": "^1.6.12"
+    "rc-animate": "^2.8.3",
+    "rc-queue-anim": "^1.6.12",
+    "react-perfect-scrollbar": "^1.5.3"
   }
 }

@@ -25,7 +25,6 @@ exports.default = (api, options = {}) => {
       return { href: `/static/bin/css/${sub}?t=${new Date().getTime()}`, rel: 'stylesheet' };
     });
   });
-
   api.addRuntimePlugin(
     join(__dirname, 'app.js'),
   );

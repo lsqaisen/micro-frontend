@@ -1,13 +1,13 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('antd/es/page-header/style'), require('antd/es/page-header'), require('react'), require('antd/es/menu/style'), require('antd/es/menu'), require('react-dom'), require('antd/es/descriptions/style'), require('antd/es/descriptions'), require('antd/es/dropdown/style'), require('antd/es/dropdown'), require('antd/es/icon/style'), require('antd/es/icon'), require('antd/es/typography/style'), require('antd/es/typography'), require('antd/es/tag/style'), require('antd/es/tag'), require('antd/es/avatar/style'), require('antd/es/avatar'), require('antd/es/empty/style'), require('antd/es/empty'), require('antd/es/layout/style'), require('antd/es/layout'), require('antd/es/drawer/style'), require('antd/es/drawer')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'antd/es/page-header/style', 'antd/es/page-header', 'react', 'antd/es/menu/style', 'antd/es/menu', 'react-dom', 'antd/es/descriptions/style', 'antd/es/descriptions', 'antd/es/dropdown/style', 'antd/es/dropdown', 'antd/es/icon/style', 'antd/es/icon', 'antd/es/typography/style', 'antd/es/typography', 'antd/es/tag/style', 'antd/es/tag', 'antd/es/avatar/style', 'antd/es/avatar', 'antd/es/empty/style', 'antd/es/empty', 'antd/es/layout/style', 'antd/es/layout', 'antd/es/drawer/style', 'antd/es/drawer'], factory) :
-  (global = global || self, factory(global.library = {}, null, global.window.antd.PageHeader, global.window.React, null, global.window.antd.Menu, global.window.ReactDOM, null, global.window.antd.Descriptions, null, global.window.antd.Dropdown, null, global.window.antd.Icon, null, global.window.antd.Typography, null, global.window.antd.Tag, null, global.window.antd.Avatar, null, global.window.antd.Empty, null, global.window.antd.Layout, null, global.window.antd.Drawer));
-}(this, function (exports, style, _PageHeader, React, style$1, _Menu, ReactDom, style$2, _Descriptions, style$3, _Dropdown, style$4, _Icon, style$5, _Typography, style$6, _Tag, style$7, _Avatar, style$8, _Empty, style$9, _Layout, style$a, _Drawer) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('antd/es/page-header/style'), require('antd/es/page-header'), require('react'), require('antd/es/menu/style'), require('antd/es/menu'), require('react-dom'), require('antd/es/descriptions/style'), require('antd/es/descriptions'), require('antd/es/dropdown/style'), require('antd/es/dropdown'), require('antd/es/icon/style'), require('antd/es/icon'), require('antd/es/typography/style'), require('antd/es/typography'), require('antd/es/tag/style'), require('antd/es/tag'), require('antd/es/avatar/style'), require('antd/es/avatar'), require('antd/es/empty/style'), require('antd/es/empty'), require('antd/es/layout/style'), require('antd/es/layout'), require('antd/es/drawer/style'), require('antd/es/drawer'), require('antd/es/tooltip/style'), require('antd/es/tooltip'), require('antd/es/table/style'), require('antd/es/table'), require('indexof')) :
+  typeof define === 'function' && define.amd ? define(['exports', 'antd/es/page-header/style', 'antd/es/page-header', 'react', 'antd/es/menu/style', 'antd/es/menu', 'react-dom', 'antd/es/descriptions/style', 'antd/es/descriptions', 'antd/es/dropdown/style', 'antd/es/dropdown', 'antd/es/icon/style', 'antd/es/icon', 'antd/es/typography/style', 'antd/es/typography', 'antd/es/tag/style', 'antd/es/tag', 'antd/es/avatar/style', 'antd/es/avatar', 'antd/es/empty/style', 'antd/es/empty', 'antd/es/layout/style', 'antd/es/layout', 'antd/es/drawer/style', 'antd/es/drawer', 'antd/es/tooltip/style', 'antd/es/tooltip', 'antd/es/table/style', 'antd/es/table', 'indexof'], factory) :
+  (global = global || self, factory(global.library = {}, null, global.window.antd.PageHeader, global.window.React, null, global.window.antd.Menu, global.window.ReactDOM, null, global.window.antd.Descriptions, null, global.window.antd.Dropdown, null, global.window.antd.Icon, null, global.window.antd.Typography, null, global.window.antd.Tag, null, global.window.antd.Avatar, null, global.window.antd.Empty, null, global.window.antd.Layout, null, global.window.antd.Drawer, null, global.window.antd.Tooltip, null, global.window.antd.Table, global.indexof));
+}(this, function (exports, style, _PageHeader, React, style$1, _Menu, ReactDOM, style$2, _Descriptions, style$3, _Dropdown, style$4, _Icon, style$5, _Typography, style$6, _Tag, style$7, _Avatar, style$8, _Empty, style$9, _Layout, style$a, _Drawer, style$b, _Tooltip, style$c, _Table, indexof) { 'use strict';
 
   _PageHeader = _PageHeader && _PageHeader.hasOwnProperty('default') ? _PageHeader['default'] : _PageHeader;
   var React__default = 'default' in React ? React['default'] : React;
   _Menu = _Menu && _Menu.hasOwnProperty('default') ? _Menu['default'] : _Menu;
-  var ReactDom__default = 'default' in ReactDom ? ReactDom['default'] : ReactDom;
+  var ReactDOM__default = 'default' in ReactDOM ? ReactDOM['default'] : ReactDOM;
   _Descriptions = _Descriptions && _Descriptions.hasOwnProperty('default') ? _Descriptions['default'] : _Descriptions;
   _Dropdown = _Dropdown && _Dropdown.hasOwnProperty('default') ? _Dropdown['default'] : _Dropdown;
   _Icon = _Icon && _Icon.hasOwnProperty('default') ? _Icon['default'] : _Icon;
@@ -17,6 +17,9 @@
   _Empty = _Empty && _Empty.hasOwnProperty('default') ? _Empty['default'] : _Empty;
   _Layout = _Layout && _Layout.hasOwnProperty('default') ? _Layout['default'] : _Layout;
   _Drawer = _Drawer && _Drawer.hasOwnProperty('default') ? _Drawer['default'] : _Drawer;
+  _Tooltip = _Tooltip && _Tooltip.hasOwnProperty('default') ? _Tooltip['default'] : _Tooltip;
+  _Table = _Table && _Table.hasOwnProperty('default') ? _Table['default'] : _Table;
+  indexof = indexof && indexof.hasOwnProperty('default') ? indexof['default'] : indexof;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -1651,7 +1654,7 @@
   };
   });
 
-  unwrapExports(_typeof_1);
+  var _typeof = unwrapExports(_typeof_1);
 
   var possibleConstructorReturn = createCommonjsModule(function (module, exports) {
 
@@ -5059,7 +5062,7 @@
     _createClass$1(TweenOne, [{
       key: 'componentDidMount',
       value: function componentDidMount() {
-        this.dom = ReactDom__default.findDOMNode(this);
+        this.dom = ReactDOM__default.findDOMNode(this);
         if (this.dom && this.dom.nodeName !== '#text') {
           this.start();
         }
@@ -5138,7 +5141,7 @@
       key: 'componentDidUpdate',
       value: function componentDidUpdate() {
         if (!this.dom) {
-          this.dom = ReactDom__default.findDOMNode(this);
+          this.dom = ReactDOM__default.findDOMNode(this);
         }
         // 样式更新了后再执行动画；
         if (this.updateAnim && this.dom && this.dom.nodeName !== '#text') {
@@ -8156,7 +8159,7 @@
       document.body.appendChild(ms);
     }
 
-    return ReactDom.createPortal(React.createElement(SiderDrawer, {
+    return ReactDOM.createPortal(React.createElement(SiderDrawer, {
       key: "media-siders"
     }), ms);
   });
@@ -8182,7 +8185,7 @@
 
         if (!matches) {
           var ms = document.getElementById("media-siders");
-          if (ms) ReactDom.unmountComponentAtNode(ms);
+          if (ms) ReactDOM.unmountComponentAtNode(ms);
         } else {
           create$2(Object.assign({}, {
             sider: children,
@@ -8380,11 +8383,1306 @@
     width: 210
   };
 
+  var EllipsisTooltip =
+  /*#__PURE__*/
+  function (_PureComponent) {
+    _inherits(EllipsisTooltip, _PureComponent);
+
+    function EllipsisTooltip() {
+      var _this;
+
+      _classCallCheck(this, EllipsisTooltip);
+
+      _this = _possibleConstructorReturn(this, _getPrototypeOf(EllipsisTooltip).apply(this, arguments));
+      _this.state = {
+        visible: false
+      };
+      _this.container = null;
+
+      _this.handleVisibleChange = function (visible) {
+        if (_this.container.clientWidth < _this.container.scrollWidth) {
+          _this.setState({
+            visible: visible
+          });
+        }
+      };
+
+      return _this;
+    }
+
+    _createClass(EllipsisTooltip, [{
+      key: "render",
+      value: function render() {
+        var _this2 = this;
+
+        return React__default.createElement(_Tooltip, {
+          visible: this.state.visible,
+          onVisibleChange: this.handleVisibleChange,
+          title: this.props.title
+        }, React__default.createElement("div", {
+          ref: function ref(node) {
+            return _this2.container = node;
+          },
+          style: {
+            textOverflow: 'ellipsis',
+            overflow: 'hidden'
+          }
+        }, this.props.children));
+      }
+    }]);
+
+    return EllipsisTooltip;
+  }(React.PureComponent);
+
+  var defineProperty$3 = createCommonjsModule(function (module, exports) {
+
+  exports.__esModule = true;
+
+
+
+  var _defineProperty2 = _interopRequireDefault(defineProperty$1);
+
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+  exports.default = function (obj, key, value) {
+    if (key in obj) {
+      (0, _defineProperty2.default)(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+
+    return obj;
+  };
+  });
+
+  var _defineProperty$1 = unwrapExports(defineProperty$3);
+
+  function toArrayChildren$2(children) {
+    var ret = [];
+    React__default.Children.forEach(children, function (child) {
+      ret.push(child);
+    });
+    return ret;
+  }
+
+  function findChildInChildrenByKey$2(children, key) {
+    var ret = null;
+    if (children) {
+      children.forEach(function (child) {
+        if (ret) {
+          return;
+        }
+        if (child && child.key === key) {
+          ret = child;
+        }
+      });
+    }
+    return ret;
+  }
+
+  function findShownChildInChildrenByKey(children, key, showProp) {
+    var ret = null;
+    if (children) {
+      children.forEach(function (child) {
+        if (child && child.key === key && child.props[showProp]) {
+          if (ret) {
+            throw new Error('two child with same key for <rc-animate> children');
+          }
+          ret = child;
+        }
+      });
+    }
+    return ret;
+  }
+
+  function isSameChildren(c1, c2, showProp) {
+    var same = c1.length === c2.length;
+    if (same) {
+      c1.forEach(function (child, index) {
+        var child2 = c2[index];
+        if (child && child2) {
+          if (child && !child2 || !child && child2) {
+            same = false;
+          } else if (child.key !== child2.key) {
+            same = false;
+          } else if (showProp && child.props[showProp] !== child2.props[showProp]) {
+            same = false;
+          }
+        }
+      });
+    }
+    return same;
+  }
+
+  function mergeChildren$2(prev, next) {
+    var ret = [];
+
+    // For each key of `next`, the list of keys to insert before that key in
+    // the combined list
+    var nextChildrenPending = {};
+    var pendingChildren = [];
+    prev.forEach(function (child) {
+      if (child && findChildInChildrenByKey$2(next, child.key)) {
+        if (pendingChildren.length) {
+          nextChildrenPending[child.key] = pendingChildren;
+          pendingChildren = [];
+        }
+      } else {
+        pendingChildren.push(child);
+      }
+    });
+
+    next.forEach(function (child) {
+      if (child && Object.prototype.hasOwnProperty.call(nextChildrenPending, child.key)) {
+        ret = ret.concat(nextChildrenPending[child.key]);
+      }
+      ret.push(child);
+    });
+
+    ret = ret.concat(pendingChildren);
+
+    return ret;
+  }
+
+  var START_EVENT_NAME_MAP = {
+    transitionstart: {
+      transition: 'transitionstart',
+      WebkitTransition: 'webkitTransitionStart',
+      MozTransition: 'mozTransitionStart',
+      OTransition: 'oTransitionStart',
+      msTransition: 'MSTransitionStart'
+    },
+
+    animationstart: {
+      animation: 'animationstart',
+      WebkitAnimation: 'webkitAnimationStart',
+      MozAnimation: 'mozAnimationStart',
+      OAnimation: 'oAnimationStart',
+      msAnimation: 'MSAnimationStart'
+    }
+  };
+
+  var END_EVENT_NAME_MAP = {
+    transitionend: {
+      transition: 'transitionend',
+      WebkitTransition: 'webkitTransitionEnd',
+      MozTransition: 'mozTransitionEnd',
+      OTransition: 'oTransitionEnd',
+      msTransition: 'MSTransitionEnd'
+    },
+
+    animationend: {
+      animation: 'animationend',
+      WebkitAnimation: 'webkitAnimationEnd',
+      MozAnimation: 'mozAnimationEnd',
+      OAnimation: 'oAnimationEnd',
+      msAnimation: 'MSAnimationEnd'
+    }
+  };
+
+  var startEvents = [];
+  var endEvents = [];
+
+  function detectEvents() {
+    var testEl = document.createElement('div');
+    var style = testEl.style;
+
+    if (!('AnimationEvent' in window)) {
+      delete START_EVENT_NAME_MAP.animationstart.animation;
+      delete END_EVENT_NAME_MAP.animationend.animation;
+    }
+
+    if (!('TransitionEvent' in window)) {
+      delete START_EVENT_NAME_MAP.transitionstart.transition;
+      delete END_EVENT_NAME_MAP.transitionend.transition;
+    }
+
+    function process(EVENT_NAME_MAP, events) {
+      for (var baseEventName in EVENT_NAME_MAP) {
+        if (EVENT_NAME_MAP.hasOwnProperty(baseEventName)) {
+          var baseEvents = EVENT_NAME_MAP[baseEventName];
+          for (var styleName in baseEvents) {
+            if (styleName in style) {
+              events.push(baseEvents[styleName]);
+              break;
+            }
+          }
+        }
+      }
+    }
+
+    process(START_EVENT_NAME_MAP, startEvents);
+    process(END_EVENT_NAME_MAP, endEvents);
+  }
+
+  if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+    detectEvents();
+  }
+
+  function addEventListener(node, eventName, eventListener) {
+    node.addEventListener(eventName, eventListener, false);
+  }
+
+  function removeEventListener(node, eventName, eventListener) {
+    node.removeEventListener(eventName, eventListener, false);
+  }
+
+  var TransitionEvents = {
+    // Start events
+    startEvents: startEvents,
+
+    addStartEventListener: function addStartEventListener(node, eventListener) {
+      if (startEvents.length === 0) {
+        window.setTimeout(eventListener, 0);
+        return;
+      }
+      startEvents.forEach(function (startEvent) {
+        addEventListener(node, startEvent, eventListener);
+      });
+    },
+    removeStartEventListener: function removeStartEventListener(node, eventListener) {
+      if (startEvents.length === 0) {
+        return;
+      }
+      startEvents.forEach(function (startEvent) {
+        removeEventListener(node, startEvent, eventListener);
+      });
+    },
+
+
+    // End events
+    endEvents: endEvents,
+
+    addEndEventListener: function addEndEventListener(node, eventListener) {
+      if (endEvents.length === 0) {
+        window.setTimeout(eventListener, 0);
+        return;
+      }
+      endEvents.forEach(function (endEvent) {
+        addEventListener(node, endEvent, eventListener);
+      });
+    },
+    removeEndEventListener: function removeEndEventListener(node, eventListener) {
+      if (endEvents.length === 0) {
+        return;
+      }
+      endEvents.forEach(function (endEvent) {
+        removeEventListener(node, endEvent, eventListener);
+      });
+    }
+  };
+
+  var componentIndexof = function(arr, obj){
+    if (arr.indexOf) return arr.indexOf(obj);
+    for (var i = 0; i < arr.length; ++i) {
+      if (arr[i] === obj) return i;
+    }
+    return -1;
+  };
+
+  /**
+   * Module dependencies.
+   */
+
+  try {
+    var index = indexof;
+  } catch (err) {
+    var index = componentIndexof;
+  }
+
+  /**
+   * Whitespace regexp.
+   */
+
+  var re = /\s+/;
+
+  /**
+   * toString reference.
+   */
+
+  var toString$2 = Object.prototype.toString;
+
+  /**
+   * Wrap `el` in a `ClassList`.
+   *
+   * @param {Element} el
+   * @return {ClassList}
+   * @api public
+   */
+
+  var componentClasses = function(el){
+    return new ClassList(el);
+  };
+
+  /**
+   * Initialize a new ClassList for `el`.
+   *
+   * @param {Element} el
+   * @api private
+   */
+
+  function ClassList(el) {
+    if (!el || !el.nodeType) {
+      throw new Error('A DOM element reference is required');
+    }
+    this.el = el;
+    this.list = el.classList;
+  }
+
+  /**
+   * Add class `name` if not already present.
+   *
+   * @param {String} name
+   * @return {ClassList}
+   * @api public
+   */
+
+  ClassList.prototype.add = function(name){
+    // classList
+    if (this.list) {
+      this.list.add(name);
+      return this;
+    }
+
+    // fallback
+    var arr = this.array();
+    var i = index(arr, name);
+    if (!~i) arr.push(name);
+    this.el.className = arr.join(' ');
+    return this;
+  };
+
+  /**
+   * Remove class `name` when present, or
+   * pass a regular expression to remove
+   * any which match.
+   *
+   * @param {String|RegExp} name
+   * @return {ClassList}
+   * @api public
+   */
+
+  ClassList.prototype.remove = function(name){
+    if ('[object RegExp]' == toString$2.call(name)) {
+      return this.removeMatching(name);
+    }
+
+    // classList
+    if (this.list) {
+      this.list.remove(name);
+      return this;
+    }
+
+    // fallback
+    var arr = this.array();
+    var i = index(arr, name);
+    if (~i) arr.splice(i, 1);
+    this.el.className = arr.join(' ');
+    return this;
+  };
+
+  /**
+   * Remove all classes matching `re`.
+   *
+   * @param {RegExp} re
+   * @return {ClassList}
+   * @api private
+   */
+
+  ClassList.prototype.removeMatching = function(re){
+    var arr = this.array();
+    for (var i = 0; i < arr.length; i++) {
+      if (re.test(arr[i])) {
+        this.remove(arr[i]);
+      }
+    }
+    return this;
+  };
+
+  /**
+   * Toggle class `name`, can force state via `force`.
+   *
+   * For browsers that support classList, but do not support `force` yet,
+   * the mistake will be detected and corrected.
+   *
+   * @param {String} name
+   * @param {Boolean} force
+   * @return {ClassList}
+   * @api public
+   */
+
+  ClassList.prototype.toggle = function(name, force){
+    // classList
+    if (this.list) {
+      if ("undefined" !== typeof force) {
+        if (force !== this.list.toggle(name, force)) {
+          this.list.toggle(name); // toggle again to correct
+        }
+      } else {
+        this.list.toggle(name);
+      }
+      return this;
+    }
+
+    // fallback
+    if ("undefined" !== typeof force) {
+      if (!force) {
+        this.remove(name);
+      } else {
+        this.add(name);
+      }
+    } else {
+      if (this.has(name)) {
+        this.remove(name);
+      } else {
+        this.add(name);
+      }
+    }
+
+    return this;
+  };
+
+  /**
+   * Return an array of classes.
+   *
+   * @return {Array}
+   * @api public
+   */
+
+  ClassList.prototype.array = function(){
+    var className = this.el.getAttribute('class') || '';
+    var str = className.replace(/^\s+|\s+$/g, '');
+    var arr = str.split(re);
+    if ('' === arr[0]) arr.shift();
+    return arr;
+  };
+
+  /**
+   * Check if class `name` is present.
+   *
+   * @param {String} name
+   * @return {ClassList}
+   * @api public
+   */
+
+  ClassList.prototype.has =
+  ClassList.prototype.contains = function(name){
+    return this.list
+      ? this.list.contains(name)
+      : !! ~index(this.array(), name);
+  };
+
+  var isCssAnimationSupported = TransitionEvents.endEvents.length !== 0;
+  var capitalPrefixes = ['Webkit', 'Moz', 'O',
+  // ms is special .... !
+  'ms'];
+  var prefixes = ['-webkit-', '-moz-', '-o-', 'ms-', ''];
+
+  function getStyleProperty(node, name) {
+    // old ff need null, https://developer.mozilla.org/en-US/docs/Web/API/Window/getComputedStyle
+    var style = window.getComputedStyle(node, null);
+    var ret = '';
+    for (var i = 0; i < prefixes.length; i++) {
+      ret = style.getPropertyValue(prefixes[i] + name);
+      if (ret) {
+        break;
+      }
+    }
+    return ret;
+  }
+
+  function fixBrowserByTimeout(node) {
+    if (isCssAnimationSupported) {
+      var transitionDelay = parseFloat(getStyleProperty(node, 'transition-delay')) || 0;
+      var transitionDuration = parseFloat(getStyleProperty(node, 'transition-duration')) || 0;
+      var animationDelay = parseFloat(getStyleProperty(node, 'animation-delay')) || 0;
+      var animationDuration = parseFloat(getStyleProperty(node, 'animation-duration')) || 0;
+      var time = Math.max(transitionDuration + transitionDelay, animationDuration + animationDelay);
+      // sometimes, browser bug
+      node.rcEndAnimTimeout = setTimeout(function () {
+        node.rcEndAnimTimeout = null;
+        if (node.rcEndListener) {
+          node.rcEndListener();
+        }
+      }, time * 1000 + 200);
+    }
+  }
+
+  function clearBrowserBugTimeout(node) {
+    if (node.rcEndAnimTimeout) {
+      clearTimeout(node.rcEndAnimTimeout);
+      node.rcEndAnimTimeout = null;
+    }
+  }
+
+  var cssAnimation = function cssAnimation(node, transitionName, endCallback) {
+    var nameIsObj = (typeof transitionName === 'undefined' ? 'undefined' : _typeof(transitionName)) === 'object';
+    var className = nameIsObj ? transitionName.name : transitionName;
+    var activeClassName = nameIsObj ? transitionName.active : transitionName + '-active';
+    var end = endCallback;
+    var start = void 0;
+    var active = void 0;
+    var nodeClasses = componentClasses(node);
+
+    if (endCallback && Object.prototype.toString.call(endCallback) === '[object Object]') {
+      end = endCallback.end;
+      start = endCallback.start;
+      active = endCallback.active;
+    }
+
+    if (node.rcEndListener) {
+      node.rcEndListener();
+    }
+
+    node.rcEndListener = function (e) {
+      if (e && e.target !== node) {
+        return;
+      }
+
+      if (node.rcAnimTimeout) {
+        clearTimeout(node.rcAnimTimeout);
+        node.rcAnimTimeout = null;
+      }
+
+      clearBrowserBugTimeout(node);
+
+      nodeClasses.remove(className);
+      nodeClasses.remove(activeClassName);
+
+      TransitionEvents.removeEndEventListener(node, node.rcEndListener);
+      node.rcEndListener = null;
+
+      // Usually this optional end is used for informing an owner of
+      // a leave animation and telling it to remove the child.
+      if (end) {
+        end();
+      }
+    };
+
+    TransitionEvents.addEndEventListener(node, node.rcEndListener);
+
+    if (start) {
+      start();
+    }
+    nodeClasses.add(className);
+
+    node.rcAnimTimeout = setTimeout(function () {
+      node.rcAnimTimeout = null;
+      nodeClasses.add(activeClassName);
+      if (active) {
+        setTimeout(active, 0);
+      }
+      fixBrowserByTimeout(node);
+      // 30ms for firefox
+    }, 30);
+
+    return {
+      stop: function stop() {
+        if (node.rcEndListener) {
+          node.rcEndListener();
+        }
+      }
+    };
+  };
+
+  cssAnimation.style = function (node, style, callback) {
+    if (node.rcEndListener) {
+      node.rcEndListener();
+    }
+
+    node.rcEndListener = function (e) {
+      if (e && e.target !== node) {
+        return;
+      }
+
+      if (node.rcAnimTimeout) {
+        clearTimeout(node.rcAnimTimeout);
+        node.rcAnimTimeout = null;
+      }
+
+      clearBrowserBugTimeout(node);
+
+      TransitionEvents.removeEndEventListener(node, node.rcEndListener);
+      node.rcEndListener = null;
+
+      // Usually this optional callback is used for informing an owner of
+      // a leave animation and telling it to remove the child.
+      if (callback) {
+        callback();
+      }
+    };
+
+    TransitionEvents.addEndEventListener(node, node.rcEndListener);
+
+    node.rcAnimTimeout = setTimeout(function () {
+      for (var s in style) {
+        if (style.hasOwnProperty(s)) {
+          node.style[s] = style[s];
+        }
+      }
+      node.rcAnimTimeout = null;
+      fixBrowserByTimeout(node);
+    }, 0);
+  };
+
+  cssAnimation.setTransition = function (node, p, value) {
+    var property = p;
+    var v = value;
+    if (value === undefined) {
+      v = property;
+      property = '';
+    }
+    property = property || '';
+    capitalPrefixes.forEach(function (prefix) {
+      node.style[prefix + 'Transition' + property] = v;
+    });
+  };
+
+  cssAnimation.isCssAnimationSupported = isCssAnimationSupported;
+
+  var util = {
+    isAppearSupported: function isAppearSupported(props) {
+      return props.transitionName && props.transitionAppear || props.animation.appear;
+    },
+    isEnterSupported: function isEnterSupported(props) {
+      return props.transitionName && props.transitionEnter || props.animation.enter;
+    },
+    isLeaveSupported: function isLeaveSupported(props) {
+      return props.transitionName && props.transitionLeave || props.animation.leave;
+    },
+    allowAppearCallback: function allowAppearCallback(props) {
+      return props.transitionAppear || props.animation.appear;
+    },
+    allowEnterCallback: function allowEnterCallback(props) {
+      return props.transitionEnter || props.animation.enter;
+    },
+    allowLeaveCallback: function allowLeaveCallback(props) {
+      return props.transitionLeave || props.animation.leave;
+    }
+  };
+
+  var transitionMap = {
+    enter: 'transitionEnter',
+    appear: 'transitionAppear',
+    leave: 'transitionLeave'
+  };
+
+  var AnimateChild = function (_React$Component) {
+    _inherits$1(AnimateChild, _React$Component);
+
+    function AnimateChild() {
+      _classCallCheck$1(this, AnimateChild);
+
+      return _possibleConstructorReturn$1(this, (AnimateChild.__proto__ || Object.getPrototypeOf(AnimateChild)).apply(this, arguments));
+    }
+
+    _createClass$1(AnimateChild, [{
+      key: 'componentWillUnmount',
+      value: function componentWillUnmount() {
+        this.stop();
+      }
+    }, {
+      key: 'componentWillEnter',
+      value: function componentWillEnter(done) {
+        if (util.isEnterSupported(this.props)) {
+          this.transition('enter', done);
+        } else {
+          done();
+        }
+      }
+    }, {
+      key: 'componentWillAppear',
+      value: function componentWillAppear(done) {
+        if (util.isAppearSupported(this.props)) {
+          this.transition('appear', done);
+        } else {
+          done();
+        }
+      }
+    }, {
+      key: 'componentWillLeave',
+      value: function componentWillLeave(done) {
+        if (util.isLeaveSupported(this.props)) {
+          this.transition('leave', done);
+        } else {
+          // always sync, do not interupt with react component life cycle
+          // update hidden -> animate hidden ->
+          // didUpdate -> animate leave -> unmount (if animate is none)
+          done();
+        }
+      }
+    }, {
+      key: 'transition',
+      value: function transition(animationType, finishCallback) {
+        var _this2 = this;
+
+        var node = ReactDOM__default.findDOMNode(this);
+        var props = this.props;
+        var transitionName = props.transitionName;
+        var nameIsObj = typeof transitionName === 'object';
+        this.stop();
+        var end = function end() {
+          _this2.stopper = null;
+          finishCallback();
+        };
+        if ((isCssAnimationSupported || !props.animation[animationType]) && transitionName && props[transitionMap[animationType]]) {
+          var name = nameIsObj ? transitionName[animationType] : transitionName + '-' + animationType;
+          var activeName = name + '-active';
+          if (nameIsObj && transitionName[animationType + 'Active']) {
+            activeName = transitionName[animationType + 'Active'];
+          }
+          this.stopper = cssAnimation(node, {
+            name: name,
+            active: activeName
+          }, end);
+        } else {
+          this.stopper = props.animation[animationType](node, end);
+        }
+      }
+    }, {
+      key: 'stop',
+      value: function stop() {
+        var stopper = this.stopper;
+        if (stopper) {
+          this.stopper = null;
+          stopper.stop();
+        }
+      }
+    }, {
+      key: 'render',
+      value: function render() {
+        return this.props.children;
+      }
+    }]);
+
+    return AnimateChild;
+  }(React__default.Component);
+
+  AnimateChild.propTypes = {
+    children: propTypes.any
+  };
+
+  var defaultKey = 'rc_animate_' + Date.now();
+
+  function getChildrenFromProps$2(props) {
+    var children = props.children;
+    if (React__default.isValidElement(children)) {
+      if (!children.key) {
+        return React__default.cloneElement(children, {
+          key: defaultKey
+        });
+      }
+    }
+    return children;
+  }
+
+  function noop$4() {}
+
+  var Animate = function (_React$Component) {
+    _inherits$1(Animate, _React$Component);
+
+    // eslint-disable-line
+
+    function Animate(props) {
+      _classCallCheck$1(this, Animate);
+
+      var _this = _possibleConstructorReturn$1(this, (Animate.__proto__ || Object.getPrototypeOf(Animate)).call(this, props));
+
+      _initialiseProps$3.call(_this);
+
+      _this.currentlyAnimatingKeys = {};
+      _this.keysToEnter = [];
+      _this.keysToLeave = [];
+
+      _this.state = {
+        children: toArrayChildren$2(getChildrenFromProps$2(props))
+      };
+
+      _this.childrenRefs = {};
+      return _this;
+    }
+
+    _createClass$1(Animate, [{
+      key: 'componentDidMount',
+      value: function componentDidMount() {
+        var _this2 = this;
+
+        var showProp = this.props.showProp;
+        var children = this.state.children;
+        if (showProp) {
+          children = children.filter(function (child) {
+            return !!child.props[showProp];
+          });
+        }
+        children.forEach(function (child) {
+          if (child) {
+            _this2.performAppear(child.key);
+          }
+        });
+      }
+    }, {
+      key: 'componentWillReceiveProps',
+      value: function componentWillReceiveProps(nextProps) {
+        var _this3 = this;
+
+        this.nextProps = nextProps;
+        var nextChildren = toArrayChildren$2(getChildrenFromProps$2(nextProps));
+        var props = this.props;
+        // exclusive needs immediate response
+        if (props.exclusive) {
+          Object.keys(this.currentlyAnimatingKeys).forEach(function (key) {
+            _this3.stop(key);
+          });
+        }
+        var showProp = props.showProp;
+        var currentlyAnimatingKeys = this.currentlyAnimatingKeys;
+        // last props children if exclusive
+        var currentChildren = props.exclusive ? toArrayChildren$2(getChildrenFromProps$2(props)) : this.state.children;
+        // in case destroy in showProp mode
+        var newChildren = [];
+        if (showProp) {
+          currentChildren.forEach(function (currentChild) {
+            var nextChild = currentChild && findChildInChildrenByKey$2(nextChildren, currentChild.key);
+            var newChild = void 0;
+            if ((!nextChild || !nextChild.props[showProp]) && currentChild.props[showProp]) {
+              newChild = React__default.cloneElement(nextChild || currentChild, _defineProperty$1({}, showProp, true));
+            } else {
+              newChild = nextChild;
+            }
+            if (newChild) {
+              newChildren.push(newChild);
+            }
+          });
+          nextChildren.forEach(function (nextChild) {
+            if (!nextChild || !findChildInChildrenByKey$2(currentChildren, nextChild.key)) {
+              newChildren.push(nextChild);
+            }
+          });
+        } else {
+          newChildren = mergeChildren$2(currentChildren, nextChildren);
+        }
+
+        // need render to avoid update
+        this.setState({
+          children: newChildren
+        });
+
+        nextChildren.forEach(function (child) {
+          var key = child && child.key;
+          if (child && currentlyAnimatingKeys[key]) {
+            return;
+          }
+          var hasPrev = child && findChildInChildrenByKey$2(currentChildren, key);
+          if (showProp) {
+            var showInNext = child.props[showProp];
+            if (hasPrev) {
+              var showInNow = findShownChildInChildrenByKey(currentChildren, key, showProp);
+              if (!showInNow && showInNext) {
+                _this3.keysToEnter.push(key);
+              }
+            } else if (showInNext) {
+              _this3.keysToEnter.push(key);
+            }
+          } else if (!hasPrev) {
+            _this3.keysToEnter.push(key);
+          }
+        });
+
+        currentChildren.forEach(function (child) {
+          var key = child && child.key;
+          if (child && currentlyAnimatingKeys[key]) {
+            return;
+          }
+          var hasNext = child && findChildInChildrenByKey$2(nextChildren, key);
+          if (showProp) {
+            var showInNow = child.props[showProp];
+            if (hasNext) {
+              var showInNext = findShownChildInChildrenByKey(nextChildren, key, showProp);
+              if (!showInNext && showInNow) {
+                _this3.keysToLeave.push(key);
+              }
+            } else if (showInNow) {
+              _this3.keysToLeave.push(key);
+            }
+          } else if (!hasNext) {
+            _this3.keysToLeave.push(key);
+          }
+        });
+      }
+    }, {
+      key: 'componentDidUpdate',
+      value: function componentDidUpdate() {
+        var keysToEnter = this.keysToEnter;
+        this.keysToEnter = [];
+        keysToEnter.forEach(this.performEnter);
+        var keysToLeave = this.keysToLeave;
+        this.keysToLeave = [];
+        keysToLeave.forEach(this.performLeave);
+      }
+    }, {
+      key: 'isValidChildByKey',
+      value: function isValidChildByKey(currentChildren, key) {
+        var showProp = this.props.showProp;
+        if (showProp) {
+          return findShownChildInChildrenByKey(currentChildren, key, showProp);
+        }
+        return findChildInChildrenByKey$2(currentChildren, key);
+      }
+    }, {
+      key: 'stop',
+      value: function stop(key) {
+        delete this.currentlyAnimatingKeys[key];
+        var component = this.childrenRefs[key];
+        if (component) {
+          component.stop();
+        }
+      }
+    }, {
+      key: 'render',
+      value: function render() {
+        var _this4 = this;
+
+        var props = this.props;
+        this.nextProps = props;
+        var stateChildren = this.state.children;
+        var children = null;
+        if (stateChildren) {
+          children = stateChildren.map(function (child) {
+            if (child === null || child === undefined) {
+              return child;
+            }
+            if (!child.key) {
+              throw new Error('must set key for <rc-animate> children');
+            }
+            return React__default.createElement(
+              AnimateChild,
+              {
+                key: child.key,
+                ref: function ref(node) {
+                  _this4.childrenRefs[child.key] = node;
+                },
+                animation: props.animation,
+                transitionName: props.transitionName,
+                transitionEnter: props.transitionEnter,
+                transitionAppear: props.transitionAppear,
+                transitionLeave: props.transitionLeave
+              },
+              child
+            );
+          });
+        }
+        var Component = props.component;
+        if (Component) {
+          var passedProps = props;
+          if (typeof Component === 'string') {
+            passedProps = _extends$2({
+              className: props.className,
+              style: props.style
+            }, props.componentProps);
+          }
+          return React__default.createElement(
+            Component,
+            passedProps,
+            children
+          );
+        }
+        return children[0] || null;
+      }
+    }]);
+
+    return Animate;
+  }(React__default.Component);
+
+  Animate.isAnimate = true;
+  Animate.propTypes = {
+    component: propTypes.any,
+    componentProps: propTypes.object,
+    animation: propTypes.object,
+    transitionName: propTypes.oneOfType([propTypes.string, propTypes.object]),
+    transitionEnter: propTypes.bool,
+    transitionAppear: propTypes.bool,
+    exclusive: propTypes.bool,
+    transitionLeave: propTypes.bool,
+    onEnd: propTypes.func,
+    onEnter: propTypes.func,
+    onLeave: propTypes.func,
+    onAppear: propTypes.func,
+    showProp: propTypes.string,
+    children: propTypes.node
+  };
+  Animate.defaultProps = {
+    animation: {},
+    component: 'span',
+    componentProps: {},
+    transitionEnter: true,
+    transitionLeave: true,
+    transitionAppear: false,
+    onEnd: noop$4,
+    onEnter: noop$4,
+    onLeave: noop$4,
+    onAppear: noop$4
+  };
+
+  var _initialiseProps$3 = function _initialiseProps() {
+    var _this5 = this;
+
+    this.performEnter = function (key) {
+      // may already remove by exclusive
+      if (_this5.childrenRefs[key]) {
+        _this5.currentlyAnimatingKeys[key] = true;
+        _this5.childrenRefs[key].componentWillEnter(_this5.handleDoneAdding.bind(_this5, key, 'enter'));
+      }
+    };
+
+    this.performAppear = function (key) {
+      if (_this5.childrenRefs[key]) {
+        _this5.currentlyAnimatingKeys[key] = true;
+        _this5.childrenRefs[key].componentWillAppear(_this5.handleDoneAdding.bind(_this5, key, 'appear'));
+      }
+    };
+
+    this.handleDoneAdding = function (key, type) {
+      var props = _this5.props;
+      delete _this5.currentlyAnimatingKeys[key];
+      // if update on exclusive mode, skip check
+      if (props.exclusive && props !== _this5.nextProps) {
+        return;
+      }
+      var currentChildren = toArrayChildren$2(getChildrenFromProps$2(props));
+      if (!_this5.isValidChildByKey(currentChildren, key)) {
+        // exclusive will not need this
+        _this5.performLeave(key);
+      } else if (type === 'appear') {
+        if (util.allowAppearCallback(props)) {
+          props.onAppear(key);
+          props.onEnd(key, true);
+        }
+      } else if (util.allowEnterCallback(props)) {
+        props.onEnter(key);
+        props.onEnd(key, true);
+      }
+    };
+
+    this.performLeave = function (key) {
+      // may already remove by exclusive
+      if (_this5.childrenRefs[key]) {
+        _this5.currentlyAnimatingKeys[key] = true;
+        _this5.childrenRefs[key].componentWillLeave(_this5.handleDoneLeaving.bind(_this5, key));
+      }
+    };
+
+    this.handleDoneLeaving = function (key) {
+      var props = _this5.props;
+      delete _this5.currentlyAnimatingKeys[key];
+      // if update on exclusive mode, skip check
+      if (props.exclusive && props !== _this5.nextProps) {
+        return;
+      }
+      var currentChildren = toArrayChildren$2(getChildrenFromProps$2(props));
+      // in case state change is too fast
+      if (_this5.isValidChildByKey(currentChildren, key)) {
+        _this5.performEnter(key);
+      } else {
+        var end = function end() {
+          if (util.allowLeaveCallback(props)) {
+            props.onLeave(key);
+            props.onEnd(key, false);
+          }
+        };
+        if (!isSameChildren(_this5.state.children, currentChildren, props.showProp)) {
+          _this5.setState({
+            children: currentChildren
+          }, end);
+        } else {
+          end();
+        }
+      }
+    };
+  };
+
+  var css$6 = ".animation_move-enter__2F5u4,\n.animation_move-appear__1m7bR {\n  opacity: 0;\n  -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);\n          animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);\n  -webkit-animation-duration: 2.5s;\n          animation-duration: 2.5s;\n  -webkit-animation-fill-mode: both;\n          animation-fill-mode: both;\n  -webkit-animation-play-state: paused;\n          animation-play-state: paused;\n}\n.animation_move-leave__1k-dk {\n  -webkit-animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);\n          animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);\n  -webkit-animation-duration: .5s;\n          animation-duration: .5s;\n  -webkit-animation-fill-mode: both;\n          animation-fill-mode: both;\n  -webkit-animation-play-state: paused;\n          animation-play-state: paused;\n}\n.animation_move-enter__2F5u4.animation_move-enter-active__12dmo,\n.animation_move-appear__1m7bR.animation_move-enter-active__12dmo {\n  -webkit-animation-name: animation_moveLeftIn__1lTm4;\n          animation-name: animation_moveLeftIn__1lTm4;\n  -webkit-animation-play-state: running;\n          animation-play-state: running;\n}\n.animation_move-leave__1k-dk.animation_move-leave-active__xw8k3 {\n  -webkit-animation-name: animation_moveRightOut__1D2RJ;\n          animation-name: animation_moveRightOut__1D2RJ;\n  -webkit-animation-play-state: running;\n          animation-play-state: running;\n}\n@-webkit-keyframes animation_moveLeftIn__1lTm4 {\n  0% {\n    -webkit-transform-origin: 0 0;\n            transform-origin: 0 0;\n    -webkit-transform: translateX(30px);\n            transform: translateX(30px);\n    opacity: 0;\n    background: #fff6de;\n  }\n  20% {\n    -webkit-transform-origin: 0 0;\n            transform-origin: 0 0;\n    -webkit-transform: translateX(0);\n            transform: translateX(0);\n    opacity: 1;\n  }\n  80% {\n    background: #fff6de;\n  }\n  100% {\n    background: transparent;\n    opacity: 1;\n  }\n}\n@keyframes animation_moveLeftIn__1lTm4 {\n  0% {\n    -webkit-transform-origin: 0 0;\n            transform-origin: 0 0;\n    -webkit-transform: translateX(30px);\n            transform: translateX(30px);\n    opacity: 0;\n    background: #fff6de;\n  }\n  20% {\n    -webkit-transform-origin: 0 0;\n            transform-origin: 0 0;\n    -webkit-transform: translateX(0);\n            transform: translateX(0);\n    opacity: 1;\n  }\n  80% {\n    background: #fff6de;\n  }\n  100% {\n    background: transparent;\n    opacity: 1;\n  }\n}\n@-webkit-keyframes animation_moveRightOut__1D2RJ {\n  0% {\n    -webkit-transform-origin: 0 0;\n            transform-origin: 0 0;\n    -webkit-transform: translateX(0);\n            transform: translateX(0);\n    opacity: 1;\n  }\n  100% {\n    -webkit-transform-origin: 0 0;\n            transform-origin: 0 0;\n    -webkit-transform: translateX(-30px);\n            transform: translateX(-30px);\n    opacity: 0;\n  }\n}\n@keyframes animation_moveRightOut__1D2RJ {\n  0% {\n    -webkit-transform-origin: 0 0;\n            transform-origin: 0 0;\n    -webkit-transform: translateX(0);\n            transform: translateX(0);\n    opacity: 1;\n  }\n  100% {\n    -webkit-transform-origin: 0 0;\n            transform-origin: 0 0;\n    -webkit-transform: translateX(-30px);\n            transform: translateX(-30px);\n    opacity: 0;\n  }\n}\n";
+  styleInject(css$6);
+
+  var css$7 = ".ant-table-empty thead {\n  display: none !important;\n}\n.ant-table-empty .ant-table-placeholder {\n  border-bottom: 0;\n}\n.ant-table-footer,\n.ant-table-header {\n  border: 0;\n  background-color: #fff;\n}\n.ant-table-footer::before,\n.ant-table-header::before {\n  content: none;\n}\n.ant-table-tbody tr,\n.ant-table-thead tr {\n  -webkit-transition: none;\n  transition: none;\n}\n.ant-table-tbody tr th,\n.ant-table-thead tr th,\n.ant-table-tbody tr td,\n.ant-table-thead tr td {\n  background-color: transparent;\n  border: 0 !important;\n  padding: 8px !important;\n}\n.ant-table-tbody tr th,\n.ant-table-thead tr th {\n  padding: 16px 8px !important;\n  font-weight: 600;\n}\n.ant-table-body {\n  overflow-x: auto;\n  overflow-y: hidden;\n}\n.index_actions__341zd .ant-popover-content,\n.index_actions__341zd .ant-popover-inner,\n.index_actions__341zd .ant-popover-inner-content {\n  box-shadow: none;\n  padding: 0;\n}\n.index_actions__341zd .index_menus__3EViW {\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;\n  border: 0 !important;\n  border-radius: 6px;\n}\n";
+  var styles$6 = {"actions":"index_actions__341zd","menus":"index_menus__3EViW"};
+  styleInject(css$7);
+
+  var ATable =
+  /*#__PURE__*/
+  function (_PureComponent) {
+    _inherits(ATable, _PureComponent);
+
+    function ATable() {
+      _classCallCheck(this, ATable);
+
+      return _possibleConstructorReturn(this, _getPrototypeOf(ATable).apply(this, arguments));
+    }
+
+    _createClass(ATable, [{
+      key: "render",
+      value: function render() {
+        return React.createElement(_Table, _extends({
+          components: {
+            body: {
+              wrapper: function wrapper(props) {
+                return React.createElement(Animate, _extends({
+                  transitionName: "move",
+                  component: "tbody"
+                }, props));
+              }
+            }
+          }
+        }, this.props));
+      }
+    }]);
+
+    return ATable;
+  }(React.PureComponent);
+
+  ATable.Actions = undefined;
+
+  var Actions = (function (_ref) {
+    var actions = _ref.actions,
+        children = _ref.children,
+        props = _objectWithoutProperties(_ref, ["actions", "children"]);
+
+    return React.createElement(_Dropdown, {
+      trigger: ["click"],
+      overlayClassName: styles$6.actions,
+      placement: "bottomRight",
+      overlay: React.createElement(_Menu, {
+        className: styles$6.menus
+      }, React.cloneElement(actions, props))
+    }, children);
+  });
+
+  var ActionTable =
+  /*#__PURE__*/
+  function (_PureComponent) {
+    _inherits(ActionTable, _PureComponent);
+
+    function ActionTable() {
+      var _this;
+
+      _classCallCheck(this, ActionTable);
+
+      _this = _possibleConstructorReturn(this, _getPrototypeOf(ActionTable).apply(this, arguments));
+      _this.state = {
+        selectIndex: -1,
+        visibles: {}
+      };
+      return _this;
+    }
+
+    _createClass(ActionTable, [{
+      key: "render",
+      value: function render() {
+        var _this2 = this;
+
+        var _this$props = this.props,
+            loading = _this$props.loading,
+            dataSource = _this$props.dataSource,
+            actionText = _this$props.actionText,
+            actionType = _this$props.actionType,
+            actions = _this$props.actions,
+            columns = _this$props.columns,
+            children = _this$props.children,
+            props = _objectWithoutProperties(_this$props, ["loading", "dataSource", "actionText", "actionType", "actions", "columns", "children"]);
+
+        var _this$state = this.state,
+            selectIndex = _this$state.selectIndex,
+            visibles = _this$state.visibles;
+        return React.createElement(React.Fragment, null, React.createElement(ATable, _extends({}, props, {
+          loading: loading,
+          columns: columns.concat(actions ? [{
+            title: '操作',
+            dataIndex: '',
+            fixed: 'right',
+            width: 72,
+            className: "tc",
+            onCell: function onCell() {
+              return {
+                style: {
+                  minWidth: 72
+                }
+              };
+            },
+            render: function render(_, r, i) {
+              return actionType === "dropdown" ? React.createElement(Actions, {
+                actions: _this2.props.actions,
+                data: r,
+                onClick: function onClick(key) {
+                  var visibles = _this2.state.visibles;
+
+                  _this2.setState({
+                    visibles: Object.assign({}, visibles, _defineProperty({}, key, true)),
+                    selectIndex: i
+                  });
+                }
+              }, React.createElement("a", {
+                className: "ant-dropdown-link",
+                href: "#",
+                onClick: function onClick(e) {
+                  return e.preventDefault();
+                }
+              }, actionText, " ", React.createElement(_Icon, {
+                type: "down"
+              }))) : React.createElement("a", {
+                className: "ant-dropdown-link",
+                href: "#",
+                onClick: function onClick(e) {
+                  e.preventDefault();
+                  var visibles = _this2.state.visibles;
+
+                  _this2.setState({
+                    visibles: Object.assign({}, visibles, _defineProperty({}, 'button', true)),
+                    selectIndex: i
+                  });
+                }
+              }, actionText);
+            }
+          }] : []),
+          dataSource: dataSource
+        })), children && React.Children.map(children, function (action) {
+          return action && React.cloneElement(action, {
+            visible: visibles[action.key],
+            data: dataSource[selectIndex] || {},
+            onClose: function onClose() {
+              var visibles = _this2.state.visibles;
+
+              _this2.setState({
+                visibles: Object.assign({}, visibles, _defineProperty({}, action.key, false)),
+                selectIndex: -1
+              });
+            }
+          });
+        }));
+      }
+    }]);
+
+    return ActionTable;
+  }(React.PureComponent);
+
+  ActionTable.Actions = null;
+  ActionTable.defaultProps = {
+    loading: false,
+    actionType: 'dropdown',
+    actionText: '操作'
+  };
+  ActionTable.Actions = Actions;
+
+  exports.EllipsisTooltip = EllipsisTooltip;
   exports.Layout = default_1$1;
   exports.Loading = Loading;
   exports.Logo = Logo;
   exports.Menu = GMenu;
   exports.Page = Page;
+  exports.Table = ActionTable;
   exports.User = default_1;
 
   Object.defineProperty(exports, '__esModule', { value: true });

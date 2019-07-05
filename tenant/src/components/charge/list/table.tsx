@@ -1,9 +1,7 @@
 import * as React from 'react';
 import { PureComponent } from 'react';
 import { ColumnProps } from 'antd/lib/table';
-import Time from 'react-time-format';
-import Table from '@/components/global/table/action-table';
-import EllipsisTooltip from '@/components/global/ellipsis-tooltip';
+import { Table, EllipsisTooltip } from 'library';
 
 interface IList {
   key: number;

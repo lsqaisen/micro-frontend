@@ -2,7 +2,7 @@ declare module '*.less';
 declare module 'react-lifecycles-compat';
 declare module 'mife/bin/api';
 declare module 'inputmask';
-declare module 'lodash.debounce';
+declare module 'rc-animate';
 
 
 interface Window {

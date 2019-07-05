@@ -4,3 +4,5 @@ export { default as Logo } from './logo';
 export { default as Menu } from './menu';
 export { default as User } from './user';
 export { default as Layout } from './layout';
+export { default as EllipsisTooltip } from './ellipsis-tooltip';
+export { default as Table } from './table';

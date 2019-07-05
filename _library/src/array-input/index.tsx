@@ -1,6 +1,6 @@
 import { PureComponent, cloneElement, createElement } from 'react';
 import { Button, List, Row, Col } from 'antd';
-import FormInput, { FormInputProps, FormInputItem } from './';
+import FormInput, { FormInputProps, FormInputItem } from '../forminput/';
 import styles from './style/index.less';
 
 export interface ArrayInputProps<T> extends FormInputProps<T> {

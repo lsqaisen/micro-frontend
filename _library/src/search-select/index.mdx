@@ -1,0 +1,20 @@
+---
+name: SearchSelect
+route: /search-select
+---
+
+import { Playground } from "docz";
+import SearchSelect from "./";
+
+# SearchSelect Component
+
+<Playground>
+  <SearchSelect
+    onSearch={() => {
+      return {
+        data: [],
+        params: null
+      };
+    }}
+  />
+</Playground>

@@ -1,4 +1,4 @@
-import { PureComponent, cloneElement } from 'react';
+import { PureComponent, cloneElement, Fragment } from 'react';
 import { Icon, Button, Drawer } from 'antd';
 import AddTenantForm, { TenantFromProps } from './form/add-tenant-form';
 import { createTenantRequest } from '@/services/tenant';
@@ -22,7 +22,7 @@ class AddTenant extends PureComponent<AddTenantProps, any> {
     const { btn, submit, userSearch, createUser } = this.props;
     const { loading, visible } = this.state;
     return (
-      <div>
+      <Fragment>
         {btn ? cloneElement(btn as any, {
           onClick: () => { this.setState({ visible: true }) }
         }) : <Button type="primary" onClick={() => { this.setState({ visible: true }) }}>
@@ -36,7 +36,7 @@ class AddTenant extends PureComponent<AddTenantProps, any> {
           onClose={() => { this.setState({ visible: false }) }}
           visible={visible}
         >
-          <AddTenantForm ref="createtenant" userSearch={userSearch} createUser={createUser}/>
+          <AddTenantForm ref="createtenant" userSearch={userSearch} createUser={createUser} />
           <div className={"drawer-bottom-actions"} >
             <Button onClick={() => { this.setState({ visible: false }) }} style={{ marginRight: 8 }}> 取消 </Button>
             <Button loading={loading} onClick={() => {
@@ -56,7 +56,7 @@ class AddTenant extends PureComponent<AddTenantProps, any> {
             }} type="primary"> 提交 </Button>
           </div>
         </Drawer>
-      </div>
+      </Fragment>
     )
   }
 }

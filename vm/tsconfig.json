@@ -24,6 +24,9 @@
 			"library": [
 				"_library/dist/"
 			],
+			"@/*": [
+				"vm/src/*"
+			],
 			"@/components/*": [
 				"vm/src/components/*"
 			],

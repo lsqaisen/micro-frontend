@@ -8,28 +8,28 @@ interface optionType {
     children?: optionType[];
 }
 export interface SearchSelectProps extends SelectProps {
-    initFirst?: boolean;
-    data?: optionType[];
-    onSearch?: (param: any) => any;
+    pageStart?: number;
+    initialLoad?: boolean;
+    threshold?: number;
+    asyncSearch: (page: number, callback: (res: {
+        results: optionType[];
+        total: number;
+    }) => void) => any;
 }
-interface SearchSelectState {
-    init?: boolean;
-    error?: string;
-    loading: boolean;
-    end: boolean;
-    data: optionType[];
-    nextParams?: any;
-}
-declare class SearchSelect extends PureComponent<SearchSelectProps, SearchSelectState> {
+declare class SearchSelect extends PureComponent<SearchSelectProps, any> {
     static readonly defaultProps: {
-        initFirst: boolean;
-        data: never[];
+        pageStart: number;
+        initialLoad: boolean;
+        threshold: number;
     };
-    state: SearchSelectState;
-    constructor(props: SearchSelectProps);
+    state: {
+        total: number;
+        data: optionType[];
+        loading: boolean;
+        hasMore: boolean;
+    };
     getOptions: (options: optionType[]) => JSX.Element[] | null;
-    load: (e?: any) => Promise<void>;
-    UNSAFE_componentWillReceiveProps({ data }: SearchSelectProps): void;
+    handleInfiniteOnLoad: (page: number) => void;
     componentDidMount(): void;
     render(): JSX.Element;
 }

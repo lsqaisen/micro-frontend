@@ -1,10 +1,11 @@
 import { PureComponent } from 'react';
-import { Select, Spin } from 'antd';
+import { Select, Spin, List } from 'antd';
 import { SelectProps } from 'antd/lib/select';
-import debounce from 'lodash.debounce'
+import * as InfiniteScroll from 'react-infinite-scroller';
+import styles from './style/index.less'
+
 const Option = Select.Option;
 const OptGroup = Select.OptGroup;
-
 
 interface optionType {
 	key: string;
@@ -15,37 +16,24 @@ interface optionType {
 }
 
 export interface SearchSelectProps extends SelectProps {
-	initFirst?: boolean;
-	data?: optionType[];
-	onSearch?: (param: any) => any;
+	pageStart?: number;
+	initialLoad?: boolean;
+	threshold?: number;
+	asyncSearch: (page: number, callback: (res: { results: optionType[], total: number }) => void) => any;
 }
 
-interface SearchSelectState {
-	init?: boolean;
-	error?: string;
-	loading: boolean;
-	end: boolean;
-	data: optionType[];
-	nextParams?: any;
-}
-
-class SearchSelect extends PureComponent<SearchSelectProps, SearchSelectState> {
+class SearchSelect extends PureComponent<SearchSelectProps, any> {
 	static readonly defaultProps = {
-		initFirst: false,
-		data: []
+		pageStart: 0,
+		initialLoad: false,
+		threshold: 200,
 	}
 
-	state: SearchSelectState = {
-		init: false,
-		error: '',
+	state = {
+		total: Infinity,
+		data: [] as optionType[],
 		loading: false,
-		end: false,
-		data: [],
-	}
-
-	constructor(props: SearchSelectProps) {
-		super(props);
-		this.state.data = (props.data || []) as optionType[];
+		hasMore: true,
 	}
 
 	getOptions = (options: optionType[]) => {
@@ -67,58 +55,66 @@ class SearchSelect extends PureComponent<SearchSelectProps, SearchSelectState> {
 		return null;
 	}
 
-	load = async (e?: any) => {
-		const { onSearch } = this.props;
-		const { data: _data, nextParams } = this.state;
-		this.setState({ loading: true })
-		try {
-			let { data, params } = await onSearch!(nextParams);
+	handleInfiniteOnLoad = (page: number) => {
+		let { total, data } = this.state;
+		const { asyncSearch } = this.props;
+		this.setState({
+			loading: true,
+		});
+		if (data.length >= total!) {
 			this.setState({
-				init: true,
+				hasMore: false,
 				loading: false,
-				nextParams: params,
-				data: _data.concat(data || []),
-				end: !params
 			});
-		} catch (error) {
-			this.setState({ error, loading: false, init: true, })
+			return;
 		}
+		asyncSearch!(page, res => {
+			data = data.concat(res.results);
+			this.setState({
+				data,
+				total: res.total,
+				loading: false,
+			});
+		})
+	};
+
+	componentDidMount() {
+		this.handleInfiniteOnLoad(0)
 	}
 
-	UNSAFE_componentWillReceiveProps({ data }: SearchSelectProps) {
-		const { data: _data } = this.props;
-		if (data!.length !== _data!.length || data!.some(v => _data!.every(_v => v.key !== _v.key))) {
-			this.setState({ data: data! })
-		}
-	}
-	componentDidMount() {
-		this.props.initFirst && this.load();
-	}
 	render() {
-		const { onSearch, ...props } = this.props;
-		const { init, error, loading, end, data } = this.state;
+		const { pageStart, initialLoad, threshold, className, ...props } = this.props;
+		const { loading, hasMore, data } = this.state;
 		return (
 			<Select
 				{...props}
-				onFocus={() => !init && this.load()}
-				onBlur={() => this.setState({
-					init: false,
-					error: '',
-					loading: false,
-					end: false,
-					data: [],
-				})}
-				notFoundContent={error ? <p>
-					<span style={{ color: 'red' }}>{error}</span><br />
-					<a onClick={this.load}>重新加载</a>
-				</p> :
-					'暂无数据'}
+				className={`${styles[`search-select`]} ${className}`}
+				notFoundContent={loading ? (
+					<div className={styles[`infinite-loading`]}>
+						<Spin size="small" />
+					</div>
+				) : '暂无数据'}
+				dropdownRender={(menuNode, props) => {
+					return (
+						<div className={styles[`infinite-container`]}>
+							<InfiniteScroll
+								initialLoad={initialLoad}
+								threshold={threshold}
+								pageStart={pageStart}
+								loadMore={this.handleInfiniteOnLoad}
+								hasMore={!loading && hasMore}
+								useWindow={false}
+							>
+								{menuNode}
+								{loading && data.length > 0 && <div key="infinite-loading" className={styles[`infinite-loading`]}>
+									<Spin size="small" />
+								</div>}
+							</InfiniteScroll>
+						</div >
+					)
+				}}
 			>
 				{this.getOptions(data)}
-				{!loading && !end ? <Option disabled key="$nextsearch">
-					<a onClick={this.load}>更多...</a>
-				</Option> : []}
-				{loading ? <Option disabled key="$loading"><Spin size="small" /></Option> : []}
 			</Select>
 		)
 	}

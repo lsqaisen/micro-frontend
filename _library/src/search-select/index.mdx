@@ -3,18 +3,11 @@ name: SearchSelect
 route: /search-select
 ---
 
-import { Playground } from "docz";
-import SearchSelect from "./";
+import { Playground } from 'docz';
+import SearchSelect from './test';
 
 # SearchSelect Component
 
 <Playground>
-  <SearchSelect
-    onSearch={() => {
-      return {
-        data: [],
-        params: null
-      };
-    }}
-  />
+  <SearchSelect style={{ width: 180 }} asyncSearch={() => {}} placeholder="xxxxx" />
 </Playground>

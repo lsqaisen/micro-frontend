@@ -18,7 +18,7 @@ class UploadRepositoy extends PureComponent<UploadRepositoyProps, any> {
   }
 
   render() {
-    const { admin, namespace, username, btn, submit } = this.props;
+    const { admin, namespace, username, btn, submit, searchProjects } = this.props;
     const { loading, visible } = this.state;
     return (
       <Fragment>
@@ -36,7 +36,7 @@ class UploadRepositoy extends PureComponent<UploadRepositoyProps, any> {
           onClose={() => { this.setState({ visible: false }) }}
           visible={visible}
         >
-          <UploadRepositoyForm ref="createtenant" {...{ admin, namespace, username }} />
+          <UploadRepositoyForm ref="createtenant" {...{ admin, namespace, username, searchProjects }} />
           <div className={"drawer-bottom-actions"} >
             <Button onClick={() => { this.setState({ visible: false }) }} style={{ marginRight: 8 }}> 取消 </Button>
             <Button loading={loading} onClick={() => {

@@ -21,15 +21,18 @@
   },
   "devDependencies": {
     "@types/react-dom": "^16.8.4",
+    "@types/react-infinite-scroller": "^1.2.1",
     "babel-plugin-import": "^1.12.0",
     "father": "^2.13.4",
     "react-media": "^1.9.2",
+    "reqwest": "^2.0.5",
     "umi-test": "^1.6.1"
   },
   "dependencies": {
     "@types/react-router": "^5.0.3",
     "rc-animate": "^2.8.3",
     "rc-queue-anim": "^1.6.12",
+    "react-infinite-scroller": "^1.2.4",
     "react-perfect-scrollbar": "^1.5.3"
   }
 }

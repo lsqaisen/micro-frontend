@@ -5,7 +5,7 @@ import SetProjectOwenr from '@/components/project/set-project-owner';
 export default connect(
   createSelector(
     [
-      ({ [`${MODEL}_project`]: tenant }: any) => (tenant.users || {}).list || [],
+      ({ [`${MODEL}_project`]: project }: any) => (project.users || {}).list || [],
     ],
     (users) => ({ users })
   ), createSelector(

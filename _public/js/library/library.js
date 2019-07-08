@@ -28,42 +28,6 @@
   _Col = _Col && _Col.hasOwnProperty('default') ? _Col['default'] : _Col;
   _Button = _Button && _Button.hasOwnProperty('default') ? _Button['default'] : _Button;
 
-  function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-    try {
-      var info = gen[key](arg);
-      var value = info.value;
-    } catch (error) {
-      reject(error);
-      return;
-    }
-
-    if (info.done) {
-      resolve(value);
-    } else {
-      Promise.resolve(value).then(_next, _throw);
-    }
-  }
-
-  function _asyncToGenerator(fn) {
-    return function () {
-      var self = this,
-          args = arguments;
-      return new Promise(function (resolve, reject) {
-        var gen = fn.apply(self, args);
-
-        function _next(value) {
-          asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-        }
-
-        function _throw(err) {
-          asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-        }
-
-        _next(undefined);
-      });
-    };
-  }
-
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
       throw new TypeError("Cannot call a class as a function");
@@ -9719,6 +9683,315 @@
   };
   ActionTable.Actions = Actions;
 
+  var InfiniteScroll_1 = createCommonjsModule(function (module, exports) {
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+
+
+  var _react2 = _interopRequireDefault(React__default);
+
+
+
+  var _propTypes2 = _interopRequireDefault(propTypes);
+
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+  function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+  function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+  function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+  var InfiniteScroll = function (_Component) {
+    _inherits(InfiniteScroll, _Component);
+
+    function InfiniteScroll(props) {
+      _classCallCheck(this, InfiniteScroll);
+
+      var _this = _possibleConstructorReturn(this, (InfiniteScroll.__proto__ || Object.getPrototypeOf(InfiniteScroll)).call(this, props));
+
+      _this.scrollListener = _this.scrollListener.bind(_this);
+      _this.eventListenerOptions = _this.eventListenerOptions.bind(_this);
+      _this.mousewheelListener = _this.mousewheelListener.bind(_this);
+      return _this;
+    }
+
+    _createClass(InfiniteScroll, [{
+      key: 'componentDidMount',
+      value: function componentDidMount() {
+        this.pageLoaded = this.props.pageStart;
+        this.options = this.eventListenerOptions();
+        this.attachScrollListener();
+      }
+    }, {
+      key: 'componentDidUpdate',
+      value: function componentDidUpdate() {
+        if (this.props.isReverse && this.loadMore) {
+          var parentElement = this.getParentElement(this.scrollComponent);
+          parentElement.scrollTop = parentElement.scrollHeight - this.beforeScrollHeight + this.beforeScrollTop;
+          this.loadMore = false;
+        }
+        this.attachScrollListener();
+      }
+    }, {
+      key: 'componentWillUnmount',
+      value: function componentWillUnmount() {
+        this.detachScrollListener();
+        this.detachMousewheelListener();
+      }
+    }, {
+      key: 'isPassiveSupported',
+      value: function isPassiveSupported() {
+        var passive = false;
+
+        var testOptions = {
+          get passive() {
+            passive = true;
+          }
+        };
+
+        try {
+          document.addEventListener('test', null, testOptions);
+          document.removeEventListener('test', null, testOptions);
+        } catch (e) {
+          // ignore
+        }
+        return passive;
+      }
+    }, {
+      key: 'eventListenerOptions',
+      value: function eventListenerOptions() {
+        var options = this.props.useCapture;
+
+        if (this.isPassiveSupported()) {
+          options = {
+            useCapture: this.props.useCapture,
+            passive: true
+          };
+        }
+        return options;
+      }
+
+      // Set a defaut loader for all your `InfiniteScroll` components
+
+    }, {
+      key: 'setDefaultLoader',
+      value: function setDefaultLoader(loader) {
+        this.defaultLoader = loader;
+      }
+    }, {
+      key: 'detachMousewheelListener',
+      value: function detachMousewheelListener() {
+        var scrollEl = window;
+        if (this.props.useWindow === false) {
+          scrollEl = this.scrollComponent.parentNode;
+        }
+
+        scrollEl.removeEventListener('mousewheel', this.mousewheelListener, this.options ? this.options : this.props.useCapture);
+      }
+    }, {
+      key: 'detachScrollListener',
+      value: function detachScrollListener() {
+        var scrollEl = window;
+        if (this.props.useWindow === false) {
+          scrollEl = this.getParentElement(this.scrollComponent);
+        }
+
+        scrollEl.removeEventListener('scroll', this.scrollListener, this.options ? this.options : this.props.useCapture);
+        scrollEl.removeEventListener('resize', this.scrollListener, this.options ? this.options : this.props.useCapture);
+      }
+    }, {
+      key: 'getParentElement',
+      value: function getParentElement(el) {
+        var scrollParent = this.props.getScrollParent && this.props.getScrollParent();
+        if (scrollParent != null) {
+          return scrollParent;
+        }
+        return el && el.parentNode;
+      }
+    }, {
+      key: 'filterProps',
+      value: function filterProps(props) {
+        return props;
+      }
+    }, {
+      key: 'attachScrollListener',
+      value: function attachScrollListener() {
+        var parentElement = this.getParentElement(this.scrollComponent);
+
+        if (!this.props.hasMore || !parentElement) {
+          return;
+        }
+
+        var scrollEl = window;
+        if (this.props.useWindow === false) {
+          scrollEl = parentElement;
+        }
+
+        scrollEl.addEventListener('mousewheel', this.mousewheelListener, this.options ? this.options : this.props.useCapture);
+        scrollEl.addEventListener('scroll', this.scrollListener, this.options ? this.options : this.props.useCapture);
+        scrollEl.addEventListener('resize', this.scrollListener, this.options ? this.options : this.props.useCapture);
+
+        if (this.props.initialLoad) {
+          this.scrollListener();
+        }
+      }
+    }, {
+      key: 'mousewheelListener',
+      value: function mousewheelListener(e) {
+        // Prevents Chrome hangups
+        // See: https://stackoverflow.com/questions/47524205/random-high-content-download-time-in-chrome/47684257#47684257
+        if (e.deltaY === 1 && !this.isPassiveSupported()) {
+          e.preventDefault();
+        }
+      }
+    }, {
+      key: 'scrollListener',
+      value: function scrollListener() {
+        var el = this.scrollComponent;
+        var scrollEl = window;
+        var parentNode = this.getParentElement(el);
+
+        var offset = void 0;
+        if (this.props.useWindow) {
+          var doc = document.documentElement || document.body.parentNode || document.body;
+          var scrollTop = scrollEl.pageYOffset !== undefined ? scrollEl.pageYOffset : doc.scrollTop;
+          if (this.props.isReverse) {
+            offset = scrollTop;
+          } else {
+            offset = this.calculateOffset(el, scrollTop);
+          }
+        } else if (this.props.isReverse) {
+          offset = parentNode.scrollTop;
+        } else {
+          offset = el.scrollHeight - parentNode.scrollTop - parentNode.clientHeight;
+        }
+
+        // Here we make sure the element is visible as well as checking the offset
+        if (offset < Number(this.props.threshold) && el && el.offsetParent !== null) {
+          this.detachScrollListener();
+          this.beforeScrollHeight = parentNode.scrollHeight;
+          this.beforeScrollTop = parentNode.scrollTop;
+          // Call loadMore after detachScrollListener to allow for non-async loadMore functions
+          if (typeof this.props.loadMore === 'function') {
+            this.props.loadMore(this.pageLoaded += 1);
+            this.loadMore = true;
+          }
+        }
+      }
+    }, {
+      key: 'calculateOffset',
+      value: function calculateOffset(el, scrollTop) {
+        if (!el) {
+          return 0;
+        }
+
+        return this.calculateTopPosition(el) + (el.offsetHeight - scrollTop - window.innerHeight);
+      }
+    }, {
+      key: 'calculateTopPosition',
+      value: function calculateTopPosition(el) {
+        if (!el) {
+          return 0;
+        }
+        return el.offsetTop + this.calculateTopPosition(el.offsetParent);
+      }
+    }, {
+      key: 'render',
+      value: function render() {
+        var _this2 = this;
+
+        var renderProps = this.filterProps(this.props);
+
+        var children = renderProps.children,
+            element = renderProps.element,
+            hasMore = renderProps.hasMore,
+            initialLoad = renderProps.initialLoad,
+            isReverse = renderProps.isReverse,
+            loader = renderProps.loader,
+            loadMore = renderProps.loadMore,
+            pageStart = renderProps.pageStart,
+            ref = renderProps.ref,
+            threshold = renderProps.threshold,
+            useCapture = renderProps.useCapture,
+            useWindow = renderProps.useWindow,
+            getScrollParent = renderProps.getScrollParent,
+            props = _objectWithoutProperties(renderProps, ['children', 'element', 'hasMore', 'initialLoad', 'isReverse', 'loader', 'loadMore', 'pageStart', 'ref', 'threshold', 'useCapture', 'useWindow', 'getScrollParent']);
+
+        props.ref = function (node) {
+          _this2.scrollComponent = node;
+          if (ref) {
+            ref(node);
+          }
+        };
+
+        var childrenArray = [children];
+        if (hasMore) {
+          if (loader) {
+            isReverse ? childrenArray.unshift(loader) : childrenArray.push(loader);
+          } else if (this.defaultLoader) {
+            isReverse ? childrenArray.unshift(this.defaultLoader) : childrenArray.push(this.defaultLoader);
+          }
+        }
+        return _react2.default.createElement(element, props, childrenArray);
+      }
+    }]);
+
+    return InfiniteScroll;
+  }(React__default.Component);
+
+  InfiniteScroll.propTypes = {
+    children: _propTypes2.default.node.isRequired,
+    element: _propTypes2.default.node,
+    hasMore: _propTypes2.default.bool,
+    initialLoad: _propTypes2.default.bool,
+    isReverse: _propTypes2.default.bool,
+    loader: _propTypes2.default.node,
+    loadMore: _propTypes2.default.func.isRequired,
+    pageStart: _propTypes2.default.number,
+    ref: _propTypes2.default.func,
+    getScrollParent: _propTypes2.default.func,
+    threshold: _propTypes2.default.number,
+    useCapture: _propTypes2.default.bool,
+    useWindow: _propTypes2.default.bool
+  };
+  InfiniteScroll.defaultProps = {
+    element: 'div',
+    hasMore: false,
+    initialLoad: true,
+    pageStart: 0,
+    ref: null,
+    threshold: 250,
+    useWindow: true,
+    isReverse: false,
+    useCapture: false,
+    loader: null,
+    getScrollParent: null
+  };
+  exports.default = InfiniteScroll;
+  module.exports = exports['default'];
+  });
+
+  unwrapExports(InfiniteScroll_1);
+
+  var reactInfiniteScroller = InfiniteScroll_1;
+
+  var InfiniteScroll = /*#__PURE__*/Object.freeze({
+    'default': reactInfiniteScroller,
+    __moduleExports: reactInfiniteScroller
+  });
+
+  var css$8 = ".index_infinite-container__3fblx {\n  max-height: 250px;\n  overflow: auto;\n}\n.index_infinite-container__3fblx .index_infinite-loading__2e64t {\n  text-align: center;\n}\n.index_infinite-container__3fblx .ant-select-dropdown-menu {\n  max-height: none;\n  height: auto;\n}\n";
+  var styles$7 = {"infinite-container":"index_infinite-container__3fblx","infinite-loading":"index_infinite-loading__2e64t"};
+  styleInject(css$8);
+
   var Option = _Select.Option;
   var OptGroup = _Select.OptGroup;
 
@@ -9727,18 +10000,17 @@
   function (_PureComponent) {
     _inherits(SearchSelect, _PureComponent);
 
-    function SearchSelect(props) {
+    function SearchSelect() {
       var _this;
 
       _classCallCheck(this, SearchSelect);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(SearchSelect).call(this, props));
+      _this = _possibleConstructorReturn(this, _getPrototypeOf(SearchSelect).apply(this, arguments));
       _this.state = {
-        init: false,
-        error: '',
+        total: Infinity,
+        data: [],
         loading: false,
-        end: false,
-        data: []
+        hasMore: true
       };
 
       _this.getOptions = function (options) {
@@ -9762,92 +10034,43 @@
         return null;
       };
 
-      _this.load =
-      /*#__PURE__*/
-      function () {
-        var _ref = _asyncToGenerator(
-        /*#__PURE__*/
-        regeneratorRuntime.mark(function _callee(e) {
-          var onSearch, _this$state, _data, nextParams, _ref2, data, params;
+      _this.handleInfiniteOnLoad = function (page) {
+        var _this$state = _this.state,
+            total = _this$state.total,
+            data = _this$state.data;
+        var asyncSearch = _this.props.asyncSearch;
 
-          return regeneratorRuntime.wrap(function _callee$(_context) {
-            while (1) {
-              switch (_context.prev = _context.next) {
-                case 0:
-                  onSearch = _this.props.onSearch;
-                  _this$state = _this.state, _data = _this$state.data, nextParams = _this$state.nextParams;
+        _this.setState({
+          loading: true
+        });
 
-                  _this.setState({
-                    loading: true
-                  });
+        if (data.length >= total) {
+          _this.setState({
+            hasMore: false,
+            loading: false
+          });
 
-                  _context.prev = 3;
-                  _context.next = 6;
-                  return onSearch(nextParams);
+          return;
+        }
 
-                case 6:
-                  _ref2 = _context.sent;
-                  data = _ref2.data;
-                  params = _ref2.params;
+        asyncSearch(page, function (res) {
+          data = data.concat(res.results);
 
-                  _this.setState({
-                    init: true,
-                    loading: false,
-                    nextParams: params,
-                    data: _data.concat(data || []),
-                    end: !params
-                  });
+          _this.setState({
+            data: data,
+            total: res.total,
+            loading: false
+          });
+        });
+      };
 
-                  _context.next = 15;
-                  break;
-
-                case 12:
-                  _context.prev = 12;
-                  _context.t0 = _context["catch"](3);
-
-                  _this.setState({
-                    error: _context.t0,
-                    loading: false,
-                    init: true
-                  });
-
-                case 15:
-                case "end":
-                  return _context.stop();
-              }
-            }
-          }, _callee, null, [[3, 12]]);
-        }));
-
-        return function (_x) {
-          return _ref.apply(this, arguments);
-        };
-      }();
-
-      _this.state.data = props.data || [];
       return _this;
     }
 
     _createClass(SearchSelect, [{
-      key: "UNSAFE_componentWillReceiveProps",
-      value: function UNSAFE_componentWillReceiveProps(_ref3) {
-        var data = _ref3.data;
-        var _data = this.props.data;
-
-        if (data.length !== _data.length || data.some(function (v) {
-          return _data.every(function (_v) {
-            return v.key !== _v.key;
-          });
-        })) {
-          this.setState({
-            data: data
-          });
-        }
-      }
-    }, {
       key: "componentDidMount",
       value: function componentDidMount() {
-        this.props.initFirst && this.load();
+        this.handleInfiniteOnLoad(0);
       }
     }, {
       key: "render",
@@ -9855,46 +10078,41 @@
         var _this2 = this;
 
         var _this$props = this.props,
-            onSearch = _this$props.onSearch,
-            props = _objectWithoutProperties(_this$props, ["onSearch"]);
+            pageStart = _this$props.pageStart,
+            initialLoad = _this$props.initialLoad,
+            threshold = _this$props.threshold,
+            className = _this$props.className,
+            props = _objectWithoutProperties(_this$props, ["pageStart", "initialLoad", "threshold", "className"]);
 
         var _this$state2 = this.state,
-            init = _this$state2.init,
-            error = _this$state2.error,
             loading = _this$state2.loading,
-            end = _this$state2.end,
+            hasMore = _this$state2.hasMore,
             data = _this$state2.data;
         return React__default.createElement(_Select, _extends({}, props, {
-          onFocus: function onFocus() {
-            return !init && _this2.load();
-          },
-          onBlur: function onBlur() {
-            return _this2.setState({
-              init: false,
-              error: '',
-              loading: false,
-              end: false,
-              data: []
-            });
-          },
-          notFoundContent: error ? React__default.createElement("p", null, React__default.createElement("span", {
-            style: {
-              color: 'red'
-            }
-          }, error), React__default.createElement("br", null), React__default.createElement("a", {
-            onClick: this.load
-          }, "\u91CD\u65B0\u52A0\u8F7D")) : '暂无数据'
-        }), this.getOptions(data), !loading && !end ? React__default.createElement(Option, {
-          disabled: true,
-          key: "$nextsearch"
-        }, React__default.createElement("a", {
-          onClick: this.load
-        }, "\u66F4\u591A...")) : [], loading ? React__default.createElement(Option, {
-          disabled: true,
-          key: "$loading"
-        }, React__default.createElement(_Spin, {
-          size: "small"
-        })) : []);
+          className: "".concat(styles$7["search-select"], " ").concat(className),
+          notFoundContent: loading ? React__default.createElement("div", {
+            className: styles$7["infinite-loading"]
+          }, React__default.createElement(_Spin, {
+            size: "small"
+          })) : '暂无数据',
+          dropdownRender: function dropdownRender(menuNode, props) {
+            return React__default.createElement("div", {
+              className: styles$7["infinite-container"]
+            }, React__default.createElement(InfiniteScroll, {
+              initialLoad: initialLoad,
+              threshold: threshold,
+              pageStart: pageStart,
+              loadMore: _this2.handleInfiniteOnLoad,
+              hasMore: !loading && hasMore,
+              useWindow: false
+            }, menuNode, loading && data.length > 0 && React__default.createElement("div", {
+              key: "infinite-loading",
+              className: styles$7["infinite-loading"]
+            }, React__default.createElement(_Spin, {
+              size: "small"
+            }))));
+          }
+        }), this.getOptions(data));
       }
     }]);
 
@@ -9902,8 +10120,9 @@
   }(React.PureComponent);
 
   SearchSelect.defaultProps = {
-    initFirst: false,
-    data: []
+    pageStart: 0,
+    initialLoad: false,
+    threshold: 200
   };
 
   function generateUUID() {
@@ -10018,9 +10237,9 @@
       return c > 3 && r && Object.defineProperty(target, key, r), r;
   }
 
-  var css$8 = ".index_array-input__13ZQl .ant-list-header {\n  border: 0;\n  background-color: #F7F7F7;\n  padding: 8px 50px 8px 8px;\n}\n.index_array-input__13ZQl .ant-list-item {\n  padding: 0;\n  border: 0;\n}\n.index_array-input__13ZQl .ant-list-item:first-child {\n  padding-top: 8px;\n}\n.index_array-input__13ZQl .ant-list-item-action {\n  margin-left: 8px;\n}\n";
-  var styles$7 = {"array-input":"index_array-input__13ZQl"};
-  styleInject(css$8);
+  var css$9 = ".index_array-input__13ZQl .ant-list-header {\n  border: 0;\n  background-color: #F7F7F7;\n  padding: 8px 50px 8px 8px;\n}\n.index_array-input__13ZQl .ant-list-item {\n  padding: 0;\n  border: 0;\n}\n.index_array-input__13ZQl .ant-list-item:first-child {\n  padding-top: 8px;\n}\n.index_array-input__13ZQl .ant-list-item-action {\n  margin-left: 8px;\n}\n";
+  var styles$8 = {"array-input":"index_array-input__13ZQl"};
+  styleInject(css$9);
 
   var uuid = 0;
 
@@ -10162,7 +10381,7 @@
         var keys = getFieldValue('keys');
         return React__default.createElement(_List, {
           bordered: false,
-          className: styles$7["array-input"],
+          className: styles$8["array-input"],
           header: header,
           footer: btn ? React.cloneElement(btn, {
             onClick: this.add

@@ -40,7 +40,7 @@ export default {
         'react.js',
         'react-dom.js',
         'dva.js',
-        'moment.min.js',
+        'moment/moment.min.js',
         'antd/antd.min.js',
         'library/library.min.js',
       ],

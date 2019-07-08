@@ -10,8 +10,8 @@ export interface FileInputProps extends FormProps {
   admin: boolean;
   namespace: string;
   value?: any;
-  formItemLayout: any;
-  searchProjects: () => any;
+  formItemLayout?: any;
+  searchProjects: (params: any) => any;
 }
 
 @(Form.create() as any)
@@ -68,7 +68,25 @@ export default class extends PureComponent<FileInputProps, any> {
             <FormItem key="xxxx" {...formItemLayout} label="仓库名称">
               <SearchSelect
                 placeholder="请选择仓库"
-                onSearch={() => { }}
+                asyncSearch={async (page, callback) => {
+                  let { list, total }: any = await searchProjects!({ page: page + 1 });
+                  const res = {
+                    total,
+                    results: list.map((v: any) => ({
+                      key: v.name,
+                      label: (
+                        <Typography>
+                          <Typography.Text>{`${v.name}${v.description ? `(${v.description})` : ''}`}</Typography.Text>
+                        </Typography>
+                      )
+                    })),
+                  }
+                  console.log(res)
+                  // callback({
+                  //   total,
+                  //   results: [],
+                  // });
+                }}
                 onChange={(v) => {
                   this.setState({
                     target: v,

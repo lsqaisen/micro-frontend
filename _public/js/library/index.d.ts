@@ -7,5 +7,5 @@ export { default as Layout } from './layout';
 export { default as EllipsisTooltip } from './ellipsis-tooltip';
 export { default as Table } from './table';
 export { default as SearchSelect } from './search-select';
-export { default as forminput, FormInputProps, FormInputItemProps } from './forminput';
+export { default as forminput } from './forminput';
 export { default as ArrayInput } from './array-input';

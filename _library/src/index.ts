@@ -9,3 +9,4 @@ export { default as Table } from './table';
 export { default as SearchSelect } from './search-select';
 export { default as forminput } from './forminput';
 export { default as ArrayInput } from './array-input';
+export { default as InfiniteScroller } from './infinite-scroller';

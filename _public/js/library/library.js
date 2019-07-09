@@ -9683,228 +9683,210 @@
   };
   ActionTable.Actions = Actions;
 
-  var InfiniteScroll_1 = createCommonjsModule(function (module, exports) {
+  var default_1$2 =
+  /*#__PURE__*/
+  function (_React$PureComponent) {
+    _inherits(default_1, _React$PureComponent);
 
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
+    function default_1(props) {
+      var _this;
 
-  var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+      _classCallCheck(this, default_1);
+
+      _this = _possibleConstructorReturn(this, _getPrototypeOf(default_1).call(this, props));
+      _this.pageLoaded = undefined;
+      _this.options = undefined;
+      _this.loadMore = undefined;
+      _this.scrollComponent = undefined;
+      _this.beforeScrollHeight = undefined;
+      _this.beforeScrollTop = undefined;
+      _this.defaultLoader = undefined;
+
+      _this.isPassiveSupported = function () {
+        var passive = false;
+        var testOptions = {
+          get passive() {
+            passive = true;
+            return passive;
+          }
+
+        };
+
+        try {
+          document.addEventListener('test', null, testOptions);
+          document.removeEventListener('test', null, testOptions);
+        } catch (e) {// ignore
+        }
+
+        return passive;
+      };
+
+      _this.eventListenerOptions = function () {
+        var options = _this.props.useCapture;
+
+        if (_this.isPassiveSupported()) {
+          options = {
+            useCapture: _this.props.useCapture,
+            passive: true
+          };
+        }
+
+        return options;
+      };
+
+      _this.setDefaultLoader = function (loader) {
+        _this.defaultLoader = loader;
+      };
+
+      _this.detachMousewheelListener = function () {
+        var scrollEl = window;
+
+        if (_this.props.useWindow === false) {
+          scrollEl = _this.scrollComponent.parentNode;
+        }
+
+        scrollEl.removeEventListener('mousewheel', _this.mousewheelListener, _this.options ? _this.options : _this.props.useCapture);
+      };
+
+      _this.detachScrollListener = function () {
+        var scrollEl = window;
+
+        if (_this.props.useWindow === false) {
+          scrollEl = _this.getParentElement(_this.scrollComponent);
+        }
+
+        scrollEl.removeEventListener('scroll', _this.scrollListener, _this.options ? _this.options : _this.props.useCapture);
+        scrollEl.removeEventListener('resize', _this.scrollListener, _this.options ? _this.options : _this.props.useCapture);
+      };
+
+      _this.getParentElement = function (el) {
+        var scrollParent = _this.props.getScrollParent && _this.props.getScrollParent();
+
+        if (scrollParent != null) {
+          return scrollParent;
+        }
+
+        return el && el.parentNode;
+      };
+
+      _this.filterProps = function (props) {
+        return props;
+      };
+
+      _this.attachScrollListener = function () {
+        var parentElement = _this.getParentElement(_this.scrollComponent);
+
+        if (!_this.props.hasMore || !parentElement) {
+          return;
+        }
+
+        var scrollEl = window;
+
+        if (_this.props.useWindow === false) {
+          scrollEl = parentElement;
+        }
+
+        scrollEl.addEventListener('mousewheel', _this.mousewheelListener, _this.options ? _this.options : _this.props.useCapture);
+        scrollEl.addEventListener('scroll', _this.scrollListener, _this.options ? _this.options : _this.props.useCapture);
+        scrollEl.addEventListener('resize', _this.scrollListener, _this.options ? _this.options : _this.props.useCapture);
+
+        if (_this.props.initialLoad) {
+          _this.scrollListener();
+        }
+      };
+
+      _this.mousewheelListener = function (e) {
+        if (e.deltaY === 1 && !_this.isPassiveSupported()) {
+          e.preventDefault();
+        }
+      };
+
+      _this.scrollListener = function () {
+        var el = _this.scrollComponent;
+        var scrollEl = window;
+
+        var parentNode = _this.getParentElement(el);
+
+        var offset;
+
+        if (_this.props.useWindow) {
+          var doc = document.documentElement || document.body.parentNode || document.body;
+          var scrollTop = scrollEl.pageYOffset !== undefined ? scrollEl.pageYOffset : doc.scrollTop;
+
+          if (_this.props.isReverse) {
+            offset = scrollTop;
+          } else {
+            offset = _this.calculateOffset(el, scrollTop);
+          }
+        } else if (_this.props.isReverse) {
+          offset = parentNode.scrollTop;
+        } else {
+          offset = el.scrollHeight - parentNode.scrollTop - parentNode.clientHeight;
+        } // Here we make sure the element is visible as well as checking the offset
 
 
+        if (offset < Number(_this.props.threshold) && el && el.offsetParent !== null) {
+          _this.detachScrollListener();
 
-  var _react2 = _interopRequireDefault(React__default);
+          _this.beforeScrollHeight = parentNode.scrollHeight;
+          _this.beforeScrollTop = parentNode.scrollTop; // Call loadMore after detachScrollListener to allow for non-async loadMore functions
 
+          if (typeof _this.props.loadMore === 'function') {
+            _this.props.loadMore(_this.pageLoaded += 1);
 
+            _this.loadMore = true;
+          }
+        }
+      };
 
-  var _propTypes2 = _interopRequireDefault(propTypes);
+      _this.calculateOffset = function (el, scrollTop) {
+        if (!el) {
+          return 0;
+        }
 
-  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+        return _this.calculateTopPosition(el) + (el.offsetHeight - scrollTop - window.innerHeight);
+      };
 
-  function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+      _this.calculateTopPosition = function (el) {
+        if (!el) {
+          return 0;
+        }
 
-  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+        return el.offsetTop + _this.calculateTopPosition(el.offsetParent);
+      };
 
-  function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-  function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-  var InfiniteScroll = function (_Component) {
-    _inherits(InfiniteScroll, _Component);
-
-    function InfiniteScroll(props) {
-      _classCallCheck(this, InfiniteScroll);
-
-      var _this = _possibleConstructorReturn(this, (InfiniteScroll.__proto__ || Object.getPrototypeOf(InfiniteScroll)).call(this, props));
-
-      _this.scrollListener = _this.scrollListener.bind(_this);
-      _this.eventListenerOptions = _this.eventListenerOptions.bind(_this);
-      _this.mousewheelListener = _this.mousewheelListener.bind(_this);
+      _this.scrollListener = _this.scrollListener.bind(_assertThisInitialized(_this));
+      _this.eventListenerOptions = _this.eventListenerOptions.bind(_assertThisInitialized(_this));
+      _this.mousewheelListener = _this.mousewheelListener.bind(_assertThisInitialized(_this));
       return _this;
     }
 
-    _createClass(InfiniteScroll, [{
-      key: 'componentDidMount',
+    _createClass(default_1, [{
+      key: "componentDidMount",
       value: function componentDidMount() {
         this.pageLoaded = this.props.pageStart;
         this.options = this.eventListenerOptions();
         this.attachScrollListener();
       }
     }, {
-      key: 'componentDidUpdate',
+      key: "componentDidUpdate",
       value: function componentDidUpdate() {
         if (this.props.isReverse && this.loadMore) {
           var parentElement = this.getParentElement(this.scrollComponent);
           parentElement.scrollTop = parentElement.scrollHeight - this.beforeScrollHeight + this.beforeScrollTop;
           this.loadMore = false;
         }
+
         this.attachScrollListener();
       }
     }, {
-      key: 'componentWillUnmount',
+      key: "componentWillUnmount",
       value: function componentWillUnmount() {
         this.detachScrollListener();
         this.detachMousewheelListener();
       }
     }, {
-      key: 'isPassiveSupported',
-      value: function isPassiveSupported() {
-        var passive = false;
-
-        var testOptions = {
-          get passive() {
-            passive = true;
-          }
-        };
-
-        try {
-          document.addEventListener('test', null, testOptions);
-          document.removeEventListener('test', null, testOptions);
-        } catch (e) {
-          // ignore
-        }
-        return passive;
-      }
-    }, {
-      key: 'eventListenerOptions',
-      value: function eventListenerOptions() {
-        var options = this.props.useCapture;
-
-        if (this.isPassiveSupported()) {
-          options = {
-            useCapture: this.props.useCapture,
-            passive: true
-          };
-        }
-        return options;
-      }
-
-      // Set a defaut loader for all your `InfiniteScroll` components
-
-    }, {
-      key: 'setDefaultLoader',
-      value: function setDefaultLoader(loader) {
-        this.defaultLoader = loader;
-      }
-    }, {
-      key: 'detachMousewheelListener',
-      value: function detachMousewheelListener() {
-        var scrollEl = window;
-        if (this.props.useWindow === false) {
-          scrollEl = this.scrollComponent.parentNode;
-        }
-
-        scrollEl.removeEventListener('mousewheel', this.mousewheelListener, this.options ? this.options : this.props.useCapture);
-      }
-    }, {
-      key: 'detachScrollListener',
-      value: function detachScrollListener() {
-        var scrollEl = window;
-        if (this.props.useWindow === false) {
-          scrollEl = this.getParentElement(this.scrollComponent);
-        }
-
-        scrollEl.removeEventListener('scroll', this.scrollListener, this.options ? this.options : this.props.useCapture);
-        scrollEl.removeEventListener('resize', this.scrollListener, this.options ? this.options : this.props.useCapture);
-      }
-    }, {
-      key: 'getParentElement',
-      value: function getParentElement(el) {
-        var scrollParent = this.props.getScrollParent && this.props.getScrollParent();
-        if (scrollParent != null) {
-          return scrollParent;
-        }
-        return el && el.parentNode;
-      }
-    }, {
-      key: 'filterProps',
-      value: function filterProps(props) {
-        return props;
-      }
-    }, {
-      key: 'attachScrollListener',
-      value: function attachScrollListener() {
-        var parentElement = this.getParentElement(this.scrollComponent);
-
-        if (!this.props.hasMore || !parentElement) {
-          return;
-        }
-
-        var scrollEl = window;
-        if (this.props.useWindow === false) {
-          scrollEl = parentElement;
-        }
-
-        scrollEl.addEventListener('mousewheel', this.mousewheelListener, this.options ? this.options : this.props.useCapture);
-        scrollEl.addEventListener('scroll', this.scrollListener, this.options ? this.options : this.props.useCapture);
-        scrollEl.addEventListener('resize', this.scrollListener, this.options ? this.options : this.props.useCapture);
-
-        if (this.props.initialLoad) {
-          this.scrollListener();
-        }
-      }
-    }, {
-      key: 'mousewheelListener',
-      value: function mousewheelListener(e) {
-        // Prevents Chrome hangups
-        // See: https://stackoverflow.com/questions/47524205/random-high-content-download-time-in-chrome/47684257#47684257
-        if (e.deltaY === 1 && !this.isPassiveSupported()) {
-          e.preventDefault();
-        }
-      }
-    }, {
-      key: 'scrollListener',
-      value: function scrollListener() {
-        var el = this.scrollComponent;
-        var scrollEl = window;
-        var parentNode = this.getParentElement(el);
-
-        var offset = void 0;
-        if (this.props.useWindow) {
-          var doc = document.documentElement || document.body.parentNode || document.body;
-          var scrollTop = scrollEl.pageYOffset !== undefined ? scrollEl.pageYOffset : doc.scrollTop;
-          if (this.props.isReverse) {
-            offset = scrollTop;
-          } else {
-            offset = this.calculateOffset(el, scrollTop);
-          }
-        } else if (this.props.isReverse) {
-          offset = parentNode.scrollTop;
-        } else {
-          offset = el.scrollHeight - parentNode.scrollTop - parentNode.clientHeight;
-        }
-
-        // Here we make sure the element is visible as well as checking the offset
-        if (offset < Number(this.props.threshold) && el && el.offsetParent !== null) {
-          this.detachScrollListener();
-          this.beforeScrollHeight = parentNode.scrollHeight;
-          this.beforeScrollTop = parentNode.scrollTop;
-          // Call loadMore after detachScrollListener to allow for non-async loadMore functions
-          if (typeof this.props.loadMore === 'function') {
-            this.props.loadMore(this.pageLoaded += 1);
-            this.loadMore = true;
-          }
-        }
-      }
-    }, {
-      key: 'calculateOffset',
-      value: function calculateOffset(el, scrollTop) {
-        if (!el) {
-          return 0;
-        }
-
-        return this.calculateTopPosition(el) + (el.offsetHeight - scrollTop - window.innerHeight);
-      }
-    }, {
-      key: 'calculateTopPosition',
-      value: function calculateTopPosition(el) {
-        if (!el) {
-          return 0;
-        }
-        return el.offsetTop + this.calculateTopPosition(el.offsetParent);
-      }
-    }, {
-      key: 'render',
+      key: "render",
       value: function render() {
         var _this2 = this;
 
@@ -9923,16 +9905,18 @@
             useCapture = renderProps.useCapture,
             useWindow = renderProps.useWindow,
             getScrollParent = renderProps.getScrollParent,
-            props = _objectWithoutProperties(renderProps, ['children', 'element', 'hasMore', 'initialLoad', 'isReverse', 'loader', 'loadMore', 'pageStart', 'ref', 'threshold', 'useCapture', 'useWindow', 'getScrollParent']);
+            props = _objectWithoutProperties(renderProps, ["children", "element", "hasMore", "initialLoad", "isReverse", "loader", "loadMore", "pageStart", "ref", "threshold", "useCapture", "useWindow", "getScrollParent"]);
 
         props.ref = function (node) {
           _this2.scrollComponent = node;
+
           if (ref) {
             ref(node);
           }
         };
 
         var childrenArray = [children];
+
         if (hasMore) {
           if (loader) {
             isReverse ? childrenArray.unshift(loader) : childrenArray.push(loader);
@@ -9940,29 +9924,14 @@
             isReverse ? childrenArray.unshift(this.defaultLoader) : childrenArray.push(this.defaultLoader);
           }
         }
-        return _react2.default.createElement(element, props, childrenArray);
+
+        return React.createElement(element, props, childrenArray);
       }
     }]);
 
-    return InfiniteScroll;
-  }(React__default.Component);
-
-  InfiniteScroll.propTypes = {
-    children: _propTypes2.default.node.isRequired,
-    element: _propTypes2.default.node,
-    hasMore: _propTypes2.default.bool,
-    initialLoad: _propTypes2.default.bool,
-    isReverse: _propTypes2.default.bool,
-    loader: _propTypes2.default.node,
-    loadMore: _propTypes2.default.func.isRequired,
-    pageStart: _propTypes2.default.number,
-    ref: _propTypes2.default.func,
-    getScrollParent: _propTypes2.default.func,
-    threshold: _propTypes2.default.number,
-    useCapture: _propTypes2.default.bool,
-    useWindow: _propTypes2.default.bool
-  };
-  InfiniteScroll.defaultProps = {
+    return default_1;
+  }(React.PureComponent);
+  default_1$2.defaultProps = {
     element: 'div',
     hasMore: false,
     initialLoad: true,
@@ -9975,18 +9944,6 @@
     loader: null,
     getScrollParent: null
   };
-  exports.default = InfiniteScroll;
-  module.exports = exports['default'];
-  });
-
-  unwrapExports(InfiniteScroll_1);
-
-  var reactInfiniteScroller = InfiniteScroll_1;
-
-  var InfiniteScroll = /*#__PURE__*/Object.freeze({
-    'default': reactInfiniteScroller,
-    __moduleExports: reactInfiniteScroller
-  });
 
   var css$8 = ".index_infinite-container__3fblx {\n  max-height: 250px;\n  overflow: auto;\n}\n.index_infinite-container__3fblx .index_infinite-loading__2e64t {\n  text-align: center;\n}\n.index_infinite-container__3fblx .ant-select-dropdown-menu {\n  max-height: none;\n  height: auto;\n}\n";
   var styles$7 = {"infinite-container":"index_infinite-container__3fblx","infinite-loading":"index_infinite-loading__2e64t"};
@@ -10078,11 +10035,12 @@
         var _this2 = this;
 
         var _this$props = this.props,
+            height = _this$props.height,
             pageStart = _this$props.pageStart,
             initialLoad = _this$props.initialLoad,
             threshold = _this$props.threshold,
             className = _this$props.className,
-            props = _objectWithoutProperties(_this$props, ["pageStart", "initialLoad", "threshold", "className"]);
+            props = _objectWithoutProperties(_this$props, ["height", "pageStart", "initialLoad", "threshold", "className"]);
 
         var _this$state2 = this.state,
             loading = _this$state2.loading,
@@ -10097,8 +10055,11 @@
           })) : '暂无数据',
           dropdownRender: function dropdownRender(menuNode, props) {
             return React__default.createElement("div", {
-              className: styles$7["infinite-container"]
-            }, React__default.createElement(InfiniteScroll, {
+              className: styles$7["infinite-container"],
+              style: {
+                height: height
+              }
+            }, React__default.createElement(default_1$2, {
               initialLoad: initialLoad,
               threshold: threshold,
               pageStart: pageStart,
@@ -10122,7 +10083,8 @@
   SearchSelect.defaultProps = {
     pageStart: 0,
     initialLoad: false,
-    threshold: 200
+    threshold: 200,
+    height: 250
   };
 
   function generateUUID() {
@@ -10243,7 +10205,7 @@
 
   var uuid = 0;
 
-  var default_1$2 =
+  var default_1$3 =
   /*#__PURE__*/
   function (_PureComponent) {
     _inherits(default_1, _PureComponent);
@@ -10447,7 +10409,7 @@
     return default_1;
   }(React.PureComponent);
 
-  default_1$2.defaultProps = {
+  default_1$3.defaultProps = {
     value: [],
     form: {},
     inputProps: {},
@@ -10457,7 +10419,7 @@
       return null;
     }
   };
-  default_1$2 = __decorate([FormInput({
+  default_1$3 = __decorate([FormInput({
     onValuesChange: function onValuesChange(_ref, changeValues) {
       var __value = _ref.value,
           onChange = _ref.onChange;
@@ -10487,11 +10449,12 @@
           break;
       }
     }
-  })], default_1$2);
-  var default_1$3 = default_1$2;
+  })], default_1$3);
+  var default_1$4 = default_1$3;
 
-  exports.ArrayInput = default_1$3;
+  exports.ArrayInput = default_1$4;
   exports.EllipsisTooltip = EllipsisTooltip;
+  exports.InfiniteScroller = default_1$2;
   exports.Layout = default_1$1;
   exports.Loading = Loading;
   exports.Logo = Logo;

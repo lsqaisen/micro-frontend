@@ -1,7 +1,7 @@
 import { PureComponent } from 'react';
-import { Select, Spin, List } from 'antd';
+import { Select, Spin } from 'antd';
 import { SelectProps } from 'antd/lib/select';
-import * as InfiniteScroll from 'react-infinite-scroller';
+import InfiniteScroll from '../infinite-scroller/';
 import styles from './style/index.less'
 
 const Option = Select.Option;
@@ -19,6 +19,7 @@ export interface SearchSelectProps extends SelectProps {
 	pageStart?: number;
 	initialLoad?: boolean;
 	threshold?: number;
+	height?: number;
 	asyncSearch: (page: number, callback: (res: { results: optionType[], total: number }) => void) => any;
 }
 
@@ -27,6 +28,7 @@ class SearchSelect extends PureComponent<SearchSelectProps, any> {
 		pageStart: 0,
 		initialLoad: false,
 		threshold: 200,
+		height: 250,
 	}
 
 	state = {
@@ -83,7 +85,7 @@ class SearchSelect extends PureComponent<SearchSelectProps, any> {
 	}
 
 	render() {
-		const { pageStart, initialLoad, threshold, className, ...props } = this.props;
+		const { height, pageStart, initialLoad, threshold, className, ...props } = this.props;
 		const { loading, hasMore, data } = this.state;
 		return (
 			<Select
@@ -96,7 +98,7 @@ class SearchSelect extends PureComponent<SearchSelectProps, any> {
 				) : '暂无数据'}
 				dropdownRender={(menuNode, props) => {
 					return (
-						<div className={styles[`infinite-container`]}>
+						<div className={styles[`infinite-container`]} style={{ height }}>
 							<InfiniteScroll
 								initialLoad={initialLoad}
 								threshold={threshold}

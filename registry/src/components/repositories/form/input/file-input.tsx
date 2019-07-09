@@ -70,7 +70,7 @@ export default class extends PureComponent<FileInputProps, any> {
                 placeholder="请选择仓库"
                 asyncSearch={async (page, callback) => {
                   let { list, total }: any = await searchProjects!({ page: page + 1 });
-                  const res = {
+                  callback({
                     total,
                     results: list.map((v: any) => ({
                       key: v.name,
@@ -80,12 +80,7 @@ export default class extends PureComponent<FileInputProps, any> {
                         </Typography>
                       )
                     })),
-                  }
-                  console.log(res)
-                  // callback({
-                  //   total,
-                  //   results: [],
-                  // });
+                  });
                 }}
                 onChange={(v) => {
                   this.setState({
@@ -102,7 +97,7 @@ export default class extends PureComponent<FileInputProps, any> {
                 required: true, message: '不能为空'
               }, {
                 validator: (rule, value, callback) => {
-                  let pattern = /^[0-9a-z]{1,}[0-9a-z:-]*$/;
+                  let pattern = /^[0-9a-zA-Z]+[0-9a-zA-Z_]*(:([0-9a-zA-Z_]\.{0,1})*[0-9a-zA-Z]+){0,1}$/;
                   if (!!value) {
                     if (!pattern.test(value)) {
                       callback('由小写字母、数字和字符‘:’,‘-’组成，并且不能以‘:’,‘-’开头和结尾');

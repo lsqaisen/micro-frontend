@@ -11,6 +11,7 @@ export interface SearchSelectProps extends SelectProps {
     pageStart?: number;
     initialLoad?: boolean;
     threshold?: number;
+    height?: number;
     asyncSearch: (page: number, callback: (res: {
         results: optionType[];
         total: number;
@@ -21,6 +22,7 @@ declare class SearchSelect extends PureComponent<SearchSelectProps, any> {
         pageStart: number;
         initialLoad: boolean;
         threshold: number;
+        height: number;
     };
     state: {
         total: number;

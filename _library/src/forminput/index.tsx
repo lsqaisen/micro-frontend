@@ -2,16 +2,8 @@ import * as React from 'react';
 import { PureComponent } from 'react';
 import { Form } from 'antd';
 import { FormItemProps, FormComponentProps, FormCreateOption } from 'antd/lib/form';
-
-function generateUUID() {
-  let d = new Date().getTime();
-  let uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    let r = (d + Math.random() * 16) % 16 | 0;
-    d = Math.floor(d / 16);
-    return (c === 'x' ? r : (r & 0x7 | 0x8)).toString(16);
-  });
-  return uuid;
-};
+import * as constants from 'antd/lib/form/constants';
+import { render } from 'react-dom';
 
 export interface FormInputItemProps extends FormItemProps {
   children: React.ReactNode,
@@ -22,18 +14,21 @@ export interface FormInputProps<T = any> extends FormComponentProps {
   onChange?: (v: T) => void;
 }
 
-export const FormInputItem = (props: FormInputItemProps) => {
-  return (
-    <Form.Item
-      style={{ marginBottom: 0 }}
-      validateStatus=""
-      help=""
-      {...props}
-    >{props.children}</Form.Item>
-  )
+export default class FormInput extends React.PureComponent<FormInputItemProps, any> {
+  static create: (options?: FormCreateOption<any>) => <T extends Object = {}>(WrappedComponent: React.ComponentClass<T, any>) => React.ReactNode;
+  render() {
+    return (
+      <Form.Item
+        style={{ marginBottom: 0 }}
+        validateStatus=""
+        help=""
+        {...this.props}
+      >{this.props.children}</Form.Item>
+    )
+  }
 }
 
-export default (options?: FormCreateOption<any>) => <T extends Object = {}>(WrappedComponent: React.ComponentClass<any, any>) => {
+FormInput.create = (options?: FormCreateOption<any>) => <T extends Object = {}>(WrappedComponent: React.ComponentClass<any, any>) => {
   class FormInput extends PureComponent<FormInputProps<T>, any> {
     changeValidator = (rules: any[]) => {
       rules.push({
@@ -69,7 +64,6 @@ export default (options?: FormCreateOption<any>) => <T extends Object = {}>(Wrap
   }
 
   return Form.create<FormInputProps<T>>({
-    name: `${generateUUID()}`,
     onValuesChange: ({ onChange }, _, allValues) => {
       onChange && onChange(allValues as T);
     },

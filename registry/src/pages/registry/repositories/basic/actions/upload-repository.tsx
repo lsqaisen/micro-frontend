@@ -14,9 +14,9 @@ export default connect(
     [
       (dispatch: any) => (data: any) => dispatch({ type: `${MODEL}_project/create`, payload: data }),
       (dispatch: any) => (payload: any) => dispatch({ type: `${MODEL}_project/get`, payload }),
-      (dispatch: any) => (data: any) => dispatch({ type: `${MODEL}_project/createuser`, payload: data }),
+      (dispatch: any) => (data: any) => dispatch({ type: `${MODEL}_list/upload`, payload: data }),
     ],
-    (createTenant, getProjects, createUser) => ({ createTenant, getProjects, createUser })
+    (createTenant, getProjects, upload) => ({ createTenant, getProjects, upload })
   )
 )(class extends PureComponent<any, any>{
   render() {

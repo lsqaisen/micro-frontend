@@ -4,10 +4,18 @@ route: /search-select
 ---
 
 import { Playground } from 'docz';
-import SearchSelect from './test';
+import SearchSelect from './.test';
 
 # SearchSelect Component
 
 <Playground>
-  <SearchSelect style={{ width: 180 }} asyncSearch={() => {}} placeholder="xxxxx" />
+  <SearchSelect
+    style={{ width: 180 }}
+    asyncSearch={() => {}}
+    placeholder="xxxxx"
+    pageStart={0}
+    initialLoad={false}
+    threshold={200}
+    height={250}
+  />
 </Playground>

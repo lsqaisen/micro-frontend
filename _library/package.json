@@ -16,12 +16,12 @@
   "peerDependencies": {
     "@antv/g2": "^3.5.8-beta.1",
     "antd": "^3.20.0",
+    "indexof": "^0.0.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   },
   "devDependencies": {
     "@types/react-dom": "^16.8.4",
-    "@types/react-infinite-scroller": "^1.2.1",
     "babel-plugin-import": "^1.12.0",
     "father": "^2.13.4",
     "react-media": "^1.9.2",

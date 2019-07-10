@@ -14,7 +14,6 @@ export interface FileInputProps extends FormProps {
   searchProjects: (params: any) => any;
 }
 
-@(Form.create() as any)
 export default class extends PureComponent<FileInputProps, any> {
   static readonly defaultProps = {
     form: {} as WrappedFormUtils,
@@ -64,56 +63,56 @@ export default class extends PureComponent<FileInputProps, any> {
               <Input name="namespace" type="text" />
             )}
           </FormItem>
-          {admin ? [
-            <FormItem key="xxxx" {...formItemLayout} label="仓库名称">
-              <SearchSelect
-                placeholder="请选择仓库"
-                asyncSearch={async (page, callback) => {
-                  let { list, total }: any = await searchProjects!({ page: page + 1 });
-                  callback({
-                    total,
-                    results: list.map((v: any) => ({
-                      key: v.name,
-                      label: (
-                        <Typography>
-                          <Typography.Text>{`${v.name}${v.description ? `(${v.description})` : ''}`}</Typography.Text>
-                        </Typography>
-                      )
-                    })),
-                  });
-                }}
-                onChange={(v) => {
-                  this.setState({
-                    target: v,
-                  });
-                }}
-              />
-            </FormItem>,
-          ] : null}
-          <FormItem key="target" {...formItemLayout} label="镜像名称">
+          {admin &&
+            <FormItem  {...formItemLayout} label="仓库名称">
+              {getFieldDecorator(`project`, {
+                rules: [{
+                  required: true, message: '请选择仓库'
+                }]
+              })(
+                <SearchSelect
+                  placeholder="请选择仓库"
+                  asyncSearch={async (page, callback) => {
+                    let { list, total }: any = await searchProjects!({ page: page + 1 });
+                    callback({
+                      total,
+                      results: list.map((v: any) => ({
+                        key: v.name,
+                        label: (
+                          <Typography>
+                            <Typography.Text>{`${v.name}${v.description ? `(${v.description})` : ''}`}</Typography.Text>
+                          </Typography>
+                        )
+                      })),
+                    });
+                  }}
+                  onChange={(v) => {
+                    this.setState({
+                      target: v,
+                    });
+                  }}
+                />
+              )}
+            </FormItem>}
+          <FormItem  {...formItemLayout} label="镜像名称">
             {getFieldDecorator(`target`, {
-              initialValue: '',
+              validateFirst: true,
               rules: [{
-                required: true, message: '不能为空'
+                required: true, message: '必须指定镜像名称'
               }, {
-                validator: (rule, value, callback) => {
-                  let pattern = /^[0-9a-zA-Z]+[0-9a-zA-Z_]*(:([0-9a-zA-Z_]\.{0,1})*[0-9a-zA-Z]+){0,1}$/;
-                  if (!!value) {
-                    if (!pattern.test(value)) {
-                      callback('由小写字母、数字和字符‘:’,‘-’组成，并且不能以‘:’,‘-’开头和结尾');
-                    } else if (value.length > 20) {
-                      callback('不能超过20个字符');
-                    }
-                  }
-                  callback();
-                }
-              }
-              ]
+                max: 20, message: '不能超过20个字符'
+              }, {
+                pattern: /^[0-9a-zA-Z]+[0-9a-zA-Z_]*(:.*){0,1}$/, message: '名称由字母、数字和字符"-"组成'
+              }, {
+                pattern: /^.*(:([0-9a-zA-Z_]\.{0,1})*[0-9a-zA-Z]+){0,1}$/, message: 'target由字母、数字和字符".-:"组成'
+              }, {
+                pattern: /^[0-9a-zA-Z]+[0-9a-zA-Z_]*(:([0-9a-zA-Z_]\.{0,1})*[0-9a-zA-Z]+){0,1}$/, message: '由字母、数字和字符".:-"组成，以字母或数字开头和结尾,不能出现多个":"'
+              }]
             })(
               <Input
                 name="target"
                 placeholder="镜像名称，tag不填默认为latest"
-                {...(admin ? target ? { addonBefore: `${target}/` } : {} : { addonBefore: `${namespace}/` })}
+                {...(admin ? target ? { addonBefore: `${target}/` } : { addonBefore: `选择仓库/` } : { addonBefore: `${namespace}/` })}
               />
             )}
           </FormItem>
@@ -121,12 +120,11 @@ export default class extends PureComponent<FileInputProps, any> {
             {...formItemLayout}
             label="镜像文件">
             {getFieldDecorator(`image`, {
-              initialValue: '',
               rules: [{
                 required: true, message: 'image文件不能为空！'
               }, {
                 validator: (r, v, callback) => {
-                  let par = /(tar|tgz)$/;
+                  let par = /(tar|tgz|tar\.gz)$/;
                   if (!!v) {
                     if (!par.test(v)) {
                       callback('文件格式需要为tar或tgz');

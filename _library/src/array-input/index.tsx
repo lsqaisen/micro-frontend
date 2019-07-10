@@ -1,6 +1,6 @@
 import { PureComponent, cloneElement, createElement } from 'react';
 import { Button, List, Row, Col } from 'antd';
-import FormInput, { FormInputProps, FormInputItem } from '../forminput/';
+import FormInput, { FormInputProps } from '../forminput/';
 import styles from './style/index.less';
 
 export interface ArrayInputProps<T> extends FormInputProps<T> {
@@ -17,7 +17,7 @@ export interface ArrayInputProps<T> extends FormInputProps<T> {
 
 let uuid = 0;
 
-@(FormInput({
+@(FormInput.create({
   onValuesChange: ({ value: __value, onChange }: any, changeValues: any) => {
     const { type, value }: any = changeValues.action || {};
     switch (type) {
@@ -155,7 +155,7 @@ export default class <T> extends PureComponent<ArrayInputProps<T[]>, any> {
         renderItem={(key: any, index: number) => (
           <List.Item actions={[<Button size="small" onClick={() => this.remove(key)} style={{ marginBottom: 24 }} shape="circle" type="ghost" icon="minus" />]}>
             <div style={{ width: 'calc(100% - 48px)' }}>
-              <FormInputItem required>
+              <FormInput required>
                 {getFieldDecorator(`env_${key}`, {
                   initialValue: value![index],
                   rules: [],
@@ -166,7 +166,7 @@ export default class <T> extends PureComponent<ArrayInputProps<T[]>, any> {
                     onChange: (v: T) => this.change(index, v)
                   })
                 )}
-              </FormInputItem>
+              </FormInput>
             </div>
           </List.Item>
         )}

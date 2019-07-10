@@ -29,6 +29,15 @@ export default {
         });
       }
     },
+    *upload({ payload }: AnyAction, { call }: EffectsCommandMap) {
+      const { err } = yield call(api.upload, payload);
+      if (!!err) {
+        message.error(err, 5);
+        return err;
+      } else {
+        message.success('上传镜像成功', 5);
+      }
+    },
     *create({ payload }: AnyAction, { call, select }: EffectsCommandMap) {
       const { namespace, profile } = yield select(({ user: { namespace, profile } }: any) => ({ namespace, profile }));
       let project = profile.userType === 1 ? "*" : namespace;

@@ -7,6 +7,7 @@ export interface FormInputProps<T = any> extends FormComponentProps {
     value?: T;
     onChange?: (v: T) => void;
 }
-export declare const FormInputItem: (props: FormInputItemProps) => JSX.Element;
-declare const _default: (options?: FormCreateOption<any> | undefined) => <T extends Object = {}>(WrappedComponent: React.ComponentClass<any, any>) => import("antd/lib/form/interface").ConnectedComponentClass<any, Pick<FormInputProps<T>, "onChange" | "value" | "wrappedComponentRef">>;
-export default _default;
+export default class FormInput extends React.PureComponent<FormInputItemProps, any> {
+    static create: (options?: FormCreateOption<any>) => <T extends Object = {}>(WrappedComponent: React.ComponentClass<T, any>) => React.ReactNode;
+    render(): JSX.Element;
+}

@@ -10057,7 +10057,7 @@
             return React__default.createElement("div", {
               className: styles$7["infinite-container"],
               style: {
-                height: height
+                maxHeight: height
               }
             }, React__default.createElement(default_1$2, {
               initialLoad: initialLoad,
@@ -10087,25 +10087,34 @@
     height: 250
   };
 
-  function generateUUID() {
-    var d = new Date().getTime();
-    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-      var r = (d + Math.random() * 16) % 16 | 0;
-      d = Math.floor(d / 16);
-      return (c === 'x' ? r : r & 0x7 | 0x8).toString(16);
-    });
-    return uuid;
-  }
-  var FormInputItem = function FormInputItem(props) {
-    return React.createElement(_Form.Item, _extends({
-      style: {
-        marginBottom: 0
-      },
-      validateStatus: "",
-      help: ""
-    }, props), props.children);
-  };
-  var FormInput = (function (options) {
+  var FormInput =
+  /*#__PURE__*/
+  function (_React$PureComponent) {
+    _inherits(FormInput, _React$PureComponent);
+
+    function FormInput() {
+      _classCallCheck(this, FormInput);
+
+      return _possibleConstructorReturn(this, _getPrototypeOf(FormInput).apply(this, arguments));
+    }
+
+    _createClass(FormInput, [{
+      key: "render",
+      value: function render() {
+        return React.createElement(_Form.Item, _extends({
+          style: {
+            marginBottom: 0
+          },
+          validateStatus: "",
+          help: ""
+        }, this.props), this.props.children);
+      }
+    }]);
+
+    return FormInput;
+  }(React.PureComponent);
+
+  FormInput.create = function (options) {
     return function (WrappedComponent) {
       var FormInput =
       /*#__PURE__*/
@@ -10168,14 +10177,13 @@
       }(React.PureComponent);
 
       return _Form.create(_objectSpread({
-        name: "".concat(generateUUID()),
         onValuesChange: function onValuesChange(_ref2, _, allValues) {
           var onChange = _ref2.onChange;
           onChange && onChange(allValues);
         }
       }, options || {}))(FormInput);
     };
-  });
+  };
 
   /*! *****************************************************************************
   Copyright (c) Microsoft Corporation. All rights reserved.
@@ -10388,7 +10396,7 @@
               style: {
                 width: 'calc(100% - 48px)'
               }
-            }, React__default.createElement(FormInputItem, {
+            }, React__default.createElement(FormInput, {
               required: true
             }, getFieldDecorator("env_".concat(key), {
               initialValue: value[index],
@@ -10419,7 +10427,7 @@
       return null;
     }
   };
-  default_1$3 = __decorate([FormInput({
+  default_1$3 = __decorate([FormInput.create({
     onValuesChange: function onValuesChange(_ref, changeValues) {
       var __value = _ref.value,
           onChange = _ref.onChange;

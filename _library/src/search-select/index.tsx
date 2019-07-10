@@ -7,12 +7,12 @@ import styles from './style/index.less'
 const Option = Select.Option;
 const OptGroup = Select.OptGroup;
 
-interface optionType {
+export type OptionType = {
 	key: string;
 	value?: any;
 	label: any;
 	disabled?: boolean;
-	children?: optionType[]
+	children?: OptionType[]
 }
 
 export interface SearchSelectProps extends SelectProps {
@@ -20,7 +20,7 @@ export interface SearchSelectProps extends SelectProps {
 	initialLoad?: boolean;
 	threshold?: number;
 	height?: number;
-	asyncSearch: (page: number, callback: (res: { results: optionType[], total: number }) => void) => any;
+	asyncSearch: (page: number, callback: (res: { results: OptionType[], total: number }) => void) => any;
 }
 
 class SearchSelect extends PureComponent<SearchSelectProps, any> {
@@ -33,12 +33,12 @@ class SearchSelect extends PureComponent<SearchSelectProps, any> {
 
 	state = {
 		total: Infinity,
-		data: [] as optionType[],
+		data: [] as OptionType[],
 		loading: false,
 		hasMore: true,
 	}
 
-	getOptions = (options: optionType[]) => {
+	getOptions = (options: OptionType[]) => {
 		if (Array.isArray(options)) {
 			return options.map(option => {
 				if (Array.isArray(option.children)) {
@@ -98,7 +98,7 @@ class SearchSelect extends PureComponent<SearchSelectProps, any> {
 				) : '暂无数据'}
 				dropdownRender={(menuNode, props) => {
 					return (
-						<div className={styles[`infinite-container`]} style={{ height }}>
+						<div className={styles[`infinite-container`]} style={{ maxHeight: height }}>
 							<InfiniteScroll
 								initialLoad={initialLoad}
 								threshold={threshold}

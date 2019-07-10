@@ -1,19 +1,19 @@
 import { PureComponent } from 'react';
 import { SelectProps } from 'antd/lib/select';
-interface optionType {
+export declare type OptionType = {
     key: string;
     value?: any;
     label: any;
     disabled?: boolean;
-    children?: optionType[];
-}
+    children?: OptionType[];
+};
 export interface SearchSelectProps extends SelectProps {
     pageStart?: number;
     initialLoad?: boolean;
     threshold?: number;
     height?: number;
     asyncSearch: (page: number, callback: (res: {
-        results: optionType[];
+        results: OptionType[];
         total: number;
     }) => void) => any;
 }
@@ -26,11 +26,11 @@ declare class SearchSelect extends PureComponent<SearchSelectProps, any> {
     };
     state: {
         total: number;
-        data: optionType[];
+        data: OptionType[];
         loading: boolean;
         hasMore: boolean;
     };
-    getOptions: (options: optionType[]) => JSX.Element[] | null;
+    getOptions: (options: OptionType[]) => JSX.Element[] | null;
     handleInfiniteOnLoad: (page: number) => void;
     componentDidMount(): void;
     render(): JSX.Element;

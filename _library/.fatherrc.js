@@ -1,4 +1,6 @@
 import fs from 'fs';
+import resolve from 'rollup-plugin-node-resolve';
+import commonjs from 'rollup-plugin-commonjs';
 
 const antdFiles = JSON.parse(`{${fs.readFileSync(__dirname + '/node_modules/antd/es/index.d.ts')
   .toString()
@@ -16,6 +18,7 @@ export default {
       'react-dom': 'window.ReactDOM',
       'dva': 'window.dva',
       'antd': 'window.antd',
+      'indexof': 'indexof',
       ...antdFiles,
     },
     name: 'library',
@@ -28,5 +31,5 @@ export default {
       libraryDirectory: 'es',
       style: true,
     }],
-  ]
+  ],
 }

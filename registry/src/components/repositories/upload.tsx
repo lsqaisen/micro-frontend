@@ -1,6 +1,9 @@
 import { PureComponent, Fragment, cloneElement } from 'react';
-import { Button, Drawer, Icon } from 'antd';
+import { Button, Drawer, Icon, Radio } from 'antd';
 import UploadRepositoyForm, { UploadRepositoyFormProps } from './form/upload-repositoy-form';
+
+const RadioGroup = Radio.Group;
+const RadioButton = Radio.Button;
 
 export interface UploadRepositoyProps extends UploadRepositoyFormProps {
   btn?: React.ReactNode;
@@ -13,13 +16,14 @@ class UploadRepositoy extends PureComponent<UploadRepositoyProps, any> {
   };
 
   state = {
+    type: 'file',
     loading: false,
     visible: false,
   }
 
   render() {
     const { admin, namespace, username, btn, submit, searchProjects } = this.props;
-    const { loading, visible } = this.state;
+    const { type, loading, visible } = this.state;
     return (
       <Fragment>
         {btn ? cloneElement(btn as any, {
@@ -28,7 +32,7 @@ class UploadRepositoy extends PureComponent<UploadRepositoyProps, any> {
             上传镜像 <Icon type="plus" />
           </Button>}
         <Drawer
-          bodyStyle={{ overflow: 'auto', height: 'calc(100% - 110px)' }}
+          bodyStyle={{ overflow: 'auto', height: `calc(100% - ${type === 'file' ? 110 : 55}px)` }}
           maskClosable={false}
           title="上传镜像"
           width={482}
@@ -36,22 +40,34 @@ class UploadRepositoy extends PureComponent<UploadRepositoyProps, any> {
           onClose={() => { this.setState({ visible: false }) }}
           visible={visible}
         >
-          <UploadRepositoyForm ref="createtenant" {...{ admin, namespace, username, searchProjects }} />
-          <div className={"drawer-bottom-actions"} >
+
+          <RadioGroup value={type} onChange={(e) => this.setState({ type: e.target.value })}>
+            <RadioButton value="file">文件上传</RadioButton>
+            <RadioButton value="internal">集群内部上传</RadioButton>
+            <RadioButton value="external">集群外部上传</RadioButton>
+          </RadioGroup>
+          <UploadRepositoyForm ref="upload" {...{ type: type as any, admin, namespace, username, searchProjects }} />
+          {type === 'file' && <div className={"drawer-bottom-actions"} >
             <Button onClick={() => { this.setState({ visible: false }) }} style={{ marginRight: 8 }}> 取消 </Button>
             <Button loading={loading} onClick={() => {
-              (this.refs.createtenant as any).validateFields(async (error: any, values: any) => {
+              (this.refs.upload as any).validateFields(async (error: any, values: any) => {
                 if (!error) {
                   this.setState({ loading: true })
-                  if ((await submit!(values)) as any) {
-                    this.setState({ loading: false })
-                  } else {
+                  try {
+                    const formData = new FormData(document.getElementById('upload') as any);
+                    console.log(formData)
+                    if ((await submit!(formData)) as any) {
+                      this.setState({ loading: false })
+                    } else {
+                      throw (new Error())
+                    }
+                  } catch (err) {
                     this.setState({ visible: false, loading: false })
                   }
                 }
               })
             }} type="primary"> 提交 </Button>
-          </div>
+          </div>}
         </Drawer>
       </Fragment>
     )

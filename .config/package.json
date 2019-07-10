@@ -1,5 +1,5 @@
 {
-  "name": "mife",
+  "name": "config",
   "version": "0.0.6",
   "description": "mife",
   "main": "./bin/index.js",

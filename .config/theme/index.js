@@ -15,4 +15,4 @@ const theme = {
   "sider-background-color": "#f2f7fb",                      // 菜单背景颜色
 }
 
-module.exports.default = theme;
+export { default as theme };

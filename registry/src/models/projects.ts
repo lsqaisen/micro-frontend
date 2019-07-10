@@ -1,7 +1,7 @@
 import { EffectsCommandMap } from 'dva';
 import { AnyAction } from 'redux';
 import { message } from 'antd';
-import api from '@/services/projects';
+import { registry } from 'api';
 import user from '@/services/user';
 import services from '@/services/index';
 
@@ -28,7 +28,7 @@ export default {
     },
     *get({ payload }: AnyAction, { call, put, select }: EffectsCommandMap) {
       const namespace = yield select(({ user: { namespace } }: any) => namespace);
-      const { data, err } = yield call(api.getProjects, { namespace, ...payload });
+      const { data, err } = yield call(registry.getProjects, { namespace, ...payload });
       if (!!err) {
         message.error(err, 5);
       } else {
@@ -44,7 +44,7 @@ export default {
     *create({ payload }: AnyAction, { call, select }: EffectsCommandMap) {
       const { namespace, profile } = yield select(({ user: { namespace, profile } }: any) => ({ namespace, profile }));
       let project = profile.userType === 1 ? "*" : namespace;
-      const { err } = yield call(api.createProject, { project, ...payload });
+      const { err } = yield call(registry.createProject, { project, ...payload });
       if (!!err) {
         message.error(err, 5);
         return err;
@@ -53,7 +53,7 @@ export default {
       }
     },
     *[`delete`]({ payload }: AnyAction, { call }: EffectsCommandMap) {
-      const { err } = yield call(api.deleteProject, payload);
+      const { err } = yield call(registry.deleteProject, payload);
       if (!!err) {
         message.error(err, 5);
         return err;
@@ -62,7 +62,7 @@ export default {
       }
     },
     *edit({ payload }: AnyAction, { call }: EffectsCommandMap) {
-      const { err } = yield call(api.modifyProject, payload);
+      const { err } = yield call(registry.modifyProject, payload);
       if (!!err) {
         message.error(err, 5);
         return err;
@@ -104,7 +104,7 @@ export default {
       }
     },
     *setadmin({ payload }: AnyAction, { call }: EffectsCommandMap) {
-      const { err } = yield call(api.setAdmin, payload);
+      const { err } = yield call(registry.setAdmin, payload);
       if (!!err) {
         message.error(err, 5);
         return err;

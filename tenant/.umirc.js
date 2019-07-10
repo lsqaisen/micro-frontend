@@ -33,7 +33,7 @@ export default {
         loadingComponent: null,
       },
     }],
-    [path.join(__dirname, '../_config/bin/'), {
+    [path.join(__dirname, '../.config/bin/'), {
       type: NODE_ENV === "development" ? 'portal' : 'plugin',
       dynamicImport: true,
       publicPath: '/service/tenant/lib/',

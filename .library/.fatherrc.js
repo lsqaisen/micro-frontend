@@ -22,7 +22,7 @@ export default {
       ...antdFiles,
     },
     name: 'library',
-    file: '../../_public/js/library/library',
+    file: '../../.public/js/library/library',
   },
   cssModules: true,
   extraBabelPlugins: [

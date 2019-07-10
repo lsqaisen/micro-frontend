@@ -2,7 +2,7 @@ import { EffectsCommandMap } from 'dva';
 import { AnyAction } from 'redux';
 import router from 'umi/router';
 import debounce from 'lodash.debounce';
-import api from '@/services/user';
+import { user } from 'api';
 import { message } from 'antd';
 
 export default {
@@ -37,7 +37,7 @@ export default {
 	effects: {
 		*login({ payload }: AnyAction, { call, put }: EffectsCommandMap) {
 			message.destroy()
-			const { data = {}, err } = yield call(api.login, payload!);
+			const { data = {}, err } = yield call(user.login, payload!);
 			if (!!err || data.code === 203) {
 				if (data.code === 203) {
 					message.info(data.error, 0)
@@ -50,10 +50,10 @@ export default {
 			}
 		},
 		*logout(_: AnyAction, { call }: EffectsCommandMap) {
-			yield call(api.logout);
+			yield call(user.logout);
 		},
 		*get({ payload = {} }: AnyAction, { call, put }: EffectsCommandMap) {
-			const { data, err } = yield call(api.getProfile, payload!);
+			const { data, err } = yield call(user.getProfile, payload!);
 			if (!!err) {
 				yield put({
 					type: 'save',
@@ -84,7 +84,7 @@ export default {
 		},
 		*modify({ payload }: AnyAction, { call }: EffectsCommandMap) {
 			message.destroy()
-			const { err } = yield call(api.modifyPassword, payload!);
+			const { err } = yield call(user.modifyPassword, payload!);
 			if (!!err) {
 				message.error(err, 0)
 				return err
@@ -92,14 +92,14 @@ export default {
 		},
 		*send({ payload }: AnyAction, { call }: EffectsCommandMap) {
 			message.destroy()
-			const { err } = yield call(api.sendCode, payload!);
+			const { err } = yield call(user.sendCode, payload!);
 			if (!!err) {
 				message.error(err, 0)
 				return err
 			}
 		},
 		*getDomain(_: AnyAction, { call, put }: EffectsCommandMap) {
-			const { data, err } = yield call(api.getDomain);
+			const { data, err } = yield call(user.getDomain);
 			if (!!err) {
 				message.error(err, 5)
 			} else {

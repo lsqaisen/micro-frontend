@@ -29,7 +29,7 @@ export default {
       antd: {
         libraryName: "antd",
         libraryDirectory: "es",
-        style: true // `style: true` 会加载 less 文件
+        style: false
       },
       routes: {
         exclude: [/model/, /basic/]
@@ -39,17 +39,10 @@ export default {
         loadingComponent: null
       }
     }],
-    [path.join(__dirname, "../_config/bin/"), {
+    [path.join(__dirname, "../.config/bin/"), {
       type: NODE_ENV === "development" ? "portal" : "plugin",
       dynamicImport: true,
       publicPath: "/service/login/lib/",
-      externals: [{
-        react: "window.React",
-        "react-dom": "window.ReactDOM",
-        dva: "window.dva",
-        antd: "window.antd",
-        ...antdFiles
-      }],
       scripts: [
         "react.js",
         "react-dom.js",
@@ -60,7 +53,14 @@ export default {
   ],
   hash: true,
   alias: {
-    "@": "./src/components/"
+    'api': path.join(__dirname, '../.api/index.ts')
+  },
+  externals: {
+    react: "window.React",
+    "react-dom": "window.ReactDOM",
+    dva: "window.dva",
+    antd: "window.antd",
+    ...antdFiles
   },
   define: {
     MODEL: "login",
@@ -83,7 +83,7 @@ export default {
     "box-shadow-base": "0 2px 8px rgba(0, 0, 0, .15)", // 浮层阴影
     "sider-background-color": "#f2f7fb" // 菜单背景颜色
   },
-  chainWebpack(config, { webpack }) {
+  chainWebpack(config) {
     config.resolve.extensions.add(".tsx").prepend(".tsx");
     config.resolve.extensions.add(".ts").prepend(".ts");
   },

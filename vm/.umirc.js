@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-import theme from '../_config/theme/';
+import theme from '../.config/theme/';
 
 const { NODE_ENV } = process.env;
 const antdFiles = JSON.parse(`{${fs.readFileSync(__dirname + '/node_modules/antd/es/index.d.ts')
@@ -29,7 +29,7 @@ export default {
         loadingComponent: null,
       },
     }],
-    [path.join(__dirname, '../_config/bin/'), {
+    [path.join(__dirname, '../.config/bin/'), {
       type: NODE_ENV === "development" ? 'portal' : 'plugin',
       dynamicImport: true,
       publicPath: '/service/vm/lib/',

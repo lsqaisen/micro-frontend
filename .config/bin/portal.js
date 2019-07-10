@@ -8,7 +8,7 @@ exports.default = (api, options = {}) => {
     config
       .plugin('copy-webpack')
       .use(CopyWebpackPlugin, [[
-        { from: '../_public/', to: binPath, toType: 'dir' },
+        { from: '../.public/', to: binPath, toType: 'dir' },
       ]]);
     // config.externals(options.externals || {});
   });

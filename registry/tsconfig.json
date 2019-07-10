@@ -5,7 +5,6 @@
 		"moduleResolution": "node",
 		"allowSyntheticDefaultImports": false,
 		"sourceMap": true,
-		"outDir": "ts-build",
 		"jsx": "preserve",
 		"strict": true,
 		"experimentalDecorators": true,
@@ -19,28 +18,28 @@
 			"es2017",
 			"dom"
 		],
-		"baseUrl": "..",
+		"baseUrl": ".",
 		"paths": {
 			"library": [
-				"_library/dist/"
-			],
-			"library/*": [
-				"_library/*"
+				"../.library/dist/"
 			],
 			"config": [
-				"_config/api/"
+				"../.config/api/"
+			],
+			"api": [
+				"../.api/"
 			],
 			"@/*": [
-				"registry/src/*"
+				"src/*"
 			],
 			"@/components/*": [
-				"registry/src/components/*"
+				"src/components/*"
 			],
 			"@/services/*": [
-				"registry/src/services/*"
+				"src/services/*"
 			],
 			"@/utils/*": [
-				"registry/src/utils/*"
+				"src/utils/*"
 			],
 		}
 	},

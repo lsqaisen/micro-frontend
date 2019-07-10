@@ -6,7 +6,7 @@ import { createSelector } from 'reselect';
 import { LocaleProvider, Divider } from 'antd';
 import Media from 'react-media';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
-import { sub, unsub } from '../../../_config/api/';
+import { sub, unsub } from 'config';
 import withRouter from 'umi/withRouter';
 import { Layout, Menu, Logo, User } from 'library';
 import menus from '@/menus';

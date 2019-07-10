@@ -100,8 +100,7 @@ window.g_umi.mife.${api.pkg.name} = {
       join(api.paths.absTmpDirPath, 'mifrontconfig.js'),
     );
     //externals
-    console.log(externals)
-    config.externals(externals);
+    // config.externals(externals);
     // output
     config.output
       .publicPath(`${publicPath}${api.pkg.name}/`)

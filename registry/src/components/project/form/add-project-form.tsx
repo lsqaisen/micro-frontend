@@ -58,22 +58,20 @@ class AddProjectForm extends PureComponent<FormComponentProps & ProjectFromProps
             <SearchSelect
               dropdownMatchSelectWidth={false}
               placeholder="选择管理员"
-              onSearch={(params: any = {}) => {
-                return new Promise(async (resolve) => {
-                  let response: any[] = await userSearch!();
-                  resolve({
-                    data: response.map((v: any) => ({
-                      key: `${v.user_id}`,
-                      label: (
-                        <Typography>
-                          <Typography.Text>{v.username}</Typography.Text>
-                          <Typography.Text type="secondary">{`<${v.email}>`}</Typography.Text>
-                        </Typography>
-                      )
-                    })),
-                    params: null
-                  })
-                })
+              asyncSearch={async (_, callback) => {
+                let response: any[] = await userSearch!();
+                callback({
+                  total: response.length,
+                  results: response.map((v: any) => ({
+                    key: `${v.user_id}`,
+                    label: (
+                      <Typography>
+                        <Typography.Text>{v.username}</Typography.Text>
+                        <Typography.Text type="secondary">{`<${v.email}>`}</Typography.Text>
+                      </Typography>
+                    )
+                  })),
+                });
               }}
             />
           )}

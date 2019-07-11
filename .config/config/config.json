@@ -1,0 +1,34 @@
+{
+  "history": "hash",
+  "publicPath": "/static/dist/",
+  "outputPath": "/lib/",
+  "hash": true,
+  "plugins": [
+    [
+      "umi-plugin-react",
+      {
+        "dva": true,
+        "antd": {
+          "libraryName": "antd",
+          "libraryDirectory": "dist",
+          "style": true
+        },
+        "dynamicImport": {
+          "webpackChunkName": true,
+          "loadingComponent": null
+        }
+      }
+    ]
+  ],
+  "externals": {
+    "react": "window.React",
+    "react-dom": "window.ReactDOM",
+    "dva": "window.dva",
+    "moment": "window.moment",
+    "antd": "window.antd",
+    "library": "window.library"
+  },
+  "define": {
+    "process.env.OEM_NAME": "/kubeup"
+  }
+}

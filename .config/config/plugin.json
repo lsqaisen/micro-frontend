@@ -1,0 +1,11 @@
+{
+  "dynamicImport": true,
+  "scripts": [
+    "react.js",
+    "react-dom.js",
+    "dva.js",
+    "moment/moment.min.js",
+    "antd/antd.min.js",
+    "library/library.min.js"
+  ]
+}

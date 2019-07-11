@@ -9,12 +9,10 @@ const antdFiles = JSON.parse(
     .split(";")
     .filter(v => !!v && v != "\n" && v != "\n\r")
     .map(v =>
-      v
-        .replace(
-          /export { default as (.+) } from '\.\/(.+)'/g,
-          '"antd/es/$2":"window.antd.$1"'
-        )
-        .replace(/ /g, "")
+      v.replace(
+        /export { default as (.+) } from '\.\/(.+)'/g,
+        '"antd/es/$2":"window.antd.$1"'
+      ).replace(/ /g, "")
     )
     .join(",")}}`
 );

@@ -1,0 +1,9 @@
+{
+  "/service/login/lib/login": {
+    "target": "http://localhost:5000",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/service/login/lib/login": ""
+    }
+  }
+}

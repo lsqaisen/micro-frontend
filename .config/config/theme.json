@@ -1,0 +1,16 @@
+{
+  "primary-color": "#286cff",
+  "link-color": "#286cff",
+  "success-color": "#0db46e",
+  "warning-color": "#ff9000",
+  "error-color": "#ff5242",
+  "font-size-base": "14px",
+  "heading-color": "rgba(0, 0, 0, .85)",
+  "text-color": "#2f2f2f",
+  "text-color-secondary": "#888888",
+  "disabled-color": "rgba(0, 0, 0, .25)",
+  "border-radius-base": "4px",
+  "border-color-base": "#d9d9d9",
+  "box-shadow-base": "0 2px 8px rgba(0, 0, 0, .15)",
+  "sider-background-color": "#f2f7fb"
+}

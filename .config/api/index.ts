@@ -1,6 +1,8 @@
 import $scriptjs from 'scriptjs';
 
 window.mife_menus = {};
+const React = window.React;
+const ReactDOM = window.ReactDOM;
 
 // render
 let oldRender = () => {
@@ -13,7 +15,7 @@ let oldRender = () => {
   );
 };
 
-const sub = (scriptUrl, modelName, callback = () => { }) => {
+const sub = (scriptUrl: string, modelName: string, callback = () => { }) => {
   $scriptjs(scriptUrl, function () {
     if (!!window.g_umi && !!window.g_umi.mife && !!window.g_umi.mife[modelName]) {
       window.g_routes[0].routes.unshift({
@@ -21,7 +23,7 @@ const sub = (scriptUrl, modelName, callback = () => { }) => {
         key: modelName,
         routes: window.g_umi.mife[modelName].routes
       });
-      (window.g_umi.mife[modelName].models || []).forEach((model) => {
+      (window.g_umi.mife[modelName].models || []).forEach((model: any) => {
         window.g_app.model(model);
       })
       window.mife_menus[modelName] = window.g_umi.mife[modelName].menus || {}
@@ -32,9 +34,9 @@ const sub = (scriptUrl, modelName, callback = () => { }) => {
   })
 }
 
-const unsub = (modelName, callback = () => { }) => {
-  if (window.g_routes[0].routes.some(route => route.path === `/${modelName}`)) {
-    window.g_routes[0].routes.splice(window.g_routes[0].routes.findIndex(route => route.path === `/${modelName}`), 1)
+const unsub = (modelName: string, callback = () => { }) => {
+  if (window.g_routes[0].routes.some((route: any) => route.path === `/${modelName}`)) {
+    window.g_routes[0].routes.splice(window.g_routes[0].routes.findIndex((route: any) => route.path === `/${modelName}`), 1)
     delete window.mife_menus[modelName]
     window.g_plugins.applyForEach('render', { initialValue: oldRender });
     window.g_plugins.applyForEach('patchRoutes', { initialValue: window.g_routes });

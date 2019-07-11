@@ -24,7 +24,7 @@
 				"../.library/dist/"
 			],
 			"config": [
-				"../.config/api/"
+				"../.config/api/index.ts"
 			],
 			"api": [
 				"../.api/"

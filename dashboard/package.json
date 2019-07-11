@@ -12,6 +12,10 @@
     "umi-plugin-react": "^1.4.2"
   },
   "dependencies": {
-    "antd": "^3.19.3"
+    "antd": "^3.19.3",
+    "rc-queue-anim": "^1.6.12",
+    "react-media": "^1.9.2",
+    "react-time-format": "^0.0.5",
+    "recharts": "^1.6.2"
   }
 }

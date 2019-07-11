@@ -1,0 +1,63 @@
+.network {
+    .reload {
+        display: inline-block;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        cursor: pointer;
+        line-height: 40px;
+        &:hover {
+            i {
+                color: @primary-color;
+            }
+        }
+    }
+    .content {
+        border-top: 1px solid #f4f4f4;
+        height: 100%;
+        .header {
+            overflow: hidden;
+            padding: 8px 0;
+            .title {
+                float: left;
+                h3 {
+                    font-size: 14px;
+                    color: #656565;
+                    line-height: 48px;
+                    font-weight: bold;
+                }
+            }
+            .legend {
+                float: right;
+                .legend-item {
+                    overflow: hidden;
+                    font-size: 14px;
+                    line-height: 20px;
+                    margin-bottom: 4px;
+                    p {
+                        padding-left: 8px;
+                        float: left;
+                    }
+                    .dot {
+                        margin: 9px 0;
+                        margin-right: 8px;
+                        float: left;
+                        display: inline-block;
+                        width: 16px;
+                        height: 2px;
+                    }
+                }
+            }
+        }
+        .item {
+            padding: 0 16px;
+            height: 100%;
+            .charts {
+                height: ~'calc(100% - 64px)';
+            }
+        }
+    }
+}

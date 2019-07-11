@@ -1,0 +1,40 @@
+.cluster-node {
+    .more {
+        display: inline-block;
+        position: absolute;
+        right: 16px;
+        top: 0;
+        height: 40px;
+        text-align: center;
+        cursor: pointer;
+        line-height: 40px;
+    }
+    .propress {
+        border-top: 1px solid #f4f4f4;
+        height: 50%;
+    }
+    .data {
+        overflow: auto;
+        padding: 0 16px;
+        margin-top: -18px;
+        width: 100%;
+        height: ~'calc(50% + 18px)';
+        .item {
+            overflow: hidden;
+            width: 100%;
+            line-height: 32px;
+            .name {
+                float: left;
+            }
+            .ip {
+                float: right;
+            }
+        }
+        .nodata {
+            text-align: center;
+            p {
+                line-height: 40px;
+            }
+        }
+    }
+}

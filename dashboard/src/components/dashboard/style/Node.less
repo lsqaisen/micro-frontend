@@ -1,0 +1,180 @@
+.resource-use-box {
+    .reload {
+        display: inline-block;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        cursor: pointer;
+        line-height: 40px;
+        &:hover {
+            i {
+                color: @primary-color;
+            }
+        }
+    }
+    .header {
+        position: relative;
+        height: ~'calc(100%  / 3)';
+        width: 100%;
+        padding: 8px;
+        .info {
+            position: absolute;
+            top: 0;
+            left: 0;
+            h3 {
+                margin-top: 16px;
+                padding-left: 16px;
+                font-size: 18px;
+                color: #fff;
+                line-height: 32px;
+            }
+            p {
+                overflow: hidden;
+                margin-bottom: 0px;
+                padding-left: 16px;
+                color: #fff;
+                .data {
+                    float: left;
+                    line-height: 56px;
+                    font-size: 32px;
+                }
+                .unit {
+                    float: left;
+                    line-height: 63px;
+                    font-size: 18px;
+                }
+            }
+        }
+        .progress {
+            float: right;
+        }
+    }
+    .real-time {
+        position: relative;
+        height: ~'calc(100% - 111px)';
+        width: 100%;
+        h3 {
+            margin: 0 16px;
+            height: 40px;
+            font-size: 14px;
+            line-height: 40px;
+            color: #878787;
+        }
+        .real-time-charts {
+            position: relative;
+            margin-left: -5px;
+            width: ~'calc(100% + 10px)';
+            height: ~'calc(100% - 35px)';
+        }
+    }
+    .nodes {
+        overflow: auto;
+        margin: 0 16px;
+        border-bottom: 1px solid #f4f4f4;
+        .item {
+            overflow: hidden;
+            width: 100%;
+            line-height: 32px;
+            .name {
+                float: left;
+            }
+            .ip {
+                float: right;
+            }
+        }
+        .nodata {
+            text-align: center;
+            p {
+                line-height: 40px;
+            }
+        }
+    }
+    .servicestatistics {
+        overflow: auto;
+        padding: 0 16px;
+        line-height: 32px;
+        .item {
+            overflow: hidden;
+            width: 100%;
+            line-height: 32px;
+            .name {
+                float: left;
+            }
+            .status {
+                float: right;
+                .total {
+                    color: #649AFF
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1439px) {
+    .resource-use-box {
+        .header {
+            padding: 8px 16px;
+            .info {
+                h3 {
+                    margin-top: 10px;
+                    font-size: 14px;
+                    color: #fff;
+                    line-height: 20px;
+                }
+                p {
+                    margin-bottom: 6px;
+                    color: #fff;
+                    .data {
+                        float: left;
+                        line-height: 32px;
+                        font-size: 20px;
+                    }
+                    .unit {
+                        float: left;
+                        line-height: 38px;
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+        .real-time {
+            height: ~'calc(100% - 70px)';
+        }
+    }
+}
+
+@media screen and (min-width:1440px) and (max-width: 1600px) {
+    .resource-use-box {
+        .header {
+            padding: 12px;
+            .info {
+                h3 {
+                    margin-top: 12px;
+                    font-size: 16px;
+                    color: #fff;
+                    line-height: 22px;
+                }
+                p {
+                    margin-bottom: 4px;
+                    color: #fff;
+                    .data {
+                        float: left;
+                        line-height: 44px;
+                        font-size: 24px;
+                    }
+                    .unit {
+                        float: left;
+                        line-height: 46px;
+                        font-size: 16px;
+                    }
+                }
+            }
+        }
+        .real-time {
+            height: ~'calc(100% - 90px)';
+        }
+    }
+}

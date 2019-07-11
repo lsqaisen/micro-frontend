@@ -1,0 +1,28 @@
+.resource-top10 {
+    .reload {
+        display: inline-block;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        cursor: pointer;
+        line-height: 40px;
+        &:hover {
+            i {
+                color: @primary-color;
+            }
+        }
+    }
+    .operate {
+        border-top: 1px solid #f4f4f4;
+        padding: 16px;
+    }
+    .charts {
+        width: 100%;
+        height: ~'calc(100% - 61px)';
+        padding: 8px 16px;
+        padding-top: 0;
+    }
+}

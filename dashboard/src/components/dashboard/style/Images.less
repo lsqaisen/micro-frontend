@@ -1,0 +1,36 @@
+.images {
+    .more {
+        display: inline-block;
+        position: absolute;
+        right: 16px;
+        top: 0;
+        height: 40px;
+        text-align: center;
+        cursor: pointer;
+        line-height: 40px;
+    }
+    .charts {
+        border-top: 1px solid #f4f4f4;
+        padding: 0 16px;
+        .dot {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin: 2px;
+            line-height: 20px;
+            border-radius: 50%;
+            text-align: center;
+            background: #f0f2f5;
+            &.one {
+                background: #649AFF;
+                color: #fff;
+            }
+        }
+        :global {
+            .ant-table-tbody>tr>td {
+                padding: 4px !important;
+                border-bottom: none;
+            }
+        }
+    }
+}

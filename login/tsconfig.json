@@ -23,6 +23,9 @@
 			"library": [
 				"../.library/dist/"
 			],
+			"config": [
+				"../.config/api/"
+			],
 			"api": [
 				"../.api/"
 			],

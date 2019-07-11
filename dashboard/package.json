@@ -7,12 +7,12 @@
     "u": "mife-cli library"
   },
   "devDependencies": {
-    "mife": "^0.0.5",
-    "umi": "^2.7.3",
-    "umi-plugin-react": "^1.4.2"
+    "mife": "^0.0.7",
+    "umi": "^2.8.11",
+    "umi-plugin-react": "^1.9.10"
   },
   "dependencies": {
-    "antd": "^3.19.3",
+    "antd": "^3.20.1",
     "rc-queue-anim": "^1.6.12",
     "react-media": "^1.9.2",
     "react-time-format": "^0.0.5",

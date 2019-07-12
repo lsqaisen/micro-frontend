@@ -15,14 +15,14 @@ exports.default = (api, options = {}) => {
 
   api.addHTMLHeadScript(() => {
     const scripts = (options.scripts || []).map(sub => {
-      return { src: `/static/bin/js/${sub}?t=${new Date().getTime()}` };
+      return { src: `/static/bin/js/${sub}?t=${process.env.VERSION}` };
     });
     return scripts;
   });
 
   api.addHTMLLink(() => {
     return (options.stylesheets || []).map(sub => {
-      return { href: `/static/bin/css/${sub}?t=${new Date().getTime()}`, rel: 'stylesheet' };
+      return { href: `/static/bin/css/${sub}?t=${process.env.VERSION}`, rel: 'stylesheet' };
     });
   });
   api.addRuntimePlugin(

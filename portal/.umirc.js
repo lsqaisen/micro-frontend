@@ -1,127 +1,71 @@
-export default {
-  base: '/ui2/',
-  history: 'hash',
-  publicPath: '/static/dist/',
-  outputPath: '/static/dist/',
-  plugins: [
-    ['umi-plugin-react', {
-      dva: true,
-      antd: {
-        "libraryName": "antd",
-        "libraryDirectory": "es",
-        "style": true // `style: true` 会加载 less 文件
-      },
-      routes: {
-        exclude: [
-          /model/,
-          /basic/
-        ],
-      },
-      dynamicImport: {
-        webpackChunkName: true,
-        loadingComponent: null,
-      },
-    }],
-    ['mife', {
-      type: 'portal',
-      dynamicImport: true,
-      publicPath: '/lib/',
-      externals: {
-        'react': 'window.React',
-        'react-dom': 'window.ReactDOM',
-        'dva': 'window.dva',
-      },
-    }],
-  ],
-  hash: true,
-  alias: {
-    '@': './src/components/'
+import path from "path";
+import fs from "fs";
+
+const antdFiles = JSON.parse(
+  `{${fs
+    .readFileSync(__dirname + "/node_modules/antd/es/index.d.ts")
+    .toString()
+    .split(";")
+    .filter(v => !!v && v != "\n" && v != "\n\r")
+    .map(v =>
+      v.replace(
+        /export { default as (.+) } from '\.\/(.+)'/g,
+        '"antd/es/$2":"window.antd.$1"'
+      ).replace(/ /g, "")
+    )
+    .join(",")}}`
+);
+const { NODE_ENV } = process.env;
+let config = JSON.parse(fs.readFileSync(__dirname + "/../.config/config/config.json").toString()),
+  plugin = JSON.parse(fs.readFileSync(__dirname + "/../.config/config/plugin.json").toString()),
+  apiProxy = JSON.parse(fs.readFileSync(__dirname + "/../.config/config/api-proxy.json").toString()),
+  modelsProxy = JSON.parse(fs.readFileSync(__dirname + "/../.config/config/models-proxy.json").toString());
+config.plugins[0].routes = {
+  exclude: [/model/, /basic/]
+};
+config.outputPath = "/static  /";
+config.plugins.push([
+  path.join(__dirname, "../.config/bin/"), {
+    type: NODE_ENV === "development" ? "portal" : "plugin",
+    publicPath: "/service/portal/lib/",
+    ...plugin,
+  }
+]);
+config.define = Object.assign(config.define, {
+  "MODEL": "portal",
+  "process.env.VERSION": new Date().getTime(),
+});
+config.externals = Object.assign(config.externals, antdFiles);
+config.alias = {
+  "api": path.join(__dirname, "../.api/index.ts"),
+  "config": path.join(__dirname, "../.config/api/index.ts"),
+};
+config.theme = path.join(__dirname, "/../.config/config/theme.json");
+config.proxy = Object.assign({
+  "/service/login/lib/login": {
+    "target": "http://localhost:5000",
+    "changeOrigin": true,
+    "pathRewrite": { "^/service/login/lib/login": "" }
   },
-  define: {
-    "process.env.OEM_NAME": "/kubeup",
-    "process.env.VERSION": new Date().getTime(),
+  "/service/dashboard/lib/dashboard": {
+    "target": "http://localhost:5002",
+    "changeOrigin": true,
+    "pathRewrite": { "^/service/dashboard/lib/dashboard": "" }
   },
-  theme: {
-    "primary-color": "#286cff",                               // 全局主色
-    "link-color": "#286cff",                                  // 链接色
-    "success-color": "#0db46e",                               // 成功色
-    "warning-color": "#ff9000",                                // 警告色
-    "error-color": "#ff5242",                                 // 错误色
-    "font-size-base": "14px",                                 // 主字号
-    "heading-color": "rgba(0, 0, 0, .85)",                    // 标题色
-    "text-color": "#2f2f2f",                       // 主文本色
-    "text-color-secondary": "#888888",                        // 次文本色
-    "disabled-color": "rgba(0, 0, 0, .25)",                  // 失效色
-    "border-radius-base": "4px",                              // 组件/浮层圆角
-    "border-color-base": "#d9d9d9",                           // 边框色
-    "box-shadow-base": "0 2px 8px rgba(0, 0, 0, .15)",        // 浮层阴影
-    "sider-background-color": "#f2f7fb",                      // 菜单背景颜色
+  "/service/tenant/lib/tenant": {
+    "target": "http://localhost:5001",
+    "changeOrigin": true,
+    "pathRewrite": { "^/service/tenant/lib/tenant": "" }
   },
-  chainWebpack(config, { webpack }) {
-    config.resolve.extensions
-      .add(".tsx")
-      .prepend(".tsx");
-    config.resolve.extensions
-      .add(".ts")
-      .prepend(".ts");
+  "/service/auth/lib/auth": {
+    "target": "http://localhost:5003",
+    "changeOrigin": true,
+    "pathRewrite": { "^/service/auth/lib/auth": "" }
   },
-  proxy: {
-    "/service/login/lib/login": {
-      "target": "http://localhost:5000",
-      "changeOrigin": true,
-      "pathRewrite": { "^/service/login/lib/login": "" }
-    },
-    "/lib/dashboard": {
-      "target": "http://localhost:5002",
-      "changeOrigin": true,
-      "pathRewrite": { "^/lib/dashboard": "" }
-    },
-    "/service/tenant/lib/tenant": {
-      "target": "http://localhost:5001",
-      "changeOrigin": true,
-      "pathRewrite": { "^/service/tenant/lib/tenant": "" }
-    },
-    "/service/auth/lib/auth": {
-      "target": "http://localhost:5003",
-      "changeOrigin": true,
-      "pathRewrite": { "^/service/auth/lib/auth": "" }
-    },
-    "/service/plugin/lib/plugin": {
-      "target": "http://localhost:5004",
-      "changeOrigin": true,
-      "pathRewrite": { "^/service/plugin/lib/plugin": "" }
-    },
-    //oem
-    "/static/oem": {
-      "target": "http://localhost:5000/",
-      "changeOrigin": true,
-      "pathRewrite": { "^/static/oem": "/static/oem/kubeup" }
-    },
-    // api
-    "/api": {
-      "target": "http://192.168.1.181:30000/",
-      "changeOrigin": true,
-      "pathRewrite": { "^/api": "/api" }
-    },
-    "/login": {
-      "target": "http://192.168.1.181:30000/",
-      "changeOrigin": true,
-      "pathRewrite": { "^/login": "/login" }
-    },
-    "/logout": {
-      "target": "http://192.168.1.181:30000/",
-      "changeOrigin": true,
-      "pathRewrite": { "^/logout": "/logout" }
-    },
-    "/profile": {
-      "target": "http://192.168.1.181:30000/",
-      "changeOrigin": true,
-      "pathRewrite": { "^/profile": "/profile" }
-    },
-    "/service": {
-      "target": "http://192.168.1.181:30000/",
-      "changeOrigin": true,
-      "pathRewrite": { "^/service": "/service" }
-    },
+  "/service/plugin/lib/plugin": {
+    "target": "http://localhost:5004",
+    "changeOrigin": true,
+    "pathRewrite": { "^/service/plugin/lib/plugin": "" }
   },
-}
+}, apiProxy, modelsProxy);
+export default config;

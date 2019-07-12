@@ -8,21 +8,31 @@ import Media from 'react-media';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import { sub, unsub } from 'config';
 import withRouter from 'umi/withRouter';
-import { Layout, Menu, Logo, User } from 'library';
+import { Layout, Menu, Logo } from 'library';
+import User from '../../../.library/src/user/';
 import menus from '@/menus';
 
 @(withRouter as any)
 @connect(createSelector(
   [
-    (props: any) => (props.user || {}).profile,
-    (props: any) => (props.user || {}).init,
-    (props: any) => (props.user || {}).admin,
+    (props: any) => (props.user || {}),
   ],
-  (profile, init, admin) => ({ profile, init, admin })
+  ({ profile, init, admin }) => ({ profile, init, admin })
 ))
 export default class extends PureComponent<any, any> {
   state = {
     init: false,
+  }
+  logout = () => {
+    return this.props.dispatch({
+      type: 'user/logout'
+    })
+  }
+  modifyPassword = (value: any) => {
+    return this.props.dispatch({
+      type: 'user/modify',
+      payload: value
+    })
   }
   UNSAFE_componentWillReceiveProps({ profile, init }: any) {
     if (!!init && !!profile) {
@@ -36,7 +46,7 @@ export default class extends PureComponent<any, any> {
     });
   }
   render() {
-    const { version, admin, profile, init, location, children } = this.props;
+    const { version, profile, admin, init, children } = this.props;
     if (!init) return null;
     else if (!profile) {
       return children
@@ -49,7 +59,7 @@ export default class extends PureComponent<any, any> {
                 level={0}
                 state='centent'
                 matches={!matches}
-                width={246}
+                width={256}
                 sider={(
                   <div style={{ height: '100%' }}>
                     <section style={{ height: 64, padding: 8 }}>
@@ -60,12 +70,18 @@ export default class extends PureComponent<any, any> {
                     </section>
                     <Divider style={{ margin: 0, marginBottom: 0 }} />
                     <User
+                      project={profile.current}
+                      projects={profile.projects}
                       guestName=""
                       name={profile.username}
-                      admin={profile.userType === 1}
-                    />
+                      admin={admin}
+                      logout={this.logout}
+                    >
+                      <User.ModifyPassword key="modify-password" username={profile.username} submit={this.modifyPassword} />
+                      <div>sdfsfd</div>
+                    </User>
                     <div style={{ height: 'calc(100% - 212px)' }}>
-                      <Menu
+                      {/* <Menu
                         selectedKeys={[location.pathname]}
                         data={[{
                           type: 'group',
@@ -92,12 +108,12 @@ export default class extends PureComponent<any, any> {
                             }))
                           }]
                         }]}
-                      />
+                      /> */}
                     </div>
                     <div style={{ lineHeight: '32px', textAlign: 'center', borderTop: '1px solid #f8f8f8' }}>{version} build {process.env.VERSION}</div>
                   </div>
                 )}>
-                {children}
+                {/* {children} */}
               </Layout>
             </LocaleProvider>
           )}

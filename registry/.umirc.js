@@ -37,7 +37,7 @@ config.define = Object.assign(config.define, {
 config.externals = Object.assign(config.externals, antdFiles);
 config.alias = {
   "api": path.join(__dirname, "../.api/index.ts"),
-  "config": path.join(__dirname, "../.config/api/index.js"),
+  "config": path.join(__dirname, "../.config/api/index.ts"),
 };
 config.theme = path.join(__dirname, "/../.config/config/theme.json");
 config.proxy = Object.assign({}, apiProxy, modelsProxy);

@@ -3,6 +3,7 @@
 .plugins {
   :global {
     .ant-list-item {
+      display: flex;
       overflow: hidden;
       position: relative;
       padding: 0;
@@ -124,6 +125,17 @@
       .ant-progress-bg {
         background-color: @disabled-color;
       }
+    }
+  }
+}
+
+
+@media (max-width: 768px) {
+  :global {
+    .ant-list-item-action {
+      width: 100%;
+      margin-bottom: 12px;
+      text-align: center;
     }
   }
 }

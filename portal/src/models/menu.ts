@@ -6,6 +6,11 @@ import api from '@/services';
 export default {
   namespace: 'menu',
   state: {
+    load: {
+      login: false,
+      plugin: false,
+      dashboard: false,
+    },
     plugins: [],
     menus: [{
       key: 0,
@@ -44,6 +49,15 @@ export default {
   reducers: {
     save(state: any, { payload }: any) {
       return { ...state, ...payload }
+    },
+    updateLoad(state: any, { payload }: any) {
+      return {
+        ...state,
+        load: {
+          ...state.load,
+          ...payload
+        }
+      }
     },
     updateMenus(state: any, { payload }: any) {
       let menus = state.menus;

@@ -10,8 +10,7 @@
         "dva": true,
         "antd": {
           "libraryName": "antd",
-          "libraryDirectory": "dist",
-          "style": true
+          "libraryDirectory": "es"
         },
         "dynamicImport": {
           "webpackChunkName": true,

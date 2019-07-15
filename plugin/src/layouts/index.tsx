@@ -1,10 +1,11 @@
 import { PureComponent } from 'react';
 import { connect } from 'dva';
 import { createSelector } from 'reselect';
-import { LocaleProvider } from 'antd';
+import { LocaleProvider, message } from 'antd';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
-import { sub, unsub } from 'mife/bin/api';
+import { sub, unsub } from 'config';
 import withRouter from 'umi/withRouter';
+// import Layout from '../../../portal/src/layouts/';
 
 @(withRouter as any)
 @connect(createSelector(

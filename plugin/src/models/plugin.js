@@ -1,4 +1,3 @@
-import router from 'umi/router';
 import { plugins, active, del } from '@/services/plugin';
 import { delay } from '@/utils';
 import { message } from 'antd';

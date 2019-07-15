@@ -6,13 +6,9 @@ import { createSelector } from 'reselect';
 import { LocaleProvider, Divider } from 'antd';
 import Media from 'react-media';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
-import { sub, unsub } from 'mife/bin/api';
+import { sub, unsub } from 'config';
 import withRouter from 'umi/withRouter';
-import Layout from '@/components/global/layout';
-import Menu from '@/components/global/menu';
-import Logo from '@/components/global/logo';
-import SiderUser from '@/components/global/sider-user';
-import menus from '@/menus';
+import { Layout, Logo, Menu, User } from 'library';
 
 @(withRouter as any)
 @connect(createSelector(
@@ -38,10 +34,22 @@ export default class extends PureComponent<any, any> {
       type: 'user/logout'
     })
   }
+  modifyPassword = (value: any) => {
+    return this.props.dispatch({
+      type: 'user/modify',
+      payload: value
+    })
+  }
   updateMenus = (menu: any) => {
     return this.props.dispatch({
       type: 'menu/updateMenus',
       payload: menu,
+    })
+  }
+  updateLoad = (load: any) => {
+    return this.props.dispatch({
+      type: 'menu/updateLoad',
+      payload: load,
     })
   }
   UNSAFE_componentWillReceiveProps({ profile, init }: any) {
@@ -51,28 +59,34 @@ export default class extends PureComponent<any, any> {
     }
   }
   componentDidMount() {
-    sub(`/service/login/lib/login/login.js?${process.env.VERSION}`, 'login', () => {
-      this.setState({ init: true })
-    });
-    sub(`/service/plugin/lib/plugin/plugin.js?${process.env.VERSION}`, 'plugin', () => {
-      this.setState({ init: true })
-      this.updateMenus(window.mife_menus!.plugin)
-    });
-    sub(`/service/dashboard/lib/dashboard/dashboard.js?${process.env.VERSION}`, 'dashboard', () => {
-      this.updateMenus(window.mife_menus!.dashboard)
-    });
-    if (window.web_type === 'plugin') {
-
-    } else {
+    const { menu: { load } } = this.props;
+    !load.login && sub(`/service/login/lib/login/login.js?${process.env.VERSION}`, 'login', () => this.updateLoad({ login: true }));
+    if (!window.___plugins) {
+      !load.plugin && sub(`/service/plugin/lib/plugin/plugin.js?${process.env.VERSION}`, 'plugin', () => {
+        this.updateLoad({ plugin: true })
+        this.updateMenus(window.mife_menus!.plugin)
+      });
+      !load.dashboard && sub(`/service/dashboard/lib/dashboard/dashboard.js?${process.env.VERSION}`, 'dashboard', () => {
+        this.updateLoad({ dashboard: true })
+        this.updateMenus(window.mife_menus!.dashboard)
+      });
       this.getPlugins().then((error: any) => {
         if (!error) {
           const { menu: { plugins } } = this.props;
           plugins.forEach(({ spec: { id } }: any) => {
-            sub(`/service/${id}/lib/${id}/${id}.js?${process.env.VERSION}`, id, () => {
+            !load[id] && sub(`/service/${id}/lib/${id}/${id}.js?${process.env.VERSION}`, id, () => {
+              this.updateLoad({ [id]: true })
               this.updateMenus(window.mife_menus![id])
             });
           })
         }
+      })
+    } else if (Array.isArray(window.___plugins)) {
+      window.___plugins.forEach((plugin: any) => {
+        !load[plugin] && sub(`/service/${plugin}/lib/${plugin}/${plugin}.js?${process.env.VERSION}`, plugin, () => {
+          this.updateLoad({ [plugin]: true })
+          this.updateMenus(window.mife_menus![plugin])
+        });
       })
     }
   }
@@ -100,8 +114,10 @@ export default class extends PureComponent<any, any> {
                       />
                     </section>
                     <Divider style={{ margin: 0, marginBottom: 0 }} />
-                    <SiderUser
-                      guestName={''}
+                    <User
+                      project={profile.current}
+                      projects={profile.projects}
+                      guestName=""
                       name={profile.username}
                       admin={admin}
                       logout={this.logout}
@@ -150,7 +166,7 @@ export default class extends PureComponent<any, any> {
                     <div style={{ lineHeight: '32px', textAlign: 'center', borderTop: '1px solid #f8f8f8' }}>{version} build {process.env.VERSION}</div>
                   </div>
                 )}>
-                {children}
+                {/* {children} */}
               </Layout>
             </LocaleProvider>
           )}

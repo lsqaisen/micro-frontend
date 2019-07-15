@@ -5,8 +5,7 @@ import { createSelector } from 'reselect';
 import QueueAnim from 'rc-queue-anim';
 import Item from '@/components/item';
 import Plugins from '@/components/plugins';
-import Loading from '@/components/global/loading';
-import Breadcrumb from '@/components/global/breadcrumb';
+import { Loading, Page } from 'library';
 
 @connect(createSelector(
   [
@@ -45,13 +44,15 @@ class Plugin extends PureComponent<any, any> {
     const { init } = this.state;
     if (!init) return <Loading />
     return (
-      <Breadcrumb routes={[{
-        path: '/dashboard',
-        breadcrumbName: '总览',
-      }, {
-        path: '/plugin',
-        breadcrumbName: '插件列表',
-      }]}>
+      <Page
+        title=""
+        routes={[{
+          path: '/dashboard',
+          breadcrumbName: '总览',
+        }, {
+          path: '/plugin',
+          breadcrumbName: '插件列表',
+        }]}>
         <QueueAnim type="alpha">
           <Plugins
             key="plugins"
@@ -60,7 +61,7 @@ class Plugin extends PureComponent<any, any> {
             onDel={async (id: string) => await this.del(id)}
           />
         </QueueAnim>
-      </Breadcrumb>
+      </Page>
     )
   }
 }

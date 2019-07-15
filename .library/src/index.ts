@@ -1,4 +1,4 @@
-import './iconfont.less';
+import './global.less';
 export { default as Page } from './page';
 export { default as Loading } from './loading';
 export { default as Logo } from './logo';

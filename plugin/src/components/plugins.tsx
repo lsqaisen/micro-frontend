@@ -1,4 +1,4 @@
-import { List } from 'antd';
+import { List, Typography } from 'antd';
 import Link from 'umi/link';
 import Action from './item/action';
 import Progress from './progress';
@@ -23,15 +23,15 @@ function getImg(id: string) {
 export default ({ plugins, onActive, onDel }: ItemProps) => {
   return (
     <List
-      grid={{ 
+      grid={{
         gutter: 16,
-        xs: 24,
-        sm: 24,
-        md: 24,
-        lg: 24,
-        xl: 12,
-        xxl: 12,
-       }}
+        xs: 1,
+        sm: 1,
+        md: 1,
+        lg: 2,
+        xl: 2,
+        xxl: 2,
+      }}
       className={styles.plugins}
       itemLayout="horizontal"
       dataSource={plugins}
@@ -55,7 +55,11 @@ export default ({ plugins, onActive, onDel }: ItemProps) => {
           <List.Item.Meta
             avatar={<img className={styles.img} src={getImg(spec.id)} alt={spec.name} />}
             title={status === "active" ? <Link to={`/${spec.id}`}>{spec.name}（{spec.id}）</Link> : `${spec.name}（${spec.id}）`}
-            description={spec.intro}
+            description={
+              <Typography.Paragraph ellipsis={{ rows: 3, expandable: true }}>
+                {spec.intro}
+              </Typography.Paragraph>
+            }
           />
         </List.Item>
       )}

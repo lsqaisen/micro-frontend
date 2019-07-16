@@ -8,12 +8,6 @@ declare module 'lodash.debounce';
 declare module 'react-time-format';
 declare function MODEL(namspace: string): string;
 
-interface Window {
-  mife_menus?: object;
-  Number: any;
-  sider_drawers: {
-    [key: string]: any;
-  };
-}
+interface Window { [key: string]: any }
 
 declare var window: Window;

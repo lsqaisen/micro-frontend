@@ -20,7 +20,7 @@ let config = JSON.parse(fs.readFileSync(__dirname + "/../.config/config/config.j
   plugin = JSON.parse(fs.readFileSync(__dirname + "/../.config/config/plugin.json").toString()),
   apiProxy = JSON.parse(fs.readFileSync(__dirname + "/../.config/config/api-proxy.json").toString()),
   modelsProxy = JSON.parse(fs.readFileSync(__dirname + "/../.config/config/models-proxy.json").toString());
-config.plugins[0].routes = {
+config.plugins[0][1].routes = {
   exclude: [/model/, /basic/]
 };
 config.plugins.push([

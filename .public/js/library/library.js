@@ -10846,6 +10846,7 @@
 
   exports.ArrayInput = default_1$3;
   exports.EllipsisTooltip = EllipsisTooltip;
+  exports.FormInput = FormInput;
   exports.InfiniteScroller = default_1$1;
   exports.Layout = default_1;
   exports.Loading = Loading;
@@ -10855,7 +10856,6 @@
   exports.SearchSelect = SearchSelect;
   exports.Table = ActionTable;
   exports.User = User;
-  exports.forminput = FormInput;
 
   Object.defineProperty(exports, '__esModule', { value: true });
 

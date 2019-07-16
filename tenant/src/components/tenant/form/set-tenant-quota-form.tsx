@@ -1,7 +1,7 @@
 import { PureComponent } from 'react';
 import { Form, InputNumber } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
-import FormInput, { FormInputProps } from '@/components/global/forminput';
+import { FormInput } from 'library';
 
 const FormItem = Form.Item;
 
@@ -11,7 +11,7 @@ export interface SetQuotaFormProps {
 	userSearch?: () => any;
 }
 
-@(FormInput({
+@(FormInput.create({
 	onValuesChange: ({ onChange = () => null }: any, _: any, allValues: any) => {
 		onChange(allValues)
 	}

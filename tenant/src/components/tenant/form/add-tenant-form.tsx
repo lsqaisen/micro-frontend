@@ -1,7 +1,7 @@
 import { PureComponent } from 'react';
 import { Form, Row, Col, Input, Typography } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
-import SearchSelect from '@/components/global/search-select';
+import { SearchSelect } from 'library';
 import CreateUser from '../add-user';
 
 const FormItem = Form.Item;
@@ -56,22 +56,20 @@ class AddTenantForm extends PureComponent<FormComponentProps & TenantFromProps, 
                 <SearchSelect
                   dropdownMatchSelectWidth={false}
                   placeholder="选择管理员"
-                  onSearch={(params: any = {}) => {
-                    return new Promise(async (resolve) => {
-                      let response: any[] = await userSearch!();
-                      resolve({
-                        data: response.map((v: any) => ({
-                          key: `${v.user_id}`,
-                          label: (
-                            <Typography>
-                              <Typography.Text>{v.username}</Typography.Text>
-                              <Typography.Text type="secondary">{`<${v.email}>`}</Typography.Text>
-                            </Typography>
-                          )
-                        })),
-                        params: null
-                      })
-                    })
+                  asyncSearch={async (_, callback) => {
+                    let response: any[] = await userSearch!();
+                    callback({
+                      total: response.length,
+                      results: response.map((v: any) => ({
+                        key: `${v.user_id}`,
+                        label: (
+                          <Typography>
+                            <Typography.Text>{v.username}</Typography.Text>
+                            <Typography.Text type="secondary">{`<${v.email}>`}</Typography.Text>
+                          </Typography>
+                        )
+                      })),
+                    });
                   }}
                 />
               )}

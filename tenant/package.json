@@ -7,21 +7,15 @@
     "u": "mife-cli library"
   },
   "devDependencies": {
-    "mife": "^0.0.7",
-    "umi": "^2.7.3",
-    "umi-plugin-react": "^1.4.2"
+    "umi": "^2.8.11",
+    "umi-plugin-react": "^1.9.10"
   },
   "dependencies": {
-    "@antv/data-set": "^0.10.2",
-    "@antv/g2": "^3.5.3",
-    "antd": "^3.19.3",
-    "inputmask": "^4.0.8",
+    "antd": "^3.20.3",
+    "dva": "2.5.0-beta.2",
     "rc-queue-anim": "^1.6.12",
-    "react-json-view": "^1.19.1",
-    "react-lifecycles-compat": "^3.0.4",
     "react-media": "^1.9.2",
     "react-perfect-scrollbar": "^1.5.3",
-    "react-time-format": "^0.0.5",
-    "xterm": "^3.12.2"
+    "react-time-format": "^0.0.5"
   }
 }

@@ -1,7 +1,7 @@
 import { PureComponent } from 'react';
 import { Form, Input, Typography } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
-import SearchSelect from '@/components/global/search-select';
+import { SearchSelect } from 'library';
 
 const FormItem = Form.Item;
 
@@ -46,25 +46,22 @@ class SetTenantOwner extends PureComponent<FormComponentProps & SetTenantOwnerFo
 						rules: [{ required: true, message: '必须给空间设置管理员!' }],
 					})(
 						<SearchSelect
-							initFirst={true}
 							dropdownMatchSelectWidth={false}
 							placeholder="选择管理员"
-							onSearch={(params: any = {}) => {
-								return new Promise(async (resolve) => {
-									let response: any[] = await userSearch!();
-									resolve({
-										data: response.map((v: any) => ({
-											key: `${v.user_id}`,
-											label: (
-												<Typography>
-													<Typography.Text>{v.username}</Typography.Text>
-													<Typography.Text type="secondary">{`<${v.email}>`}</Typography.Text>
-												</Typography>
-											)
-										})),
-										params: null
-									})
-								})
+							asyncSearch={async (_, callback) => {
+								let response: any[] = await userSearch!();
+								callback({
+									total: response.length,
+									results: response.map((v: any) => ({
+										key: `${v.user_id}`,
+										label: (
+											<Typography>
+												<Typography.Text>{v.username}</Typography.Text>
+												<Typography.Text type="secondary">{`<${v.email}>`}</Typography.Text>
+											</Typography>
+										)
+									})),
+								});
 							}}
 						/>
 					)}

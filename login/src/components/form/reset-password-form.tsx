@@ -1,13 +1,13 @@
 import { PureComponent } from 'react';
-import { Form, Modal, Input, Icon, Button } from 'antd';
+import { Form, Input, Icon, Button } from 'antd';
 import { FormComponentProps } from 'antd/lib/form'
 import { polyfill } from 'react-lifecycles-compat';
 import QueueAnim from 'rc-queue-anim';
-import Logo from '@/components/global/logo';
+import { Logo } from 'library';
 import EmailInput from '../input/email-input';
 import { EmailInputProps } from '../input/email-input';
 import { checkPassword } from './checks';
-import { ResetPasswordRequest } from '@/services/user'
+import { ResetPasswordRequest } from 'api/type/user'
 import styles from './style/index.less';
 
 const FormItem = Form.Item;
@@ -61,7 +61,7 @@ class ResetPassword extends PureComponent<ResetPasswordProps & FormComponentProp
           { opacity: [1, 0] }
         ]}
       >
-        <Form key="reset" onSubmit={this._onSubmit}>
+        <Form key="reset" onSubmit={this._onSubmit as any}>
           <header className={styles.logo}>
             <Logo
               iconSrc={`/static/bin/oem${process.env.NODE_ENV === "development" ? process.env.OEM_NAME : ''}/icon.png`}

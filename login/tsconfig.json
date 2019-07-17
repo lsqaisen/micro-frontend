@@ -24,10 +24,13 @@
 				"../.library/dist/"
 			],
 			"config": [
-				"../.config/api/"
+				"../.config/api/index.ts"
 			],
 			"api": [
-				"../.api/"
+				"../.api/src/"
+			],
+			"api/type/*": [
+				"../.api/src/*"
 			],
 			"@/*": [
 				"src/*"

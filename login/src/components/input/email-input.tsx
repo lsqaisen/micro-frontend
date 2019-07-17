@@ -1,5 +1,5 @@
 import { PureComponent } from 'react';
-import { Input, Icon, Row, Col, Modal, Button } from 'antd';
+import { Input, Icon, Button } from 'antd';
 import { InputProps } from 'antd/lib/input';
 import { polyfill } from 'react-lifecycles-compat';
 import styles from './style/index.less';

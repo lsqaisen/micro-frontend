@@ -1,6 +1,5 @@
-**/node_modules
+node_modules
 **/**/.umi
 **/.umi-production
 .DS_Store
-/dist
-package-lock.json
+/lib

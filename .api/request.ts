@@ -1,10 +1,5 @@
 import 'dva/fetch';
 
-export type ResType = {
-	data?: any;
-	err?: any;
-}
-
 function ab2str(buf: BufferSource | Blob | string) {
 	return new Promise((resolve, reject) => {
 		let b = new Blob([buf], {

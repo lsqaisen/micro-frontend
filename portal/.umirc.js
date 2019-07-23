@@ -23,7 +23,7 @@ let config = JSON.parse(fs.readFileSync(__dirname + "/../.config/config/config.j
 config.plugins[0][1].routes = {
   exclude: [/model/, /basic/]
 };
-config.outputPath = "/static  /";
+config.outputPath = "/static/";
 config.plugins.push([
   path.join(__dirname, "../.config/bin/"), {
     type: NODE_ENV === "development" ? "portal" : "plugin",
